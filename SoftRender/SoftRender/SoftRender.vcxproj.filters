@@ -18,18 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WindowTool.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GdiDevice.cpp">
+    <ClCompile Include="WindowClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowTool.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="GdiDevice.h">
+    <ClInclude Include="WindowClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

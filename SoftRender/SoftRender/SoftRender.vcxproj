@@ -19,13 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GdiDevice.h" />
-    <ClInclude Include="WindowTool.h" />
+    <ClInclude Include="WindowClass.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GdiDevice.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="WindowTool.cpp" />
+    <ClCompile Include="WindowClass.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

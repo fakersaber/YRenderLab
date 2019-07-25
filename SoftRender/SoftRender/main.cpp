@@ -1,12 +1,15 @@
 #include <iostream>
 
 //#include "GdiDevice.h"
-#include "WindowTool.h"
+#include "WindowClass.h"
 
 
 
 
 
 int main() {
-	Window::WindowInit(800,600);
+
+	Yrender::Window::WindowClass::GetWindowInstance(800,600)->WindowRun();
+
+	system("pause");
 }
