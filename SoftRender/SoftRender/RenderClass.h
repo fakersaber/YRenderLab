@@ -2,8 +2,11 @@
 #define _RENDERCLASS_H
 
 #include <iostream>
+#include <windows.h>
 
-//该类是做渲染运算，将数据传输到Device中，不管Device是什么接口，只需要DrawPix
+
+#include "RenderDevice.h"
+#include "GeometryGenerator.h"
 
 namespace YRender {
 	class RenderClass {
@@ -12,10 +15,20 @@ namespace YRender {
 		RenderClass& operator=(const RenderClass& rhs) = delete;
 		static RenderClass* GetRender();
 
+	public:
+		bool Initial(HWND hwnd, const int width, const int height);
+		void Update();
+		void LoadMeshes();
+		void Render();
+
 	private:
 		~RenderClass();
 		RenderClass();
 	
+
+
+	private:
+		RenderDevice* _RenderDevice;
 	};
 
 

@@ -3,13 +3,15 @@
 
 
 namespace YRender{
-	RenderDevice* RenderDevice::GetDevice() {
-		static RenderDevice instance;
-		return &instance;
-	}
+	//RenderDevice* RenderDevice::GetDevice() {
+	//	static RenderDevice instance;
+	//	return &instance;
+	//}
 
 	RenderDevice::RenderDevice():
-		Hdc(nullptr), hBitmap(nullptr), hOldBitmap(nullptr)
+		Hdc(nullptr), 
+		hBitmap(nullptr), 
+		hOldBitmap(nullptr)
 	{
 
 	}
@@ -20,7 +22,7 @@ namespace YRender{
 		DeleteDC(Hdc);
 	}
 
-	ErrorCode RenderDevice::Initial(HWND hwnd,const int width,const int height) {
+	bool RenderDevice::Initial(HWND hwnd,const int width,const int height) {
 		{
 			this->hwnd = hwnd;
 			this->width = width;
@@ -45,15 +47,15 @@ namespace YRender{
 
 			if (!(hBitmap = CreateDIBSection(Hdc, &bi, DIB_RGB_COLORS, reinterpret_cast<void**>(&FrameBuffer), nullptr, 0)))
 			{
-				return ErrorCode::INIT_GDI_FAILED;
+				return false;
 			}
 			hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(Hdc, hBitmap));
-			return ErrorCode::INIT_SUCCESS;
+			return true;
 		}
 	}
 
 	void RenderDevice::Draw() {
-		memset(FrameBuffer, 0xc0, width*height * 4);
+		memset(FrameBuffer, 0xc0, width * height * 4);
 
 		HDC hDC = GetDC(this->hwnd);
 		BitBlt(hDC, 0, 0, this->width, this->height, this->Hdc, 0, 0, SRCCOPY);

@@ -19,16 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ErrorCode.hpp" />
+    <ClInclude Include="GeometryGenerator.h" />
     <ClInclude Include="RenderClass.h" />
     <ClInclude Include="RenderDevice.h" />
-    <ClInclude Include="WindowClass.h" />
+    <ClInclude Include="RenderWindow.h" />
+    <ClInclude Include="YCore.h" />
+    <ClInclude Include="YRVertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GeometryGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderClass.cpp" />
     <ClCompile Include="RenderDevice.cpp" />
-    <ClCompile Include="WindowClass.cpp" />
+    <ClCompile Include="RenderWindow.cpp" />
+    <ClCompile Include="YCore.cpp" />
+    <ClCompile Include="YRVertex.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

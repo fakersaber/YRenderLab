@@ -5,28 +5,20 @@
 #include <iostream>
 
 
-#include "ErrorCode.hpp"
 
-
-//该类提供实际绘制功能，但不做运算，被实际窗口初始化，自己不初始化
 namespace YRender {
 	class RenderDevice {
 	public:
 		RenderDevice& operator=(const RenderDevice& rhs) = delete;
 		RenderDevice(const RenderDevice& rhs) = delete;
-		static RenderDevice* GetDevice();
-
-	public:
-		ErrorCode Initial(HWND hwnd, const int width, const int height);
-		void DrawPixel(const int x,const int y);
-		void Draw();
-
-	private:
 		RenderDevice();
 		~RenderDevice();
+		//static RenderDevice* GetDevice();
 
-		
-
+	public:
+		bool Initial(HWND hwnd, const int width, const int height);
+		void DrawPixel(const int x,const int y);
+		void Draw();
 
 	private:
 		uint32_t* FrameBuffer;

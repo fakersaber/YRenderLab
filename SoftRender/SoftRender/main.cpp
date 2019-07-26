@@ -1,16 +1,13 @@
 #include <iostream>
 
-#include "WindowClass.h"
-
-#include "ErrorCode.hpp"
+#include "YCore.h"
 
 
 
 int main() {
 
-	auto WindowInstan = YRender::WindowClass::GetWindow();
-
-	if (WindowInstan->WindowInit(800, 600)==ErrorCode::INIT_SUCCESS) {
-		WindowInstan->WindowRun();
+	auto YEngine = YRender::YCore::GetCore();
+	if (YEngine->Initial(800, 600)) {
+		YEngine->Run();
 	}
 }
