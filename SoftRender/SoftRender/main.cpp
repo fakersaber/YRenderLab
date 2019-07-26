@@ -1,15 +1,16 @@
 #include <iostream>
 
-//#include "GdiDevice.h"
 #include "WindowClass.h"
 
-
+#include "ErrorCode.hpp"
 
 
 
 int main() {
 
-	Yrender::Window::WindowClass::GetWindowInstance(800,600)->WindowRun();
+	auto WindowInstan = YRender::WindowClass::GetWindow();
 
-	system("pause");
+	if (WindowInstan->WindowInit(800, 600)==ErrorCode::INIT_SUCCESS) {
+		WindowInstan->WindowRun();
+	}
 }

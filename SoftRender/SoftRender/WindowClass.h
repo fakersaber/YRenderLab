@@ -2,41 +2,38 @@
 #define _WINDOWTOOL_H
 
 #include <windows.h>
+#include <iostream>
 
-namespace Yrender {
-	namespace Window {
-		//随便定义一个先
-		enum class ErrorCode {
-			INIT_WINDOW_FAILED = 1,
-			INIT_INITGDI_FAILED = 2,
-		};
-		class WindowClass {
-		public:
-			static WindowClass* GetWindowInstance(const int width, const int height);
+#include "ErrorCode.hpp"
 
-		public:
-			WindowClass(const WindowClass& rhs) = delete;
-			WindowClass& operator=(const WindowClass& rhs) = delete;
-			WindowClass() = delete;
-			void WindowRun();
 
-		private:
-			~WindowClass();
-			WindowClass(const int width, const int height);
-			static LRESULT WINAPI WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-			void InitWindowClass();
-			void InitGDI();
+namespace YRender {
 
-		private:
-			HWND hwnd;
-			int WindowWidth;
-			int WindowHeight;
-			HDC Hdc;
-			HBITMAP hBitmap;
-			HBITMAP hOldBitmap;
-			ErrorCode ExitCode;
-		};
-	}
+	class WindowClass {
+	public:
+		WindowClass(const WindowClass& rhs) = delete;
+		WindowClass& operator=(const WindowClass& rhs) = delete;
+		static WindowClass* GetWindow();
+
+	public:
+		void WindowRun();
+		ErrorCode WindowInit(const int width, const int height);
+
+	private:
+		WindowClass();
+		~WindowClass();
+		void InitWindowClass();
+
+
+	private:
+		static void InitGDI();
+		static LRESULT WINAPI WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	private:
+		HWND hwnd;
+		int WindowWidth;
+		int WindowHeight;
+	};
 }
 
 

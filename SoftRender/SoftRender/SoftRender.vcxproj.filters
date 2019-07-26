@@ -21,9 +21,24 @@
     <ClCompile Include="WindowClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="RenderClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderDevice.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderDevice.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorCode.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

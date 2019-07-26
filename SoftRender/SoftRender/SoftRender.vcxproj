@@ -19,10 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ErrorCode.hpp" />
+    <ClInclude Include="RenderClass.h" />
+    <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="WindowClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RenderClass.cpp" />
+    <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="WindowClass.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
