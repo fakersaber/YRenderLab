@@ -1,4 +1,4 @@
-#ifndef _YCORE_H
+﻿#ifndef _YCORE_H
 #define _YCORE_H
 
 #include "RenderClass.h"

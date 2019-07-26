@@ -1,4 +1,4 @@
-#include "RenderClass.h"
+ï»¿#include "RenderClass.h"
 
 
 
@@ -19,8 +19,8 @@ namespace YRender {
 			std::cout << "Create Device Failed" << std::endl;
 			return false;
 		}
-		//´´½¨mesh£¬
-
+		
+		GeometryGenerator::CreateBox();
 
 	}
 

@@ -1,4 +1,4 @@
-#ifndef _RENDERCLASS_H
+﻿#ifndef _RENDERCLASS_H
 #define _RENDERCLASS_H
 
 #include <iostream>

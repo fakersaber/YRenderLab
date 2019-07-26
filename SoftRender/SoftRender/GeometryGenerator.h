@@ -1,4 +1,4 @@
-#ifndef _GEOMETRYGENERATOR_H
+﻿#ifndef _GEOMETRYGENERATOR_H
 #define _GEOMETRYGENERATOR_H
 
 #include <vector>

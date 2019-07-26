@@ -1,4 +1,4 @@
-#ifndef _RENDERDEVICE_H
+﻿#ifndef _RENDERDEVICE_H
 #define _RENDERDEVICE_H
 
 #include <windows.h>
