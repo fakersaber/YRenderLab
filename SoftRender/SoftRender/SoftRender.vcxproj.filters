@@ -36,7 +36,7 @@
     <ClCompile Include="GeometryGenerator.cpp">
       <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="YRVertex.cpp">
+    <ClCompile Include="Vertex.cpp">
       <Filter>Private</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,9 +56,6 @@
     <ClInclude Include="GeometryGenerator.h">
       <Filter>Public</Filter>
     </ClInclude>
-    <ClInclude Include="YRVertex.h">
-      <Filter>Public</Filter>
-    </ClInclude>
     <ClInclude Include="YGM\Math.hpp">
       <Filter>Public\YGM</Filter>
     </ClInclude>
@@ -70,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="YGM\Vector2.hpp">
       <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

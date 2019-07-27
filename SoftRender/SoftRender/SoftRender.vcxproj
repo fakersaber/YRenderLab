@@ -23,12 +23,12 @@
     <ClInclude Include="RenderClass.h" />
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="RenderWindow.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="YCore.h" />
     <ClInclude Include="YGM\Math.hpp" />
     <ClInclude Include="YGM\Vector.hpp" />
     <ClInclude Include="YGM\Vector2.hpp" />
     <ClInclude Include="YGM\Vector3.hpp" />
-    <ClInclude Include="YRVertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeometryGenerator.cpp" />
@@ -36,8 +36,8 @@
     <ClCompile Include="RenderClass.cpp" />
     <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="RenderWindow.cpp" />
+    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="YCore.cpp" />
-    <ClCompile Include="YRVertex.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
