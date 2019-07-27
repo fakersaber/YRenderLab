@@ -1,5 +1,5 @@
-﻿#ifndef _RENDERCLASS_H
-#define _RENDERCLASS_H
+﻿#ifndef _YRENDER_RENDERCLASS_H
+#define _YRENDER_RENDERCLASS_H
 
 #include <iostream>
 #include <windows.h>

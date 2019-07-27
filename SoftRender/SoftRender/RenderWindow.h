@@ -1,5 +1,5 @@
-﻿#ifndef _WINDOWTOOL_H
-#define _WINDOWTOOL_H
+﻿#ifndef _YRENDER_WINDOWTOOL_H
+#define _YRENDER_WINDOWTOOL_H
 
 #include <windows.h>
 #include <iostream>

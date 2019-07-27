@@ -1,8 +1,9 @@
-﻿#ifndef _GEOMETRYGENERATOR_H
-#define _GEOMETRYGENERATOR_H
+﻿#ifndef _YRENDER_GEOMETRYGENERATOR_H
+#define _YRENDER_GEOMETRYGENERATOR_H
 
 #include <vector>
-#include "YRVertex.h"
+
+#include "Vertex.h"
 
 
 
@@ -12,7 +13,7 @@ namespace YRender {
 	public:
 		struct MeshData
 		{
-			std::vector<YRiVertex>	vertices;
+			std::vector<Vertex>	vertices;
 			std::vector<uint32_t>	indices;
 		};
 

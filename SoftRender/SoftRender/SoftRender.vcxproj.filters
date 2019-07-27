@@ -1,60 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="资源文件">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Private">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Public">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Public\YGM">
+      <UniqueIdentifier>{45b5d66d-d169-49b7-97a0-73164139e2f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="RenderClass.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="RenderDevice.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="YCore.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="RenderWindow.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="GeometryGenerator.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="YRVertex.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderClass.h">
-      <Filter>头文件</Filter>
+      <Filter>Public</Filter>
     </ClInclude>
     <ClInclude Include="RenderDevice.h">
-      <Filter>头文件</Filter>
+      <Filter>Public</Filter>
     </ClInclude>
     <ClInclude Include="YCore.h">
-      <Filter>头文件</Filter>
+      <Filter>Public</Filter>
     </ClInclude>
     <ClInclude Include="RenderWindow.h">
-      <Filter>头文件</Filter>
+      <Filter>Public</Filter>
     </ClInclude>
     <ClInclude Include="GeometryGenerator.h">
-      <Filter>头文件</Filter>
+      <Filter>Public</Filter>
     </ClInclude>
     <ClInclude Include="YRVertex.h">
-      <Filter>头文件</Filter>
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="YGM\Math.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="YGM\Vector3.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="YGM\Vector.hpp">
+      <Filter>Public\YGM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,6 +24,9 @@
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="RenderWindow.h" />
     <ClInclude Include="YCore.h" />
+    <ClInclude Include="YGM\Math.hpp" />
+    <ClInclude Include="YGM\Vector.hpp" />
+    <ClInclude Include="YGM\Vector3.hpp" />
     <ClInclude Include="YRVertex.h" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +101,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

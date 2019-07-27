@@ -20,7 +20,7 @@ namespace YRender {
 			return false;
 		}
 		
-		GeometryGenerator::CreateBox();
+		GeometryGenerator::CreateBox(2.0f,2.0f,2.0f,);
 
 	}
 

@@ -1,5 +1,5 @@
-﻿#ifndef _YCORE_H
-#define _YCORE_H
+﻿#ifndef _YRENDER_YCORE_H
+#define _YRENDER_YCORE_H
 
 #include "RenderClass.h"
 #include "RenderWindow.h"
