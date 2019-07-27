@@ -30,7 +30,6 @@ namespace YRender {
 				z = rhs.z;
 				return *this;
 			}
-
 		public:
 			union
 			{

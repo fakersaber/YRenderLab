@@ -68,5 +68,8 @@
     <ClInclude Include="YGM\Vector.hpp">
       <Filter>Public\YGM</Filter>
     </ClInclude>
+    <ClInclude Include="YGM\Vector2.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

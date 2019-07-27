@@ -24,11 +24,12 @@ namespace YRender {
 	private:
 		~RenderClass();
 		RenderClass();
-	
+
 
 
 	private:
 		RenderDevice* _RenderDevice;
+		MeshData Mesh;
 	};
 
 

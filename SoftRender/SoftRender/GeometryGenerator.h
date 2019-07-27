@@ -11,15 +11,17 @@ namespace YRender {
 	static class GeometryGenerator
 	{
 	public:
-		struct MeshData
+		struct _MeshData
 		{
 			std::vector<Vertex>	vertices;
 			std::vector<uint32_t>	indices;
 		};
 
 	public:
-		static void CreateBox(float width, float height, float depth, MeshData &mesh);
+		static void CreateBox(float width, float height, float depth, _MeshData &mesh);
 	};
+
+	using MeshData = GeometryGenerator::_MeshData;
 }
 
 

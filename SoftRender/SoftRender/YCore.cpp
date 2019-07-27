@@ -21,7 +21,7 @@ namespace YRender {
 
 	bool YCore::Initial(const int width, const int height) {
 
-		if (!_RenderWindow->Initial(width, height)) 
+		if (!_RenderWindow->Initial(width, height))
 		{
 			std::cout << "Create Window Failed" << std::endl;
 			return false;
