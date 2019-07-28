@@ -11,13 +11,19 @@ namespace YRender {
 		Vertex();
 		~Vertex();
 
-		Vertex(Vector3& position,Vector3& normal,Vector3& tangent,Vector2& uv)
-			:Position(position), Normal(normal), Tangent(tangent), UV(uv)
+		Vertex(Vector3& position,Vector3& normal)
+			: Position(position),Normal(normal)
+		{}
+
+
+		Vertex(Vector3& position,Vector3& normal,Vector3& tangent,Vector3& Color,Vector2& uv)
+			:Position(position), Normal(normal), Tangent(tangent), Color(Color),UV(uv)
 		{}
 
 		Vector3 Position;
 		Vector3 Normal;
 		Vector3 Tangent;
+		Vector3 Color;
 		Vector2 UV;
 	};
 }

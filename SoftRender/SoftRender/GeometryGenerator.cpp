@@ -7,9 +7,9 @@ namespace YRender {
 		mesh.vertices.clear();
 		mesh.indices.clear();
 
-		mesh.indices.reserve(24);
-		mesh.vertices.reserve(36);
+		mesh.indices.reserve(36);
+		mesh.vertices.reserve(24);
 
-
+		mesh.vertices.emplace_back();
 	}
 }
