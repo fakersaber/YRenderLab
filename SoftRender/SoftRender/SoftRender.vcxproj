@@ -29,6 +29,7 @@
     <ClInclude Include="YGM\Vector.hpp" />
     <ClInclude Include="YGM\Vector2.hpp" />
     <ClInclude Include="YGM\Vector3.hpp" />
+    <ClInclude Include="YGM\Vector4.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeometryGenerator.cpp" />

@@ -71,5 +71,8 @@
     <ClInclude Include="Vertex.h">
       <Filter>Public</Filter>
     </ClInclude>
+    <ClInclude Include="YGM\Vector4.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

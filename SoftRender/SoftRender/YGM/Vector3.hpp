@@ -14,10 +14,10 @@ namespace YRender {
 			Vector(U x, V y, W z) :
 				x(static_cast<value_type>(x)),
 				y(static_cast<value_type>(x)),
-				z(static_cast<value_type>(x)){}
+				z(static_cast<value_type>(x)) {}
 			explicit Vector(value_type val) : Vector(val, val, val) {}
-			Vector() : Vector(static_cast<value_type>(0)){}
-			Vector(const Vector& rhs) : Vector(rhs.x,rhs.y,rhs.z){}
+			Vector() : Vector(static_cast<value_type>(0)) {}
+			Vector(const Vector& rhs) : Vector(rhs.x, rhs.y, rhs.z) {}
 			bool operator==(const Vector& rhs) {
 				return Math::Equal(x, rhs.x) && Math::Equal(y, rhs.y) && Math::Equal(z, rhs.z);
 			}

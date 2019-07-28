@@ -8,7 +8,7 @@
 
 
 namespace YRender {
-	static class GeometryGenerator
+	class GeometryGenerator
 	{
 	public:
 		struct _MeshData
@@ -18,7 +18,7 @@ namespace YRender {
 		};
 
 	public:
-		static void CreateBox(float width, float height, float depth, _MeshData &mesh);
+		static void CreateBox(_MeshData &mesh);
 	};
 
 	using MeshData = GeometryGenerator::_MeshData;
