@@ -74,5 +74,8 @@
     <ClInclude Include="YGM\Vector4.hpp">
       <Filter>Public\YGM</Filter>
     </ClInclude>
+    <ClInclude Include="YGM\Matrix4.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,9 +13,10 @@ namespace YRender {
 			template<typename U, typename V, typename W, typename H>
 			Vector(U x, V y, W z, H w) :
 				x(static_cast<value_type>(x)),
-				y(static_cast<value_type>(x)),
-				z(static_cast<value_type>(x)),
-				w(static_cast<value_type>(w)) {}
+				y(static_cast<value_type>(y)),
+				z(static_cast<value_type>(z)),
+				w(static_cast<value_type>(w)) 
+			{}
 			explicit Vector(value_type val) : Vector(val, val, val, val) {}
 			Vector() : Vector(static_cast<value_type>(0)) {}
 			Vector(const Vector& rhs) : Vector(rhs.x, rhs.y, rhs.z, rhs.w) {}
@@ -32,6 +33,9 @@ namespace YRender {
 				w = rhs.w;
 				return *this;
 			}
+
+			const T& operator[](int i) const { return _data[i]; }
+			T& operator[](int i) { return _data[i]; }
 		public:
 			union
 			{

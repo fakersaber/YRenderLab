@@ -26,6 +26,7 @@
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="YCore.h" />
     <ClInclude Include="YGM\Math.hpp" />
+    <ClInclude Include="YGM\Matrix4.hpp" />
     <ClInclude Include="YGM\Vector.hpp" />
     <ClInclude Include="YGM\Vector2.hpp" />
     <ClInclude Include="YGM\Vector3.hpp" />

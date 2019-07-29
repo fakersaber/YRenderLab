@@ -8,6 +8,8 @@
 #include "RenderDevice.h"
 #include "GeometryGenerator.h"
 
+#include <YGM/Matrix4.hpp>
+
 namespace YRender {
 	class RenderClass {
 	public:

@@ -20,8 +20,9 @@ namespace YRender {
 			return false;
 		}
 
-		GeometryGenerator::CreateBox(2.0f, 2.0f, 2.0f, this->Mesh);
+		GeometryGenerator::CreateBox(this->Mesh);
 
+		return true;
 	}
 
 	RenderClass::~RenderClass() {

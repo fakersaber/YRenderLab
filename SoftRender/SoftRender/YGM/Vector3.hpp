@@ -13,8 +13,8 @@ namespace YRender {
 			template<typename U, typename V, typename W>
 			Vector(U x, V y, W z) :
 				x(static_cast<value_type>(x)),
-				y(static_cast<value_type>(x)),
-				z(static_cast<value_type>(x)) {}
+				y(static_cast<value_type>(y)),
+				z(static_cast<value_type>(z)) {}
 			explicit Vector(value_type val) : Vector(val, val, val) {}
 			Vector() : Vector(static_cast<value_type>(0)) {}
 			Vector(const Vector& rhs) : Vector(rhs.x, rhs.y, rhs.z) {}
