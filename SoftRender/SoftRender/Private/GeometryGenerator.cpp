@@ -1,4 +1,4 @@
-﻿#include "GeometryGenerator.h"
+﻿#include <Public/GeometryGenerator.h>
 
 
 namespace YRender {

@@ -1,4 +1,4 @@
-﻿#include "RenderDevice.h"
+﻿#include <Public/RenderDevice.h>
 
 
 
@@ -54,11 +54,13 @@ namespace YRender{
 		}
 	}
 
-	void RenderDevice::Draw() {
-		memset(FrameBuffer, 0xc0, width * height * 4);
-
+	void RenderDevice::DrawFrameBuffer() {
 		HDC hDC = GetDC(this->hwnd);
 		BitBlt(hDC, 0, 0, this->width, this->height, this->Hdc, 0, 0, SRCCOPY);
 		ReleaseDC(this->hwnd, hDC);
+	}
+
+	void RenderDevice::DrawPixel(const int x, const int y) {
+		FrameBuffer[y * width + x] = 0xfffffful;
 	}
 }

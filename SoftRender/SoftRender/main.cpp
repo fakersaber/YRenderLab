@@ -1,6 +1,4 @@
-﻿#include <iostream>
-
-#include "YCore.h"
+﻿#include <Public/YCore.h>
 
 
 

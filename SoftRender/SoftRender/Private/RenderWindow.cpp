@@ -1,4 +1,4 @@
-﻿#include "RenderWindow.h"
+﻿#include <Public/RenderWindow.h>
 
 
 
@@ -48,7 +48,7 @@ namespace YRender {
 			PostQuitMessage(0);
 			break;
 		}
-
+		//禁止背景擦除,但是这样不会清除相关绘制区域
 		case WM_ERASEBKGND:
 			return true;
 

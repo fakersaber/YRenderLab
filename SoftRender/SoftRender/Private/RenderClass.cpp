@@ -1,4 +1,4 @@
-﻿#include "RenderClass.h"
+﻿#include <Public/RenderClass.h>
 
 
 
@@ -35,7 +35,9 @@ namespace YRender {
 	}
 
 	void RenderClass::Render() {
-
+		_RenderDevice->DrawPixel(400, 300);
+		_RenderDevice->DrawPixel(700, 500);
+		_RenderDevice->DrawFrameBuffer();
 	}
 
 

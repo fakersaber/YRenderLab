@@ -2,12 +2,8 @@
 #define _YRENDER_RENDERCLASS_H
 
 #include <iostream>
-#include <windows.h>
-
-
-#include "RenderDevice.h"
-#include "GeometryGenerator.h"
-
+#include <Public/RenderDevice.h>
+#include <Public/GeometryGenerator.h>
 #include <YGM/Matrix4.hpp>
 
 namespace YRender {
