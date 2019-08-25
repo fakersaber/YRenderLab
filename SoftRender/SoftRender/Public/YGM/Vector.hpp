@@ -1,7 +1,7 @@
 ﻿#ifndef _YRENDER_YGM_VAL_HPP_
 #define _YRENDER_YGM_VAL_HPP_
 
-#include <YGM/Math.hpp>
+#include <Public/YGM/Math.hpp>
 
 namespace YRender {
 	namespace YGM {

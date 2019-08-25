@@ -1,9 +1,9 @@
 ﻿#ifndef _YRENDER_VERTEX_H
 #define _YRENDER_VERTEX_H
 
-#include <YGM/Vector2.hpp>
-#include <YGM/Vector3.hpp>
-#include <YGM/Vector4.hpp>
+#include <Public/YGM/Vector2.hpp>
+#include <Public/YGM/Vector3.hpp>
+#include <Public/YGM/Vector4.hpp>
 
 
 namespace YRender {

@@ -1,7 +1,7 @@
 ﻿#ifndef _YRENDER_YGM_VECTOR4_HPP_
 #define _YRENDER_YGM_VECTOR4_HPP_
 
-#include <YGM/Vector.hpp>
+#include <Public/YGM/Vector.hpp>
 
 namespace YRender {
 	namespace YGM {

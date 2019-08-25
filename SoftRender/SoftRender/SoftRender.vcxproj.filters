@@ -16,26 +16,11 @@
     <Filter Include="Public\YGM">
       <UniqueIdentifier>{45b5d66d-d169-49b7-97a0-73164139e2f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Private\YGM">
+      <UniqueIdentifier>{8c13c7ad-860f-420f-bdd9-32c9686dbb4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="YGM\Math.hpp">
-      <Filter>Public\YGM</Filter>
-    </ClInclude>
-    <ClInclude Include="YGM\Vector3.hpp">
-      <Filter>Public\YGM</Filter>
-    </ClInclude>
-    <ClInclude Include="YGM\Vector.hpp">
-      <Filter>Public\YGM</Filter>
-    </ClInclude>
-    <ClInclude Include="YGM\Vector2.hpp">
-      <Filter>Public\YGM</Filter>
-    </ClInclude>
-    <ClInclude Include="YGM\Vector4.hpp">
-      <Filter>Public\YGM</Filter>
-    </ClInclude>
-    <ClInclude Include="YGM\Matrix4.hpp">
-      <Filter>Public\YGM</Filter>
-    </ClInclude>
     <ClInclude Include="Public\GeometryGenerator.h">
       <Filter>Public</Filter>
     </ClInclude>
@@ -53,6 +38,27 @@
     </ClInclude>
     <ClInclude Include="Public\YCore.h">
       <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Math.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Matrix4.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Vector.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Vector2.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Vector3.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Vector4.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Transform.h">
+      <Filter>Public\YGM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="Private\YCore.cpp">
       <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\YGM\Transform.cpp">
+      <Filter>Private\YGM</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -25,12 +25,13 @@
     <ClInclude Include="Public\RenderWindow.h" />
     <ClInclude Include="Public\Vertex.h" />
     <ClInclude Include="Public\YCore.h" />
-    <ClInclude Include="YGM\Math.hpp" />
-    <ClInclude Include="YGM\Matrix4.hpp" />
-    <ClInclude Include="YGM\Vector.hpp" />
-    <ClInclude Include="YGM\Vector2.hpp" />
-    <ClInclude Include="YGM\Vector3.hpp" />
-    <ClInclude Include="YGM\Vector4.hpp" />
+    <ClInclude Include="Public\YGM\Math.hpp" />
+    <ClInclude Include="Public\YGM\Matrix4.hpp" />
+    <ClInclude Include="Public\YGM\Transform.h" />
+    <ClInclude Include="Public\YGM\Vector.hpp" />
+    <ClInclude Include="Public\YGM\Vector2.hpp" />
+    <ClInclude Include="Public\YGM\Vector3.hpp" />
+    <ClInclude Include="Public\YGM\Vector4.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -40,6 +41,7 @@
     <ClCompile Include="Private\RenderWindow.cpp" />
     <ClCompile Include="Private\Vertex.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
+    <ClCompile Include="Private\YGM\Transform.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <Public/RenderDevice.h>
 #include <Public/GeometryGenerator.h>
-#include <YGM/Matrix4.hpp>
+#include <Public/YGM/Matrix4.hpp>
 
 namespace YRender {
 	class RenderClass {
