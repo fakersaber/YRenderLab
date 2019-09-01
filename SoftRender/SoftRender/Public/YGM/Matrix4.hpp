@@ -63,7 +63,7 @@ namespace YRender {
 			T Tr() const { return m[0][0] + m[1][1] + m[2][2] + m[3][3]; }
 
 			Mat4x4 Transpose() const {
-				const auto & mat = *this;
+				const auto& mat = *this;
 				return Mat4x4(
 					mat(0, 0), mat(1, 0), mat(2, 0), mat(3, 0),
 					mat(0, 1), mat(1, 1), mat(2, 1), mat(3, 1),

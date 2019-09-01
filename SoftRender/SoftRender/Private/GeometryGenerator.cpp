@@ -47,6 +47,8 @@ namespace YRender {
 			mesh.vertices[i].UV = { cubeData[8 * i + 6], cubeData[8 * i + 7] };
 		}
 		//还是将36个三角形顶点映射到24个顶点上，再压缩可映射到8顶点，但法线方向要重新计算
+
+		//顺时针，左下起始顶点
 		const uint32_t squarIndex[6] = {
 			0,1,2,
 			3,2,1

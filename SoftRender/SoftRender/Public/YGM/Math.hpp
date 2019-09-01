@@ -1,6 +1,7 @@
 ﻿#ifndef _YRENDER_YGM_MATH_HPP_
 #define _YRENDER_YGM_MATH_HPP_
 
+#include <cmath>
 
 namespace YRender {
 	namespace YGM {
