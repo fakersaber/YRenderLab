@@ -21,7 +21,7 @@ namespace YRender {
 			// [ R   T ]
 			// [ 0   1 ]
 			Vector3 front = (target - pos).Normalize();
-			Vector3 right = front.Cross(up).Normalize();
+			const Vector3 right = front.Cross(up).Normalize();
 			Vector3 camera_up = right.Cross(front);
 
 			Mat4f WorldToCamera;
@@ -38,6 +38,7 @@ namespace YRender {
 			WorldToCamera(1, 3) = -camera_up.Dot(pos);
 			WorldToCamera(2, 3) = front.Dot(pos);
 
+			
 
 			Mat4f CameraToWorld;
 			CameraToWorld(0, 0) = right.x;

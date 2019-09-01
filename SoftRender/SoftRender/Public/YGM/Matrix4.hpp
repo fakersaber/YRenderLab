@@ -8,8 +8,8 @@ namespace YRender {
 	namespace YGM {
 		template<typename T>
 		class Mat4x4 {
-		private:
-			using type_value = Mat4x4;
+		//private:
+		//	using type_value = T;
 		public:
 			Mat4x4(T d0, T d1, T d2, T d3): m{ 
 				{d0, static_cast<T>(0),static_cast<T>(0),static_cast<T>(0)},
@@ -43,10 +43,10 @@ namespace YRender {
 			const Vector<4, T>& GetRow(int i) const { return m[i]; }
 			Vector<4, T>& GetRow(int i) { return m[i]; }
 
-			// 列主序
+			// 行主序
 			T* Data() { return &(m[0][0]); }
 
-			// 列主序
+			// 行主序
 			const T* Data() const { return const_cast<T*>(&(m[0][0])); }
 
 		public:

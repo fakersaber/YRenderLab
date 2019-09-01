@@ -65,7 +65,7 @@ namespace YRender {
 				return Vector(x / InnerValue, y / InnerValue, z / InnerValue);
 			}
 
-			const value_type Dot(const Vector& rhs) {
+			const value_type Dot(const Vector& rhs) const {
 				return x * rhs.x + y * rhs.y + z * rhs.z;
 			}
 
