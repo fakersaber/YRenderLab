@@ -84,8 +84,8 @@ namespace YRender {
 						if (ipiv[j] != 1) {
 							for (int k = 0; k < 4; k++) {
 								if (ipiv[k] == 0) {
-									if (std::abs(minv[k][j]) >= big) {
-										big = static_cast<T>(std::abs(minv[k][j]));
+									if (std::abs(minv[j][k]) >= big) {
+										big = static_cast<T>(std::abs(minv[j][k]));
 										irow = j;
 										icol = k;
 									}
@@ -95,10 +95,12 @@ namespace YRender {
 							}
 						}
 					}
+					//设置当前列的主对角元值为1，之后在选取主元时，会忽略该行该列
 					++ipiv[icol];
-					// Swap rows _irow_ and _icol_ for pivot
+					//替换pivot到[icol][icol]位置，该位置为当前列的主对角线处，这里并没有替换到左上角
 					if (irow != icol) {
-						for (int k = 0; k < 4; ++k) std::swap(minv[k][irow], minv[k][icol]);
+						for (int k = 0; k < 4; ++k) 
+							std::swap(minv[irow][k], minv[icol][k]);
 					}
 					indxr[i] = irow;
 					indxc[i] = icol;
