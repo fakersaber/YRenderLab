@@ -38,8 +38,6 @@ namespace YRender {
 			WorldToCamera(1, 3) = -camera_up.Dot(pos);
 			WorldToCamera(2, 3) = front.Dot(pos);
 
-			
-
 			Mat4f CameraToWorld;
 			CameraToWorld(0, 0) = right.x;
 			CameraToWorld(0, 1) = right.y;
@@ -58,8 +56,14 @@ namespace YRender {
 		}
 
 		const Transform Transform::Perspective(const float fovy, const float aspect, const float zNear, const float zFar) {
-
-			 
+			const float tanHalfFovy = tan(fovy * 0.5f) * aspect;
+			Mat4f PerspectiveMat;
+			PerspectiveMat(0, 0) = 1.f / tanHalfFovy;
+			PerspectiveMat(1, 1) = tanHalfFovy;
+			PerspectiveMat(2, 2) = -(zFar + zNear) / (zFar - zNear);
+			PerspectiveMat(2, 3) = -(2.f * zNear * zFar) / (zFar - zNear);
+			PerspectiveMat(3, 2) = -1.f;
+			return Transform(PerspectiveMat);
 		}
 	}
 }

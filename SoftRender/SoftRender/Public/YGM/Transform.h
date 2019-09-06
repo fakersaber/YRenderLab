@@ -10,7 +10,8 @@ namespace YRender {
 		//opengl坐标系，相机为右手系，世界模型为左手系
 		class Transform {
 		public:
-			Transform(float d) {};
+			Transform(float d):Matrix(d),InvMatrix(1.f/d){};
+			Transform(const Mat4f& matrix) : Matrix(matrix), InvMatrix(matrix.Inverse()) {}
 			Transform(const Mat4f& matrix, const Mat4f& invMatrix):Matrix(matrix),InvMatrix(invMatrix){};
 
 
