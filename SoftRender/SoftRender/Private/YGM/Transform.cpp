@@ -56,10 +56,10 @@ namespace YRender {
 		}
 
 		const Transform Transform::Perspective(const float fovy, const float aspect, const float zNear, const float zFar) {
-			const float tanHalfFovy = tan(fovy * 0.5f) * aspect;
-			Mat4f PerspectiveMat;
-			PerspectiveMat(0, 0) = 1.f / tanHalfFovy;
-			PerspectiveMat(1, 1) = tanHalfFovy;
+			const float tanHalfFovy = tan(Math::Radians(fovy * 0.5f));
+			Mat4f PerspectiveMat(0.f);
+			PerspectiveMat(0, 0) = 1.f / (tanHalfFovy * aspect);
+			PerspectiveMat(1, 1) = 1.f / tanHalfFovy;
 			PerspectiveMat(2, 2) = -(zFar + zNear) / (zFar - zNear);
 			PerspectiveMat(2, 3) = -(2.f * zNear * zFar) / (zFar - zNear);
 			PerspectiveMat(3, 2) = -1.f;

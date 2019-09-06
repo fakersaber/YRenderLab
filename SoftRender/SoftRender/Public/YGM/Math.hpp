@@ -9,6 +9,14 @@ namespace YRender {
 			constexpr float EPSILON = 1e-6f;
 			constexpr float PI = 3.14159265358979323f;
 
+			inline float Radians(const float degree) {
+				return (PI / 180.f) * degree;
+			}
+
+			inline float Degree(const float Radians) {
+				return (180.f / PI) * Radians;
+			}
+
 			template<typename T>
 			constexpr T ToVal(T orig, T val, T bound = static_cast<T>(0.000001)) {
 				const auto delta = orig - val;

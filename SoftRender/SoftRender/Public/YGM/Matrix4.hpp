@@ -80,6 +80,7 @@ namespace YRender {
 					int irow = 0, icol = 0;
 					T big = static_cast<T>(0);
 					// Choose pivot
+					//记录最大值的行列，在后面会检查对应列的主对角元值是否为0，
 					for (int j = 0; j < 4; j++) {
 						if (ipiv[j] != 1) {
 							for (int k = 0; k < 4; k++) {
@@ -90,8 +91,9 @@ namespace YRender {
 										icol = k;
 									}
 								}
-								else if (ipiv[k] > 1)
-									return Mat4x4(static_cast<T>(0));
+								//在这种情况下不会出现某个对角元对应值大于1
+								//else if (ipiv[k] > 1)
+								//	return Mat4x4(static_cast<T>(0));
 							}
 						}
 					}
@@ -102,25 +104,41 @@ namespace YRender {
 						for (int k = 0; k < 4; ++k) 
 							std::swap(minv[irow][k], minv[icol][k]);
 					}
+					//用于记录交换位置的两个数组，数组最后的结果为交换的后行列
 					indxr[i] = irow;
 					indxc[i] = icol;
 					if (minv[icol][icol] == static_cast<T>(0))
 						return Mat4x4(static_cast<T>(0));
 
 					// Set $m[icol][icol]$ to one by scaling row _icol_ appropriately
+					//将对应主对角元的列除以原值
 					T pivinv = static_cast<T>(1) / minv[icol][icol];
 					minv[icol][icol] = 1.;
-					for (int j = 0; j < 4; j++) minv[j][icol] *= pivinv;
+					for (int j = 0; j < 4; j++) 
+						minv[j][icol] *= pivinv;
 
 					// Subtract this row from others to zero out their columns
+					//从其他行中减去此行将其列清零，例如第一个轴值在第四行第四列，除第四行外所有行都要减去其对应列的值乘上第四行对应数来让第四列的值为零（普通的高斯消元）
+					//表达为矩阵如下：
+					//[a1 b1 c1 d1] = v1        v1 - d1*(v4) = [a1-a4*d1,b1-b4*d1,c1-c4*d1,0]
+					//[a2 b2 c2 d2] = v2        v2 - d2*(v4)
+					//[a3 b3 c3 d3] = v3  ==>   v3 - d3*(v4)
+					//[a4 b4 c4 1] = v4         v4
+
+					//但下面的处理巧妙的地方在于minv[icol][j] = 0; 
+					//轴点对应列的值变得与单位矩阵中相同，然后再经过相同的减法运算变得与最后单位矩阵变换后的结果相同
+					//非轴点对应列与正常的消元值相同，这样保证了后续处理时运算依然正确但是单位矩阵的变换结果也存放在其中
 					for (int j = 0; j < 4; j++) {
 						if (j != icol) {
 							T save = minv[icol][j];
 							minv[icol][j] = 0;
-							for (int k = 0; k < 4; k++) minv[k][j] -= minv[k][icol] * save;
+							for (int k = 0; k < 4; k++) 
+								minv[k][j] -= minv[k][icol] * save;
 						}
 					}
 				}
+
+				//最后将交换前的顺序还原，经过上述运算是经过行交换矩阵的逆矩阵，所以相当于乘上原始行变换矩阵还原顺序
 				// Swap columns to reflect permutation
 				for (int j = 3; j >= 0; j--) {
 					if (indxr[j] != indxc[j]) {
