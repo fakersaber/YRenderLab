@@ -42,7 +42,7 @@ namespace YRender {
 		mesh.indices.resize(36);
 		mesh.vertices.resize(24);
 		for (uint32_t i = 0; i < 24; ++i) {
-			mesh.vertices[i].Position = { cubeData[8 * i], cubeData[8 * i + 1], cubeData[8 * i + 2],1.0f };
+			mesh.vertices[i].Position = { cubeData[8 * i], cubeData[8 * i + 1], cubeData[8 * i + 2], 1.0f };
 			mesh.vertices[i].Normal = { cubeData[8 * i + 3], cubeData[8 * i + 4], cubeData[8 * i + 5] };
 			mesh.vertices[i].UV = { cubeData[8 * i + 6], cubeData[8 * i + 7] };
 		}

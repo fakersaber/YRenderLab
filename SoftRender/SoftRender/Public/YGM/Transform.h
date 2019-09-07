@@ -7,12 +7,12 @@
 
 namespace YRender {
 	namespace YGM {
-		//opengl坐标系，相机为右手系，世界模型为左手系
+		//opengl坐标系，除了NDC外都使用右手坐标系，但是在相机的局部空间下是可以视为左手坐标系。（因为刚好z轴翻转）
 		class Transform {
 		public:
-			Transform(float d):Matrix(d),InvMatrix(1.f/d){};
-			Transform(const Mat4f& matrix) : Matrix(matrix), InvMatrix(matrix.Inverse()) {}
-			Transform(const Mat4f& matrix, const Mat4f& invMatrix):Matrix(matrix),InvMatrix(invMatrix){};
+			Transform(float d) :Matrix(d) {}//InvMatrix(1.f/d){};
+			Transform(const Mat4f& matrix) : Matrix(matrix) {} //InvMatrix(matrix.Inverse()) {}
+			Transform(const Mat4f& matrix, const Mat4f& invMatrix) :Matrix(matrix),InvMatrix(invMatrix){};
 
 
 
@@ -25,9 +25,9 @@ namespace YRender {
 				return Matrix;
 			};
 
-			const Mat4f& GetInvMatrix() const {
-				return InvMatrix;
-			}
+			//const Mat4f& GetInvMatrix() const {
+			//	return InvMatrix;
+			//}
 
 		private:
 			Mat4f Matrix;

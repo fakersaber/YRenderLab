@@ -5,6 +5,8 @@
 #include <Public/RenderDevice.h>
 #include <Public/GeometryGenerator.h>
 #include <Public/YGM/Matrix4.hpp>
+#include <Public/YGM/Transform.h>
+
 
 namespace YRender {
 	class RenderClass {
@@ -16,13 +18,15 @@ namespace YRender {
 	public:
 		bool Initial(HWND hwnd, const int width, const int height);
 		void Update();
-		void LoadMeshes();
+		//void LoadMeshes();
 		void Render();
-
+	
 	private:
 		~RenderClass();
 		RenderClass();
 
+	private:
+		void DrawIndexed(const MeshData& mesh);
 
 
 	private:

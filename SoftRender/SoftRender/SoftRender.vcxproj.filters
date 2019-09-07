@@ -60,12 +60,12 @@
     <ClInclude Include="Public\YGM\Transform.h">
       <Filter>Public\YGM</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Camera.h">
+      <Filter>Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Private\GeometryGenerator.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
     <ClCompile Include="Private\RenderClass.cpp">
       <Filter>Private</Filter>
     </ClCompile>
@@ -83,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="Private\YGM\Transform.cpp">
       <Filter>Private\YGM</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\GeometryGenerator.cpp">
+      <Filter>Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

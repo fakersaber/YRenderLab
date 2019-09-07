@@ -9,7 +9,7 @@ namespace YRender{
 	//}
 
 	RenderDevice::RenderDevice():
-		Hdc(nullptr), 
+		BufferHdc(nullptr),
 		hBitmap(nullptr), 
 		hOldBitmap(nullptr)
 	{
@@ -17,9 +17,9 @@ namespace YRender{
 	}
 
 	RenderDevice::~RenderDevice() {
-		SelectObject(Hdc, hOldBitmap);
+		SelectObject(BufferHdc, hOldBitmap);
 		DeleteObject(hBitmap);
-		DeleteDC(Hdc);
+		DeleteDC(BufferHdc);
 	}
 
 	bool RenderDevice::Initial(HWND hwnd,const int width,const int height) {
@@ -29,9 +29,9 @@ namespace YRender{
 			this->height = height;
 		}
 		{
-			HDC CurDC = GetDC(this->hwnd);
-			Hdc = CreateCompatibleDC(CurDC);
-			ReleaseDC(this->hwnd, CurDC);
+			WindowHdc = GetDC(this->hwnd);
+			BufferHdc = CreateCompatibleDC(WindowHdc);
+			//ReleaseDC(this->hwnd, CurDC);
 			BITMAPINFO bi =
 			{
 				sizeof(BITMAPINFOHEADER),
@@ -45,19 +45,19 @@ namespace YRender{
 				static_cast<DWORD>(0)
 			};
 
-			if (!(hBitmap = CreateDIBSection(Hdc, &bi, DIB_RGB_COLORS, reinterpret_cast<void**>(&FrameBuffer), nullptr, 0)))
+			if (!(hBitmap = CreateDIBSection(BufferHdc, &bi, DIB_RGB_COLORS, reinterpret_cast<void**>(&FrameBuffer), nullptr, 0)))
 			{
 				return false;
 			}
-			hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(Hdc, hBitmap));
+			hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(BufferHdc, hBitmap));
 			return true;
 		}
 	}
 
 	void RenderDevice::DrawFrameBuffer() {
-		HDC hDC = GetDC(this->hwnd);
-		BitBlt(hDC, 0, 0, this->width, this->height, this->Hdc, 0, 0, SRCCOPY);
-		ReleaseDC(this->hwnd, hDC);
+		//HDC hDC = GetDC(this->hwnd);
+		BitBlt(WindowHdc, 0, 0, this->width, this->height, this->BufferHdc, 0, 0, SRCCOPY);
+		//ReleaseDC(this->hwnd, hDC);
 	}
 
 	void RenderDevice::DrawPixel(const int x, const int y) {

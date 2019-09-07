@@ -2,7 +2,7 @@
 #define _YRENDER_YGM_VECTOR3_HPP_
 
 #include <Public/YGM/Vector.hpp>
-#include <cassert>
+#include <Public/YGM/Vector.hpp>
 
 namespace YRender {
 	namespace YGM {
@@ -61,8 +61,21 @@ namespace YRender {
 
 			const Vector Normalize() const {
 				value_type InnerValue = sqrt(x * x + y * y + z * z);
-				assert(Math::Equal(InnerValue, 0.0f));
+				if (Math::Equal(InnerValue, 0.0f))
+					return Vector(0.f, 0.f, 0.f);
 				return Vector(x / InnerValue, y / InnerValue, z / InnerValue);
+			}
+
+			const void SelfNormalize() const {
+				value_type InnerValue = sqrt(x * x + y * y + z * z);
+				if (Math::Equal(InnerValue, 0.0f)) {
+					x = 0.f;
+					y = 0.f;
+					z = 0.f;
+				}
+				x /= InnerValue;
+				y /= InnerValue;
+				z /= InnerValue;
 			}
 
 			const value_type Dot(const Vector& rhs) const {

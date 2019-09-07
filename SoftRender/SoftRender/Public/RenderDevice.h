@@ -24,7 +24,8 @@ namespace YRender {
 		uint32_t* FrameBuffer;
 		int width;
 		int height;
-		HDC Hdc;
+		HDC BufferHdc;
+		HDC WindowHdc;
 		HBITMAP hBitmap;
 		HBITMAP hOldBitmap;
 		HWND hwnd;

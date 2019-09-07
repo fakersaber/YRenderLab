@@ -230,6 +230,9 @@ namespace YRender {
 				return m[row][col];
 			}
 
+
+
+
 			friend std::ostream & operator<<(std::ostream& os, const Mat4x4& mat) {
 				os << "[" << Math::ToZero(mat(0, 0)) << ", " << Math::ToZero(mat(0, 1)) << ", " << Math::ToZero(mat(0, 2)) << ", " << Math::ToZero(mat(0, 3)) << std::endl;
 				os << Math::ToZero(mat(1, 0)) << ", " << Math::ToZero(mat(1, 1)) << ", " << Math::ToZero(mat(1, 2)) << ", " << Math::ToZero(mat(1, 3)) << std::endl;

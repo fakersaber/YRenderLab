@@ -35,6 +35,10 @@ namespace YRender {
 	}
 
 
+
+
+
+
 	void YCore::Run() {
 		MSG msg = { 0 };
 		while (msg.message != WM_QUIT)
