@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include <Public/Camera.h>
 
 
 
@@ -36,9 +36,27 @@ namespace YRender {
 	void Camera::updateCameraVectors() {
 		// Calculate the new Front vector
 		//opengl下旋转顺序是先旋转pitch -> yaw -> roll
-		//考虑在上述坐标系下，x轴实际上会受到pitch
+		//在此注意camera的front是根据Eular角更新的，而LookAt的target实际上就是pos + front
+		//						  [cos(yaw),  sin(yaw)sin(pitch),  sin(yaw)cos(pitch)]
+		// R(yaw) * R(pitch) == > [0,         cos(pitch),          -sin(pitch)]
+		//					      [-sin(yaw), cos(yaw)sin(pitch),  cos(yaw)cos(pitch)]
+		//接着表示front向量
+		//								  [-sin(yaw)cos(pitch)]
+		// R(yaw) * R(pitch) * front == > [sin(pitch)]
+		//								  [-cos(yaw)cos(pitch)]
+		//上述表示方案是yaw和pitch起始值从0开始的推导
+
+		//u老师的运算方式与opengl运算代码相同,yaw的起始值为-PI/2,实际变为了yaw - PI/2,
+		//								 [-sin(yaw), -cos(yaw)sin(pitch),  -cos(yaw)cos(pitch)]
+		// R(yaw - PI/2) * R(pitch) == > [0,         cos(pitch),          -sin(pitch)]
+		//								 [cos(yaw), -sin(yaw)sin(pitch),  -sin(yaw)cos(pitch)]
+		//接着同理表示front向量
+		//								  [cos(yaw)cos(pitch)]
+		// R(yaw) * R(pitch) * front == > [sin(pitch)]
+		//								  [sin(yaw)cos(pitch)]
 
 
+		//上述表示方案是yaw和pitch起始值从0开始的推导
 		//front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 		//front.y = sin(glm::radians(pitch));
 		//front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
