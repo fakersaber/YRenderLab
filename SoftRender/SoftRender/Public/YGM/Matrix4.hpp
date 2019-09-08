@@ -221,6 +221,17 @@ namespace YRender {
 				);
 			}
 
+			const Vector<4, T> operator*(const Vector<4, T>& rhs) const {
+				return Vector<4, T>
+					(
+						this->m[0][0] * rhs[0] + this->m[0][1] * rhs[1] + this->m[0][2] * rhs[2] + this->m[0][3] * rhs[3],
+						this->m[1][0] * rhs[0] + this->m[1][1] * rhs[1] + this->m[1][2] * rhs[2] + this->m[1][3] * rhs[3],
+						this->m[2][0] * rhs[0] + this->m[2][1] * rhs[1] + this->m[2][2] * rhs[2] + this->m[2][3] * rhs[3],
+						this->m[3][0] * rhs[0] + this->m[3][1] * rhs[1] + this->m[3][2] * rhs[2] + this->m[3][3] * rhs[3]
+					);
+			}
+
+
 
 			T operator()(int row, int col) const {
 				return m[row][col];

@@ -34,6 +34,10 @@ namespace YRender {
 				return *this;
 			}
 
+			const value_type Dot(const Vector& rhs) const {
+				return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
+			}
+
 			const T& operator[](int i) const { return _data[i]; }
 			T& operator[](int i) { return _data[i]; }
 		public:

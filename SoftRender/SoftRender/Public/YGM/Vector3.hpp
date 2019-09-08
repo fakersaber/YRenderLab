@@ -66,16 +66,23 @@ namespace YRender {
 				return Vector(x / InnerValue, y / InnerValue, z / InnerValue);
 			}
 
-			const void SelfNormalize() const {
+			const Vector Normalize() {
+				value_type InnerValue = sqrt(x * x + y * y + z * z);
+				if (Math::Equal(InnerValue, 0.0f))
+					return Vector(0.f, 0.f, 0.f);
+				return Vector(x / InnerValue, y / InnerValue, z / InnerValue);
+			}
+
+			void SelfNormalize(){
 				value_type InnerValue = sqrt(x * x + y * y + z * z);
 				if (Math::Equal(InnerValue, 0.0f)) {
 					x = 0.f;
 					y = 0.f;
 					z = 0.f;
 				}
-				x /= InnerValue;
-				y /= InnerValue;
-				z /= InnerValue;
+				this->x /= InnerValue;
+				this->y /= InnerValue;
+				this->z /= InnerValue;
 			}
 
 			const value_type Dot(const Vector& rhs) const {

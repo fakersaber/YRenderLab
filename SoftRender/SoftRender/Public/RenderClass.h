@@ -6,7 +6,7 @@
 #include <Public/GeometryGenerator.h>
 #include <Public/YGM/Matrix4.hpp>
 #include <Public/YGM/Transform.h>
-
+#include <Public/Camera.h>
 
 namespace YRender {
 	class RenderClass {
@@ -18,7 +18,6 @@ namespace YRender {
 	public:
 		bool Initial(HWND hwnd, const int width, const int height);
 		void Update();
-		//void LoadMeshes();
 		void Render();
 	
 	private:
@@ -27,10 +26,12 @@ namespace YRender {
 
 	private:
 		void DrawIndexed(const MeshData& mesh);
-
+		bool BackFaceCulling(const Vertex& v1, const Vertex& v2, const Vertex& v3);
+		Vertex VertexShader(const Vertex& vertex);
 
 	private:
 		RenderDevice* _RenderDevice;
+		Camera MainCamera;
 		MeshData Mesh;
 	};
 

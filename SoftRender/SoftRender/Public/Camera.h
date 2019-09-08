@@ -14,6 +14,8 @@ namespace YRender {
 	public:
 		Camera(
 			const Vector3& pos = Vector3(0.f, 0.f, 4.f),
+			float yaw = Camera::YAW,
+			float pitch = Camera::PITCH,
 			float aspect = Camera::ASPECT_WH,
 			float nearPlane = Camera::NEAR_PLANE,
 			float farPlane = Camera::FAR_PLANE,
@@ -22,14 +24,12 @@ namespace YRender {
 		);
 
 	public:
-		Mat4f GetViewMatrix() {
-			return YGM::Transform::LookAt(position, position + front, up).GetMatrix();
-		}
+		Mat4f GetViewMatrix() const { return YGM::Transform::LookAt(position, position + front, up).GetMatrix(); }
+		Mat4f GetProjectMatrix() const { return YGM::Transform::Perspective(fov, aspect_wh, nearPlane, farPlane).GetMatrix(); }
+		void SetCameraPose(const Vector3& pos, float yaw, float pitch);
 
 	private:
 		void updateCameraVectors();
-
-
 
 	private:
 		Vector3 position;
@@ -37,6 +37,8 @@ namespace YRender {
 		Vector3 up;
 		Vector3 right;
 		Vector3 worldup;
+		float yaw;
+		float pitch;
 		float fov;
 		float aspect_wh;
 		float nearPlane;
