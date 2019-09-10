@@ -19,6 +19,8 @@ namespace YRender {
 		bool Initial(HWND hwnd, const int width, const int height);
 		void DrawPixel(const int x,const int y);
 		void DrawFrameBuffer();
+		const int GetHeight() const { return width; }
+		const int GetWidth() const { return height; }
 
 	private:
 		uint32_t* FrameBuffer;

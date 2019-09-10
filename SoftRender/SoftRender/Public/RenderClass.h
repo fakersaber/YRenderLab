@@ -27,12 +27,17 @@ namespace YRender {
 	private:
 		void DrawIndexed(const MeshData& mesh);
 		bool BackFaceCulling(const Vertex& v1, const Vertex& v2, const Vertex& v3);
+		bool CVVClip(const Vector4& VertexPos);
+		void PerspecDivision(Vector4& ClipPos);
 		Vertex VertexShader(const Vertex& vertex);
+		void NDCToScreen(Vector4& NdcVertex);
+		void BresenhamDrawLine(int x1, int y1, int x2, int y2);
 
 	private:
 		RenderDevice* _RenderDevice;
 		Camera MainCamera;
 		MeshData Mesh;
+		Mat4f NdcToScreen;
 	};
 
 

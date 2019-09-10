@@ -12,9 +12,7 @@ namespace YRender{
 		BufferHdc(nullptr),
 		hBitmap(nullptr), 
 		hOldBitmap(nullptr)
-	{
-
-	}
+	{ }
 
 	RenderDevice::~RenderDevice() {
 		SelectObject(BufferHdc, hOldBitmap);

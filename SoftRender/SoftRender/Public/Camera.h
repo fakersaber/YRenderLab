@@ -27,6 +27,7 @@ namespace YRender {
 		Mat4f GetViewMatrix() const { return YGM::Transform::LookAt(position, position + front, up).GetMatrix(); }
 		Mat4f GetProjectMatrix() const { return YGM::Transform::Perspective(fov, aspect_wh, nearPlane, farPlane).GetMatrix(); }
 		void SetCameraPose(const Vector3& pos, float yaw, float pitch);
+		Project_Type GetCameraMode() { return project_mode; }
 
 	private:
 		void updateCameraVectors();
@@ -54,8 +55,5 @@ namespace YRender {
 		static const float FOV;
 	};
 }
-
-
-
 
 #endif
