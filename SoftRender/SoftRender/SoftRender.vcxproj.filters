@@ -19,6 +19,12 @@
     <Filter Include="Private\YGM">
       <UniqueIdentifier>{8c13c7ad-860f-420f-bdd9-32c9686dbb4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public\SoftRHI">
+      <UniqueIdentifier>{704c7cd0-c620-4017-ae27-3c69244ba323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\SoftRHI">
+      <UniqueIdentifier>{13ff2e3f-a85f-4cc9-a1cd-00c5d275044c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\GeometryGenerator.h">
@@ -63,6 +69,12 @@
     <ClInclude Include="Public\Camera.h">
       <Filter>Public</Filter>
     </ClInclude>
+    <ClInclude Include="Public\SoftRHI\SoftRHI.h">
+      <Filter>Public\SoftRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\CGAlgorithm.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -89,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="Private\Camera.cpp">
       <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\SoftRHI\SoftRHI.cpp">
+      <Filter>Private\SoftRHI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

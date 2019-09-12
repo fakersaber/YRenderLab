@@ -3,10 +3,11 @@
 
 
 namespace YRender{
-	//RenderDevice* RenderDevice::GetDevice() {
-	//	static RenderDevice instance;
-	//	return &instance;
-	//}
+
+	RenderDevice* RenderDevice::GetDevice() {
+		static RenderDevice instance;
+		return &instance;
+	}
 
 	RenderDevice::RenderDevice():
 		BufferHdc(nullptr),

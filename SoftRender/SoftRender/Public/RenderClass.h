@@ -8,39 +8,29 @@
 #include <Public/YGM/Transform.h>
 #include <Public/Camera.h>
 
+
 namespace YRender {
-	class RenderClass {
+	class RenderClass 
+	{
 	public:
+		virtual bool Initial(HWND hwnd, const int width, const int height) = 0;
+		virtual void Tick() = 0;
+		virtual void Render() = 0;
+
+	private:
 		RenderClass(const RenderClass& rhs) = delete;
 		RenderClass& operator=(const RenderClass& rhs) = delete;
-		static RenderClass* GetRender();
 
-	public:
-		bool Initial(HWND hwnd, const int width, const int height);
-		void Update();
-		void Render();
-	
-	private:
-		~RenderClass();
+	protected:
+		virtual ~RenderClass();
 		RenderClass();
 
-	private:
-		void DrawIndexed(const MeshData& mesh);
-		bool BackFaceCulling(const Vertex& v1, const Vertex& v2, const Vertex& v3);
-		bool CVVClip(const Vector4& VertexPos);
-		void PerspecDivision(Vector4& ClipPos);
-		Vertex VertexShader(const Vertex& vertex);
-		void NDCToScreen(Vector4& NdcVertex);
-		void BresenhamDrawLine(int x1, int y1, int x2, int y2);
-
-	private:
+	protected:
 		RenderDevice* _RenderDevice;
 		Camera MainCamera;
 		MeshData Mesh;
 		Mat4f NdcToScreen;
 	};
-
-
 }
 
 #endif

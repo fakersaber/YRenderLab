@@ -1,8 +1,10 @@
 ﻿#ifndef _YRENDER_YCORE_H
 #define _YRENDER_YCORE_H
 
-#include <Public/RenderClass.h>
 #include <Public/RenderWindow.h>
+
+#include <Public/SoftRHI/SoftRHI.h>
+
 
 namespace YRender {
 	class YCore {

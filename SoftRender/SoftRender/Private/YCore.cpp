@@ -1,5 +1,7 @@
 ﻿#include <Public/YCore.h>
 
+#define SOFT_RENDER
+//#define OPENGL_RENDER
 
 namespace YRender {
 
@@ -12,7 +14,11 @@ namespace YRender {
 
 	YCore::YCore() {
 		this->_RenderWindow = RenderWindow::GetWindow();
-		this->_RenderClass = RenderClass::GetRender();
+#ifdef SOFT_RENDER
+		this->_RenderClass = SoftRender::GetRender();
+#elif OPENGL_RENDER
+		this->_RenderClass = OpenGLRender::GetRender();
+#endif 
 	}
 
 	YCore::~YCore() {
@@ -50,7 +56,7 @@ namespace YRender {
 			}
 			else
 			{
-				_RenderClass->Update();
+				_RenderClass->Tick();
 				_RenderClass->Render();
 			}
 		}

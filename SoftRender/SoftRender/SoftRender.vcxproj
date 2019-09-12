@@ -24,8 +24,10 @@
     <ClInclude Include="Public\RenderClass.h" />
     <ClInclude Include="Public\RenderDevice.h" />
     <ClInclude Include="Public\RenderWindow.h" />
+    <ClInclude Include="Public\SoftRHI\SoftRHI.h" />
     <ClInclude Include="Public\Vertex.h" />
     <ClInclude Include="Public\YCore.h" />
+    <ClInclude Include="Public\YGM\CGAlgorithm.hpp" />
     <ClInclude Include="Public\YGM\Math.hpp" />
     <ClInclude Include="Public\YGM\Matrix4.hpp" />
     <ClInclude Include="Public\YGM\Transform.h" />
@@ -41,6 +43,7 @@
     <ClCompile Include="Private\RenderClass.cpp" />
     <ClCompile Include="Private\RenderDevice.cpp" />
     <ClCompile Include="Private\RenderWindow.cpp" />
+    <ClCompile Include="Private\SoftRHI\SoftRHI.cpp" />
     <ClCompile Include="Private\Vertex.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />

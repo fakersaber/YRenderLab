@@ -11,9 +11,7 @@ namespace YRender {
 	public:
 		RenderDevice& operator=(const RenderDevice& rhs) = delete;
 		RenderDevice(const RenderDevice& rhs) = delete;
-		RenderDevice();
-		~RenderDevice();
-		//static RenderDevice* GetDevice();
+		static RenderDevice* GetDevice();
 
 	public:
 		bool Initial(HWND hwnd, const int width, const int height);
@@ -21,6 +19,10 @@ namespace YRender {
 		void DrawFrameBuffer();
 		const int GetHeight() const { return width; }
 		const int GetWidth() const { return height; }
+
+	private:
+		RenderDevice();
+		~RenderDevice();
 
 	private:
 		uint32_t* FrameBuffer;
