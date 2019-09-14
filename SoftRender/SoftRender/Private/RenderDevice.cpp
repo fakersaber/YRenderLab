@@ -35,7 +35,7 @@ namespace YRender{
 			{
 				sizeof(BITMAPINFOHEADER),
 				this->width,
-				-this->height,
+				this->height,
 				1, 32,
 				static_cast<DWORD>(BI_RGB),
 				static_cast<DWORD>(width * height * sizeof(uint32_t)),

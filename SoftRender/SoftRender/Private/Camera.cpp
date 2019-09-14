@@ -3,10 +3,10 @@
 
 
 namespace YRender {
-	const float Camera::ASPECT_WH = 1.f;
+	const float Camera::ASPECT_WH = 1.333f;
 	const float Camera::NEAR_PLANE = 0.01f;
 	const float Camera::FAR_PLANE = 15.0f;
-	const float Camera::YAW = -90.0f;
+	const float Camera::YAW = 180.f;
 	const float Camera::PITCH = 0.0f;
 	const float Camera::FOV = 50.0f;
 
@@ -68,9 +68,14 @@ namespace YRender {
 		//								  [sin(yaw)cos(pitch)]
 		//上述表示方案是yaw从-PI/2开始的推导。
 
-		front.x = cos(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(pitch));
-		front.y = sin(YGM::Math::Radians(pitch));
-		front.z = sin(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(pitch));
+		front.x = -sin(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(-pitch));
+		front.y = sin(YGM::Math::Radians(-pitch));
+		front.z = -cos(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(-pitch));
+
+		//front.x = cos(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(pitch));
+		//front.y = sin(YGM::Math::Radians(pitch));
+		//front.z = sin(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(pitch));
+
 		front.SelfNormalize();
 		right = front.Cross(worldup).Normalize();  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 		up = right.Cross(front).Normalize();

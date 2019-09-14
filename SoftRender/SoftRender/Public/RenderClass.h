@@ -30,6 +30,8 @@ namespace YRender {
 		Camera MainCamera;
 		MeshData Mesh;
 		Mat4f NdcToScreen;
+		int32_t width;
+		int32_t height;
 	};
 }
 

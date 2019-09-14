@@ -30,12 +30,16 @@ namespace YRender {
 
 	private:
 		void DrawIndexed(const MeshData& mesh);
-		bool BackFaceCulling(const Vertex& v1, const Vertex& v2, const Vertex& v3);
+		bool BackFaceCulling(const Vector4& v1, const Vector4& v2, const Vector4& v3);
 		bool CVVClip(const Vector4& VertexPos);
 		void PerspecDivision(Vector4& ClipPos);
 		Vertex VertexShader(const Vertex& vertex);
 		void NDCToScreen(Vector4& NdcVertex);
 		void BresenhamDrawLine(int x1, int y1, int x2, int y2);
+
+
+		//π‚’§À„∑®
+		void HalfSpaceTriangle(const Vertex& v0,const Vertex& v1,const Vertex& v2);
 	};
 }
 

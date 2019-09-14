@@ -39,65 +39,19 @@ namespace YRender {
 				return false;
 			}
 
-			/*static void BresenhamDrawLine(int x1, int x2, int y1, int y2) {
-				int dx = x2 - x1;
-				int dy = y2 - y1;
-				int stepx = 1;
-				int stepy = 1;
-				if (dx >= 0)
-				{
-					stepx = 1;
-				}
-				else
-				{
-					stepx = -1;
-					dx = abs(dx);
-				}
-				if (dy >= 0)
-				{
-					stepy = 1;
-				}
-				else
-				{
-					stepy = -1;
-					dy = abs(dy);
-				}
+			template<typename T>
+			constexpr T Max(T lhs, T rhs) {
+				if (lhs >= rhs)
+					return lhs;
+				return rhs;
+			}
 
-				int deltaX = 2 * dx;
-				int deltaY = 2 * dy;
-				if (dx > dy)
-				{
-					int error = deltaY - dx;
-					for (int i = 0; i <= dx; ++i)
-					{
-						if (x1 >= 0 && x1 < _RenderDevice->GetWidth() && y1 >= 0 && y1 < _RenderDevice->GetHeight())
-							_RenderDevice->DrawPixel(x1, y1);
-						if (error >= 0)
-						{
-							error -= deltaX;
-							y1 += stepy;
-						}
-						error += deltaY;
-						x1 += stepx;
-					}
-				}
-				else
-				{
-					int error = deltaX - dy;
-					for (int i = 0; i <= dy; i++)
-					{
-						if (x1 >= 0 && x1 < _RenderDevice->GetWidth() && y1 >= 0 && y1 < _RenderDevice->GetHeight())
-							_RenderDevice->DrawPixel(x1, y1);
-						if (error >= 0)
-						{
-							error -= deltaY;
-							x1 += stepx;
-						}
-						error += deltaX;
-						y1 += stepy;
-					}
-				}
-			}*/
+			template<typename T>
+			constexpr T Min(T lhs,T rhs) {
+				if (lhs <= rhs)
+					return lhs;
+				return rhs;
+			}
 		}
 	}
 }

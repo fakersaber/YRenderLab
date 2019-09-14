@@ -7,7 +7,7 @@
 
 namespace YRender {
 	namespace YGM {
-		//opengl右手系，但在相机坐标里是左手系，但相机的向量在表示时使用的是世界坐标系表示
+		//opengl右手系，相机的向量在表示时使用的是世界坐标系表示
 		class Transform {
 		public:
 			Transform(float d) :Matrix(d) {}//InvMatrix(1.f/d){};

@@ -3,27 +3,12 @@
 namespace YRender {
 	namespace YGM {
 		const Transform Transform::LookAt(const Vector3& pos, const Vector3& target, const Vector3& up) {
-			// R
-			// [ right  ]
-			// [ camUp  ]
-			// [ -front ]
-			//
-			// T
-			// [ pos.x ]
-			// [ pos.y ]
-			// [ pos.z ]
-			//
-			// worldToCamera
-			// [ R^T -RT ]
-			// [ 0   1 ]
-			//
-			// cameraToWorld
-			// [ R   T ]
-			// [ 0   1 ]
 			Vector3 front = (target - pos).Normalize();
 			const Vector3 right = front.Cross(up).Normalize();
 			Vector3 camera_up = right.Cross(front);
 
+			//Pos_world = (matrix3x3)CameraToWorld * Pos_camera  + pos
+			//Pos_camera = (matrix3x3)WorldToCamera * Pos_World - (matrix3x3)WorldToCamera * pos;
 			Mat4f WorldToCamera;
 			WorldToCamera(0, 0) = right.x;
 			WorldToCamera(0, 1) = camera_up.x;
@@ -34,9 +19,10 @@ namespace YRender {
 			WorldToCamera(2, 0) = right.z;
 			WorldToCamera(2, 1) = camera_up.z;
 			WorldToCamera(2, 2) = -front.z;
-			WorldToCamera(0, 3) = -right.Dot(pos);
-			WorldToCamera(1, 3) = -camera_up.Dot(pos);
-			WorldToCamera(2, 3) = front.Dot(pos);
+			WorldToCamera(0, 3) = -(right.x * pos.x + camera_up.x * pos.y - front.x * pos.z);
+			WorldToCamera(1, 3) = -(right.y * pos.x + camera_up.y * pos.y - front.y * pos.z);
+			WorldToCamera(2, 3) = -(right.z * pos.x + camera_up.z * pos.y - front.z * pos.z);
+
 
 			Mat4f CameraToWorld;
 			CameraToWorld(0, 0) = right.x;
