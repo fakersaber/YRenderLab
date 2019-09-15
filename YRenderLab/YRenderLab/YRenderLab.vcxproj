@@ -21,10 +21,10 @@
   <ItemGroup>
     <ClInclude Include="Public\Camera.h" />
     <ClInclude Include="Public\GeometryGenerator.h" />
-    <ClInclude Include="Public\OpenGL\GLAD\glad\glad.h" />
-    <ClInclude Include="Public\OpenGL\GLAD\KHR\khrplatform.h" />
-    <ClInclude Include="Public\OpenGL\GLFW\glfw3.h" />
-    <ClInclude Include="Public\OpenGL\GLFW\glfw3native.h" />
+    <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
+    <ClInclude Include="Public\OpenGLRHI\GLAD\KHR\khrplatform.h" />
+    <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3.h" />
+    <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h" />
     <ClInclude Include="Public\RenderClass.h" />
     <ClInclude Include="Public\RenderDevice.h" />
     <ClInclude Include="Public\RenderWindow.h" />
@@ -46,7 +46,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Private\Camera.cpp" />
     <ClCompile Include="Private\GeometryGenerator.cpp" />
-    <ClCompile Include="Private\OpenGL\GLAD\glad.c" />
+    <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
     <ClCompile Include="Private\RenderClass.cpp" />
     <ClCompile Include="Private\RenderDevice.cpp" />
     <ClCompile Include="Private\RenderWindow.cpp" />
@@ -59,10 +59,11 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{D3B20445-204A-4D5D-B498-DEA4F16D0AFA}</ProjectGuid>
+    <ProjectGuid>{39E16715-2A97-4502-99EB-137EEC308B90}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SoftRender</RootNamespace>
+    <RootNamespace>YRenderLab</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>YRenderLab</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -120,8 +121,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGL\GLAD;$(ProjectDir)Public\OpenGL\GLFW;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Public\OpenGL\GLFW\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Public\OpenGLRHI\GLFW\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

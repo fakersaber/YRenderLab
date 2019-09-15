@@ -35,11 +35,6 @@ namespace YRender {
 		return true;
 	}
 
-
-
-
-
-
 	void YCore::Run() {
 		_RenderWindow->Run();
 	}
