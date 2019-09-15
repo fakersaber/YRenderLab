@@ -3,6 +3,8 @@ This is based cpu Render.
 
 
 ## todo
-- [ ] coordinate transformation
-- [ ] matrix caculation
-- [ ] scan line rasterization
+- [x] Coordinate Transformation
+- [x] Matrix Caculation
+- [x] Half Space Rasterization
+- [x] BackFace Culling 
+- [x] Homogeneous Culling
