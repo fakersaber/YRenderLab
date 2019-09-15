@@ -7,7 +7,7 @@ namespace YRender {
 	const float Camera::NEAR_PLANE = 0.01f;
 	const float Camera::FAR_PLANE = 15.0f;
 	const float Camera::YAW = 180.f;
-	const float Camera::PITCH = 0.0f;
+	const float Camera::PITCH = -45.0f;
 	const float Camera::FOV = 50.0f;
 
 	Camera::Camera(

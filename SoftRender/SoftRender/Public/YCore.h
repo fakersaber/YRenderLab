@@ -2,7 +2,7 @@
 #define _YRENDER_YCORE_H
 
 #include <Public/RenderWindow.h>
-
+#include <Public/SoftRHI/Win32Window.h>
 #include <Public/SoftRHI/SoftRHI.h>
 
 

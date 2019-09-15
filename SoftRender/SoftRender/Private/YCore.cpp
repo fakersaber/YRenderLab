@@ -13,11 +13,10 @@ namespace YRender {
 
 
 	YCore::YCore() {
-		this->_RenderWindow = RenderWindow::GetWindow();
 #ifdef SOFT_RENDER
-		this->_RenderClass = SoftRender::GetRender();
+		this->_RenderWindow = new Win32Window();
 #elif OPENGL_RENDER
-		this->_RenderClass = OpenGLRender::GetRender();
+		this->_RenderWindow = new GlfwWindow();
 #endif 
 	}
 
@@ -30,13 +29,9 @@ namespace YRender {
 		if (!_RenderWindow->Initial(width, height))
 		{
 			std::cout << "Create Window Failed" << std::endl;
+			delete _RenderWindow;
 			return false;
 		}
-
-		if (!_RenderClass->Initial(_RenderWindow->GetHwnd(), width, height))
-			return false;
-
-
 		return true;
 	}
 
@@ -46,20 +41,7 @@ namespace YRender {
 
 
 	void YCore::Run() {
-		MSG msg = { 0 };
-		while (msg.message != WM_QUIT)
-		{
-			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-			else
-			{
-				_RenderClass->Tick();
-				_RenderClass->Render();
-			}
-		}
+		_RenderWindow->Run();
 	}
 
 

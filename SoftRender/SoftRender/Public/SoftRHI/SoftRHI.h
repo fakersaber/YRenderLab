@@ -3,13 +3,13 @@
 
 
 #include <iostream>
-#include <Public/RenderDevice.h>
 #include <Public/GeometryGenerator.h>
 #include <Public/YGM/Matrix4.hpp>
 #include <Public/YGM/Transform.h>
 #include <Public/Camera.h>
 #include <Public/RenderClass.h>
 
+#include <Public/SoftRHI/GdiDevice.h>
 
 namespace YRender {
 	class SoftRender : public RenderClass
@@ -17,16 +17,14 @@ namespace YRender {
 	public:
 		SoftRender(const SoftRender& rhs) = delete;
 		SoftRender& operator=(const SoftRender& rhs) = delete;
-		static SoftRender* GetRender();
+		SoftRender() = delete;
+		explicit SoftRender(HWND hwnd);
+		virtual ~SoftRender();
 
 	public:
-		virtual bool Initial(HWND hwnd, const int width, const int height) override;
+		virtual bool Initial(const int width, const int height) override;
 		virtual void Tick() override;
 		virtual void Render() override;
-
-	private:
-		virtual ~SoftRender() override;
-		SoftRender();
 
 	private:
 		void DrawIndexed(const MeshData& mesh);
@@ -40,6 +38,8 @@ namespace YRender {
 
 		//π‚’§À„∑®
 		void HalfSpaceTriangle(const Vertex& v0,const Vertex& v1,const Vertex& v2);
+	private:
+		HWND hwnd;
 	};
 }
 

@@ -4,33 +4,27 @@
 #include <windows.h>
 #include <iostream>
 
-
+#include <Public/RenderClass.h>
 
 namespace YRender {
-
 	class RenderWindow {
 	public:
 		RenderWindow(const RenderWindow& rhs) = delete;
 		RenderWindow& operator=(const RenderWindow& rhs) = delete;
-		static RenderWindow* GetWindow();
 
 	public:
-		bool Initial(const int width, const int height);
-		
-		inline HWND GetHwnd() {
-			return this->hwnd;
-		}
-	private:
+		virtual bool Initial(const int width, const int height) = 0;
+		virtual void Run() = 0;
+
+	public:
 		RenderWindow();
-		~RenderWindow();
+		virtual ~RenderWindow();
 
-
-	private:
-		static LRESULT WINAPI WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-	private:
-		HWND hwnd;
+	protected:
+		RenderClass* _RenderClass;
 	};
+
+
 }
 
 

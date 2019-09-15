@@ -11,28 +11,21 @@ namespace YRender {
 	public:
 		RenderDevice& operator=(const RenderDevice& rhs) = delete;
 		RenderDevice(const RenderDevice& rhs) = delete;
-		static RenderDevice* GetDevice();
 
 	public:
-		bool Initial(HWND hwnd, const int width, const int height);
-		void DrawPixel(const int x,const int y);
-		void DrawFrameBuffer();
-		const int GetHeight() const { return width; }
-		const int GetWidth() const { return height; }
+		virtual bool Initial(const int width, const int height) = 0;
+		virtual const int GetHeight() const = 0;
+		virtual const int GetWidth() const = 0;
+		virtual void DrawFrameBuffer() = 0;
+		virtual void DrawPixel(const int x, const int y) = 0;
 
-	private:
+	public:
 		RenderDevice();
-		~RenderDevice();
+		virtual ~RenderDevice();
 
-	private:
-		uint32_t* FrameBuffer;
-		int width;
+	protected:
 		int height;
-		HDC BufferHdc;
-		HDC WindowHdc;
-		HBITMAP hBitmap;
-		HBITMAP hOldBitmap;
-		HWND hwnd;
+		int width;
 	};
 }
 

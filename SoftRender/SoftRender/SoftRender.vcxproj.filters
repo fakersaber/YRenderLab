@@ -25,6 +25,27 @@
     <Filter Include="Private\SoftRHI">
       <UniqueIdentifier>{13ff2e3f-a85f-4cc9-a1cd-00c5d275044c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Private\OpenGLRHI">
+      <UniqueIdentifier>{1e5ec773-bcc0-45e7-8cda-1e130cd5372d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\OpenGLRHI\GLAD">
+      <UniqueIdentifier>{15cf94d7-eebf-4cf8-8bc5-e4725d018f57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\OpenGLRHI">
+      <UniqueIdentifier>{80cedcc6-dc41-474e-a622-f24f079fd55f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\OpenGLRHI\GLAD">
+      <UniqueIdentifier>{81d2701b-c2e9-46a5-8b79-6d1c5ae315ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\OpenGLRHI\GLFW">
+      <UniqueIdentifier>{8a688eb4-4712-4480-892a-736a860457e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\OpenGLRHI\GLAD\glad">
+      <UniqueIdentifier>{d1126d9f-fb86-4c02-b94e-521f8986bb03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\OpenGLRHI\GLAD\KHR">
+      <UniqueIdentifier>{099da5be-0959-4960-8cb7-caefa013cd2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\GeometryGenerator.h">
@@ -75,6 +96,24 @@
     <ClInclude Include="Public\YGM\CGAlgorithm.hpp">
       <Filter>Public\YGM</Filter>
     </ClInclude>
+    <ClInclude Include="Public\OpenGL\GLFW\glfw3.h">
+      <Filter>Public\OpenGLRHI\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\OpenGL\GLFW\glfw3native.h">
+      <Filter>Public\OpenGLRHI\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\OpenGL\GLAD\KHR\khrplatform.h">
+      <Filter>Public\OpenGLRHI\GLAD\KHR</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\OpenGL\GLAD\glad\glad.h">
+      <Filter>Public\OpenGLRHI\GLAD\glad</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\SoftRHI\Win32Window.h">
+      <Filter>Public\SoftRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\SoftRHI\GdiDevice.h">
+      <Filter>Public\SoftRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -103,6 +142,15 @@
       <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="Private\SoftRHI\SoftRHI.cpp">
+      <Filter>Private\SoftRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\OpenGL\GLAD\glad.c">
+      <Filter>Private\OpenGLRHI\GLAD</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\SoftRHI\Win32Window.cpp">
+      <Filter>Private\SoftRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\SoftRHI\GdiDevice.cpp">
       <Filter>Private\SoftRHI</Filter>
     </ClCompile>
   </ItemGroup>

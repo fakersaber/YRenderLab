@@ -1,34 +1,34 @@
 #include <Public/SoftRHI/SoftRHI.h>
-#include <algorithm>
 
 namespace YRender {
 
 
-	SoftRender* SoftRender::GetRender() {
-		static SoftRender instance;
-		return &instance;
-	}
+	//SoftRender* SoftRender::GetRender() {
+	//	static SoftRender instance;
+	//	return &instance;
+	//}
 
-	SoftRender::SoftRender() {
-		_RenderDevice = RenderDevice::GetDevice();
-	}
+	SoftRender::SoftRender(HWND hwnd) : hwnd(hwnd) { }
 
-	SoftRender::~SoftRender() {
+	SoftRender::~SoftRender() { }
 
-	}
-
-	bool SoftRender::Initial(HWND hwnd, const int width, const int height) {
-		if (!_RenderDevice->Initial(hwnd, width, height))
+	bool SoftRender::Initial(const int width, const int height) {
+		_RenderDevice = new GdiDevice(hwnd);
+		if (!_RenderDevice->Initial(width, height))
 		{
 			std::cout << "Create Device Failed" << std::endl;
+			delete _RenderDevice;
 			return false;
 		}
+
+		//äÖÈ¾²ãµÄÊÓ¿Ú
 		this->width = width;
 		this->height = height;
 		this->NdcToScreen(0, 0) = (width - 1) * 0.5f;
 		this->NdcToScreen(0, 3) = (width - 1)  * 0.5f;
 		this->NdcToScreen(1, 1) = (height - 1) * 0.5f;
 		this->NdcToScreen(1, 3) = (height - 1) * 0.5f;
+
 		GeometryGenerator::CreateBox(this->Mesh);
 		return true;
 	}
@@ -125,8 +125,8 @@ namespace YRender {
 			int p = deltaY - dx; //2¦¤y - ¦¤x
 			for (int i = 0; i <= dx; ++i)
 			{
-				if (x1 >= 0 && x1 < this->width && y1 >= 0 && y1 < this->height)
-					_RenderDevice->DrawPixel(x1, y1);
+				//if (x1 >= 0 && x1 < this->width && y1 >= 0 && y1 < this->height)
+				_RenderDevice->DrawPixel(x1, y1);
 				if (p >= 0)
 				{
 					p -= deltaX; //pi>0  pi+1 = pi + 2¦¤y - 2¦¤x
@@ -141,8 +141,8 @@ namespace YRender {
 			int p = deltaX - dy;//2¦¤x - ¦¤y
 			for (int i = 0; i <= dy; i++)
 			{
-				if (x1 >= 0 && x1 < this->width && y1 >= 0 && y1 < this->height)
-					_RenderDevice->DrawPixel(x1, y1);
+				//if (x1 >= 0 && x1 < this->width && y1 >= 0 && y1 < this->height)
+				_RenderDevice->DrawPixel(x1, y1);
 				if (p >= 0)
 				{
 					p -= deltaY;

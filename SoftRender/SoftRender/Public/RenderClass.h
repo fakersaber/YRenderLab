@@ -13,17 +13,17 @@ namespace YRender {
 	class RenderClass 
 	{
 	public:
-		virtual bool Initial(HWND hwnd, const int width, const int height) = 0;
-		virtual void Tick() = 0;
-		virtual void Render() = 0;
-
-	private:
 		RenderClass(const RenderClass& rhs) = delete;
 		RenderClass& operator=(const RenderClass& rhs) = delete;
 
-	protected:
-		virtual ~RenderClass();
+	public:
+		virtual bool Initial(const int width, const int height) = 0;
+		virtual void Tick() = 0;
+		virtual void Render() = 0;
+
+	public:
 		RenderClass();
+		virtual ~RenderClass();
 
 	protected:
 		RenderDevice* _RenderDevice;

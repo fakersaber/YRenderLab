@@ -21,10 +21,16 @@
   <ItemGroup>
     <ClInclude Include="Public\Camera.h" />
     <ClInclude Include="Public\GeometryGenerator.h" />
+    <ClInclude Include="Public\OpenGL\GLAD\glad\glad.h" />
+    <ClInclude Include="Public\OpenGL\GLAD\KHR\khrplatform.h" />
+    <ClInclude Include="Public\OpenGL\GLFW\glfw3.h" />
+    <ClInclude Include="Public\OpenGL\GLFW\glfw3native.h" />
     <ClInclude Include="Public\RenderClass.h" />
     <ClInclude Include="Public\RenderDevice.h" />
     <ClInclude Include="Public\RenderWindow.h" />
+    <ClInclude Include="Public\SoftRHI\GdiDevice.h" />
     <ClInclude Include="Public\SoftRHI\SoftRHI.h" />
+    <ClInclude Include="Public\SoftRHI\Win32Window.h" />
     <ClInclude Include="Public\Vertex.h" />
     <ClInclude Include="Public\YCore.h" />
     <ClInclude Include="Public\YGM\CGAlgorithm.hpp" />
@@ -40,10 +46,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Private\Camera.cpp" />
     <ClCompile Include="Private\GeometryGenerator.cpp" />
+    <ClCompile Include="Private\OpenGL\GLAD\glad.c" />
     <ClCompile Include="Private\RenderClass.cpp" />
     <ClCompile Include="Private\RenderDevice.cpp" />
     <ClCompile Include="Private\RenderWindow.cpp" />
+    <ClCompile Include="Private\SoftRHI\GdiDevice.cpp" />
     <ClCompile Include="Private\SoftRHI\SoftRHI.cpp" />
+    <ClCompile Include="Private\SoftRHI\Win32Window.cpp" />
     <ClCompile Include="Private\Vertex.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
@@ -111,7 +120,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGL\GLAD;$(ProjectDir)Public\OpenGL\GLFW;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Public\OpenGL\GLFW\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -179,6 +189,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OpenGL32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
