@@ -3,6 +3,8 @@
 
 #include <Public/RenderDevice.h>
 
+#include <windows.h>
+
 namespace YRender {
 	class GdiDevice : public RenderDevice
 	{

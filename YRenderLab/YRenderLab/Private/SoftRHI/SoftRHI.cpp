@@ -218,8 +218,6 @@ namespace YRender {
 			return (p1.x - p0.x)*(p2.y - p0.y) - (p2.x - p0.x)*(p1.y - p0.y);
 		};
 
-
-
 		//计算三角形的包围盒
 		Vector2i MinXY, MaxXY;
 		Vector2i ScreenPos0(v0.Position.x, v0.Position.y);

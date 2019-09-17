@@ -5,6 +5,7 @@
 #include <Public/RenderWindow.h>
 #include <Public/SoftRHI/SoftRHI.h>
 
+#include <windows.h>
 namespace YRender {
 	class Win32Window : public RenderWindow
 	{

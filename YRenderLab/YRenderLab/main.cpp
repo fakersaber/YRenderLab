@@ -1,9 +1,9 @@
 ﻿#include <Public/YCore.h>
 
-#include <glad/glad.h>
-#include <glfw3.h>
 
-
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 //void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -14,6 +14,9 @@
 
 
 int main() {
+	//Assimp::Importer importer;
+	//const aiScene *scene = importer.ReadFile("test", aiProcess_Triangulate | aiProcess_FlipUVs);
+
 	//glfwInit();
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

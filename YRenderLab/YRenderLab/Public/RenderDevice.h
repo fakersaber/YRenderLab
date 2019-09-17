@@ -1,7 +1,6 @@
 ﻿#ifndef _YRENDER_RENDERDEVICE_H
 #define _YRENDER_RENDERDEVICE_H
 
-#include <windows.h>
 #include <iostream>
 
 

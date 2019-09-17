@@ -1,7 +1,6 @@
 ﻿#ifndef _YRENDER_WINDOWTOOL_H
 #define _YRENDER_WINDOWTOOL_H
 
-#include <windows.h>
 #include <iostream>
 
 #include <Public/RenderClass.h>

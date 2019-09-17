@@ -19,6 +19,43 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Public\3rdPart\assimp\ai_assert.h" />
+    <ClInclude Include="Public\3rdPart\assimp\anim.h" />
+    <ClInclude Include="Public\3rdPart\assimp\camera.h" />
+    <ClInclude Include="Public\3rdPart\assimp\cexport.h" />
+    <ClInclude Include="Public\3rdPart\assimp\cfileio.h" />
+    <ClInclude Include="Public\3rdPart\assimp\cimport.h" />
+    <ClInclude Include="Public\3rdPart\assimp\color4.h" />
+    <ClInclude Include="Public\3rdPart\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="Public\3rdPart\assimp\Compiler\pstdint.h" />
+    <ClInclude Include="Public\3rdPart\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="Public\3rdPart\assimp\config.h" />
+    <ClInclude Include="Public\3rdPart\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\defs.h" />
+    <ClInclude Include="Public\3rdPart\assimp\Exporter.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\Importer.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\importerdesc.h" />
+    <ClInclude Include="Public\3rdPart\assimp\IOStream.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\IOSystem.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\light.h" />
+    <ClInclude Include="Public\3rdPart\assimp\Logger.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\LogStream.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\material.h" />
+    <ClInclude Include="Public\3rdPart\assimp\matrix3x3.h" />
+    <ClInclude Include="Public\3rdPart\assimp\matrix4x4.h" />
+    <ClInclude Include="Public\3rdPart\assimp\mesh.h" />
+    <ClInclude Include="Public\3rdPart\assimp\metadata.h" />
+    <ClInclude Include="Public\3rdPart\assimp\NullLogger.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\port\AndroidJNI\AndroidJNIIOSystem.h" />
+    <ClInclude Include="Public\3rdPart\assimp\postprocess.h" />
+    <ClInclude Include="Public\3rdPart\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="Public\3rdPart\assimp\quaternion.h" />
+    <ClInclude Include="Public\3rdPart\assimp\scene.h" />
+    <ClInclude Include="Public\3rdPart\assimp\texture.h" />
+    <ClInclude Include="Public\3rdPart\assimp\types.h" />
+    <ClInclude Include="Public\3rdPart\assimp\vector2.h" />
+    <ClInclude Include="Public\3rdPart\assimp\vector3.h" />
+    <ClInclude Include="Public\3rdPart\assimp\version.h" />
     <ClInclude Include="Public\Camera.h" />
     <ClInclude Include="Public\GeometryGenerator.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
@@ -56,6 +93,16 @@
     <ClCompile Include="Private\Vertex.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Public\3rdPart\assimp\.editorconfig" />
+    <None Include="Public\3rdPart\assimp\color4.inl" />
+    <None Include="Public\3rdPart\assimp\material.inl" />
+    <None Include="Public\3rdPart\assimp\matrix3x3.inl" />
+    <None Include="Public\3rdPart\assimp\matrix4x4.inl" />
+    <None Include="Public\3rdPart\assimp\quaternion.inl" />
+    <None Include="Public\3rdPart\assimp\vector2.inl" />
+    <None Include="Public\3rdPart\assimp\vector3.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -121,8 +168,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Public\OpenGLRHI\GLFW\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(ProjectDir)Public\3rdPart;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Public\3rdPart\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -184,13 +231,14 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glfw3.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

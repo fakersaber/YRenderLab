@@ -8,7 +8,6 @@
 #include <Public/YGM/Transform.h>
 #include <Public/Camera.h>
 #include <Public/RenderClass.h>
-
 #include <Public/SoftRHI/GdiDevice.h>
 
 namespace YRender {
