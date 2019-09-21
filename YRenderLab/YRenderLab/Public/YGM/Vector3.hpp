@@ -2,7 +2,6 @@
 #define _YRENDER_YGM_VECTOR3_HPP_
 
 #include <Public/YGM/Vector.hpp>
-#include <Public/YGM/Vector.hpp>
 
 namespace YRender {
 	namespace YGM {

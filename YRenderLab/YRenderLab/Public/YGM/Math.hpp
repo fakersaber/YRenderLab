@@ -6,7 +6,8 @@
 namespace YRender {
 	namespace YGM {
 		namespace Math {
-			constexpr float EPSILON = 1e-6f;
+			//smallest such that 1.0f + FLT_EPSILON !=1.0f
+			constexpr float EPSILON = 1.192092896e-07f;
 			constexpr float PI = 3.14159265358979323f;
 
 			inline float Radians(const float degree) {
@@ -18,7 +19,7 @@ namespace YRender {
 			}
 
 			template<typename T>
-			constexpr T ToVal(T orig, T val, T bound = static_cast<T>(0.000001)) {
+			constexpr T ToVal(T orig, T val, T bound = static_cast<T>(EPSILON)) {
 				const auto delta = orig - val;
 				if (delta < bound && delta > -bound)
 					return val;
@@ -27,7 +28,7 @@ namespace YRender {
 			}
 
 			template<typename T>
-			constexpr T ToZero(T orig, T bound = static_cast<T>(0.000001)) {
+			constexpr T ToZero(T orig, T bound = static_cast<T>(EPSILON)) {
 				return ToVal(orig, static_cast<T>(0), bound);
 			}
 

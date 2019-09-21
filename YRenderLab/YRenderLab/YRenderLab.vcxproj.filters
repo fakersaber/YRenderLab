@@ -55,6 +55,21 @@
     <Filter Include="Public\3rdPart\assimp\port\AndroidJNI">
       <UniqueIdentifier>{9b2cb39c-4747-433f-aff1-37ffea9d9387}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Private\Basic">
+      <UniqueIdentifier>{4dfe8cc7-7fe2-4d79-b261-edfe55cf6612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Basic\Image">
+      <UniqueIdentifier>{7732dcb1-c11d-49a8-8f88-e6ad88821e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Basic">
+      <UniqueIdentifier>{628de5ec-869c-4a16-8283-846923f1f747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Basic\Image">
+      <UniqueIdentifier>{47d8ac32-7c32-4b54-a60b-8913a7bbc888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\YGM\Base">
+      <UniqueIdentifier>{4bf87b17-8dd1-465c-9dbf-7abb6e81b4ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Camera.h">
@@ -234,6 +249,36 @@
     <ClInclude Include="Public\3rdPart\assimp\Compiler\pushpack1.h">
       <Filter>Public\3rdPart\assimp\Compiler</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\Image\stb_image.h">
+      <Filter>Public\Basic\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\Image\stb_image_write.h">
+      <Filter>Public\Basic\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\Image\Image.h">
+      <Filter>Public\Basic\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\RGBA.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Base\Val.hpp">
+      <Filter>Public\YGM\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Base\Val3.hpp">
+      <Filter>Public\YGM\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Base\Val4.hpp">
+      <Filter>Public\YGM\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Base\Basic_Val3.hpp">
+      <Filter>Public\YGM\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Base\Basic_Val.hpp">
+      <Filter>Public\YGM\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Base\Val2.hpp">
+      <Filter>Public\YGM\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\Camera.cpp">
@@ -273,6 +318,9 @@
       <Filter>Private\SoftRHI</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Private\Image\Image.cpp">
+      <Filter>Private\Basic\Image</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Public\3rdPart\assimp\.editorconfig">

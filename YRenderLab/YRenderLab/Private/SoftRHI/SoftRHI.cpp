@@ -214,29 +214,40 @@ namespace YRender {
 
 	void SoftRender::HalfSpaceTriangle(const Vertex& v0, const Vertex& v1, const Vertex& v2) {
 		//叉积值大于0，右手大拇指方向指向人
-		auto preCross = [](const Vector2i& p0, const Vector2i& p1, const Vector2i& p2) ->int {
+		auto preCross = [](const Vector2& p0, const Vector2& p1, const Vector2& p2) ->float {
 			return (p1.x - p0.x)*(p2.y - p0.y) - (p2.x - p0.x)*(p1.y - p0.y);
 		};
 
 		//计算三角形的包围盒
 		Vector2i MinXY, MaxXY;
-		Vector2i ScreenPos0(v0.Position.x, v0.Position.y);
-		Vector2i ScreenPos1(v1.Position.x, v1.Position.y);
-		Vector2i ScreenPos2(v2.Position.x, v2.Position.y);
+		Vector2 ScreenPos0(v0.Position.x, v0.Position.y);
+		Vector2 ScreenPos1(v1.Position.x, v1.Position.y);
+		Vector2 ScreenPos2(v2.Position.x, v2.Position.y);
 
-		MinXY.x = YGM::Math::Max(YGM::Math::Min(YGM::Math::Min(ScreenPos0.x, ScreenPos1.x), ScreenPos2.x), 0);
-		MinXY.y = YGM::Math::Max(YGM::Math::Min(YGM::Math::Min(ScreenPos0.y, ScreenPos1.y), ScreenPos2.y), 0);
-		MaxXY.x = YGM::Math::Min(YGM::Math::Max(YGM::Math::Max(ScreenPos0.x, ScreenPos1.x), ScreenPos2.x), this->width - 1);
-		MaxXY.y = YGM::Math::Min(YGM::Math::Max(YGM::Math::Max(ScreenPos0.y, ScreenPos1.y), ScreenPos2.y), this->height - 1);
+		//顶点不为一个三角形
+		float area = preCross(ScreenPos0, ScreenPos1, ScreenPos2);
+		if (YGM::Math::Equal(area, 0.f)) {
+			return;
+		}
+		
+		MinXY.x = YGM::Math::Max(YGM::Math::Min(YGM::Math::Min(static_cast<int>(ScreenPos0.x), static_cast<int>(ScreenPos1.x)), static_cast<int>(ScreenPos2.x)), 0);
+		MinXY.y = YGM::Math::Max(YGM::Math::Min(YGM::Math::Min(static_cast<int>(ScreenPos0.y), static_cast<int>(ScreenPos1.y)), static_cast<int>(ScreenPos2.y)), 0);
+		MaxXY.x = YGM::Math::Min(YGM::Math::Max(YGM::Math::Max(static_cast<int>(ScreenPos0.x), static_cast<int>(ScreenPos1.x)), static_cast<int>(ScreenPos2.x)), this->width - 1);
+		MaxXY.y = YGM::Math::Min(YGM::Math::Max(YGM::Math::Max(static_cast<int>(ScreenPos0.y), static_cast<int>(ScreenPos1.y)), static_cast<int>(ScreenPos2.y)), this->height - 1);
 
-		for (int i = MinXY.x; i < MaxXY.x; ++i) {
-			for (int j = MinXY.y; j < MaxXY.y; ++j) {
-				Vector2i CurPoint(i, j);
-				auto e1 = preCross(ScreenPos0, ScreenPos1, CurPoint);
-				auto e2 = preCross(ScreenPos1, ScreenPos2, CurPoint);
-				auto e3 = preCross(ScreenPos2, ScreenPos0, CurPoint);
+		for (int i = MinXY.x; i <= MaxXY.x; ++i) {
+			for (int j = MinXY.y; j <= MaxXY.y; ++j) {
+				Vector2 CurPoint(i, j);
+				//若为顺时针这里area计算出的area会小于0
+				auto e1 = preCross(ScreenPos0, ScreenPos1, CurPoint) / area;
+				auto e2 = preCross(ScreenPos1, ScreenPos2, CurPoint) / area;
+				auto e3 = preCross(ScreenPos2, ScreenPos0, CurPoint) / area;
 
-				if (e1 > 0 && e2 > 0 && e3 > 0) {
+				if (e1 >= 0.f && e2 >= 0.f && e3 >= 0.f) {
+					/*
+						
+					*/
+
 					_RenderDevice->DrawPixel(i, j);
 				}
 			}

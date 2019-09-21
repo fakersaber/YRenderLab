@@ -13,11 +13,11 @@ namespace YRender {
 
 
 	YCore::YCore() {
-#ifdef SOFT_RENDER
-		this->_RenderWindow = new Win32Window();
-#elif OPENGL_RENDER
-		this->_RenderWindow = new GlfwWindow();
-#endif 
+		#ifdef SOFT_RENDER
+			this->_RenderWindow = new Win32Window();
+		#elif OPENGL_RENDER
+			this->_RenderWindow = new GlfwWindow();
+		#endif 
 	}
 
 	YCore::~YCore() {

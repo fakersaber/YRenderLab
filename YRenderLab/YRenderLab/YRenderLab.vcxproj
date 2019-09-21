@@ -56,6 +56,9 @@
     <ClInclude Include="Public\3rdPart\assimp\vector2.h" />
     <ClInclude Include="Public\3rdPart\assimp\vector3.h" />
     <ClInclude Include="Public\3rdPart\assimp\version.h" />
+    <ClInclude Include="Public\Basic\Image\Image.h" />
+    <ClInclude Include="Public\Basic\Image\stb_image.h" />
+    <ClInclude Include="Public\Basic\Image\stb_image_write.h" />
     <ClInclude Include="Public\Camera.h" />
     <ClInclude Include="Public\GeometryGenerator.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
@@ -70,9 +73,16 @@
     <ClInclude Include="Public\SoftRHI\Win32Window.h" />
     <ClInclude Include="Public\Vertex.h" />
     <ClInclude Include="Public\YCore.h" />
+    <ClInclude Include="Public\YGM\Base\Basic_Val.hpp" />
+    <ClInclude Include="Public\YGM\Base\Basic_Val3.hpp" />
+    <ClInclude Include="Public\YGM\Base\Val.hpp" />
+    <ClInclude Include="Public\YGM\Base\Val2.hpp" />
+    <ClInclude Include="Public\YGM\Base\Val3.hpp" />
+    <ClInclude Include="Public\YGM\Base\Val4.hpp" />
     <ClInclude Include="Public\YGM\CGAlgorithm.hpp" />
     <ClInclude Include="Public\YGM\Math.hpp" />
     <ClInclude Include="Public\YGM\Matrix4.hpp" />
+    <ClInclude Include="Public\YGM\RGBA.hpp" />
     <ClInclude Include="Public\YGM\Transform.h" />
     <ClInclude Include="Public\YGM\Vector.hpp" />
     <ClInclude Include="Public\YGM\Vector2.hpp" />
@@ -83,6 +93,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Private\Camera.cpp" />
     <ClCompile Include="Private\GeometryGenerator.cpp" />
+    <ClCompile Include="Private\Image\Image.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
     <ClCompile Include="Private\RenderClass.cpp" />
     <ClCompile Include="Private\RenderDevice.cpp" />
