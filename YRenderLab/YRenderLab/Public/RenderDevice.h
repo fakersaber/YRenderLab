@@ -2,7 +2,7 @@
 #define _YRENDER_RENDERDEVICE_H
 
 #include <iostream>
-
+#include <Public/YGM/RGBA.hpp>
 
 
 namespace YRender {
@@ -16,6 +16,7 @@ namespace YRender {
 		virtual const int GetHeight() const = 0;
 		virtual const int GetWidth() const = 0;
 		virtual void DrawFrameBuffer() = 0;
+		virtual void DrawPixel(const int x, const int y, const RGBAf& color) = 0;
 		virtual void DrawPixel(const int x, const int y) = 0;
 
 	public:

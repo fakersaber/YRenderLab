@@ -29,7 +29,12 @@ namespace YRender {
 		this->NdcToScreen(1, 1) = (height - 1) * 0.5f;
 		this->NdcToScreen(1, 3) = (height - 1) * 0.5f;
 
+
+
+		//test code
+		this->texture.Load("C:\\Users\\Administrator\\Desktop\\first.png");
 		GeometryGenerator::CreateBox(this->Mesh);
+
 		return true;
 	}
 
@@ -244,11 +249,7 @@ namespace YRender {
 				auto e3 = preCross(ScreenPos2, ScreenPos0, CurPoint) / area;
 
 				if (e1 >= 0.f && e2 >= 0.f && e3 >= 0.f) {
-					/*
-						
-					*/
-
-					_RenderDevice->DrawPixel(i, j);
+					_RenderDevice->DrawPixel(i, j, texture.GetPixel(i, j));
 				}
 			}
 		}

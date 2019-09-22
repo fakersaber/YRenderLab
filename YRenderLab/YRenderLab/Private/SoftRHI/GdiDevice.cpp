@@ -53,4 +53,8 @@ namespace YRender {
 	void GdiDevice::DrawPixel(const int x, const int y) {
 		FrameBuffer[y * width + x] = 0xfffffful;
 	}
+
+	void GdiDevice::DrawPixel(const int x, const int y, const RGBAf& color) {
+		FrameBuffer[y * width + x] = color.RBGA2UINT();
+	}
 }

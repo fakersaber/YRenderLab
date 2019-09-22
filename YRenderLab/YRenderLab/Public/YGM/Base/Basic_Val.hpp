@@ -6,6 +6,9 @@ namespace YRender {
 		template <int N, typename T, typename ImplT>
 		class Basic_Val;
 	}
+
+
+
 }
 
 

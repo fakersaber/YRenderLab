@@ -1,9 +1,11 @@
 ﻿#include <Public/YCore.h>
 
+#include <Public/Basic/Image/Image.h>
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+
+//#include <assimp/Importer.hpp>
+//#include <assimp/scene.h>
+//#include <assimp/postprocess.h>
 
 //void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -38,7 +40,11 @@ int main() {
 	//	return -1;
 	//}
 	//glViewport(0, 0, 800, 600);
-	
+
+	//YRender::Image a("C:\\Users\\Administrator\\Desktop\\first.png");
+	//YRender::RGBAf result = a.SampleNearest(0.5f,0.5f);
+	//auto test = result.RBGA2UINT();
+
 	auto YEngine = YRender::YCore::GetCore();
 	if (YEngine->Initial(800, 600)) {
 		YEngine->Run();

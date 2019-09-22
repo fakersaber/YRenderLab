@@ -1,17 +1,20 @@
 #ifndef _YRENDER_YGM_BASE_VAL_H
 #define _YRENDER_YGM_BASE_VAL_H
 
+#include <Public/YGM/Math.hpp>
+#include <cassert>
+#include <iostream>
+
 namespace YRender {
 	namespace YGM {
-
 		template <unsigned N,typename T>
 		class Val;
 	}
 
-	template <int N, typename T>
-	using Val = YGM::Val<N, T>;
+	//template <int N, typename T>
+	//using Val = YGM::Val<N, T>;
 
-	//using Val1f = Val<1, float, ImplT>;
+	//using Val1f = Val<1, float>;
 	//using Val1i = Val<1, int>;
 	//using Val1 = Val1f;
 

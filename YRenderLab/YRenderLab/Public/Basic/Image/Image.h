@@ -2,8 +2,11 @@
 #define _YRENDER_BASIC_IMAGE_IMAGE_H
 
 #include <string>
+#include <Public/YGM/RGBA.hpp>
 
 namespace YRender {
+
+	//opengl是从左下，但stb图片是左上
 	class Image {
 	public:
 		Image();
@@ -15,11 +18,14 @@ namespace YRender {
 		virtual ~Image();
 
 	private:
-		bool Load(const std::string& path, bool flip = false);
+		float At(int x, int y, int channel) const;
+		void Free() const;
+
 
 	public:
-
-
+		bool Load(const std::string& path, bool flip = false);
+		const RGBAf SampleNearest(float u, float v) const;
+		const RGBAf GetPixel(int x, int y) const;
 
 
 	private:

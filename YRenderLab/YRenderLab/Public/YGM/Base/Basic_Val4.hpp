@@ -1,7 +1,7 @@
-#ifndef _YRENDER_YGM_BASE_BASIC_VAL_3_H
-#define _YRENDER_YGM_BASE_BASIC_VAL_3_H
+#ifndef _YRENDER_YGM_BASE_BASIC_VAL_4_H
+#define _YRENDER_YGM_BASE_BASIC_VAL_4_H
 
-#include <Public/YGM/Base/Val3.hpp>
+#include <Public/YGM/Base/Val4.hpp>
 #include <Public/YGM/Base/Basic_Val.hpp>
 //
 //#include <CppUtil/Basic/Math.h>
@@ -11,9 +11,9 @@
 namespace YRender {
 	namespace YGM {
 		template <typename T, typename ImplT>
-		class Basic_Val<3, T, ImplT> : public Val<3, T> {
+		class Basic_Val<4, T, ImplT> : public Val<4, T> {
 		public:
-			using Val<3, T>::Val;
+			using Val<4, T>::Val;
 
 
 

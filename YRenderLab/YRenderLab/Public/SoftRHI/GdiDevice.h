@@ -2,6 +2,7 @@
 #define _YRENDER_SOFTRHI_GDIDEVICE_H
 
 #include <Public/RenderDevice.h>
+#include <Public/Basic/Image/Image.h>
 
 #include <windows.h>
 
@@ -18,6 +19,7 @@ namespace YRender {
 	public:
 		virtual bool Initial(const int width, const int height) override;
 		virtual void DrawPixel(const int x, const int y) override;
+		virtual void DrawPixel(const int x, const int y, const RGBAf& color) override;
 		virtual void DrawFrameBuffer() override;
 		virtual const int GetWidth() const override { return this->width; }
 		virtual const int GetHeight() const override { return this->height; }

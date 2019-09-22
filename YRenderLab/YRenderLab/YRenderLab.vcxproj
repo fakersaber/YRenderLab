@@ -75,6 +75,7 @@
     <ClInclude Include="Public\YCore.h" />
     <ClInclude Include="Public\YGM\Base\Basic_Val.hpp" />
     <ClInclude Include="Public\YGM\Base\Basic_Val3.hpp" />
+    <ClInclude Include="Public\YGM\Base\Basic_Val4.hpp" />
     <ClInclude Include="Public\YGM\Base\Val.hpp" />
     <ClInclude Include="Public\YGM\Base\Val2.hpp" />
     <ClInclude Include="Public\YGM\Base\Val3.hpp" />

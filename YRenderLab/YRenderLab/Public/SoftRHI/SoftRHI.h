@@ -4,9 +4,12 @@
 
 #include <iostream>
 #include <Public/GeometryGenerator.h>
+
 #include <Public/YGM/Matrix4.hpp>
 #include <Public/YGM/Transform.h>
 #include <Public/Camera.h>
+#include <Public/Basic/Image/Image.h>
+
 #include <Public/RenderClass.h>
 #include <Public/SoftRHI/GdiDevice.h>
 
@@ -39,6 +42,9 @@ namespace YRender {
 		void HalfSpaceTriangle(const Vertex& v0,const Vertex& v1,const Vertex& v2);
 	private:
 		HWND hwnd;
+
+		//test image
+		Image texture;
 	};
 }
 

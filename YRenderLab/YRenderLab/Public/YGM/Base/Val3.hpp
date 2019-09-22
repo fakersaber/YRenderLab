@@ -3,8 +3,6 @@
 
 
 #include <Public/YGM/Base/Val.hpp>
-#include <cassert>
-#include <iostream>
 
 
 
@@ -14,6 +12,7 @@ namespace YRender {
 		class Val<3, T> {
 		private:
 			using value_type = T;
+			static constexpr int valNum = 3;
 
 		public:
 			template<typename U, typename V, typename W>
@@ -46,7 +45,9 @@ namespace YRender {
 			Val() : Val(0) { }
 
 			template<typename U, int N, typename = std::enable_if_t<std::is_convertible_v<U, T>>>
-			Val(U (&arr)[N] ) : Val(arr[0], arr[1], arr[2]) { assert(N >= valNum); }
+			Val(U(&arr)[N]){
+				std::memcpy(_data, arr, sizeof(U) * N);
+			}
 
 			template<typename U, typename V>
 			Val(const Val<2, U> & xy, V z) : Val(xy.x, xy.y, z) { }
@@ -60,6 +61,26 @@ namespace YRender {
 			template<typename U>
 			Val(const Val<4, U> & val4) : Val(val4.x, val4.y, val4.z) { }
 
+		public:
+			const T& operator[](int i) const { assert(i >= 0 && i < valNum); return _data[i]; }
+			T& operator[](int i) { assert(i >= 0 && i < valNum); return _data[i]; }
+
+			bool operator==(const Val& rhs) const {
+				return Math::Equal(x, rhs.x) && Math::Equal(y, rhs.y) && Math::Equal(z, rhs.z);
+			}
+
+			bool operator!=(const Val& rhs) const {
+				return !Math::Equal(x, rhs.x) || !Math::Equal(y, rhs.y) || !Math::Equal(z, rhs.z);
+			}
+
+			Val & operator=(const Val& rhs) {
+				x = rhs.x;
+				y = rhs.y;
+				z = rhs.z;
+				return *this;
+			}
+		public:
+			bool HasNaN() const { return std::isnan<double>(x) || std::isnan<double>(y) || std::isnan<double>(z); }
 
 		public:
 			union
