@@ -1,5 +1,5 @@
 # YRenderLab
-This is based cpu Render.
+Personal rendering pipline
 ## todo
 ### SoftRHI
 - [x] Coordinate Transformation
@@ -7,8 +7,9 @@ This is based cpu Render.
 - [x] Half Space Rasterization
 - [x] BackFace Culling 
 - [x] Homogeneous Culling
+- [x] Texture Mapping
 - [ ] Barycentric Interpolation
-- [ ] Texture Mapping
+
 ### OpenGL
  
 ## 架构
