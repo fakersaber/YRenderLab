@@ -53,6 +53,10 @@ namespace YRender {
 				return *this;
 			}
 
+			const Vector operator*(value_type rhs)
+			{
+				return Vector(x * rhs, y * rhs, z * rhs);
+			}
 
 			const Vector Cross(const Vector& rhs) const {
 				return Vector::Cross(*this, rhs);
@@ -72,7 +76,7 @@ namespace YRender {
 				return Vector(x / InnerValue, y / InnerValue, z / InnerValue);
 			}
 
-			void SelfNormalize(){
+			void SelfNormalize() {
 				value_type InnerValue = sqrt(x * x + y * y + z * z);
 				if (Math::Equal(InnerValue, 0.0f)) {
 					x = 0.f;

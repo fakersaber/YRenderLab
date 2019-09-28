@@ -14,7 +14,7 @@ namespace YRender {
 
 	YCore::YCore() {
 		#ifdef SOFT_RENDER
-			this->_RenderWindow = new Win32Window();
+			this->_RenderWindow = Win32Window::GetGetInstance();
 		#elif OPENGL_RENDER
 			this->_RenderWindow = new GlfwWindow();
 		#endif 
@@ -29,7 +29,6 @@ namespace YRender {
 		if (!_RenderWindow->Initial(width, height))
 		{
 			std::cout << "Create Window Failed" << std::endl;
-			delete _RenderWindow;
 			return false;
 		}
 		return true;

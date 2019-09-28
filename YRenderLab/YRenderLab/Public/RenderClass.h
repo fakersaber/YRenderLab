@@ -3,10 +3,11 @@
 
 #include <iostream>
 #include <Public/RenderDevice.h>
-#include <Public/GeometryGenerator.h>
+#include <Public/Basic/Mesh/GeometryGenerator.h>
+#include <Public/Basic/Camera/Camera.h>
 #include <Public/YGM/Matrix4.hpp>
 #include <Public/YGM/Transform.h>
-#include <Public/Camera.h>
+
 
 
 namespace YRender {
@@ -24,6 +25,11 @@ namespace YRender {
 	public:
 		RenderClass();
 		virtual ~RenderClass();
+
+		Camera& GetCamera(){
+			return this->MainCamera;
+		};
+
 
 	protected:
 		RenderDevice* _RenderDevice;

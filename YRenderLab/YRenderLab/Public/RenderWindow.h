@@ -15,11 +15,11 @@ namespace YRender {
 		virtual bool Initial(const int width, const int height) = 0;
 		virtual void Run() = 0;
 
-	public:
+	protected:
 		RenderWindow();
 		virtual ~RenderWindow();
 
-	protected:
+	public:
 		RenderClass* _RenderClass;
 	};
 

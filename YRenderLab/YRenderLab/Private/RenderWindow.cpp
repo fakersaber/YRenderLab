@@ -3,7 +3,6 @@
 
 
 namespace YRender {
-	void* FrameBuffer = nullptr;
 
 	//RenderWindow* RenderWindow::GetWindow()
 	//{

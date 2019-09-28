@@ -1,4 +1,4 @@
-#include <Public/Camera.h>
+#include <Public/Basic/Camera/Camera.h>
 
 
 
@@ -6,7 +6,7 @@ namespace YRender {
 	const float Camera::ASPECT_WH = 1.333f;
 	const float Camera::NEAR_PLANE = 0.01f;
 	const float Camera::FAR_PLANE = 15.0f;
-	const float Camera::YAW = 45.f;
+	const float Camera::YAW = 0.f;
 	const float Camera::PITCH = 0.0f;
 	const float Camera::FOV = 50.0f;
 
@@ -18,7 +18,7 @@ namespace YRender {
 		float nearPlane,
 		float farPlane,
 		const Vector3& up,
-		Project_Type projectionMode
+		ENUM_ProjectType projectionMode
 	)
 		: 
 		position(pos),
@@ -31,7 +31,7 @@ namespace YRender {
 		project_mode(projectionMode),
 		fov(FOV)
 	{
-		Camera::updateCameraVectors();
+		Camera::updateCameraVectors();	
 	}
 
 
@@ -79,5 +79,22 @@ namespace YRender {
 		front.SelfNormalize();
 		right = front.Cross(worldup).Normalize();  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 		up = right.Cross(front).Normalize();
+	}
+
+
+	void Camera::ProcessKeyboard(ENUM_Movement direction){
+		float velocity = 0.02f;
+		if (direction == ENUM_Movement::MOVE_FORWARD)
+			position += front * velocity;
+		if (direction == ENUM_Movement::MOVE_BACKWARD)
+			position -= front * velocity;
+		if (direction == ENUM_Movement::MOVE_LEFT)
+			position -= right * velocity;
+		if (direction == ENUM_Movement::MOVE_RIGHT)
+			position += right * velocity;
+		if (direction == ENUM_Movement::MOVE_UP)
+			position += up * velocity;
+		if (direction == ENUM_Movement::MOVE_DOWN)
+			position -= up * velocity;
 	}
 }

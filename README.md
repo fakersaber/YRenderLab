@@ -8,9 +8,25 @@ Personal rendering pipline
 - [x] BackFace Culling 
 - [x] Homogeneous Culling
 - [x] Texture Mapping
-- [ ] Barycentric Interpolation
+- [x] Barycentric Interpolation
+- [ ] Camera controller
+- [ ] module loading
 
 ### OpenGL
- 
+- [ ] Architecture Build 
+
+
+### Path Tracer
+- [ ] Cpu implement
+- [ ] Gpu implement
+
 ## 架构
-RenderWindow负责创建RenderClass,RenderClass再创建RenderDevice
+
+### WindowBaseClass
+- Win32window
+
+### RenderBaseClass
+- SoftRHI
+
+### RenderDeviveBaseClass
+- GdiDevice

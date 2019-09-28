@@ -2,7 +2,7 @@
 #define _YRENDER_GEOMETRYGENERATOR_H
 
 #include <vector>
-#include <Public/Vertex.h>
+#include <Public/Basic/Vertex/Vertex.h>
 
 
 

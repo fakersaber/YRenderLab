@@ -1,8 +1,20 @@
-#include <Public/SoftRHI/Win32Window.h>
+ï»¿#include <Public/SoftRHI/Win32Window.h>
 #include <thread>
 
 
 namespace YRender {
+	enum Win32KeyBoard
+	{
+		W = 0x57,
+		A = 0x41,
+		S = 0x53,
+		D = 0x44
+	};
+
+	Win32Window* Win32Window::GetGetInstance() {
+		static Win32Window instance;
+		return &instance;
+	}
 
 	Win32Window::Win32Window() {}
 
@@ -29,6 +41,7 @@ namespace YRender {
 		if (!hwnd)
 			return false;
 		ShowWindow(hwnd, SW_SHOW);
+
 		this->_RenderClass = new SoftRender(hwnd);
 		if (!_RenderClass->Initial(width, height)) {
 			delete _RenderClass;
@@ -39,6 +52,8 @@ namespace YRender {
 
 	void Win32Window::Run() {
 		MSG msg = { 0 };
+		//std::chrono::time_point<std::chrono::high_resolution_clock> begin;
+		//int64_t deltaTime = 0;
 		while (msg.message != WM_QUIT)
 		{
 			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -48,10 +63,12 @@ namespace YRender {
 			}
 			else
 			{
+				//begin = std::chrono::high_resolution_clock::now();
 				_RenderClass->Tick();
 				_RenderClass->Render();
+				//deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - begin).count();
 			}
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			//std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 	}
 
@@ -63,10 +80,19 @@ namespace YRender {
 			PostQuitMessage(0);
 			break;
 		}
-						 //½ûÖ¹±³¾°²Á³ý,µ«ÊÇÕâÑù²»»áÇå³ýÏà¹Ø»æÖÆÇøÓò
-		case WM_ERASEBKGND:
-			return true;
 
+		//ç¦æ­¢èƒŒæ™¯æ“¦é™¤,ä½†æ˜¯è¿™æ ·ä¸ä¼šæ¸…é™¤ç›¸å…³ç»˜åˆ¶åŒºåŸŸ
+		//case WM_ERASEBKGND:
+		//	return true;
+
+		case WM_KEYDOWN:
+			switch (wParam)
+			{
+			case Win32KeyBoard::W:
+				Win32Window::GetGetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD);
+				break;
+			}
+			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}

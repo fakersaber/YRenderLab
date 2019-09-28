@@ -55,12 +55,6 @@
     <Filter Include="Public\3rdPart\assimp\port\AndroidJNI">
       <UniqueIdentifier>{9b2cb39c-4747-433f-aff1-37ffea9d9387}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Private\Basic">
-      <UniqueIdentifier>{4dfe8cc7-7fe2-4d79-b261-edfe55cf6612}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Private\Basic\Image">
-      <UniqueIdentifier>{7732dcb1-c11d-49a8-8f88-e6ad88821e3b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Public\Basic">
       <UniqueIdentifier>{628de5ec-869c-4a16-8283-846923f1f747}</UniqueIdentifier>
     </Filter>
@@ -70,14 +64,32 @@
     <Filter Include="Public\YGM\Base">
       <UniqueIdentifier>{4bf87b17-8dd1-465c-9dbf-7abb6e81b4ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Private\Basic">
+      <UniqueIdentifier>{4d16b6cf-f6d4-4e2e-8c2e-a740b2833508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Basic\Image">
+      <UniqueIdentifier>{f8cad4e5-1862-480e-bd90-71fe0177d765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Basic\Camera">
+      <UniqueIdentifier>{b52e1103-e473-4c89-8eda-8bb3c02477b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Basic\Camera">
+      <UniqueIdentifier>{34352d31-4cec-4ab7-b068-8bf882c4cf47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Basic\Mesh">
+      <UniqueIdentifier>{e9a4ec64-ed16-43aa-9b5a-35ac5f5561cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Basic\Mesh">
+      <UniqueIdentifier>{c7e66b0c-9c1f-4e96-b445-c4b177ebad9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Basic\Vertex">
+      <UniqueIdentifier>{c27633aa-2f5d-49ec-9420-b4f34a23ca05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Basic\Vertex">
+      <UniqueIdentifier>{e5e1aa65-3c69-4480-9858-5dd77989b67f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Public\Camera.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\GeometryGenerator.h">
-      <Filter>Public</Filter>
-    </ClInclude>
     <ClInclude Include="Public\RenderClass.h">
       <Filter>Public</Filter>
     </ClInclude>
@@ -85,9 +97,6 @@
       <Filter>Public</Filter>
     </ClInclude>
     <ClInclude Include="Public\RenderWindow.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\Vertex.h">
       <Filter>Public</Filter>
     </ClInclude>
     <ClInclude Include="Public\YCore.h">
@@ -282,14 +291,17 @@
     <ClInclude Include="Public\YGM\Base\Basic_Val4.hpp">
       <Filter>Public\YGM\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\Camera\Camera.h">
+      <Filter>Public\Basic\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\Mesh\GeometryGenerator.h">
+      <Filter>Public\Basic\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\Vertex\Vertex.h">
+      <Filter>Public\Basic\Vertex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Private\Camera.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\GeometryGenerator.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
     <ClCompile Include="Private\RenderClass.cpp">
       <Filter>Private</Filter>
     </ClCompile>
@@ -297,9 +309,6 @@
       <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="Private\RenderWindow.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\Vertex.cpp">
       <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="Private\YCore.cpp">
@@ -321,8 +330,17 @@
       <Filter>Private\SoftRHI</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Private\Image\Image.cpp">
+    <ClCompile Include="Private\Basic\Image\Image.cpp">
       <Filter>Private\Basic\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\Camera\Camera.cpp">
+      <Filter>Private\Basic\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\Mesh\GeometryGenerator.cpp">
+      <Filter>Private\Basic\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\Vertex\Vertex.cpp">
+      <Filter>Private\Basic\Vertex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

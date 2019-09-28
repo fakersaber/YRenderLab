@@ -6,32 +6,41 @@
 namespace YRender {
 	class Camera {
 	public:
-		enum Project_Type {
+		enum class ENUM_ProjectType : uint8_t {
 			Orthogonal = 1,
 			Perspective = 2
 		};
 
+		enum class ENUM_Movement : uint8_t {
+			MOVE_FORWARD,
+			MOVE_BACKWARD,
+			MOVE_LEFT,
+			MOVE_RIGHT,
+			MOVE_UP,
+			MOVE_DOWN
+		};
+
 	public:
 		Camera(
-			const Vector3& pos = Vector3(-4.f, 0.f, 4.f),
+			const Vector3& pos = Vector3(0.f, 0.f, 4.f),
 			float yaw = Camera::YAW,
 			float pitch = Camera::PITCH,
 			float aspect = Camera::ASPECT_WH,
 			float nearPlane = Camera::NEAR_PLANE,
 			float farPlane = Camera::FAR_PLANE,
 			const Vector3& up = Vector3(0.f, 1.f, 0.f),
-			Project_Type projectionMode = Project_Type::Perspective
+			ENUM_ProjectType projectionMode = ENUM_ProjectType::Perspective
 		);
 
 	public:
 		Mat4f GetViewMatrix() const { return YGM::Transform::LookAt(position, position + front, up).GetMatrix(); }
 		Mat4f GetProjectMatrix() const { return YGM::Transform::Perspective(fov, aspect_wh, nearPlane, farPlane).GetMatrix(); }
 		void SetCameraPose(const Vector3& pos, float yaw, float pitch);
-		Project_Type GetCameraMode() { return project_mode; }
+		ENUM_ProjectType GetCameraMode() { return project_mode; }
 		const Vector3& GetCameraPos() const { return position; }
-
-	private:
+		void ProcessKeyboard(ENUM_Movement event);
 		void updateCameraVectors();
+		
 
 	private:
 		Vector3 position;
@@ -45,7 +54,7 @@ namespace YRender {
 		float aspect_wh;
 		float nearPlane;
 		float farPlane;
-		Project_Type project_mode;
+		ENUM_ProjectType project_mode;
 
 		// Default camera values
 		static const float ASPECT_WH;

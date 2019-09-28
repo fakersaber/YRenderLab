@@ -50,8 +50,9 @@ namespace YRender {
 		BitBlt(WindowHdc, 0, 0, this->width, this->height, this->BufferHdc, 0, 0, SRCCOPY);
 	}
 
-	void GdiDevice::DrawPixel(const int x, const int y) {
-		FrameBuffer[y * width + x] = 0xfffffful;
+
+	void GdiDevice::ClearFrameBuffer() {
+		memset(FrameBuffer, 0x0, sizeof(uint32_t) * width * height);
 	}
 
 	void GdiDevice::DrawPixel(const int x, const int y, const RGBAf& color) {
