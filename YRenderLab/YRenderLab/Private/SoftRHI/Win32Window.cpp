@@ -1,5 +1,5 @@
 #include <Public/SoftRHI/Win32Window.h>
-
+#include <thread>
 
 
 namespace YRender {
@@ -51,6 +51,7 @@ namespace YRender {
 				_RenderClass->Tick();
 				_RenderClass->Render();
 			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 	}
 

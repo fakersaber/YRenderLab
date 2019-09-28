@@ -14,12 +14,12 @@ namespace YRender {
 		~Vertex();
 
 		Vertex(Vector4& position, Vector3& normal)
-			: Position(position), Normal(normal)
+			: Position(position), Normal(normal), PosH(0.f)
 		{}
 
 
 		Vertex(Vector4& position, Vector3& normal, Vector3& tangent, Vector3& Color, Vector2& uv)
-			:Position(position), Normal(normal), Tangent(tangent), Color(Color), UV(uv)
+			:Position(position), Normal(normal), Tangent(tangent), Color(Color), UV(uv), PosH(0.f)
 		{}
 
 		Vector4 Position;
@@ -27,6 +27,7 @@ namespace YRender {
 		Vector3 Tangent;
 		Vector3 Color;
 		Vector2 UV;
+		float PosH;
 	};
 }
 

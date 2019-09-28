@@ -88,6 +88,8 @@ namespace YRender {
 	Vertex SoftRender::VertexShader(const Vertex& vertex) {
 		Vertex Out;
 		Out.Position = MainCamera.GetProjectMatrix() * MainCamera.GetViewMatrix() * vertex.Position;
+		Out.PosH = 1.f / Out.Position.z;
+		Out.UV = vertex.UV;
 		return Out;
 	}
 
@@ -222,19 +224,15 @@ namespace YRender {
 		auto preCross = [](const Vector2& p0, const Vector2& p1, const Vector2& p2) ->float {
 			return (p1.x - p0.x)*(p2.y - p0.y) - (p2.x - p0.x)*(p1.y - p0.y);
 		};
-
 		//计算三角形的包围盒
 		Vector2i MinXY, MaxXY;
 		Vector2 ScreenPos0(v0.Position.x, v0.Position.y);
 		Vector2 ScreenPos1(v1.Position.x, v1.Position.y);
 		Vector2 ScreenPos2(v2.Position.x, v2.Position.y);
-
-		//顶点不为一个三角形
 		float area = preCross(ScreenPos0, ScreenPos1, ScreenPos2);
 		if (YGM::Math::Equal(area, 0.f)) {
 			return;
 		}
-		
 		MinXY.x = YGM::Math::Max(YGM::Math::Min(YGM::Math::Min(static_cast<int>(ScreenPos0.x), static_cast<int>(ScreenPos1.x)), static_cast<int>(ScreenPos2.x)), 0);
 		MinXY.y = YGM::Math::Max(YGM::Math::Min(YGM::Math::Min(static_cast<int>(ScreenPos0.y), static_cast<int>(ScreenPos1.y)), static_cast<int>(ScreenPos2.y)), 0);
 		MaxXY.x = YGM::Math::Min(YGM::Math::Max(YGM::Math::Max(static_cast<int>(ScreenPos0.x), static_cast<int>(ScreenPos1.x)), static_cast<int>(ScreenPos2.x)), this->width - 1);
@@ -243,13 +241,20 @@ namespace YRender {
 		for (int i = MinXY.x; i <= MaxXY.x; ++i) {
 			for (int j = MinXY.y; j <= MaxXY.y; ++j) {
 				Vector2 CurPoint(i, j);
-				//若为顺时针这里area计算出的area会小于0
-				auto e1 = preCross(ScreenPos0, ScreenPos1, CurPoint) / area;
-				auto e2 = preCross(ScreenPos1, ScreenPos2, CurPoint) / area;
-				auto e3 = preCross(ScreenPos2, ScreenPos0, CurPoint) / area;
+				//若为顺时针计算出的area会小于0，所以值总是大于0的
 
-				if (e1 >= 0.f && e2 >= 0.f && e3 >= 0.f) {
-					_RenderDevice->DrawPixel(i, j, texture.GetPixel(i, j));
+				//注意每一块面积对应的顶点，这里我们认为指向人的方向为正，所以方向是逆时针，边对应的顶点表示对应顶点的插值系数
+				auto e2 = preCross(ScreenPos0, ScreenPos1, CurPoint) / area;
+				auto e0 = preCross(ScreenPos1, ScreenPos2, CurPoint) / area;
+				auto e1 = preCross(ScreenPos2, ScreenPos0, CurPoint) / area;
+
+				if (e0 >= 0.f && e1 >= 0.f && e2 >= 0.f) {
+					//首先求当前点的z倒数： z = 1/(e1/z1 + e2/z2 + e3/z3);
+					//求对应u坐标：
+					float CurDepth = 1.f / (e0 * v0.PosH + e1 * v1.PosH + e2 * v2.PosH);
+					float u = (v0.UV.u * v0.PosH * e0 + v1.UV.u * v1.PosH * e1 + v2.UV.u * v2.PosH * e2) * CurDepth;
+					float v = (v0.UV.v * v0.PosH * e0 + v1.UV.v * v1.PosH * e1 + v2.UV.v * v2.PosH * e2) * CurDepth;
+					_RenderDevice->DrawPixel(i, j, texture.SampleNearest(u, 1.f - v));
 				}
 			}
 		}

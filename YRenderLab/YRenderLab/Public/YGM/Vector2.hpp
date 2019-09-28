@@ -37,8 +37,8 @@ namespace YRender {
 			{
 				value_type _data[3];
 				struct {
-					union { value_type x, r, s; };
-					union { value_type y, g, t; };
+					union { value_type x, r, s, u; };
+					union { value_type y, g, t, v; };
 				};
 			};
 		};
