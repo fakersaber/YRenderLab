@@ -60,7 +60,7 @@ namespace YRender {
 		//返回false代表不剔除，true代表剔除
 		Vector2 EdgVec0(v2.x - v1.x, v2.y - v1.y);
 		Vector2 EdgVec1(v3.x - v1.x, v3.y - v1.y);
-		if (EdgVec0.x * EdgVec1.y - EdgVec0.y * EdgVec1.x > 0.f)
+		if (EdgVec0.x * EdgVec1.y - EdgVec0.y * EdgVec1.x >= 0.f)
 			return false;
 		return true;
 	}

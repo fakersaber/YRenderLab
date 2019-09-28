@@ -69,7 +69,7 @@ namespace YRender {
 		//上述表示方案是yaw从-PI/2开始的推导。
 
 		front.x = -sin(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(-pitch));
-		front.y = sin(YGM::Math::Radians(-pitch));
+		front.y = sin(YGM::Math::Radians(pitch));
 		front.z = -cos(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(-pitch));
 
 		//front.x = cos(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(pitch));

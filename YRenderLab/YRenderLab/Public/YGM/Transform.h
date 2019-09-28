@@ -25,9 +25,9 @@ namespace YRender {
 				return Matrix;
 			};
 
-			//const Mat4f& GetInvMatrix() const {
-			//	return InvMatrix;
-			//}
+			const Mat4f& GetInvMatrix() const {
+				return InvMatrix;
+			}
 
 		private:
 			Mat4f Matrix;

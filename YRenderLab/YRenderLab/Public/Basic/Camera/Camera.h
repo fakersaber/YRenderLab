@@ -22,7 +22,7 @@ namespace YRender {
 
 	public:
 		Camera(
-			const Vector3& pos = Vector3(0.f, 0.f, 4.f),
+			const Vector3& pos = Vector3(1.f, 0.f, 4.f),
 			float yaw = Camera::YAW,
 			float pitch = Camera::PITCH,
 			float aspect = Camera::ASPECT_WH,
@@ -34,6 +34,7 @@ namespace YRender {
 
 	public:
 		Mat4f GetViewMatrix() const { return YGM::Transform::LookAt(position, position + front, up).GetMatrix(); }
+		Mat4f GetInvViewMatrix() const { return YGM::Transform::LookAt(position, position + front, up).GetInvMatrix(); }
 		Mat4f GetProjectMatrix() const { return YGM::Transform::Perspective(fov, aspect_wh, nearPlane, farPlane).GetMatrix(); }
 		void SetCameraPose(const Vector3& pos, float yaw, float pitch);
 		ENUM_ProjectType GetCameraMode() { return project_mode; }
