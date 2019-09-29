@@ -16,7 +16,7 @@ namespace YRender {
 	public:
 		virtual bool Initial(const int width, const int height) override;
 		virtual void Run() override;
-		static Win32Window* GetGetInstance();
+		static Win32Window* GetInstance();
 
 	private:
 		static LRESULT WINAPI WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

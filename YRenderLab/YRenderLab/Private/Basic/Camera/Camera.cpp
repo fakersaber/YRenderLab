@@ -6,7 +6,7 @@ namespace YRender {
 	const float Camera::ASPECT_WH = 1.333f;
 	const float Camera::NEAR_PLANE = 0.01f;
 	const float Camera::FAR_PLANE = 15.0f;
-	const float Camera::YAW = 0.f;
+	const float Camera::YAW = 0.f;  //Clockwise rotation is the nagative direction
 	const float Camera::PITCH = 0.0f;
 	const float Camera::FOV = 50.0f;
 
@@ -83,18 +83,26 @@ namespace YRender {
 
 
 	void Camera::ProcessKeyboard(ENUM_Movement direction){
-		float velocity = 0.02f;
-		if (direction == ENUM_Movement::MOVE_FORWARD)
+		float velocity = 0.02f;  //ready change for deltaTime
+		switch (direction) {
+		case ENUM_Movement::MOVE_FORWARD:
 			position += front * velocity;
-		if (direction == ENUM_Movement::MOVE_BACKWARD)
+			break;
+		case ENUM_Movement::MOVE_BACKWARD:
 			position -= front * velocity;
-		if (direction == ENUM_Movement::MOVE_LEFT)
+			break;
+		case ENUM_Movement::MOVE_LEFT:
 			position -= right * velocity;
-		if (direction == ENUM_Movement::MOVE_RIGHT)
+			break;
+		case ENUM_Movement::MOVE_RIGHT:
 			position += right * velocity;
-		if (direction == ENUM_Movement::MOVE_UP)
+			break;
+		case ENUM_Movement::MOVE_UP:
 			position += up * velocity;
-		if (direction == ENUM_Movement::MOVE_DOWN)
+			break;
+		case ENUM_Movement::MOVE_DOWN:
 			position -= up * velocity;
+			break;
+		}
 	}
 }

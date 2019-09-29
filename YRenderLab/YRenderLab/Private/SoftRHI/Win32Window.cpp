@@ -8,10 +8,12 @@ namespace YRender {
 		W = 0x57,
 		A = 0x41,
 		S = 0x53,
-		D = 0x44
+		D = 0x44,
+		Q = 0x51,
+		E = 0x45
 	};
 
-	Win32Window* Win32Window::GetGetInstance() {
+	Win32Window* Win32Window::GetInstance() {
 		static Win32Window instance;
 		return &instance;
 	}
@@ -68,7 +70,7 @@ namespace YRender {
 				_RenderClass->Render();
 				//deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - begin).count();
 			}
-			//std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 	}
 
@@ -89,7 +91,22 @@ namespace YRender {
 			switch (wParam)
 			{
 			case Win32KeyBoard::W:
-				Win32Window::GetGetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD);
+				Win32Window::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD);
+				break;
+			case Win32KeyBoard::S:
+				Win32Window::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD);
+				break;
+			case Win32KeyBoard::A:
+				Win32Window::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT);
+				break;
+			case Win32KeyBoard::D:
+				Win32Window::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT);
+				break;
+			case Win32KeyBoard::Q:
+				Win32Window::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_UP);
+				break;
+			case Win32KeyBoard::E:
+				Win32Window::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_DOWN);
 				break;
 			}
 			break;

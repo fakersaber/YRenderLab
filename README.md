@@ -9,7 +9,7 @@ Personal rendering pipline
 - [x] Homogeneous Culling
 - [x] Texture Mapping
 - [x] Barycentric Interpolation
-- [ ] Camera controller
+- [x] Camera controller
 - [ ] module loading
 
 ### OpenGL

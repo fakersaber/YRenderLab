@@ -17,7 +17,7 @@ namespace YRender {
 		virtual const int GetWidth() const = 0;
 		virtual void DrawFrameBuffer() = 0;
 		virtual void ClearFrameBuffer() = 0;
-		virtual void DrawPixel(const int x, const int y, const RGBAf& color) = 0;
+		virtual void DrawPixel(const int x, const int y, const RGBAf& color = RGBAf(0.f)) = 0;
 
 	public:
 		RenderDevice();

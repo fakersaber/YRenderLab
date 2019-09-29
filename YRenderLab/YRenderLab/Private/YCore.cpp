@@ -14,7 +14,7 @@ namespace YRender {
 
 	YCore::YCore() {
 		#ifdef SOFT_RENDER
-			this->_RenderWindow = Win32Window::GetGetInstance();
+			this->_RenderWindow = Win32Window::GetInstance();
 		#elif OPENGL_RENDER
 			this->_RenderWindow = new GlfwWindow();
 		#endif 

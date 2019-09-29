@@ -103,63 +103,63 @@ namespace YRender {
 	//bresenham画线
 	void SoftRender::BresenhamDrawLine(int x1, int y1, int x2, int y2)
 	{
-		//int dx = x2 - x1;
-		//int dy = y2 - y1;
-		//int stepx = 1;
-		//int stepy = 1;
-		//if (dx >= 0)
-		//{
-		//	stepx = 1;
-		//}
-		//else
-		//{
-		//	stepx = -1;
-		//	dx = abs(dx);
-		//}
-		//if (dy >= 0)
-		//{
-		//	stepy = 1;
-		//}
-		//else
-		//{
-		//	stepy = -1;
-		//	dy = abs(dy);
-		//}
+		int dx = x2 - x1;
+		int dy = y2 - y1;
+		int stepx = 1;
+		int stepy = 1;
+		if (dx >= 0)
+		{
+			stepx = 1;
+		}
+		else
+		{
+			stepx = -1;
+			dx = abs(dx);
+		}
+		if (dy >= 0)
+		{
+			stepy = 1;
+		}
+		else
+		{
+			stepy = -1;
+			dy = abs(dy);
+		}
 
-		//int deltaX = 2 * dx;
-		//int deltaY = 2 * dy;
-		//if (dx > dy)
-		//{
-		//	int p = deltaY - dx; //2Δy - Δx
-		//	for (int i = 0; i <= dx; ++i)
-		//	{
-		//		//if (x1 >= 0 && x1 < this->width && y1 >= 0 && y1 < this->height)
-		//		_RenderDevice->DrawPixel(x1, y1);
-		//		if (p >= 0)
-		//		{
-		//			p -= deltaX; //pi>0  pi+1 = pi + 2Δy - 2Δx
-		//			y1 += stepy;
-		//		}
-		//		p += deltaY;
-		//		x1 += stepx;
-		//	}
-		//}
-		//else
-		//{
-		//	int p = deltaX - dy;//2Δx - Δy
-		//	for (int i = 0; i <= dy; i++)
-		//	{
-		//		//if (x1 >= 0 && x1 < this->width && y1 >= 0 && y1 < this->height)
-		//		_RenderDevice->DrawPixel(x1, y1);
-		//		if (p >= 0)
-		//		{
-		//			p -= deltaY;
-		//			x1 += stepx;
-		//		}
-		//		p += deltaX;
-		//		y1 += stepy;
-		//	}
-		//}
+		int deltaX = 2 * dx;
+		int deltaY = 2 * dy;
+		if (dx > dy)
+		{
+			int p = deltaY - dx; //2Δy - Δx
+			for (int i = 0; i <= dx; ++i)
+			{
+				//if (x1 >= 0 && x1 < this->width && y1 >= 0 && y1 < this->height)
+				_RenderDevice->DrawPixel(x1, y1);
+				if (p >= 0)
+				{
+					p -= deltaX; //pi>0  pi+1 = pi + 2Δy - 2Δx
+					y1 += stepy;
+				}
+				p += deltaY;
+				x1 += stepx;
+			}
+		}
+		else
+		{
+			int p = deltaX - dy;//2Δx - Δy
+			for (int i = 0; i <= dy; i++)
+			{
+				//if (x1 >= 0 && x1 < this->width && y1 >= 0 && y1 < this->height)
+				_RenderDevice->DrawPixel(x1, y1);
+				if (p >= 0)
+				{
+					p -= deltaY;
+					x1 += stepx;
+				}
+				p += deltaX;
+				y1 += stepy;
+			}
+		}
 	}
 
 
@@ -243,7 +243,6 @@ namespace YRender {
 			for (int j = MinXY.y; j <= MaxXY.y; ++j) {
 				Vector2 CurPoint(i, j);
 				//若为顺时针计算出的area会小于0，所以值总是大于0的
-
 				//注意每一块面积对应的顶点，这里我们认为指向人的方向为正，所以方向是逆时针，边对应的顶点表示对应顶点的插值系数
 				auto e2 = preCross(ScreenPos0, ScreenPos1, CurPoint) / area;
 				auto e0 = preCross(ScreenPos1, ScreenPos2, CurPoint) / area;
@@ -251,10 +250,12 @@ namespace YRender {
 
 				if (e0 >= 0.f && e1 >= 0.f && e2 >= 0.f) {
 					//首先求当前点的z倒数： z = 1/(e1/z1 + e2/z2 + e3/z3);
-					//求对应u坐标：
-					float CurDepth = 1.f / (e0 * v0.PosH + e1 * v1.PosH + e2 * v2.PosH);
-					float u = (v0.UV.u * v0.PosH * e0 + v1.UV.u * v1.PosH * e1 + v2.UV.u * v2.PosH * e2) * CurDepth;
-					float v = (v0.UV.v * v0.PosH * e0 + v1.UV.v * v1.PosH * e1 + v2.UV.v * v2.PosH * e2) * CurDepth;
+					float Cache0 = e0 * v0.PosH;
+					float Cache1 = e1 * v1.PosH;
+					float Cache2 = e2 * v2.PosH;
+					float CurDepth = 1.f / (Cache0 + Cache1 + Cache2);
+					float u = (v0.UV.u * Cache0 + v1.UV.u * Cache1 + v2.UV.u * Cache2) * CurDepth;
+					float v = (v0.UV.v * Cache0 + v1.UV.v * Cache1 + v2.UV.v * Cache2) * CurDepth;
 					_RenderDevice->DrawPixel(i, j, texture.SampleNearest(u, 1.f - v));
 				}
 			}
