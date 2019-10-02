@@ -73,12 +73,21 @@ namespace YRender {
 				return !Math::Equal(x, rhs.x) || !Math::Equal(y, rhs.y) || !Math::Equal(z, rhs.z);
 			}
 
-			Val & operator=(const Val& rhs) {
+			Val& operator=(const Val& rhs) {
 				x = rhs.x;
 				y = rhs.y;
 				z = rhs.z;
 				return *this;
 			}
+
+			Val operator*(value_type rhs) const{
+				return Val(x * rhs, y * rhs, z*rhs);
+			}
+
+			Val operator+(const Val& rhs) const {
+				return Val(x + rhs.x, y + rhs.y, z + rhs.z);
+			}
+
 		public:
 			bool HasNaN() const { return std::isnan<double>(x) || std::isnan<double>(y) || std::isnan<double>(z); }
 

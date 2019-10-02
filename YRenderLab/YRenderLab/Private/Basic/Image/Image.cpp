@@ -14,10 +14,20 @@ namespace YRender {
 
 
 	Image::Image(const std::string& path, bool flip)
-		:data(nullptr) 
+		: data(nullptr)
 	{
 		Load(path, flip);
 	}
+
+	Image::Image(Image && img) {
+		width = img.width;
+		height = img.height;
+		channel = img.channel;
+		data = img.data;
+
+		img.data = nullptr;
+	}
+
 
 	Image::~Image() {
 		delete data;
@@ -29,7 +39,6 @@ namespace YRender {
 		stbi_set_flip_vertically_on_load(flip);
 		auto fdata = stbi_load(path.c_str(), &width, &height, &channel, 0);
 		if (!fdata) {
-			//data = nullptr;
 			return false;
 		}
 		const int byteSize = width * height * channel;
@@ -52,25 +61,43 @@ namespace YRender {
 		return GetPixel(xi, yi);
 	}
 
+
 	const RGBAf Image::GetPixel(int x, int y) const {
 		RGBAf rgba(0, 0, 0, 1);
 		std::memcpy(rgba._data, &data[(y * width + x) * this->channel], sizeof(float) * channel);
-		//for (int i = 0; i < channel; i++)
-		//	rgba[i] = At(x, y, i);
 		return rgba;
 	}
 
-	float Image::At(int x, int y, int index) const {
-		//assert(index < this->channel);
-		//return data[(y*width + x) * this->channel + index];
+	bool Image::SaveToPNG(const std::string& fileName, bool flip) {
+		if (!IsValid())
+			return false;
+		stbi_flip_vertically_on_write(flip);
+		uint8_t* Todata = new uint8_t[width * height * channel];
+		for (int i = 0; i < width * height * channel; ++i) {
+			Todata[i] = static_cast<uint8_t>(data[i] * 255.f);
+		}
+		auto result = stbi_write_png(fileName.c_str(), width, height, channel, Todata, width * channel);
+		delete Todata;
+		return result;
 	}
 
+	bool Image::IsValid() const {
+		return width != 0 && height != 0 && channel != 0 && data != nullptr;
+	}
 
-	void Image::Free() const {
+	void Image::Free() {
 		delete data;
-		int width = 0;
-		int height = 0;
-		int channel = 0;
+		data = nullptr;
+		width = 0;
+		height = 0;
+		channel = 0;
 	}
 
+
+
+	void Image::OutPng(const char* fineName, int width, int height, int channel, void* data_ptr) {
+		if (width != 0 && height != 0 && channel != 0 && data_ptr != nullptr) {
+			stbi_write_png(fineName, width, height, channel, data_ptr, width * channel);
+		}
+	}
 }

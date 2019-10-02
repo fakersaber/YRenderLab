@@ -244,15 +244,15 @@ namespace YRender {
 				Vector2 CurPoint(i, j);
 				//若为顺时针计算出的area会小于0，所以值总是大于0的
 				//注意每一块面积对应的顶点，这里我们认为指向人的方向为正，所以方向是逆时针，边对应的顶点表示对应顶点的插值系数
-				auto e2 = preCross(ScreenPos0, ScreenPos1, CurPoint) / area;
-				auto e0 = preCross(ScreenPos1, ScreenPos2, CurPoint) / area;
-				auto e1 = preCross(ScreenPos2, ScreenPos0, CurPoint) / area;
+				auto e2 = preCross(ScreenPos0, ScreenPos1, CurPoint);
+				auto e0 = preCross(ScreenPos1, ScreenPos2, CurPoint);
+				auto e1 = preCross(ScreenPos2, ScreenPos0, CurPoint);
 
 				if (e0 >= 0.f && e1 >= 0.f && e2 >= 0.f) {
 					//首先求当前点的z倒数： z = 1/(e1/z1 + e2/z2 + e3/z3);
-					float Cache0 = e0 * v0.PosH;
-					float Cache1 = e1 * v1.PosH;
-					float Cache2 = e2 * v2.PosH;
+					float Cache0 = e0 * v0.PosH / area;
+					float Cache1 = e1 * v1.PosH / area;
+					float Cache2 = e2 * v2.PosH / area;
 					float CurDepth = 1.f / (Cache0 + Cache1 + Cache2);
 					float u = (v0.UV.u * Cache0 + v1.UV.u * Cache1 + v2.UV.u * Cache2) * CurDepth;
 					float v = (v0.UV.v * Cache0 + v1.UV.v * Cache1 + v2.UV.v * Cache2) * CurDepth;

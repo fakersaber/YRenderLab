@@ -22,6 +22,7 @@ namespace YRender {
 	using Vector3f = Vector<3, float>;
 	using Vector3 = Vector3f;
 
+
 	using Vector4i = Vector<4, int>;
 	using Vector4f = Vector<4, float>;
 	using Vector4 = Vector4f;

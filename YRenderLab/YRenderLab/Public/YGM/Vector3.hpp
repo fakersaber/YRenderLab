@@ -2,6 +2,7 @@
 #define _YRENDER_YGM_VECTOR3_HPP_
 
 #include <Public/YGM/Vector.hpp>
+#include <iostream>
 
 namespace YRender {
 	namespace YGM {
@@ -53,10 +54,11 @@ namespace YRender {
 				return *this;
 			}
 
-			const Vector operator*(value_type rhs)
+			const Vector operator*(value_type rhs) const
 			{
 				return Vector(x * rhs, y * rhs, z * rhs);
 			}
+
 
 			const Vector Cross(const Vector& rhs) const {
 				return Vector::Cross(*this, rhs);

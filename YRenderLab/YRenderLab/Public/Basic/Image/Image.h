@@ -7,7 +7,11 @@
 namespace YRender {
 
 	//opengl是从左下，但stb图片是左上
+
+	//Hdr = float
+	//rgb = unsigned char
 	class Image {
+	public:
 	public:
 		Image();
 		Image(const std::string& path, bool flip = false);
@@ -18,14 +22,19 @@ namespace YRender {
 		virtual ~Image();
 
 	private:
-		float At(int x, int y, int channel) const;
-		void Free() const;
-
+		//float At(int x, int y, int channel) const;
+		void Free();
+		bool IsValid() const;
 
 	public:
 		bool Load(const std::string& path, bool flip = false);
 		const RGBAf SampleNearest(float u, float v) const;
 		const RGBAf GetPixel(int x, int y) const;
+		bool SaveToPNG(const std::string& fileName, bool flip = false);
+
+
+	public:
+		static void OutPng(const char* fineName, int width, int height, int channel, void* data_ptr);
 
 
 	private:

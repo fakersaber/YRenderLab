@@ -1,5 +1,8 @@
 ﻿#include <Public/YCore.h>
 
+#include <Public/Ray/Ray.h>
+
+
 #define SOFT_RENDER
 //#define OPENGL_RENDER
 
@@ -35,7 +38,8 @@ namespace YRender {
 	}
 
 	void YCore::Run() {
-		_RenderWindow->Run();
+		Ray::TestRayTracer();
+		//_RenderWindow->Run();
 	}
 
 

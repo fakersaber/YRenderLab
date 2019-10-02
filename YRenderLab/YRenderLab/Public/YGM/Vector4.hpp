@@ -34,6 +34,11 @@ namespace YRender {
 				return *this;
 			}
 
+			//Vector& operator=(Vector&& rhs) {
+			//	std::move(rhs.x)
+			//	return *this;
+			//}
+
 			const value_type Dot(const Vector& rhs) const {
 				return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
 			}

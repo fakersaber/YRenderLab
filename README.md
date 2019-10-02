@@ -11,6 +11,7 @@ Personal rendering pipline
 - [x] Barycentric Interpolation
 - [x] Camera controller
 - [ ] module loading
+- [ ] Sky Box
 
 ### OpenGL
 - [ ] Architecture Build 
@@ -21,7 +22,7 @@ Personal rendering pipline
 - [ ] Gpu implement
 
 ## 架构
-
+- [ ] 搭建cmake
 ### WindowBaseClass
 - Win32window
 

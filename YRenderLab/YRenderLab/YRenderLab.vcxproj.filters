@@ -88,6 +88,12 @@
     <Filter Include="Private\Basic\Vertex">
       <UniqueIdentifier>{e5e1aa65-3c69-4480-9858-5dd77989b67f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public\Ray">
+      <UniqueIdentifier>{d5db13ce-e7b5-4829-825e-7c543ca7257f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Ray">
+      <UniqueIdentifier>{591a7ed0-5db6-44bb-9530-c93715e7f10c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -300,6 +306,12 @@
     <ClInclude Include="Public\Basic\Vertex\Vertex.h">
       <Filter>Public\Basic\Vertex</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Ray\Ray.h">
+      <Filter>Public\Ray</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\RGB.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -341,6 +353,9 @@
     </ClCompile>
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp">
       <Filter>Private\Basic\Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Ray\Ray.cpp">
+      <Filter>Private\Ray</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

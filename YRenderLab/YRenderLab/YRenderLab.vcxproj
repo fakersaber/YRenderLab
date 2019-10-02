@@ -66,6 +66,7 @@
     <ClInclude Include="Public\OpenGLRHI\GLAD\KHR\khrplatform.h" />
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3.h" />
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h" />
+    <ClInclude Include="Public\Ray\Ray.h" />
     <ClInclude Include="Public\RenderClass.h" />
     <ClInclude Include="Public\RenderDevice.h" />
     <ClInclude Include="Public\RenderWindow.h" />
@@ -83,6 +84,7 @@
     <ClInclude Include="Public\YGM\CGAlgorithm.hpp" />
     <ClInclude Include="Public\YGM\Math.hpp" />
     <ClInclude Include="Public\YGM\Matrix4.hpp" />
+    <ClInclude Include="Public\YGM\RGB.hpp" />
     <ClInclude Include="Public\YGM\RGBA.hpp" />
     <ClInclude Include="Public\YGM\Transform.h" />
     <ClInclude Include="Public\YGM\Vector.hpp" />
@@ -97,6 +99,7 @@
     <ClCompile Include="Private\Basic\Mesh\GeometryGenerator.cpp" />
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
+    <ClCompile Include="Private\Ray\Ray.cpp" />
     <ClCompile Include="Private\RenderClass.cpp" />
     <ClCompile Include="Private\RenderDevice.cpp" />
     <ClCompile Include="Private\RenderWindow.cpp" />
