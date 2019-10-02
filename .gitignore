@@ -34,3 +34,5 @@
 .vs/
 x64/
 Debug/
+
+!YRenderLab/Public/3rdPart/Lib

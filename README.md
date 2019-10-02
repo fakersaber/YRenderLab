@@ -18,8 +18,12 @@ Personal rendering pipline
 
 
 ### Path Tracer
-- [ ] Cpu implement
-- [ ] Gpu implement
+Cpu implement
+
+- [x] Building frameWork
+- [x] Camera Trace
+
+Gpu implement
 
 ## 架构
 - [ ] 搭建cmake
