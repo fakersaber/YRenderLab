@@ -1,6 +1,6 @@
 ﻿#include <Public/YCore.h>
 
-#include <Public/Ray/Ray.h>
+#include <Public/Ray/RayCamera.h>
 
 
 #define SOFT_RENDER
@@ -38,7 +38,7 @@ namespace YRender {
 	}
 
 	void YCore::Run() {
-		Ray::TestRayTracer();
+		RayCamera::TestRayTracer();
 		//_RenderWindow->Run();
 	}
 

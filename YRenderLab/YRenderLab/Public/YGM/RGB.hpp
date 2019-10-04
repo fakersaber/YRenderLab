@@ -8,8 +8,6 @@ namespace YRender {
 	namespace YGM {
 		template <typename T>
 		class RGB : public Basic_Val<3, T, RGB<T>> {
-
-
 		public:
 			using Basic_Val<3, T, RGB<T>>::Basic_Val;
 
@@ -22,10 +20,32 @@ namespace YRender {
 			RGB(const Val<2, U>& rg, V b) : RGB(rg, b) { }
 
 			template<typename U, typename V>
-			RGB(U r, const Val<2, V> & gb) : RGB(r, gb) { }
+			RGB(U r, const Val<2, V>& gb) : RGB(r, gb) { }
 
-			template<typename U>
-			RGB(const Val<3, U>& rbg) : RGB(rbg) { }
+
+			
+
+		public:
+			RGB& operator=(const Vector<3,T>& rhs) {
+				this->x = rhs.x;
+				this->y = rhs.y;
+				this->z = rhs.z;
+				return *this;
+			}
+
+			RGB& operator+=(const Vector<3, T>& rhs) {
+				this->x += rhs.x;
+				this->y += rhs.y;
+				this->z += rhs.z;
+				return *this;
+			}
+
+			RGB& operator+=(const RGB& rhs) {
+				this->x += rhs.x;
+				this->y += rhs.y;
+				this->z += rhs.z;
+				return *this;
+			}
 
 		public:
 			static RGB<T> Red;
@@ -43,6 +63,7 @@ namespace YRender {
 
 	template <typename T>
 	YGM::RGB<T> YGM::RGB<T>::White = RGB<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1));
+
 }
 
 

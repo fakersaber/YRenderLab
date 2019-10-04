@@ -7,8 +7,9 @@ namespace YRender {
 	namespace YGM {
 		namespace Math {
 			//smallest such that 1.0f + FLT_EPSILON !=1.0f
-			constexpr float EPSILON = 1.192092896e-07f;
-			constexpr float PI = 3.14159265358979323f;
+			static constexpr float EPSILON = 1.192092896e-07f;
+			static constexpr float PI = 3.14159265358979323f;
+			static constexpr float MaxFloat = 3.402823466e+38F;
 
 			inline float Radians(const float degree) {
 				return (PI / 180.f) * degree;

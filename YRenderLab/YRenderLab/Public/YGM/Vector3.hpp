@@ -59,6 +59,10 @@ namespace YRender {
 				return Vector(x * rhs, y * rhs, z * rhs);
 			}
 
+			const Vector operator/(value_type rhs) const
+			{
+				return Vector(x / rhs, y / rhs, z / rhs);
+			}
 
 			const Vector Cross(const Vector& rhs) const {
 				return Vector::Cross(*this, rhs);

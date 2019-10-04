@@ -22,6 +22,8 @@ Cpu implement
 
 - [x] Building frameWork
 - [x] Camera Trace
+- [x] Antialiasing
+- [ ] Diffuse Materials
 
 Gpu implement
 

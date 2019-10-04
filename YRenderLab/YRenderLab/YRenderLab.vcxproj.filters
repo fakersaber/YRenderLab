@@ -312,6 +312,18 @@
     <ClInclude Include="Public\YGM\RGB.hpp">
       <Filter>Public\YGM</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Ray\HitInfo.h">
+      <Filter>Public\Ray</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Ray\HitinfoManager.h">
+      <Filter>Public\Ray</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Ray\Sphere.h">
+      <Filter>Public\Ray</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Ray\RayCamera.h">
+      <Filter>Public\Ray</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -355,6 +367,18 @@
       <Filter>Private\Basic\Vertex</Filter>
     </ClCompile>
     <ClCompile Include="Private\Ray\Ray.cpp">
+      <Filter>Private\Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Ray\HitInfo.cpp">
+      <Filter>Private\Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Ray\HitinfoManager.cpp">
+      <Filter>Private\Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Ray\Sphere.cpp">
+      <Filter>Private\Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Ray\RayCamera.cpp">
       <Filter>Private\Ray</Filter>
     </ClCompile>
   </ItemGroup>
