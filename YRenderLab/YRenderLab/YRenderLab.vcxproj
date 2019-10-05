@@ -68,6 +68,8 @@
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h" />
     <ClInclude Include="Public\Ray\HitInfo.h" />
     <ClInclude Include="Public\Ray\HitinfoManager.h" />
+    <ClInclude Include="Public\Ray\Material\diffuseMaterial.h" />
+    <ClInclude Include="Public\Ray\Material\MaterialBase.h" />
     <ClInclude Include="Public\Ray\Ray.h" />
     <ClInclude Include="Public\Ray\RayCamera.h" />
     <ClInclude Include="Public\Ray\Sphere.h" />
@@ -105,6 +107,8 @@
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
     <ClCompile Include="Private\Ray\HitInfo.cpp" />
     <ClCompile Include="Private\Ray\HitinfoManager.cpp" />
+    <ClCompile Include="Private\Ray\Material\diffuseMaterial.cpp" />
+    <ClCompile Include="Private\Ray\Material\MaterialBase.cpp" />
     <ClCompile Include="Private\Ray\Ray.cpp" />
     <ClCompile Include="Private\Ray\RayCamera.cpp" />
     <ClCompile Include="Private\Ray\Sphere.cpp" />
@@ -247,7 +251,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>

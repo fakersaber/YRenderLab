@@ -14,6 +14,7 @@ namespace YRender {
 		);
 
 		Ray& GetRay(float u, float v) {
+			ray.SetOrigin(position);
 			ray.SetDirection(LowLeft + horizontal * u + vertical * v);
 			return ray;
 		}

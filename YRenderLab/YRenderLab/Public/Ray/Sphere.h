@@ -12,6 +12,8 @@ namespace YRender {
 		virtual ~Sphere(){}
 	public:
 		virtual bool hit(const Ray& r, float Mint, float Maxt, HitInfo& hitinfo) override;
+		
+		static Vector3 GeneratorRandPoint();
 	public:
 		Vector3 center;
 		float radius;

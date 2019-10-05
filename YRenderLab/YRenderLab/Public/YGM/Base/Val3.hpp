@@ -87,6 +87,13 @@ namespace YRender {
 				return *this;
 			}
 
+			Val& operator*=(value_type rhs) {
+				x *= rhs;
+				y *= rhs;
+				z *= rhs;
+				return *this;
+			}
+
 			Val operator*(value_type rhs) const{
 				return Val(x * rhs, y * rhs, z*rhs);
 			}

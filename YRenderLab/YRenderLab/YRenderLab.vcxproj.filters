@@ -94,6 +94,12 @@
     <Filter Include="Private\Ray">
       <UniqueIdentifier>{591a7ed0-5db6-44bb-9530-c93715e7f10c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Private\Ray\Material">
+      <UniqueIdentifier>{23fc5760-0945-4856-bff3-fc833a122db7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Ray\Material">
+      <UniqueIdentifier>{a957d968-cf24-4046-a646-2db8badcd11d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -324,6 +330,12 @@
     <ClInclude Include="Public\Ray\RayCamera.h">
       <Filter>Public\Ray</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Ray\Material\diffuseMaterial.h">
+      <Filter>Public\Ray\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Ray\Material\MaterialBase.h">
+      <Filter>Public\Ray\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -380,6 +392,12 @@
     </ClCompile>
     <ClCompile Include="Private\Ray\RayCamera.cpp">
       <Filter>Private\Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Ray\Material\MaterialBase.cpp">
+      <Filter>Private\Ray\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Ray\Material\diffuseMaterial.cpp">
+      <Filter>Private\Ray\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
