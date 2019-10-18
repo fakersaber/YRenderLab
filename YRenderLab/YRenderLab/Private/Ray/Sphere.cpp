@@ -47,14 +47,14 @@ namespace YRender {
 		std::uniform_real_distribution<float> disTheta(-1.f, std::nextafter(1.f, FLT_MAX));
 
 		//gama, [0,2PI]之间均匀分布
-		std::uniform_real_distribution<float> disGarma(0.f, std::nextafter(2.f * YGM::Math::PI, FLT_MAX));
+		std::uniform_real_distribution<float> disGamma(0.f, std::nextafter(2.f * YGM::Math::PI, FLT_MAX));
 
 		//radius^3, [0,r]之间均匀分布 
 		std::uniform_real_distribution<float> Radius(0.f, std::nextafter(1.f, FLT_MAX));
 
 		auto r = pow(Radius(gen),0.333333f);
 		auto theta = acos(disTheta(gen));
-		auto garma = disGarma(gen);
+		auto garma = disGamma(gen);
 
 		//auto test = pow(r * cos(garma) * sin(theta), 2) + pow(r * sin(garma) * sin(theta), 2) + pow(r * cos(theta), 2);
 		//std::cout << test << std::endl;

@@ -45,16 +45,8 @@ namespace YRender {
 					float v = (j + dis(gen)) / static_cast<float>(height);
 					Ray& ray = camera.GetRay(u, v);
 					float Consume = 1.f;
-					//某些情况下随机点与击中点十分近似，
 					while (HitManager->CheckHit(ray, 0.001f, YGM::Math::MaxFloat, hitrecord)) {
-						//递归修改成循环，首先计算从击中点到随机点的的方向向量
-						//下面过程是先计算坐标在世界系下的表示，再计算散射方向
-						//Vector3 TargetWorldPositon = hitrecord.HitPoint + hitrecord.Normal + Sphere::GeneratorRandPoint();
-						//Vector3 Scatter = TargetWorldPositon - hitrecord.HitPoint;
-						//因为相切圆考虑为单位圆，直接从击中点的法线加上从单位圆到随机点的向量也为散射向量
-						//假设每次损耗50%能量
 						Consume *= 0.5f;
-						//再次反射
 						Vector3 ScatterVec = hitrecord.Normal + Sphere::GeneratorRandPoint();
 						ray.SetDirection(ScatterVec);
 						ray.SetOrigin(hitrecord.HitPoint);
@@ -64,7 +56,7 @@ namespace YRender {
 				}
 				Color /= static_cast<float>(samples);
 				Color = Vector3(pow(Color.x,0.45f), pow(Color.y,0.45f), pow(Color.z,0.45f));
-				//左下角作为起点，stb倒过来
+				//左下角作为起点-，stb倒过来
 				OutPutData[i + (height - 1 - j) * width * 3] = static_cast<uint8_t>(Color.r * 255.f);
 				OutPutData[i + (height - 1 - j) * width * 3 + 1] = static_cast<uint8_t>(Color.g * 255.f);
 				OutPutData[i + (height - 1 - j) * width * 3 + 2] = static_cast<uint8_t>(Color.b * 255.f);

@@ -49,5 +49,4 @@ int main() {
 	if (YEngine->Initial(800, 600)) {
 		YEngine->Run();
 	}
-
 }
