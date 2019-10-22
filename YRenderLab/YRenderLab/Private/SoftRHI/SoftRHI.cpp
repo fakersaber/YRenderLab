@@ -250,10 +250,14 @@ namespace YRender {
 
 				if (e0 >= 0.f && e1 >= 0.f && e2 >= 0.f) {
 					//首先求当前点的z倒数： z = 1/(e1/z1 + e2/z2 + e3/z3);
+
+					//计算插值系数
 					float Cache0 = e0 * v0.PosH / area;
 					float Cache1 = e1 * v1.PosH / area;
 					float Cache2 = e2 * v2.PosH / area;
 					float CurDepth = 1.f / (Cache0 + Cache1 + Cache2);
+
+					//最后计算插值后的z
 					float u = (v0.UV.u * Cache0 + v1.UV.u * Cache1 + v2.UV.u * Cache2) * CurDepth;
 					float v = (v0.UV.v * Cache0 + v1.UV.v * Cache1 + v2.UV.v * Cache2) * CurDepth;
 					_RenderDevice->DrawPixel(i, j, texture.SampleNearest(u, 1.f - v));
