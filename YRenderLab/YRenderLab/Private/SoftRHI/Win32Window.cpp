@@ -44,9 +44,8 @@ namespace YRender {
 			return false;
 		ShowWindow(hwnd, SW_SHOW);
 
-		this->_RenderClass = new SoftRender(hwnd);
+		this->_RenderClass = std::make_unique<SoftRender>(hwnd);
 		if (!_RenderClass->Initial(width, height)) {
-			delete _RenderClass;
 			return false;
 		}
 		return true;

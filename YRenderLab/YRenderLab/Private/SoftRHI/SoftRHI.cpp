@@ -13,11 +13,10 @@ namespace YRender {
 	SoftRender::~SoftRender() { }
 
 	bool SoftRender::Initial(const int width, const int height) {
-		_RenderDevice = new GdiDevice(hwnd);
+		_RenderDevice = std::make_unique<GdiDevice>(hwnd);
 		if (!_RenderDevice->Initial(width, height))
 		{
 			std::cout << "Create Device Failed" << std::endl;
-			delete _RenderDevice;
 			return false;
 		}
 

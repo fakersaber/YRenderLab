@@ -20,7 +20,7 @@ namespace YRender {
 		virtual ~RenderWindow();
 
 	public:
-		RenderClass* _RenderClass;
+		std::unique_ptr<RenderClass> _RenderClass;
 	};
 
 

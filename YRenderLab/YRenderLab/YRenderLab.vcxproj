@@ -56,6 +56,8 @@
     <ClInclude Include="Public\3rdPart\assimp\vector2.h" />
     <ClInclude Include="Public\3rdPart\assimp\vector3.h" />
     <ClInclude Include="Public\3rdPart\assimp\version.h" />
+    <ClInclude Include="Public\3rdPart\enum.h" />
+    <ClInclude Include="Public\Basic\BasicCore.h" />
     <ClInclude Include="Public\Basic\Camera\Camera.h" />
     <ClInclude Include="Public\Basic\Image\Image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image.h" />
@@ -64,8 +66,11 @@
     <ClInclude Include="Public\Basic\Vertex\Vertex.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\KHR\khrplatform.h" />
+    <ClInclude Include="Public\OpenGLRHI\GlfwWindow.h" />
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3.h" />
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h" />
+    <ClInclude Include="Public\OpenGLRHI\GlRenderClass.h" />
+    <ClInclude Include="Public\OpenGLRHI\GLShader.h" />
     <ClInclude Include="Public\Ray\HitInfo.h" />
     <ClInclude Include="Public\Ray\HitinfoManager.h" />
     <ClInclude Include="Public\Ray\Material\diffuseMaterial.h" />
@@ -105,6 +110,8 @@
     <ClCompile Include="Private\Basic\Mesh\GeometryGenerator.cpp" />
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
+    <ClCompile Include="Private\OpenGLRHI\GlfwWindow.cpp" />
+    <ClCompile Include="Private\OpenGLRHI\GlRenderClass.cpp" />
     <ClCompile Include="Private\Ray\HitInfo.cpp" />
     <ClCompile Include="Private\Ray\HitinfoManager.cpp" />
     <ClCompile Include="Private\Ray\Material\diffuseMaterial.cpp" />
@@ -120,6 +127,7 @@
     <ClCompile Include="Private\SoftRHI\Win32Window.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
+    <ClCompile Include="Public\OpenGLRHI\GLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Public\3rdPart\assimp\.editorconfig" />
@@ -165,6 +173,7 @@
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

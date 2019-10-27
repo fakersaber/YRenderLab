@@ -1,6 +1,6 @@
 ﻿#include <Public/YCore.h>
 
-#include <Public/Basic/Image/Image.h>
+//#include <Public/Basic/Image/Image.h>
 
 
 //#include <assimp/Importer.hpp>

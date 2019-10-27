@@ -1,12 +1,8 @@
 ﻿#ifndef _YRENDER_RENDERCLASS_H
 #define _YRENDER_RENDERCLASS_H
 
-#include <iostream>
 #include <Public/RenderDevice.h>
-#include <Public/Basic/Mesh/GeometryGenerator.h>
-#include <Public/Basic/Camera/Camera.h>
-#include <Public/YGM/Matrix4.hpp>
-#include <Public/YGM/Transform.h>
+#include <Public/Basic/BasicCore.h>
 
 
 
@@ -32,10 +28,13 @@ namespace YRender {
 
 
 	protected:
-		RenderDevice* _RenderDevice;
+		std::unique_ptr<RenderDevice> _RenderDevice;
 		Camera MainCamera;
 		MeshData Mesh;
 		Mat4f NdcToScreen;
+
+
+
 		int32_t width;
 		int32_t height;
 	};

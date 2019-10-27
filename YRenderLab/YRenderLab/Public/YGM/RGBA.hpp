@@ -8,27 +8,23 @@ namespace YRender {
 	namespace YGM {
 		template <typename T>
 		class RGBA : public Basic_Val<4, T, RGBA<T>> {
-		public:
-			static RGBA Red() { return RGBA(255.f, 0.f, 0.f); }
-			static RGBA White() { return RGBA(255.f, 255.f, 255.f); }
-
 
 		public:
 			using Basic_Val<4, T, RGBA<T>>::Basic_Val;
 
-		public:
-			explicit RGBA(T val) : RGBA(val, val, val, 1) { }
+		//public:
+		//	explicit RGBA(T val) : RGBA(val, val, val, 1) { }
 
-			RGBA() : RGBA(static_cast<T>(0)) { }
+		//	RGBA() : RGBA(static_cast<T>(0)) { }
 
-			template<typename U, typename V>
-			RGBA(const Val<2, U>& rg, V b) : RGBA(rg, b, 1) { }
+		//	template<typename U, typename V>
+		//	RGBA(const Val<2, U>& rg, V b) : RGBA(rg, b, 1) { }
 
-			template<typename U, typename V>
-			RGBA(U r, const Val<2, V> & gb) : RGBA(r, gb, 1) { }
+		//	template<typename U, typename V>
+		//	RGBA(U r, const Val<2, V> & gb) : RGBA(r, gb, 1) { }
 
-			template<typename U>
-			RGBA(const Val<3, U>& rbg) : RGBA(rbg, 1) { }
+		//	template<typename U>
+		//	RGBA(const Val<3, U>& rbg) : RGBA(rbg, 1) { }
 
 
 		public:
@@ -45,19 +41,22 @@ namespace YRender {
 				return result_value;
 			}
 
-			//template<typename U, typename V>
-			//RGBA(const RGB<U> & rgb, V a) : RGBA(rgb.r, rgb.g, rgb.b, a) { }
 
-			//template<typename U, typename V>
-			//RGBA(const RGB<U> & rgb) : RGBA(rgb.r, rgb.g, rgb.b, 1) { }
 
-			//template<typename U>
-			//RGBA(const RGBA<U>& rgba) : RGBA(rgba.r, rgba.g, rgba.b, rgba.a) { }
+		public:
+			static RGBA<T> Red;
+			static RGBA<T> White;
 		};
 	}
 	template <typename T>
 	using RGBA = YGM::RGBA<T>;
 	using RGBAf = RGBA<float>;
+
+	template <typename T>
+	YGM::RGBA<T> YGM::RGBA<T>::Red = RGBA<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0),static_cast<T>(1));
+
+	template <typename T>
+	YGM::RGBA<T> YGM::RGBA<T>::White = RGBA<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1), static_cast<T>(1));
 }
 
 

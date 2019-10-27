@@ -11,16 +11,16 @@ namespace YRender {
 		public:
 			using Basic_Val<3, T, RGB<T>>::Basic_Val;
 
-		public:
-			explicit RGB(T val) : RGB(val, val, val) { }
+		//public:
+		//	explicit RGB(T val) : RGB(val, val, val) { }
 
-			RGB() : RGB(static_cast<T>(0)) { }
+		//	RGB() : RGB(static_cast<T>(0)) { }
 
-			template<typename U, typename V>
-			RGB(const Val<2, U>& rg, V b) : RGB(rg, b) { }
+		//	template<typename U, typename V>
+		//	RGB(const Val<2, U>& rg, V b) : RGB(rg, b) { }
 
-			template<typename U, typename V>
-			RGB(U r, const Val<2, V>& gb) : RGB(r, gb) { }
+		//	template<typename U, typename V>
+		//	RGB(U r, const Val<2, V>& gb) : RGB(r, gb) { }
 
 
 			

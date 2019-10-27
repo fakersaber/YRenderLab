@@ -1,10 +1,9 @@
 ﻿#include <Public/YCore.h>
 
-#include <Public/Ray/RayCamera.h>
 
 
-#define SOFT_RENDER
-//#define OPENGL_RENDER
+//#define SOFT_RENDER
+#define OPENGL_RENDER
 
 namespace YRender {
 
@@ -18,8 +17,8 @@ namespace YRender {
 	YCore::YCore() {
 		#ifdef SOFT_RENDER
 			this->_RenderWindow = Win32Window::GetInstance();
-		#elif OPENGL_RENDER
-			this->_RenderWindow = new GlfwWindow();
+		#elif defined(OPENGL_RENDER)
+			this->_RenderWindow = GlfwWindow::GetInstance();
 		#endif 
 	}
 
@@ -38,8 +37,9 @@ namespace YRender {
 	}
 
 	void YCore::Run() {
-		RayCamera::TestRayTracer();
-		//_RenderWindow->Run();
+
+		//RayCamera::TestRayTracer();
+		_RenderWindow->Run();
 	}
 
 

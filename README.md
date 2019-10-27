@@ -10,11 +10,14 @@ Personal rendering pipline
 - [x] Texture Mapping
 - [x] Barycentric Interpolation
 - [x] Camera controller
-- [ ] module loading
-- [ ] Sky Box
 
 ### OpenGL
-- [ ] Architecture Build 
+- [x] Architecture Build 
+- [ ] module loading
+- [ ] Sky Box
+- [ ] Light
+- [ ] Shadow
+- [ ] CubeMap
 
 
 ### Path Tracer
@@ -26,15 +29,3 @@ Cpu implement
 - [x] Diffuse Material
 - [ ] Metal Material
 
-Gpu implement
-
-## 架构
-- [ ] 搭建cmake
-### WindowBaseClass
-- Win32window
-
-### RenderBaseClass
-- SoftRHI
-
-### RenderDeviveBaseClass
-- GdiDevice

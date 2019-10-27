@@ -3,10 +3,13 @@
 
 
 #define NOMINMAX
-#include <Public/RenderWindow.h>
 #include <Public/SoftRHI/Win32Window.h>
 #include <Public/SoftRHI/SoftRHI.h>
 
+#include <Public/OpenGLRHI/GlfwWindow.h>
+
+
+#include <Public/Ray/RayCamera.h>
 
 namespace YRender {
 	class YCore {
@@ -27,7 +30,7 @@ namespace YRender {
 
 	private:
 		RenderWindow* _RenderWindow;
-		RenderClass* _RenderClass;
+		//RenderClass* _RenderClass;
 
 	};
 }
