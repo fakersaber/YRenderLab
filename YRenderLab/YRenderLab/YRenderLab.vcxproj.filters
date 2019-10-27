@@ -420,7 +420,7 @@
     <ClCompile Include="Private\OpenGLRHI\GlRenderClass.cpp">
       <Filter>Private\OpenGLRHI</Filter>
     </ClCompile>
-    <ClCompile Include="Public\OpenGLRHI\GLShader.cpp">
+    <ClCompile Include="Private\OpenGLRHI\GLShader.cpp">
       <Filter>Private\OpenGLRHI</Filter>
     </ClCompile>
   </ItemGroup>
