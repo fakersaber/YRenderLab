@@ -24,8 +24,8 @@ namespace YRender {
 		virtual ~RenderDevice();
 
 	protected:
-		int height;
-		int width;
+		int32_t width;
+		int32_t height;
 	};
 }
 

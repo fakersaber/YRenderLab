@@ -19,6 +19,9 @@ namespace YRender {
 			std::cout << "Failed to initialize GLAD" << std::endl;
 			return false;
 		}
+
+
+
 		return true;
 	}
 

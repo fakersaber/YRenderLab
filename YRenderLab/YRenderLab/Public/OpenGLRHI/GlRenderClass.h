@@ -6,6 +6,8 @@
 #include <Public/RenderClass.h>
 #include <Public/OpenGLRHI/GLFW/glfw3.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
+#include <Public/OpenGLRHI/GLShader.h>
+
 
 namespace YRender {
 	class GlRenderClass : public RenderClass
@@ -34,7 +36,7 @@ namespace YRender {
 
 
 	private:
-
+		GLShader* ShaderTest;
 	};
 }
 

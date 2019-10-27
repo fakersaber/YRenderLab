@@ -10,10 +10,10 @@ namespace YRender {
 	BETTER_ENUM(CompileType, int, VERTEX, GEOMETRY, FRAGMENT, PROGRAM);
 
 	class GLShader {
-	//public:
-	//	// constructor generates the shader on the fly
-	//	GLShader();
-	//	GLShader(const std::string &  vertexPath, const std::string & fragmentPath, const std::string & geometryPath = "");
+	public:
+		// constructor generates the shader on the fly
+		GLShader();
+		GLShader(const std::string &  vertexPath, const std::string & fragmentPath, const std::string & geometryPath = "");
 
 	//	uint32_t GetID() const;
 	//	bool IsValid() const;
