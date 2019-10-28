@@ -1,11 +1,17 @@
 #include <Public/OpenGLRHI/GLShader.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
+
+#include <Public/Basic/File/File.h>
 namespace YRender {
 	GLShader::GLShader() : valid(false){
 
 	}
 
 	GLShader::GLShader(const std::string &  vertexPath, const std::string & fragmentPath, const std::string & geometryPath) {
+
+		std::string VertexShader = File::ReadFile("test");
+
+
 		unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		unsigned int fragmentShaderOrange = glCreateShader(GL_FRAGMENT_SHADER); // the first fragment shader that outputs the color orange
 		unsigned int fragmentShaderYellow = glCreateShader(GL_FRAGMENT_SHADER); // the second fragment shader that outputs the color yellow

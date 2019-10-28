@@ -1,4 +1,6 @@
-﻿#include <Public/YCore.h>
+﻿//#include <Public/YCore.h>
+
+#include <iostream>
 
 //#include <Public/Basic/Image/Image.h>
 
@@ -13,7 +15,23 @@
 //	glViewport(0, 0, width, height);
 //}
 
+class Test {
+public:
+	Test() {
+		std::cout << "test" << std::endl;
+	}
 
+	Test& operator=(const Test& rhs) {
+		std::cout << "test2" << std::endl;
+		return *this;
+	}
+
+
+	Test(const Test& rhs) {
+		*this = rhs;
+		std::cout << "test3" << std::endl;
+	}
+};
 
 int main() {
 	//Assimp::Importer importer;
@@ -45,8 +63,10 @@ int main() {
 	//YRender::RGBAf result = a.SampleNearest(0.5f,0.5f);
 	//auto test = result.RBGA2UINT();
 
-	auto YEngine = YRender::YCore::GetCore();
-	if (YEngine->Initial(800, 600)) {
-		YEngine->Run();
-	}
+	Test a = Test();
+	std::cout << &a << std::endl;
+	//auto YEngine = YRender::YCore::GetCore();
+	//if (YEngine->Initial(800, 600)) {
+	//	YEngine->Run();
+	//}
 }

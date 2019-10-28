@@ -100,6 +100,12 @@
     <Filter Include="Public\Ray\Material">
       <UniqueIdentifier>{a957d968-cf24-4046-a646-2db8badcd11d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Private\Basic\File">
+      <UniqueIdentifier>{a65492eb-3992-4de8-b65c-ca8ae27f2400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Basic\File">
+      <UniqueIdentifier>{8f5413d0-42cb-4d9c-a4ec-6d6068c88965}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -351,6 +357,9 @@
     <ClInclude Include="Public\3rdPart\enum.h">
       <Filter>Public\3rdPart</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\File\File.h">
+      <Filter>Public\Basic\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -422,6 +431,9 @@
     </ClCompile>
     <ClCompile Include="Private\OpenGLRHI\GLShader.cpp">
       <Filter>Private\OpenGLRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\File\File.cpp">
+      <Filter>Private\Basic\File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

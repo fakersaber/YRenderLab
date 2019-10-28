@@ -59,6 +59,7 @@
     <ClInclude Include="Public\3rdPart\enum.h" />
     <ClInclude Include="Public\Basic\BasicCore.h" />
     <ClInclude Include="Public\Basic\Camera\Camera.h" />
+    <ClInclude Include="Public\Basic\File\File.h" />
     <ClInclude Include="Public\Basic\Image\Image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image_write.h" />
@@ -106,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Private\Basic\Camera\Camera.cpp" />
+    <ClCompile Include="Private\Basic\File\File.cpp" />
     <ClCompile Include="Private\Basic\Image\Image.cpp" />
     <ClCompile Include="Private\Basic\Mesh\GeometryGenerator.cpp" />
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp" />
@@ -224,7 +226,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
