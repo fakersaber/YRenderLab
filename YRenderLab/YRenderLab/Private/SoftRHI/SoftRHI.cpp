@@ -259,7 +259,8 @@ namespace YRender {
 					//最后计算插值后的z
 					float u = (v0.UV.u * Cache0 + v1.UV.u * Cache1 + v2.UV.u * Cache2) * CurDepth;
 					float v = (v0.UV.v * Cache0 + v1.UV.v * Cache1 + v2.UV.v * Cache2) * CurDepth;
-					_RenderDevice->DrawPixel(i, j, texture.SampleNearest(u, 1.f - v));
+					_RenderDevice->DrawPixel(i, j, RGBAf(1.0f,1.0f,1.0f,1.0f));
+					//_RenderDevice->DrawPixel(i, j, texture.SampleNearest(u, 1.f - v));
 				}
 			}
 		}

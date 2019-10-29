@@ -11,14 +11,6 @@ namespace YRender {
 			//	right = front.Cross(newUp).Normalize();
 			//}
 			//const Vec3 camUp = right.Cross(front);
-
-
-
-
-
-
-
-
 			Vector3 front = (target - pos).Normalize();
 			const Vector3 right = front.Cross(up).Normalize();
 			Vector3 camera_up = right.Cross(front);

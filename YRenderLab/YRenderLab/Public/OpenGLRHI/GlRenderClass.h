@@ -6,10 +6,13 @@
 #include <Public/RenderClass.h>
 #include <Public/OpenGLRHI/GLFW/glfw3.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
-#include <Public/OpenGLRHI/GLShader.h>
+
 
 
 namespace YRender {
+	class GLShader;
+	class VAO;
+
 	class GlRenderClass : public RenderClass
 	{
 	public:
@@ -26,17 +29,12 @@ namespace YRender {
 		virtual void Render() override;
 
 	private:
-		//void DrawIndexed(const MeshData& mesh);
-		//bool BackFaceCulling(const Vector4& v1, const Vector4& v2, const Vector4& v3);
-		//bool CVVClip(const Vector4& VertexPos);
-		//void PerspecDivision(Vector4& ClipPos);
-		//Vertex VertexShader(const Vertex& vertex);
-		//void NDCToScreen(Vector4& NdcVertex);
-		//void BresenhamDrawLine(int x1, int y1, int x2, int y2);
+
 
 
 	private:
-		GLShader* ShaderTest;
+		std::unique_ptr<GLShader> GlslShader;
+		std::unique_ptr<VAO> GlVAO;
 	};
 }
 

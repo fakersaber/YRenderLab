@@ -1,9 +1,21 @@
 #include <Public/OpenGLRHI/GlRenderClass.h>
-
-
-
+#include <Public/OpenGLRHI/GLShader.h>
+#include <Public/OpenGLRHI/GLVAO.h>
 
 namespace YRender {
+	namespace Utils {
+		template<typename T, int size>
+		constexpr uint32_t GetArrLength(T(&)[size]) { return size; }
+	}
+
+
+	float vertices[] = {
+		// positions         // colors
+		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+		 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+	};
+
 	GlRenderClass::GlRenderClass(GLFWwindow * window){
 
 	}
@@ -21,6 +33,11 @@ namespace YRender {
 		}
 
 
+		GlslShader = std::make_unique<GLShader>("data/shaders/Test.vs", "data/shaders/Test.fs");
+		std::vector<uint32_t> attrVec = { 3,3 };
+		GlVAO = std::make_unique<VAO>(vertices, Utils::GetArrLength(vertices) * sizeof(float), attrVec);
+		
+
 
 		return true;
 	}
@@ -31,16 +48,11 @@ namespace YRender {
 
 	void GlRenderClass::Render(){
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// draw our first triangle
-		//glUseProgram(shaderProgram);
-		//glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		//glDrawArrays(GL_TRIANGLES, 0, 6); // set the count to 6 since we're drawing 6 vertices now (2 triangles); not 3!
-		// glBindVertexArray(0); // no need to unbind it every time 
-
-		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		// -------------------------------------------------------------------------------
+		Mat4f ViewProject = MainCamera.GetProjectMatrix() * MainCamera.GetViewMatrix();
+		GlslShader->SetMat4f("view", ViewProject);
+		GlVAO->Draw(*GlslShader);
 	}
 }
 

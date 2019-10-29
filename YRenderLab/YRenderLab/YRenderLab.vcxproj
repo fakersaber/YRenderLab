@@ -72,6 +72,7 @@
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h" />
     <ClInclude Include="Public\OpenGLRHI\GlRenderClass.h" />
     <ClInclude Include="Public\OpenGLRHI\GLShader.h" />
+    <ClInclude Include="Public\OpenGLRHI\GLVAO.h" />
     <ClInclude Include="Public\Ray\HitInfo.h" />
     <ClInclude Include="Public\Ray\HitinfoManager.h" />
     <ClInclude Include="Public\Ray\Material\diffuseMaterial.h" />
@@ -115,6 +116,7 @@
     <ClCompile Include="Private\OpenGLRHI\GlfwWindow.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GlRenderClass.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLShader.cpp" />
+    <ClCompile Include="Private\OpenGLRHI\GLVAO.cpp" />
     <ClCompile Include="Private\Ray\HitInfo.cpp" />
     <ClCompile Include="Private\Ray\HitinfoManager.cpp" />
     <ClCompile Include="Private\Ray\Material\diffuseMaterial.cpp" />
@@ -132,6 +134,8 @@
     <ClCompile Include="Private\YGM\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\shaders\Test.fs" />
+    <None Include="data\shaders\Test.vs" />
     <None Include="Public\3rdPart\assimp\.editorconfig" />
     <None Include="Public\3rdPart\assimp\color4.inl" />
     <None Include="Public\3rdPart\assimp\material.inl" />
@@ -168,6 +172,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -200,6 +205,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(ProjectDir)Public\3rdPart;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Public\3rdPart\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -237,6 +244,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>assimp.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -262,7 +270,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>

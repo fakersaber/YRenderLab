@@ -106,6 +106,12 @@
     <Filter Include="Public\Basic\File">
       <UniqueIdentifier>{8f5413d0-42cb-4d9c-a4ec-6d6068c88965}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{383ea9ba-7d9b-49f5-a5f8-fa1ef3986956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\shaders">
+      <UniqueIdentifier>{147e5250-f599-41b9-ae35-6ade7e4a8b8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -360,6 +366,9 @@
     <ClInclude Include="Public\Basic\File\File.h">
       <Filter>Public\Basic\File</Filter>
     </ClInclude>
+    <ClInclude Include="Public\OpenGLRHI\GLVAO.h">
+      <Filter>Public\OpenGLRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -435,6 +444,9 @@
     <ClCompile Include="Private\Basic\File\File.cpp">
       <Filter>Private\Basic\File</Filter>
     </ClCompile>
+    <ClCompile Include="Private\OpenGLRHI\GLVAO.cpp">
+      <Filter>Private\OpenGLRHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Public\3rdPart\assimp\.editorconfig">
@@ -460,6 +472,12 @@
     </None>
     <None Include="Public\3rdPart\assimp\vector3.inl">
       <Filter>Public\3rdPart\assimp</Filter>
+    </None>
+    <None Include="data\shaders\Test.vs">
+      <Filter>data\shaders</Filter>
+    </None>
+    <None Include="data\shaders\Test.fs">
+      <Filter>data\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

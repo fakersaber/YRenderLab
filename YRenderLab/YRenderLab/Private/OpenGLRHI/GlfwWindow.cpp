@@ -61,8 +61,17 @@ namespace YRender {
 
 
 	void GlfwWindow::ProcessInput(GLFWwindow* window) {
+
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, true);
+		else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD);
+		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD);
+		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT);
+		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT);
 	}
 
 	void GlfwWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
