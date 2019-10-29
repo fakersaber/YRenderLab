@@ -31,7 +31,7 @@ namespace YRender {
 			std::cout << "Failed to initialize GLAD" << std::endl;
 			return false;
 		}
-
+		glEnable(GL_DEPTH_TEST);
 
 		GlslShader = std::make_unique<GLShader>("data/shaders/Test.vs", "data/shaders/Test.fs");
 		std::vector<uint32_t> attrVec = { 3,3 };
@@ -50,9 +50,9 @@ namespace YRender {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		Mat4f ViewProject = MainCamera.GetProjectMatrix() * MainCamera.GetViewMatrix();
-		GlslShader->SetMat4f("view", ViewProject);
-		GlVAO->Draw(*GlslShader);
+		GlslShader->SetMat4f("view", MainCamera.GetViewMatrix().selfTranspose());
+		GlslShader->SetMat4f("proj", MainCamera.GetProjectMatrix().selfTranspose());
+		GlVAO->Draw(*GlslShader);											 	
 	}
 }
 

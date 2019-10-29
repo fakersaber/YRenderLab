@@ -5,9 +5,9 @@ layout (location = 1) in vec3 aColor;
 out vec3 ourColor;
 uniform mat4 view;
 uniform mat4 proj;
-
+uniform vec4 pos;
 void main()
 {
-    gl_Position = view * vec4(worldPos,1.0f);
+    gl_Position = proj * view * vec4(worldPos,1.0f);
     ourColor = aColor;
 }

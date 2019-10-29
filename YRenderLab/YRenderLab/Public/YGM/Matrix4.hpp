@@ -23,7 +23,7 @@ namespace YRender {
 			Mat4x4(const Vector<4, T> & row0, const Vector<4, T> & row1, const Vector<4, T> & row2, const Vector<4, T> & row3)
 				:m{ row0, row1, row2, row3 } { }
 
-			// mat 为列主序 -->改为行主序
+			// mat 为行主序，但是glsl中是按列解析。即内存中的值是00 10 20 30解析
 			explicit Mat4x4(const T mat[4][4]) { memcpy(m, mat, 16 * sizeof(T)); }
 
 			Mat4x4(
@@ -69,6 +69,17 @@ namespace YRender {
 					mat(0, 1), mat(1, 1), mat(2, 1), mat(3, 1),
 					mat(0, 2), mat(1, 2), mat(2, 2), mat(3, 2),
 					mat(0, 3), mat(1, 3), mat(2, 3), mat(3, 3));
+			}
+
+			const Mat4x4& selfTranspose(){
+				for (int i = 0; i < 4; ++i) {
+					for (int j = i; j < 4; ++j) {
+						if (i == j)
+							continue;
+						std::swap(m[i][j], m[j][i]);
+					}
+				}
+				return *this;
 			}
 
 			Mat4x4 Inverse() const {
