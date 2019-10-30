@@ -39,7 +39,8 @@ namespace YRender {
 		void SetCameraPose(const Vector3& pos, float yaw, float pitch);
 		ENUM_ProjectType GetCameraMode() { return project_mode; }
 		const Vector3& GetCameraPos() const { return position; }
-		void ProcessKeyboard(ENUM_Movement event);
+		void ProcessKeyboard(ENUM_Movement event,float deltaTime);
+		void ProcessMouseMovement(float xoffset, float yoffset);
 		void updateCameraVectors();
 		
 

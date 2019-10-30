@@ -1,0 +1,8 @@
+#ifndef _YRENDER_OPENGLRHI_GLTEXTURE_H
+#define _YRENDER_OPENGLRHI_GLTEXTURE_H
+
+
+
+
+
+#endif

@@ -369,6 +369,9 @@
     <ClInclude Include="Public\OpenGLRHI\GLVAO.h">
       <Filter>Public\OpenGLRHI</Filter>
     </ClInclude>
+    <ClInclude Include="Public\OpenGLRHI\GLTexture.h">
+      <Filter>Public\OpenGLRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -445,6 +448,9 @@
       <Filter>Private\Basic\File</Filter>
     </ClCompile>
     <ClCompile Include="Private\OpenGLRHI\GLVAO.cpp">
+      <Filter>Private\OpenGLRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\OpenGLRHI\GLTexture.cpp">
       <Filter>Private\OpenGLRHI</Filter>
     </ClCompile>
   </ItemGroup>

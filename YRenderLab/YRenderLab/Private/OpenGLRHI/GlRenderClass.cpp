@@ -35,10 +35,7 @@ namespace YRender {
 
 		GlslShader = std::make_unique<GLShader>("data/shaders/Test.vs", "data/shaders/Test.fs");
 		std::vector<uint32_t> attrVec = { 3,3 };
-		GlVAO = std::make_unique<VAO>(vertices, Utils::GetArrLength(vertices) * sizeof(float), attrVec);
-		
-
-
+		GlVAO = std::make_unique<VAO>(vertices, Utils::GetArrLength(vertices) * static_cast<uint32_t>(sizeof(float)), attrVec);
 		return true;
 	}
 

@@ -10,16 +10,15 @@ namespace YRender {
 	VAO::VAO(float const* data, uint32_t dataSize, const std::vector<uint32_t>& attrLen) {
 		if (data == NULL || dataSize == 0 || attrLen.size() == 0) {
 			isValid = false;
-			ID = 0;
+			VAO_ID = 0;
 			return;
 		}
 
-		glGenVertexArrays(1, &ID);
-		glBindVertexArray(ID);
+		glGenVertexArrays(1, &VAO_ID);
+		glBindVertexArray(VAO_ID);
 
-		uint32_t VBO;
-		glGenBuffers(1, &VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glGenBuffers(1, &VBO_ID);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO_ID);
 		glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
 		uint32_t strideLen = 0;
 		for (auto len : attrLen)
@@ -43,6 +42,13 @@ namespace YRender {
 			hasIndex = true;
 			isValid = GenBindEBO(indexArray, indexSize);
 		}
+	}
+
+	VAO::~VAO(){
+		glDeleteVertexArrays(1, &VAO_ID);
+		glDeleteBuffers(1, &VBO_ID);
+		if (hasIndex)
+			glDeleteBuffers(1, &EBO_ID);
 	}
 
 	//VAO::VAO(const std::vector<VBO_DataPatch> & vec_VBO_DataPatch, const std::vector<uint32_t> & divisors) {
@@ -82,9 +88,8 @@ namespace YRender {
 	//}
 
 	bool VAO::GenBindEBO(uint32_t const* indexArray, uint32_t indexSize) {
-		uint32_t EBO;
-		glGenBuffers(1, &EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glGenBuffers(1, &EBO_ID);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_ID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, indexArray, GL_STATIC_DRAW);
 		return true;
 	}
@@ -96,7 +101,7 @@ namespace YRender {
 			return false;
 		}
 
-		glBindVertexArray(ID);
+		glBindVertexArray(VAO_ID);
 		return true;
 	}
 

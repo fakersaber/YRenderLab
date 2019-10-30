@@ -19,6 +19,11 @@ namespace YRender {
 		virtual void Run() override;
 		static GlfwWindow* GetInstance();
 
+	public:
+		float GetDeltaTime() const { return deltaTime; };
+		//float GetLastX() const { return lastX; }
+		//float GetLastY() const { return lastY; }
+
 	private:
 		GlfwWindow();
 		virtual ~GlfwWindow();
@@ -26,9 +31,17 @@ namespace YRender {
 	private:
 		static void ProcessInput(GLFWwindow* window);
 		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+		static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+		static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
 
 	private:
 		GLFWwindow* window;
+		float deltaTime;
+
+		float lastX;
+		float lastY;
+		bool firstMouse;
 	};
 }
 

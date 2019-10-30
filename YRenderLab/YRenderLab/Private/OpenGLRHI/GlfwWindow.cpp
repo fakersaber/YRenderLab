@@ -22,8 +22,13 @@ namespace YRender {
 		}
 
 		this->_RenderClass = std::make_unique<GlRenderClass>(window);
+		lastX = width * 0.5f;
+		lastY = height * 0.5f;
 		glfwMakeContextCurrent(window);
-		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+		glfwSetFramebufferSizeCallback(window, GlfwWindow::framebuffer_size_callback);
+		glfwSetCursorPosCallback(window, GlfwWindow::mouse_callback);
+		glfwSetScrollCallback(window, GlfwWindow::scroll_callback);
+
 
 
 		if (!_RenderClass->Initial(width, height)) {
@@ -34,14 +39,15 @@ namespace YRender {
 
 	void GlfwWindow::Run(){
 		while (!glfwWindowShouldClose(window)) {
+			double beginTime = glfwGetTime();
 			ProcessInput(window);
-
 			//RenderClass Update
 			{
+				beginTime = glfwGetTime();
 				_RenderClass->Tick();
 				_RenderClass->Render();
+				deltaTime = glfwGetTime() - beginTime;
 			}
-
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}
@@ -49,10 +55,11 @@ namespace YRender {
 
 
 
-	GlfwWindow::GlfwWindow(){
+	GlfwWindow::GlfwWindow()
+		:firstMouse(true)
+	{
 
 	}
-
 
 
 	GlfwWindow::~GlfwWindow(){
@@ -65,18 +72,41 @@ namespace YRender {
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, true);
 		else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD);
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD, GlfwWindow::GetInstance()->GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD);
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD, GlfwWindow::GetInstance()->GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT);
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT, GlfwWindow::GetInstance()->GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT);
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT, GlfwWindow::GetInstance()->GetDeltaTime());
 	}
 
 	void GlfwWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 		// make sure the viewport matches the new window dimensions; note that width and 
 		// height will be significantly larger than specified on retina displays.
 		glViewport(0, 0, width, height);
+	}
+
+	void GlfwWindow::mouse_callback(GLFWwindow * window, double xpos, double ypos)
+	{
+		//if (GlfwWindow::GetInstance()->firstMouse)
+		//{
+		//	GlfwWindow::GetInstance()->lastX = xpos;
+		//	GlfwWindow::GetInstance()->lastY = ypos;
+		//	GlfwWindow::GetInstance()->firstMouse = false;
+		//}
+
+		float xoffset = xpos - GlfwWindow::GetInstance()->lastX;
+		float yoffset = GlfwWindow::GetInstance()->lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+		GlfwWindow::GetInstance()->lastX = xpos;
+		GlfwWindow::GetInstance()->lastY = ypos;
+
+		GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessMouseMovement(xoffset, yoffset);
+	}
+
+	void GlfwWindow::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
+	{
+
 	}
 }

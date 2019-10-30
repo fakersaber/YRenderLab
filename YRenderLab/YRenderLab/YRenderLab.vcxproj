@@ -72,6 +72,7 @@
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h" />
     <ClInclude Include="Public\OpenGLRHI\GlRenderClass.h" />
     <ClInclude Include="Public\OpenGLRHI\GLShader.h" />
+    <ClInclude Include="Public\OpenGLRHI\GLTexture.h" />
     <ClInclude Include="Public\OpenGLRHI\GLVAO.h" />
     <ClInclude Include="Public\Ray\HitInfo.h" />
     <ClInclude Include="Public\Ray\HitinfoManager.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="Private\OpenGLRHI\GlfwWindow.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GlRenderClass.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLShader.cpp" />
+    <ClCompile Include="Private\OpenGLRHI\GLTexture.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLVAO.cpp" />
     <ClCompile Include="Private\Ray\HitInfo.cpp" />
     <ClCompile Include="Private\Ray\HitinfoManager.cpp" />

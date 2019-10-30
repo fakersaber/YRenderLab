@@ -7,7 +7,7 @@ namespace YRender {
 	const float Camera::NEAR_PLANE = 0.1f;
 	const float Camera::FAR_PLANE = 100.0f;
 	const float Camera::YAW = 0.f;  //Clockwise rotation is the nagative direction
-	const float Camera::PITCH = 0.0f;
+	const float Camera::PITCH = 0.f;
 	const float Camera::FOV = 50.0f;
 
 	Camera::Camera(
@@ -68,9 +68,9 @@ namespace YRender {
 		//								  [sin(yaw)cos(pitch)]
 		//上述表示方案是yaw从-PI/2开始的推导。
 
-		front.x = -sin(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(-pitch));
+		front.x = -sin(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(pitch));
 		front.y = sin(YGM::Math::Radians(pitch));
-		front.z = -cos(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(-pitch));
+		front.z = -cos(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(pitch));
 
 		//front.x = cos(YGM::Math::Radians(yaw)) * cos(YGM::Math::Radians(pitch));
 		//front.y = sin(YGM::Math::Radians(pitch));
@@ -82,8 +82,8 @@ namespace YRender {
 	}
 
 
-	void Camera::ProcessKeyboard(ENUM_Movement direction){
-		float velocity = 0.02f;  //ready change for deltaTime
+	void Camera::ProcessKeyboard(ENUM_Movement direction,float deltaTime){
+		float velocity = 5.f * deltaTime;  //ready change for deltaTime
 		switch (direction) {
 		case ENUM_Movement::MOVE_FORWARD:
 			position += front * velocity;
@@ -104,5 +104,29 @@ namespace YRender {
 			position -= up * velocity;
 			break;
 		}
+	}
+
+
+
+	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
+	void Camera::ProcessMouseMovement(float xoffset, float yoffset)
+	{
+		xoffset *= 0.05f;
+		yoffset *= 0.05f;
+
+		yaw += xoffset;
+		pitch += yoffset;
+
+		// Make sure that when pitch is out of bounds, screen doesn't get flipped
+		//if (constrainPitch)
+		//{
+			if (pitch > 89.0f)
+				pitch = 89.0f;
+			else if (pitch < -89.0f)
+				pitch = -89.0f;
+		//}
+
+		// Update Front, Right and Up Vectors using the updated Euler angles
+		updateCameraVectors();
 	}
 }
