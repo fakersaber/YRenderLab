@@ -96,7 +96,7 @@ namespace YRender {
 		//	GlfwWindow::GetInstance()->firstMouse = false;
 		//}
 
-		float xoffset = xpos - GlfwWindow::GetInstance()->lastX;
+		float xoffset = GlfwWindow::GetInstance()->lastX - xpos; //顺时针yaw为负，opengllearning是将旋转矩阵的x取反并从-PI/2开始，所以这里不要相同
 		float yoffset = GlfwWindow::GetInstance()->lastY - ypos; // reversed since y-coordinates go from bottom to top
 
 		GlfwWindow::GetInstance()->lastX = xpos;
