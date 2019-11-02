@@ -33,7 +33,7 @@ namespace YRender {
 		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 		static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 		static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-
+		static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 	private:
 		GLFWwindow* window;
@@ -41,7 +41,7 @@ namespace YRender {
 
 		float lastX;
 		float lastY;
-		bool firstMouse;
+		bool firstFlag; // check if you hold down mouse right mouse button for first time
 	};
 }
 

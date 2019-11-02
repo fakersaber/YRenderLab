@@ -111,8 +111,8 @@ namespace YRender {
 	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
 	void Camera::ProcessMouseMovement(float xoffset, float yoffset)
 	{
-		xoffset *= 0.05f;
-		yoffset *= 0.05f;
+		xoffset *= 0.5f;
+		yoffset *= 0.5f;
 
 		yaw += xoffset;
 		pitch += yoffset;

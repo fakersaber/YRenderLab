@@ -3,7 +3,7 @@
 
 
 namespace YRender {
-	GlfwWindow * GlfwWindow::GetInstance(){
+	GlfwWindow* GlfwWindow::GetInstance(){
 		static GlfwWindow instance;
 		return &instance;
 	}
@@ -56,7 +56,7 @@ namespace YRender {
 
 
 	GlfwWindow::GlfwWindow()
-		:firstMouse(true)
+		:firstFlag(true)
 	{
 
 	}
@@ -87,26 +87,31 @@ namespace YRender {
 		glViewport(0, 0, width, height);
 	}
 
-	void GlfwWindow::mouse_callback(GLFWwindow * window, double xpos, double ypos)
-	{
-		//if (GlfwWindow::GetInstance()->firstMouse)
-		//{
-		//	GlfwWindow::GetInstance()->lastX = xpos;
-		//	GlfwWindow::GetInstance()->lastY = ypos;
-		//	GlfwWindow::GetInstance()->firstMouse = false;
-		//}
+	void GlfwWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos){
 
-		float xoffset = GlfwWindow::GetInstance()->lastX - xpos; //顺时针yaw为负，opengllearning是将旋转矩阵的x取反并从-PI/2开始，所以这里不要相同
-		float yoffset = GlfwWindow::GetInstance()->lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-		GlfwWindow::GetInstance()->lastX = xpos;
-		GlfwWindow::GetInstance()->lastY = ypos;
-
-		GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessMouseMovement(xoffset, yoffset);
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
+			float xoffset = 0.f;
+			float yoffset = 0.f;
+			if (!GlfwWindow::GetInstance()->firstFlag) {
+				//不是第一次按住鼠标右键才计算差值
+				xoffset = GlfwWindow::GetInstance()->lastX - xpos;
+				yoffset = GlfwWindow::GetInstance()->lastY - ypos;
+			}
+			GlfwWindow::GetInstance()->lastX = xpos;
+			GlfwWindow::GetInstance()->lastY = ypos;
+			GlfwWindow::GetInstance()->firstFlag = false;
+			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessMouseMovement(xoffset, yoffset);
+		}
+		else {
+			GlfwWindow::GetInstance()->firstFlag = true;
+		}
 	}
 
-	void GlfwWindow::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
-	{
+	void GlfwWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+
+	}
+
+	void GlfwWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
 
 	}
 }
