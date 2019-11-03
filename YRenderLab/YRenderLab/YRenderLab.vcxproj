@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\shaders\Lights\DirectLight.h" />
+    <None Include="data\shaders\Lights\AmbientLight.h" />
     <ClInclude Include="Public\3rdPart\assimp\ai_assert.h" />
     <ClInclude Include="Public\3rdPart\assimp\anim.h" />
     <ClInclude Include="Public\3rdPart\assimp\camera.h" />

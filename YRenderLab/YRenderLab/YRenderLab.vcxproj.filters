@@ -112,6 +112,9 @@
     <Filter Include="data\shaders">
       <UniqueIdentifier>{147e5250-f599-41b9-ae35-6ade7e4a8b8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data\shaders\Lights">
+      <UniqueIdentifier>{59045584-c8b3-4e5e-b0bb-f88456137971}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -484,6 +487,12 @@
     </None>
     <None Include="data\shaders\Test.fs">
       <Filter>data\shaders</Filter>
+    </None>
+    <None Include="data\shaders\Lights\DirectLight.h">
+      <Filter>data\shaders\Lights</Filter>
+    </None>
+    <None Include="data\shaders\Lights\AmbientLight.h">
+      <Filter>data\shaders\Lights</Filter>
     </None>
   </ItemGroup>
 </Project>
