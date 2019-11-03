@@ -7,11 +7,14 @@
 #include <Public/Basic/Image/Image.h>
 #include <Public/Basic/Vertex/Vertex.h>
 
-#include <Public/YGM/Matrix4.hpp>
 #include <Public/YGM/Transform.h>
+
+#include <Public/YGM/Matrix4.hpp>
 #include <Public/YGM/Base/Val2.hpp>
 #include <Public/YGM/Base/Val3.hpp>
 #include <Public/YGM/Base/Val4.hpp>
+#include <Public/YGM/RGB.hpp>
+#include <Public/YGM/RGBA.hpp>
 
 
 #endif

@@ -72,8 +72,13 @@ namespace YRender {
 		glEnable(GL_DEPTH_TEST);
 
 		GlslShader = std::make_unique<GLShader>("data/shaders/Test.vs", "data/shaders/Test.fs");
+		GlslShader->SetFloat("_AmbientLight.intensity", 0.3f);
+		GlslShader->SetVec3f("_AmbientLight.lightColor", RGBf::White);
+		GlslShader->SetVec3f("_DirectLight.direction", Val3(0.f,0.f,1.f));
+		GlslShader->SetVec3f("_DirectLight.lightColor", RGBf::White);
 		std::vector<uint32_t> attrVec = { 3,3,2 };
 		GlVAO = std::make_unique<VAO>(vertices, Utils::GetArrLength(vertices) * static_cast<uint32_t>(sizeof(float)), attrVec);
+
 		return true;
 	}
 

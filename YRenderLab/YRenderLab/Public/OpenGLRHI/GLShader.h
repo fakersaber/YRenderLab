@@ -30,9 +30,9 @@ namespace YRender {
 		void SetVec3f(const std::string &name, const Val3& v) const {
 			SetVec3f(name, v[0], v[1], v[2]);
 		}
-		void SetVec3fs(const std::string &name, uint32_t n, const float * data) const;
-		void SetVec4f(const std::string &name, float value0, float value1, float value2, float value3) const;
-		void SetVec4f(const std::string &name, const Val4& v) const {
+		void SetVec3fs(const std::string& name, uint32_t n, const float* data) const;
+		void SetVec4f(const std::string& name, float value0, float value1, float value2, float value3) const;
+		void SetVec4f(const std::string& name, const Val4& v) const {
 			SetVec4f(name, v[0], v[1], v[2], v[3]);
 		}
 		void SetMat4f(const std::string &name, const float* matValue) const;

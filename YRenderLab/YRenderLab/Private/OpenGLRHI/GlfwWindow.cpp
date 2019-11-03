@@ -22,8 +22,8 @@ namespace YRender {
 		}
 
 		this->_RenderClass = std::make_unique<GlRenderClass>(window);
-		lastX = width * 0.5f;
-		lastY = height * 0.5f;
+		lastX = width * 0.2f;
+		lastY = height * 0.2f;
 		glfwMakeContextCurrent(window);
 		glfwSetFramebufferSizeCallback(window, GlfwWindow::framebuffer_size_callback);
 		glfwSetCursorPosCallback(window, GlfwWindow::mouse_callback);

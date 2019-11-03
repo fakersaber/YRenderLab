@@ -1,6 +1,5 @@
 # YRenderLab
 Personal rendering pipline
-## todo
 ### SoftRHI
 - [x] Coordinate Transformation
 - [x] Matrix Caculation
@@ -16,6 +15,9 @@ Personal rendering pipline
 - [ ] module loading
 - [ ] Sky Box
 - [ ] Light
+  - [x]  diffuse Lambert
+  - [x]  Ambient
+  - [ ]  Specular
 - [ ] Shadow
 - [ ] CubeMap
 

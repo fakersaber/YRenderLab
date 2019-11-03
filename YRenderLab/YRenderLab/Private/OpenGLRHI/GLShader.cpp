@@ -61,39 +61,48 @@ namespace YRender {
 		return true;
 	}
 	void GLShader::SetBool(const std::string& name, bool value) const {
+		Use();
 		glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
 	}
 
 	void GLShader::SetInt(const std::string& name, int value) const {
+		Use();
 		glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
 	}
 
 	void GLShader::SetFloat(const std::string& name, float value) const {
+		Use();
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 	}
 
 	void GLShader::SetFloats(const std::string& name, uint32_t n, const float* values) const {
+		Use();
 		glUniform1fv(glGetUniformLocation(ID, name.c_str()), n, values);
 	}
 
 
 	void GLShader::SetVec2f(const std::string& name, float value0, float value1) const {
+		Use();
 		glUniform2f(glGetUniformLocation(ID, name.c_str()), value0, value1);
 	}
 
 	void GLShader::SetVec3f(const std::string& name, float value0, float value1, float value2) const {
+		Use();
 		glUniform3f(glGetUniformLocation(ID, name.c_str()), value0, value1, value2);
 	}
 
 	void GLShader::SetVec3fs(const std::string& name, uint32_t n, const float* data) const {
-		glUniform3fv(glGetUniformLocation(ID, name.c_str()), 4, data);
+		Use();
+		glUniform3fv(glGetUniformLocation(ID, name.c_str()), n, data);
 	}
 
 	void GLShader::SetVec4f(const std::string& name, float value0, float value1, float value2, float value3) const {
+		Use();
 		glUniform4f(glGetUniformLocation(ID, name.c_str()), value0, value1, value2, value3);
 	}
 
 	void GLShader::SetMat4f(const std::string& name, const float* matValue) const {
+		Use();
 		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, matValue);
 	}
 	int GLShader::CheckCompileErrors(uint32_t shader, CompileType type) {
