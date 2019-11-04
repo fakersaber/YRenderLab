@@ -35,4 +35,5 @@
 x64/
 Debug/
 
-!YRenderLab/Public/3rdPart/Lib
+!YRenderLab/Public/3rdPart/Lib/Debug
+!YRenderLab/Public/3rdPart/Lib/Release
