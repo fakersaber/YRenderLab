@@ -18,9 +18,8 @@ namespace YRender {
 	public:
 		GlRenderClass(const GlRenderClass& rhs) = delete;
 		GlRenderClass& operator=(const GlRenderClass& rhs) = delete;
-		GlRenderClass() = delete;
 
-		explicit GlRenderClass(GLFWwindow* window);
+		GlRenderClass();
 		virtual ~GlRenderClass();
 
 	public:

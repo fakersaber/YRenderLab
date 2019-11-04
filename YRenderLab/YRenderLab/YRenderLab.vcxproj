@@ -67,6 +67,7 @@
     <ClInclude Include="Public\Basic\Image\stb_image_write.h" />
     <ClInclude Include="Public\Basic\Mesh\GeometryGenerator.h" />
     <ClInclude Include="Public\Basic\Vertex\Vertex.h" />
+    <ClInclude Include="Public\Basic\YHeapObject.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\KHR\khrplatform.h" />
     <ClInclude Include="Public\OpenGLRHI\GlfwWindow.h" />
@@ -86,6 +87,7 @@
     <ClInclude Include="Public\RenderClass.h" />
     <ClInclude Include="Public\RenderDevice.h" />
     <ClInclude Include="Public\RenderWindow.h" />
+    <ClInclude Include="Public\Scene\AssimpLoader.h" />
     <ClInclude Include="Public\SoftRHI\GdiDevice.h" />
     <ClInclude Include="Public\SoftRHI\SoftRHI.h" />
     <ClInclude Include="Public\SoftRHI\Win32Window.h" />
@@ -131,11 +133,13 @@
     <ClCompile Include="Private\RenderClass.cpp" />
     <ClCompile Include="Private\RenderDevice.cpp" />
     <ClCompile Include="Private\RenderWindow.cpp" />
+    <ClCompile Include="Private\Scene\AssimpLoader.cpp" />
     <ClCompile Include="Private\SoftRHI\GdiDevice.cpp" />
     <ClCompile Include="Private\SoftRHI\SoftRHI.cpp" />
     <ClCompile Include="Private\SoftRHI\Win32Window.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
+    <ClCompile Include="Private\YHeapObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\shaders\Test.fs" />

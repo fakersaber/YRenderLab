@@ -21,7 +21,7 @@ namespace YRender {
 			return false;
 		}
 
-		this->_RenderClass = std::make_unique<GlRenderClass>(window);
+		this->_RenderClass = std::make_unique<GlRenderClass>();
 		lastX = width * 0.2f;
 		lastY = height * 0.2f;
 		glfwMakeContextCurrent(window);
@@ -46,7 +46,7 @@ namespace YRender {
 				beginTime = glfwGetTime();
 				_RenderClass->Tick();
 				_RenderClass->Render();
-				deltaTime = glfwGetTime() - beginTime;
+				deltaTime = static_cast<float>(glfwGetTime() - beginTime);
 			}
 			glfwSwapBuffers(window);
 			glfwPollEvents();
@@ -94,11 +94,11 @@ namespace YRender {
 			float yoffset = 0.f;
 			if (!GlfwWindow::GetInstance()->firstFlag) {
 				//不是第一次按住鼠标右键才计算差值
-				xoffset = GlfwWindow::GetInstance()->lastX - xpos;
-				yoffset = GlfwWindow::GetInstance()->lastY - ypos;
+				xoffset = GlfwWindow::GetInstance()->lastX - static_cast<float>(xpos);
+				yoffset = GlfwWindow::GetInstance()->lastY - static_cast<float>(ypos);
 			}
-			GlfwWindow::GetInstance()->lastX = xpos;
-			GlfwWindow::GetInstance()->lastY = ypos;
+			GlfwWindow::GetInstance()->lastX = static_cast<float>(xpos);
+			GlfwWindow::GetInstance()->lastY = static_cast<float>(ypos);
 			GlfwWindow::GetInstance()->firstFlag = false;
 			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessMouseMovement(xoffset, yoffset);
 		}
