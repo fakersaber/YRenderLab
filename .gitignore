@@ -33,7 +33,6 @@
 
 .vs/
 x64/
-Debug/
+YRenderLab/Debug
 
-!YRenderLab/Public/3rdPart/Lib/*/*.dll
-!YRenderLab/Public/3rdPart/Lib/*/*.lib
+!YRenderLab/YRenderLab/Public/3rdPart/Lib/*/*
