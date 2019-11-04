@@ -31,9 +31,11 @@
 *.out
 *.app
 
+# Files
 .vs/
 x64/
 Debug/
 
+#lib
 !YRenderLab/Public/3rdPart/Lib/Debug
 !YRenderLab/Public/3rdPart/Lib/Release

@@ -106,13 +106,13 @@
     <Filter Include="Public\Basic\File">
       <UniqueIdentifier>{8f5413d0-42cb-4d9c-a4ec-6d6068c88965}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data">
+    <Filter Include="Data">
       <UniqueIdentifier>{383ea9ba-7d9b-49f5-a5f8-fa1ef3986956}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data\shaders">
+    <Filter Include="Data\shaders">
       <UniqueIdentifier>{147e5250-f599-41b9-ae35-6ade7e4a8b8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data\shaders\Lights">
+    <Filter Include="Data\shaders\Lights">
       <UniqueIdentifier>{59045584-c8b3-4e5e-b0bb-f88456137971}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -483,16 +483,16 @@
       <Filter>Public\3rdPart\assimp</Filter>
     </None>
     <None Include="data\shaders\Test.vs">
-      <Filter>data\shaders</Filter>
+      <Filter>Data\shaders</Filter>
     </None>
     <None Include="data\shaders\Test.fs">
-      <Filter>data\shaders</Filter>
+      <Filter>Data\shaders</Filter>
     </None>
     <None Include="data\shaders\Lights\DirectLight.h">
-      <Filter>data\shaders\Lights</Filter>
+      <Filter>Data\shaders\Lights</Filter>
     </None>
     <None Include="data\shaders\Lights\AmbientLight.h">
-      <Filter>data\shaders\Lights</Filter>
+      <Filter>Data\shaders\Lights</Filter>
     </None>
   </ItemGroup>
 </Project>
