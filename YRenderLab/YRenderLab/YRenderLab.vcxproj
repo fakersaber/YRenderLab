@@ -88,6 +88,7 @@
     <ClInclude Include="Public\RenderDevice.h" />
     <ClInclude Include="Public\RenderWindow.h" />
     <ClInclude Include="Public\Scene\AssimpLoader.h" />
+    <ClInclude Include="Public\Scene\Yobject.h" />
     <ClInclude Include="Public\SoftRHI\GdiDevice.h" />
     <ClInclude Include="Public\SoftRHI\SoftRHI.h" />
     <ClInclude Include="Public\SoftRHI\Win32Window.h" />
@@ -139,7 +140,6 @@
     <ClCompile Include="Private\SoftRHI\Win32Window.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
-    <ClCompile Include="Private\YHeapObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\shaders\Test.fs" />

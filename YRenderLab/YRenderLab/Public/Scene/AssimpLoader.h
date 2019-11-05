@@ -5,8 +5,11 @@
 #include <Public/3rdPart/assimp/scene.h>
 
 namespace YRender{
+	class Yobject;
+
 	class AssimpLoader {
-		static void Load();
+		static const std::shared_ptr<Yobject> Load(const std::string& path);
+
 	};
 }
 

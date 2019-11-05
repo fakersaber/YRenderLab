@@ -6,6 +6,8 @@
 #include <Public/Basic/Camera/Camera.h>
 #include <Public/Basic/Image/Image.h>
 #include <Public/Basic/Vertex/Vertex.h>
+#include <Public/Basic/YHeapObject.h>
+
 
 #include <Public/YGM/Transform.h>
 
@@ -15,6 +17,7 @@
 #include <Public/YGM/Base/Val4.hpp>
 #include <Public/YGM/RGB.hpp>
 #include <Public/YGM/RGBA.hpp>
+
 
 
 #endif

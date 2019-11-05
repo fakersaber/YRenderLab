@@ -387,6 +387,9 @@
     <ClInclude Include="Public\Basic\YHeapObject.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Scene\Yobject.h">
+      <Filter>Public\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -470,9 +473,6 @@
     </ClCompile>
     <ClCompile Include="Private\Scene\AssimpLoader.cpp">
       <Filter>Private\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\YHeapObject.cpp">
-      <Filter>Private\Basic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
