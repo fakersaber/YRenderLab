@@ -4,10 +4,8 @@
 #include <Public/Basic/YHeapObject.h>
 
 namespace YRender {
+	class Component;
 	class Yobject : YHeapObject {
-
-
-
 	public:
 		void AddComponent();
 		void DestroyComponent();
