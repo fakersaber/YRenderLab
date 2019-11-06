@@ -121,6 +121,9 @@
     <Filter Include="Public\Scene">
       <UniqueIdentifier>{28b038b6-c336-40f5-811e-249319b5bfd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Private\Basic\StrAPI">
+      <UniqueIdentifier>{c000178f-601c-4b69-b36a-86cfb6c4c129}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -390,6 +393,9 @@
     <ClInclude Include="Public\Scene\Yobject.h">
       <Filter>Public\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\StrApi.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -473,6 +479,12 @@
     </ClCompile>
     <ClCompile Include="Private\Scene\AssimpLoader.cpp">
       <Filter>Private\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Scene\Yobjectcpp.cpp">
+      <Filter>Private\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp">
+      <Filter>Private\Basic\StrAPI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

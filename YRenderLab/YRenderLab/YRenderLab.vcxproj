@@ -66,6 +66,7 @@
     <ClInclude Include="Public\Basic\Image\stb_image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image_write.h" />
     <ClInclude Include="Public\Basic\Mesh\GeometryGenerator.h" />
+    <ClInclude Include="Public\Basic\StrApi.h" />
     <ClInclude Include="Public\Basic\Vertex\Vertex.h" />
     <ClInclude Include="Public\Basic\YHeapObject.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Private\Basic\File\File.cpp" />
     <ClCompile Include="Private\Basic\Image\Image.cpp" />
     <ClCompile Include="Private\Basic\Mesh\GeometryGenerator.cpp" />
+    <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp" />
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
     <ClCompile Include="Private\OpenGLRHI\GlfwWindow.cpp" />
@@ -135,6 +137,7 @@
     <ClCompile Include="Private\RenderDevice.cpp" />
     <ClCompile Include="Private\RenderWindow.cpp" />
     <ClCompile Include="Private\Scene\AssimpLoader.cpp" />
+    <ClCompile Include="Private\Scene\Yobjectcpp.cpp" />
     <ClCompile Include="Private\SoftRHI\GdiDevice.cpp" />
     <ClCompile Include="Private\SoftRHI\SoftRHI.cpp" />
     <ClCompile Include="Private\SoftRHI\Win32Window.cpp" />

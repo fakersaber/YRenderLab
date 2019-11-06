@@ -1,5 +1,8 @@
 ﻿#include <Public/YCore.h>
 
+
+#include <Public/Basic/StrApi.h>
+
 //class A : public YRender::YHeapObject {
 //public:
 //	static std::shared_ptr<A> New(int a) { return YRender::New<A>(a); }
@@ -31,6 +34,9 @@
 
 
 int main() {
+	
+
+
 	auto YEngine = YRender::YCore::GetCore();
 	if (YEngine->Initial(800, 600)) {
 		YEngine->Run();
