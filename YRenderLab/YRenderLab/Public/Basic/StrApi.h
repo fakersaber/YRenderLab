@@ -6,10 +6,13 @@
 
 namespace YRender {
 	namespace StrAPI {
-		static const std::vector<std::string> Split(const std::string& str, const std::string& separator);
-		static const std::vector<std::string> Split(const std::string& str, const char ch);
+		const std::vector<std::string> Split(const std::string& str, const std::string& separator);
 
-		static bool Is_suffix(const std::string& str, const std::string& suffix);
+		const std::vector<std::string> Split(const std::string& str, const char ch);
+
+		bool Is_suffix(const std::string& str, const std::string& suffix);
+
+		bool Is_prefix(const std::string& str, const std::string& prefix);
 	}
 }
 

@@ -46,15 +46,6 @@
     <Filter Include="Public\3rdPart\assimp">
       <UniqueIdentifier>{32265d4d-1adf-45a9-afdf-b3013c222f03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Public\3rdPart\assimp\Compiler">
-      <UniqueIdentifier>{780f1681-89c0-432b-9f0d-d13b8376951a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Public\3rdPart\assimp\port">
-      <UniqueIdentifier>{9efc444e-3f02-490d-bd1c-635aa84f59fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Public\3rdPart\assimp\port\AndroidJNI">
-      <UniqueIdentifier>{9b2cb39c-4747-433f-aff1-37ffea9d9387}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Public\Basic">
       <UniqueIdentifier>{628de5ec-869c-4a16-8283-846923f1f747}</UniqueIdentifier>
     </Filter>
@@ -124,6 +115,15 @@
     <Filter Include="Private\Basic\StrAPI">
       <UniqueIdentifier>{c000178f-601c-4b69-b36a-86cfb6c4c129}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public\3rdPart\assimp\Compiler">
+      <UniqueIdentifier>{dabc439d-e391-4d41-8e25-80ad864e56b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\3rdPart\assimp\port">
+      <UniqueIdentifier>{62e5d559-1d34-46d0-ae45-a513571dc528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\3rdPart\assimp\port\AndroidJNI">
+      <UniqueIdentifier>{417b159f-cf44-450b-b656-f0fda63a83bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -182,117 +182,6 @@
     </ClInclude>
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h">
       <Filter>Public\OpenGLRHI\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\ai_assert.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\anim.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\camera.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\cexport.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\cfileio.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\cimport.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\color4.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\config.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\DefaultLogger.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\defs.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\Exporter.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\Importer.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\importerdesc.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\IOStream.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\IOSystem.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\light.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\Logger.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\LogStream.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\material.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\matrix3x3.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\matrix4x4.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\mesh.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\metadata.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\NullLogger.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\postprocess.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\ProgressHandler.hpp">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\quaternion.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\scene.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\texture.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\types.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\vector2.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\vector3.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\version.h">
-      <Filter>Public\3rdPart\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\port\AndroidJNI\AndroidJNIIOSystem.h">
-      <Filter>Public\3rdPart\assimp\port\AndroidJNI</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\Compiler\poppack1.h">
-      <Filter>Public\3rdPart\assimp\Compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\Compiler\pstdint.h">
-      <Filter>Public\3rdPart\assimp\Compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\3rdPart\assimp\Compiler\pushpack1.h">
-      <Filter>Public\3rdPart\assimp\Compiler</Filter>
     </ClInclude>
     <ClInclude Include="Public\Basic\Image\stb_image.h">
       <Filter>Public\Basic\Image</Filter>
@@ -396,6 +285,237 @@
     <ClInclude Include="Public\Basic\StrApi.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\port\AndroidJNI\AndroidJNIIOSystem.h">
+      <Filter>Public\3rdPart\assimp\port\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Compiler\poppack1.h">
+      <Filter>Public\3rdPart\assimp\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Compiler\pstdint.h">
+      <Filter>Public\3rdPart\assimp\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Compiler\pushpack1.h">
+      <Filter>Public\3rdPart\assimp\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\aabb.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\ai_assert.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\anim.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\BaseImporter.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Bitmap.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\BlobIOSystem.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\ByteSwapper.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\camera.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\cexport.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\cfileio.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\cimport.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\color4.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\CreateAnimMesh.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\DefaultIOStream.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\DefaultIOSystem.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\DefaultLogger.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Defines.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\defs.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Exceptional.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Exporter.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\fast_atof.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\GenericProperty.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Hash.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Importer.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\importerdesc.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\IOStream.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\IOStreamBuffer.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\IOSystem.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\irrXMLWrapper.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\light.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\LineSplitter.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\LogAux.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Logger.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\LogStream.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Macros.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\material.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\MathFunctions.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\matrix3x3.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\matrix4x4.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\MemoryIOWrapper.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\mesh.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\metadata.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\NullLogger.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\ParsingUtils.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\pbrmaterial.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\postprocess.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Profiler.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\ProgressHandler.hpp">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\qnan.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\quaternion.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\RemoveComments.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\scene.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\SceneCombiner.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\SGSpatialSort.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\SkeletonMeshBuilder.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\SmoothingGroups.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\SpatialSort.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\StandardShapes.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\StreamReader.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\StreamWriter.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\StringComparison.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\StringUtils.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Subdivision.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\texture.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\TinyFormatter.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\types.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\vector2.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\vector3.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\version.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\Vertex.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\XMLTools.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\ZipArchiveIOSystem.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\assimp\config.h">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -488,10 +608,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\shaders\Test.vs">
+      <Filter>Data\shaders</Filter>
+    </None>
+    <None Include="data\shaders\Test.fs">
+      <Filter>Data\shaders</Filter>
+    </None>
+    <None Include="data\shaders\Lights\DirectLight.h">
+      <Filter>Data\shaders\Lights</Filter>
+    </None>
+    <None Include="data\shaders\Lights\AmbientLight.h">
+      <Filter>Data\shaders\Lights</Filter>
+    </None>
     <None Include="Public\3rdPart\assimp\.editorconfig">
       <Filter>Public\3rdPart\assimp</Filter>
     </None>
     <None Include="Public\3rdPart\assimp\color4.inl">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </None>
+    <None Include="Public\3rdPart\assimp\config.h.in">
       <Filter>Public\3rdPart\assimp</Filter>
     </None>
     <None Include="Public\3rdPart\assimp\material.inl">
@@ -506,23 +641,14 @@
     <None Include="Public\3rdPart\assimp\quaternion.inl">
       <Filter>Public\3rdPart\assimp</Filter>
     </None>
+    <None Include="Public\3rdPart\assimp\SmoothingGroups.inl">
+      <Filter>Public\3rdPart\assimp</Filter>
+    </None>
     <None Include="Public\3rdPart\assimp\vector2.inl">
       <Filter>Public\3rdPart\assimp</Filter>
     </None>
     <None Include="Public\3rdPart\assimp\vector3.inl">
       <Filter>Public\3rdPart\assimp</Filter>
-    </None>
-    <None Include="data\shaders\Test.vs">
-      <Filter>Data\shaders</Filter>
-    </None>
-    <None Include="data\shaders\Test.fs">
-      <Filter>Data\shaders</Filter>
-    </None>
-    <None Include="data\shaders\Lights\DirectLight.h">
-      <Filter>Data\shaders\Lights</Filter>
-    </None>
-    <None Include="data\shaders\Lights\AmbientLight.h">
-      <Filter>Data\shaders\Lights</Filter>
     </None>
   </ItemGroup>
 </Project>
