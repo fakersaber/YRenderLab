@@ -3,6 +3,7 @@
 
 #include <string>
 #include <Public/YGM/RGBA.hpp>
+#include <Public/Basic/YHeapObject.h>
 
 namespace YRender {
 
@@ -10,7 +11,7 @@ namespace YRender {
 
 	//Hdr = float
 	//rgb = unsigned char
-	class Image {
+	class Image : YHeapObject {
 	public:
 	public:
 		Image();

@@ -5,11 +5,15 @@
 #include <Public/3rdPart/assimp/scene.h>
 #include <Public/3rdPart/assimp/postprocess.h>
 
-namespace YRender{
-	namespace AssimpLoader {
-		class Yobject;
+#include <unordered_map>
 
-		const std::shared_ptr<Yobject> Load(const std::string& path);
+namespace YRender{
+	class YObject;
+	class Image;
+	namespace AssimpLoader {
+		const std::shared_ptr<YObject> Load(const std::string& path);
+
+		const std::shared_ptr<YObject> LoadNodes(std::unordered_map<std::string, std::shared_ptr<Image>>& image_table, const std::string& dir, aiNode* node, const aiScene* scene);
 	}
 }
 

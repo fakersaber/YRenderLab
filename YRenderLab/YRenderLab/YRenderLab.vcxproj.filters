@@ -516,6 +516,9 @@
     <ClInclude Include="Public\3rdPart\assimp\config.h">
       <Filter>Public\3rdPart\assimp</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\Component.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -600,11 +603,14 @@
     <ClCompile Include="Private\Scene\AssimpLoader.cpp">
       <Filter>Private\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Private\Scene\Yobjectcpp.cpp">
-      <Filter>Private\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp">
       <Filter>Private\Basic\StrAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Scene\Yobject.cpp">
+      <Filter>Private\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\Basic\Component.cpp">
+      <Filter>Private\Basic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
