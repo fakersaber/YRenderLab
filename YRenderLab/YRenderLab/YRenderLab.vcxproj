@@ -101,7 +101,6 @@
     <ClInclude Include="Public\3rdPart\enum.h" />
     <ClInclude Include="Public\Basic\BasicCore.h" />
     <ClInclude Include="Public\Basic\Camera\Camera.h" />
-    <ClInclude Include="Public\Basic\Component.h" />
     <ClInclude Include="Public\Basic\File\File.h" />
     <ClInclude Include="Public\Basic\Image\Image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image.h" />
@@ -130,6 +129,8 @@
     <ClInclude Include="Public\RenderDevice.h" />
     <ClInclude Include="Public\RenderWindow.h" />
     <ClInclude Include="Public\Scene\AssimpLoader.h" />
+    <ClInclude Include="Public\Scene\Component.h" />
+    <ClInclude Include="Public\Scene\TransformComponent.h" />
     <ClInclude Include="Public\Scene\Yobject.h" />
     <ClInclude Include="Public\SoftRHI\GdiDevice.h" />
     <ClInclude Include="Public\SoftRHI\SoftRHI.h" />
@@ -188,13 +189,14 @@
     <ClCompile Include="Private\RenderDevice.cpp" />
     <ClCompile Include="Private\RenderWindow.cpp" />
     <ClCompile Include="Private\Scene\AssimpLoader.cpp" />
+    <ClCompile Include="Private\Scene\Component.cpp" />
+    <ClCompile Include="Private\Scene\TransformComponent.cpp" />
     <ClCompile Include="Private\Scene\Yobject.cpp" />
     <ClCompile Include="Private\SoftRHI\GdiDevice.cpp" />
     <ClCompile Include="Private\SoftRHI\SoftRHI.cpp" />
     <ClCompile Include="Private\SoftRHI\Win32Window.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
-    <ClCompile Include="Public\Basic\Component.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\shaders\Test.fs" />

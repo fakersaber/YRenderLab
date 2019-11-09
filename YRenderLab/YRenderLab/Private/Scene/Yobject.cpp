@@ -1,6 +1,6 @@
 #include <Public/Scene/Yobject.h>
 
-#include <Public/Basic/Component.h>
+#include <Public/Scene/Component.h>
 
 namespace YRender {
 	void YObject::AttachComponent(const std::shared_ptr<Component>& component){

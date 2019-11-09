@@ -2,6 +2,9 @@
 
 #include <Public/Scene/AssimpLoader.h>
 #include <Public/Scene/Yobject.h>
+#include <Public/Scene/TransformComponent.h>
+
+
 #include <Public/Basic/StrApi.h>
 #include <Public/Basic/Image/Image.h>
 
@@ -36,11 +39,12 @@ namespace YRender{
 		const std::shared_ptr<YObject> LoadNodes(std::unordered_map<std::string, std::shared_ptr<Image>>& image_table, const std::string& dir, aiNode* node, const aiScene* scene)
 		{
 			auto obj = YRender::New<YObject>(node->mName.C_Str());
+			YRender::New<TransformComponent>(obj);
 			for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
+				//每一个mesh都是一个渲染对象
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-
-				//auto  Renderobj = YRender::New<Yobject>(std::to_string(i));
-				//YRender::New<>
+				
+				//LoadMesh(image_table, dir, mesh, scene, meshObj);
 			}
 
 

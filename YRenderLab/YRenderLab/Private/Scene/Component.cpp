@@ -1,4 +1,4 @@
-#include <Public/Basic/Component.h>
+#include <Public/Scene/Component.h>
 #include <Public/Scene/Yobject.h>
 
 namespace YRender {

@@ -3,41 +3,27 @@
 
 #include <Public/Basic/StrApi.h>
 
-//class A : public YRender::YHeapObject {
-//public:
-//	static std::shared_ptr<A> New(int a) { return YRender::New<A>(a); }
-//protected:
-//	A(int b) a:(b) {}
-//	virtual ~A() = default;
-//
-//	void TestCast() {
-//		auto a = shared_this<A>();
-//		auto b = weak_this<A>();
-//	}
-//private:
-//	int c;
-//};
-
-
-
-//class ObjectTest :public YRender::YHeapObject {
-//public:
-//	ObjectTest() = default;
-//	virtual ~ObjectTest() = default;
-//};
+#include <Public/Scene/YObject.h>
+#include <Public/Scene/TransformComponent.h>
 
 
 
 
 int main() {
-	//std::shared_ptr<A> ptr = A::New(1);
-	//std::shared_ptr<ObjectTest> p = YRender::Cast<ObjectTest>(ptr);
-	//std::cout << ptr.use_count() << std::endl;
-	//auto ptr = YRender::New<ObjectTest>();
-	//std::cout << ptr.use_count() << std::endl;
 
-	auto YEngine = YRender::YCore::GetCore();
-	if (YEngine->Initial(800, 600)) {
-		YEngine->Run();
+	auto obj = YRender::New<YRender::YObject>("test");
+	std::shared_ptr<YRender::Component> ComponentPtr = YRender::New<YRender::TransformComponent>(obj);
+	auto& Components = obj->Getcomponents();
+	obj->DetachComponent(ComponentPtr);
+	obj->AttachComponent(ComponentPtr);
+	if (Components.find(ComponentPtr) != Components.end()) {
+		std::cout << ComponentPtr.use_count() << std::endl;
 	}
+	
+	
+
+	//auto YEngine = YRender::YCore::GetCore();
+	//if (YEngine->Initial(800, 600)) {
+	//	YEngine->Run();
+	//}
 }

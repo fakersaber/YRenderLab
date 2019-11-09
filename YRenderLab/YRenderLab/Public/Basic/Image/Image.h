@@ -11,8 +11,7 @@ namespace YRender {
 
 	//Hdr = float
 	//rgb = unsigned char
-	class Image : YHeapObject {
-	public:
+	class Image : public YHeapObject {
 	public:
 		Image();
 		Image(const std::string& path, bool flip = false);

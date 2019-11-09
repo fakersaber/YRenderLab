@@ -516,8 +516,11 @@
     <ClInclude Include="Public\3rdPart\assimp\config.h">
       <Filter>Public\3rdPart\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Basic\Component.h">
-      <Filter>Public\Basic</Filter>
+    <ClInclude Include="Public\Scene\Component.h">
+      <Filter>Public\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Scene\TransformComponent.h">
+      <Filter>Public\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -609,8 +612,11 @@
     <ClCompile Include="Private\Scene\Yobject.cpp">
       <Filter>Private\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Public\Basic\Component.cpp">
-      <Filter>Private\Basic</Filter>
+    <ClCompile Include="Private\Scene\Component.cpp">
+      <Filter>Private\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Scene\TransformComponent.cpp">
+      <Filter>Private\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
