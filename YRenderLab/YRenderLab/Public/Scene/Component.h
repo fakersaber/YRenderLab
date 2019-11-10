@@ -11,6 +11,8 @@ namespace YRender {
 		//必须指定负载的Object
 		Component() = delete;
 		Component(const std::shared_ptr<YObject>& Owner) : OwnerObj(Owner) {};
+
+	protected:
 		virtual ~Component() = default;
 
 	protected:

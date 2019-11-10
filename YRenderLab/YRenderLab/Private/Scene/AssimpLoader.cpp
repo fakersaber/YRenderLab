@@ -36,7 +36,13 @@ namespace YRender{
 			return LoadNodes(image_table, dir, scene->mRootNode, scene);
 		}
 
-		const std::shared_ptr<YObject> LoadNodes(std::unordered_map<std::string, std::shared_ptr<Image>>& image_table, const std::string& dir, aiNode* node, const aiScene* scene)
+		const std::shared_ptr<YObject> LoadNodes
+		(
+			std::unordered_map<std::string, std::shared_ptr<Image>>& image_table, 
+			const std::string& dir, 
+			aiNode* node, 
+			const aiScene* scene
+		)
 		{
 			auto obj = YRender::New<YObject>(node->mName.C_Str());
 			YRender::New<TransformComponent>(obj);
@@ -44,13 +50,22 @@ namespace YRender{
 				//每一个mesh都是一个渲染对象
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 				
-				//LoadMesh(image_table, dir, mesh, scene, meshObj);
+				auto meshObj = YRender::New<YObject>("mesh_" + std::to_string(i));
+				YRender::New<TransformComponent>(meshObj);
+				LoadMesh(image_table, dir, mesh, scene, meshObj);
 			}
-
-
 			return obj;
 		}
 
-
+		void LoadMesh(
+			std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
+			const std::string& dir,
+			aiMesh* mesh,
+			const aiScene* scene,
+			std::shared_ptr<YObject> meshobj
+		) 
+		{
+			
+		}
 	}
 }

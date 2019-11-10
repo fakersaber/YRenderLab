@@ -65,7 +65,7 @@ namespace YRender {
 	}
 
 
-	//若不继承于enable_shared_from_this，只能每次返回一个新的sharedPtr造成多次释放
+	//用于在类的内部获取到自身的shared_ptr
 	class YHeapObject : public std::enable_shared_from_this<YHeapObject> {
 	private:
 		template<typename Type,typename ...Args>

@@ -11,8 +11,9 @@ namespace YRender {
 	class YObject : public YHeapObject {	
 	public:
 		YObject(const std::string& objname) : name(objname) {}	
+
+	protected:
 		virtual ~YObject() = default;
-		YObject() = delete;
 
 	public:
 
