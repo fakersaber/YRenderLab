@@ -525,6 +525,12 @@
     <ClInclude Include="Public\Basic\Mesh\TriMesh.h">
       <Filter>Public\Basic\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Scene\MeshComponent.h">
+      <Filter>Public\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\Node.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -623,6 +629,9 @@
     </ClCompile>
     <ClCompile Include="Private\Basic\Mesh\TriMesh.cpp">
       <Filter>Private\Basic\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Scene\MeshComponent.cpp">
+      <Filter>Private\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

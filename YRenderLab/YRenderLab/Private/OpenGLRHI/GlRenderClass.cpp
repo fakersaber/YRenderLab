@@ -91,6 +91,7 @@ namespace YRender {
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		//gl按照列读取内存
 		GlslShader->SetMat4f("_WorldToCamera", MainCamera.GetViewMatrix().selfTranspose());
 		GlslShader->SetMat4f("_CameraToClip", MainCamera.GetProjectMatrix().selfTranspose());
 		GlVAO->Draw(*GlslShader);											 	

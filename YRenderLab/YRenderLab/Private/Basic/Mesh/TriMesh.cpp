@@ -33,4 +33,8 @@ namespace YRender {
 		//if(tangents.empty())
 		//	GenTangents();
 	}
+	void TriMesh::InitAfterNew(){
+		//auto triMesh = shared_this<TriMesh>();
+		//for(auto )
+	}
 }

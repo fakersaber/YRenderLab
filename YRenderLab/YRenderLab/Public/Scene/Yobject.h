@@ -2,17 +2,24 @@
 #define _YRENDER_SCENE_YOBJECT_H_
 
 #include <Public/Basic/YHeapObject.h>
+#include <Public/Basic/Node.h>
 
 #include <string>
 #include <unordered_set>
 
 namespace YRender {
 	class Component;
-	class YObject : public YHeapObject {	
+	class YObject : public Node<YObject> {
 	public:
-		YObject(const std::string& objname) : name(objname) {}	
+		YObject(const std::string& objname, std::shared_ptr<YObject> parent = nullptr) :
+			name(objname),
+			Node(parent)
+		{
+
+		}	
 
 	protected:
+		YObject() = delete;
 		virtual ~YObject() = default;
 
 	public:
@@ -24,10 +31,7 @@ namespace YRender {
 
 		const std::unordered_set<std::shared_ptr<Component>>& Getcomponents() const { return components; };
 
-	//public:
-	//	static std::shared_ptr<YObject> New(const std::string& objname = "DefaultObj") {
-	//		return YRender::New<YObject>(objname);
-	//	}
+
 	private:
 		friend YHeapObject;
 		//shared_ptr的hash是对原生值计算，所以不同的shared对象也能查找

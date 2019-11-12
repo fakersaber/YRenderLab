@@ -2,7 +2,8 @@
 #define _YRENDER_BASIC_MESH_TRIMESH_H_
 
 #include <Public/Basic/YHeapObject.h>
-#include <Public/YGM/Vector.hpp>
+#include <Public/YGM/Vector3.hpp>
+#include <Public/YGM/Vector2.hpp>
 #include <vector>
 
 namespace YRender {
@@ -17,8 +18,8 @@ namespace YRender {
 		);
 
 		
-
-
+	protected:
+		virtual void InitAfterNew() override;
 	private:
 		std::vector<unsigned int> indice;
 		std::vector<Vector3> position;

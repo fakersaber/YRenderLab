@@ -7,12 +7,9 @@
 namespace YRender {
 	class YObject;
 	class Component : public YHeapObject {
-	public:
-		//必须指定负载的Object
-		Component() = delete;
-		Component(const std::shared_ptr<YObject>& Owner) : OwnerObj(Owner) {};
-
 	protected:
+		Component(const std::shared_ptr<YObject>& Owner) : OwnerObj(Owner) {};
+		Component() = delete;
 		virtual ~Component() = default;
 
 	protected:

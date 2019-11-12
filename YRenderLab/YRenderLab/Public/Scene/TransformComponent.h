@@ -14,10 +14,12 @@ namespace YRender {
 			const Vector3& scale = Vector3(1.f, 1.f, 1.f)
 		) :
 			Component(obj),
-			position(pos)
+			position(pos),
+			scale(scale)
 		{
 
 		}
+	protected:
 		TransformComponent() = delete;
 		virtual ~TransformComponent() = default;
 
