@@ -13,10 +13,15 @@ namespace YRender {
 	//rgb = unsigned char
 	class Image : public YHeapObject {
 	public:
+		enum class Mode {
+			NEAREST,
+			BILINEAR,
+		};
+	public:
 		Image();
 		Image(const std::string& path, bool flip = false);
-		explicit Image(Image&& image);
-		explicit Image(const Image& image);
+		Image(Image&& image);
+		Image(const Image& image);
 		Image& operator=(const Image& image);
 		Image& operator=(Image&& image);
 		virtual ~Image();
@@ -24,14 +29,27 @@ namespace YRender {
 	private:
 		//float At(int x, int y, int channel) const;
 		void Free();
-		bool IsValid() const;
 
 	public:
+		bool IsValid() const;
 		bool Load(const std::string& path, bool flip = false);
 		const RGBAf SampleNearest(float u, float v) const;
+		const RGBAf SampleBilinear(float u, float v) const;
 		const RGBAf GetPixel(int x, int y) const;
 		bool SaveToPNG(const std::string& fileName, bool flip = false);
-
+		const RGBAf Sample(float u, float v, Mode mode) const {
+			switch (mode)
+			{
+			case Mode::NEAREST:
+				return SampleNearest(u, v);
+				break;
+			case Mode::BILINEAR:
+				return SampleBilinear(u, v);
+				break;
+			default:
+				return RGBAf(0.f);
+			}
+		}
 
 	public:
 		static void OutPng(const char* fineName, int width, int height, int channel, void* data_ptr);

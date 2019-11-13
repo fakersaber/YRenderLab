@@ -1,9 +1,12 @@
 #include <Public/3rdPart/assimp/pbrmaterial.h>
-
 #include <Public/Scene/AssimpLoader.h>
 #include <Public/Scene/Yobject.h>
+
 #include <Public/Scene/TransformComponent.h>
 #include <Public/Scene/MeshComponent.h>
+#include <Public/Basic/MaterialComponent.h>
+
+#include <Public/Basic/BSDF_Diffuse.h>
 
 #include <Public/Basic/StrApi.h>
 #include <Public/Basic/Image/Image.h>
@@ -48,7 +51,7 @@ namespace YRender{
 			auto obj = YRender::New<YObject>(node->mName.C_Str());
 			YRender::New<TransformComponent>(obj);
 			for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
-				std::cout << node->mNumMeshes << std::endl;
+				//std::cout << node->mNumMeshes << std::endl;
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 				auto meshObj = YRender::New<YObject>("mesh_" + std::to_string(i),obj);
 				YRender::New<TransformComponent>(meshObj);
@@ -112,6 +115,52 @@ namespace YRender{
 
 			auto TriMeshPtr = YRender::New<TriMesh>(indices, poses, normals, texcoords, tangents);
 			YRender::New<MeshComponent>(meshobj, TriMeshPtr);
+
+			auto bsdf = YRender::New<BSDF_Diffuse>();
+			YRender::New<MaterialComponent>(meshobj, bsdf);
+
+			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+			for (int i = 0; i <= 12; i++) {
+				auto n = material->GetTextureCount(static_cast<aiTextureType>(i));
+				printf("%d : %d\n", i, n);
+			}
+
+			bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
+		}
+
+		std::shared_ptr<Image> AssimpLoader::LoadTexture(
+			std::unordered_map<std::string, std::shared_ptr<Image>>& image_table, 
+			const std::string& dir, 
+			aiMaterial* material, 
+			aiTextureType type
+		) 
+		{
+			auto num = material->GetTextureCount(type);
+			if (num == 0)
+				return nullptr;
+
+			if (num >= 2) {
+				printf("WARNNING::AssimpLoader::LoadMaterial:\n"
+					"\t""texture(type %d) >= 2\n", static_cast<int>(type));
+			}
+
+			aiString str;
+			material->GetTexture(type, 0, &str);
+
+			std::string path = dir + "/" + str.C_Str();
+
+			if (image_table.find(path) != image_table.end())
+				return image_table[path];
+
+			auto img = YRender::New<Image>(path);
+			if (!img->IsValid()) {
+				printf("ERROR::AssimpLoader::LoadMeshTexture:"
+					"\t""[%s] load fail.\n", path.c_str());
+				return nullptr;
+			}
+			//image_table.insert(std::make_pair(path, img));
+			image_table[path] = img;
+			return img;
 		}
 	}
 }

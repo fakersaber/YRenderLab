@@ -19,6 +19,11 @@ namespace YRender {
 				return (180.f / PI) * Radians;
 			}
 
+			template<typename T, typename U>
+			inline T Lerp(T v0, T v1, U t) {
+				return (static_cast<U>(1) - t)*v0 + t * v1;
+			}
+
 			template<typename T>
 			constexpr T ToVal(T orig, T val, T bound = static_cast<T>(EPSILON)) {
 				const auto delta = orig - val;
@@ -65,6 +70,9 @@ namespace YRender {
 				else
 					return value;
 			}
+
+
+
 		}
 	}
 }

@@ -124,6 +124,9 @@
     <Filter Include="Public\3rdPart\assimp\port\AndroidJNI">
       <UniqueIdentifier>{417b159f-cf44-450b-b656-f0fda63a83bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Private\Material">
+      <UniqueIdentifier>{ebec9b23-fed4-4823-b41c-d88a87b90305}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -531,6 +534,21 @@
     <ClInclude Include="Public\Basic\Node.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\Material.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\BSDF.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\BSDF_Diffuse.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YGM\Matrix3.hpp">
+      <Filter>Public\YGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\MaterialComponent.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -632,6 +650,12 @@
     </ClCompile>
     <ClCompile Include="Private\Scene\MeshComponent.cpp">
       <Filter>Private\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Material\BSDF.cpp">
+      <Filter>Private\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Material\BSDF_Diffuse.cpp">
+      <Filter>Private\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

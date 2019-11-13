@@ -87,6 +87,10 @@ namespace YRender {
 				return *this;
 			}
 
+			Val operator/(value_type rhs) const {
+				return Val(x / rhs, y / rhs, z / rhs);
+			}
+
 			Val& operator*=(value_type rhs) {
 				x *= rhs;
 				y *= rhs;
@@ -98,8 +102,19 @@ namespace YRender {
 				return Val(x * rhs, y * rhs, z*rhs);
 			}
 
+			Val operator*(const Val& rhs) const {
+				return Val(x * rhs.x,y * rhs.y,z * rhs.z);
+			}
+
 			Val operator+(const Val& rhs) const {
 				return Val(x + rhs.x, y + rhs.y, z + rhs.z);
+			}
+
+			Val& operator+=(const Val& rhs) {
+				this->x += rhs.x;
+				this->y += rhs.y;
+				this->z += rhs.z;
+				return *this;
 			}
 
 		public:

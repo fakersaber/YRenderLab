@@ -100,11 +100,15 @@
     <ClInclude Include="Public\3rdPart\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="Public\3rdPart\enum.h" />
     <ClInclude Include="Public\Basic\BasicCore.h" />
+    <ClInclude Include="Public\Basic\BSDF.h" />
+    <ClInclude Include="Public\Basic\BSDF_Diffuse.h" />
     <ClInclude Include="Public\Basic\Camera\Camera.h" />
     <ClInclude Include="Public\Basic\File\File.h" />
     <ClInclude Include="Public\Basic\Image\Image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image_write.h" />
+    <ClInclude Include="Public\Basic\Material.h" />
+    <ClInclude Include="Public\Basic\MaterialComponent.h" />
     <ClInclude Include="Public\Basic\Mesh\GeometryGenerator.h" />
     <ClInclude Include="Public\Basic\Mesh\TriMesh.h" />
     <ClInclude Include="Public\Basic\Node.h" />
@@ -148,6 +152,7 @@
     <ClInclude Include="Public\YGM\Base\Val4.hpp" />
     <ClInclude Include="Public\YGM\CGAlgorithm.hpp" />
     <ClInclude Include="Public\YGM\Math.hpp" />
+    <ClInclude Include="Public\YGM\Matrix3.hpp" />
     <ClInclude Include="Public\YGM\Matrix4.hpp" />
     <ClInclude Include="Public\YGM\RGB.hpp" />
     <ClInclude Include="Public\YGM\RGBA.hpp" />
@@ -176,6 +181,8 @@
     <ClCompile Include="Private\Basic\Mesh\TriMesh.cpp" />
     <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp" />
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp" />
+    <ClCompile Include="Private\Material\BSDF.cpp" />
+    <ClCompile Include="Private\Material\BSDF_Diffuse.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
     <ClCompile Include="Private\OpenGLRHI\GlfwWindow.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GlRenderClass.cpp" />

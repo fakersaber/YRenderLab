@@ -3,6 +3,7 @@
 
 #include <Public/YGM/Base/Basic_Val4.hpp>
 
+#include <Public/YGM/RGB.hpp>
 
 namespace YRender {
 	namespace YGM {
@@ -41,7 +42,9 @@ namespace YRender {
 				return result_value;
 			}
 
-
+			RGB<T> ToRGB() const {
+				return RGB<T>(this->r, this->g, this->b) * this->a;
+			}
 
 		public:
 			static RGBA<T> Red;

@@ -2,7 +2,7 @@
 #define _YRENDER_YGM_RGB_H_
 
 #include <Public/YGM/Base/Basic_Val3.hpp>
-
+//#include <Public/YGM/Vector3.hpp>
 
 namespace YRender {
 	namespace YGM {
@@ -10,42 +10,24 @@ namespace YRender {
 		class RGB : public Basic_Val<3, T, RGB<T>> {
 		public:
 			using Basic_Val<3, T, RGB<T>>::Basic_Val;
+		
 
 		//public:
-		//	explicit RGB(T val) : RGB(val, val, val) { }
+		//	RGB& operator=(const Vector<3,T>& rhs) {
+		//		this->x = rhs.x;
+		//		this->y = rhs.y;
+		//		this->z = rhs.z;
+		//		return *this;
+		//	}
 
-		//	RGB() : RGB(static_cast<T>(0)) { }
+			//RGB& operator+=(const Vector<3, T>& rhs) {
+			//	this->x += rhs.x;
+			//	this->y += rhs.y;
+			//	this->z += rhs.z;
+			//	return *this;
+			//}
 
-		//	template<typename U, typename V>
-		//	RGB(const Val<2, U>& rg, V b) : RGB(rg, b) { }
 
-		//	template<typename U, typename V>
-		//	RGB(U r, const Val<2, V>& gb) : RGB(r, gb) { }
-
-
-			
-
-		public:
-			RGB& operator=(const Vector<3,T>& rhs) {
-				this->x = rhs.x;
-				this->y = rhs.y;
-				this->z = rhs.z;
-				return *this;
-			}
-
-			RGB& operator+=(const Vector<3, T>& rhs) {
-				this->x += rhs.x;
-				this->y += rhs.y;
-				this->z += rhs.z;
-				return *this;
-			}
-
-			RGB& operator+=(const RGB& rhs) {
-				this->x += rhs.x;
-				this->y += rhs.y;
-				this->z += rhs.z;
-				return *this;
-			}
 
 		public:
 			static RGB<T> Red;

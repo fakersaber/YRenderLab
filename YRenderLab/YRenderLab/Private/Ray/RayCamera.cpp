@@ -55,7 +55,7 @@ namespace YRender {
 					Color += (RGBf::White * (1.f - lerpVal) + RGBf(0.5f, 0.7f, 1.f) * lerpVal) * Consume;
 				}
 				Color /= static_cast<float>(samples);
-				Color = Vector3(pow(Color.x,0.45f), pow(Color.y,0.45f), pow(Color.z,0.45f));
+				Color = RGBf(pow(Color.x,0.45f), pow(Color.y,0.45f), pow(Color.z,0.45f));
 				//左下角作为起点-，stb倒过来
 				OutPutData[i + (height - 1 - j) * width * 3] = static_cast<uint8_t>(Color.r * 255.f);
 				OutPutData[i + (height - 1 - j) * width * 3 + 1] = static_cast<uint8_t>(Color.g * 255.f);

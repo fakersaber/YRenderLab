@@ -16,10 +16,15 @@ namespace YRender {
 			using Val<4, T>::Val;
 
 
-
-			//static const ImplT Lerp(const ImplT& s0, const ImplT& s1, T t) {
-			//	//return 
-			//}
+		public:
+			static const ImplT Lerp(const ImplT& s0, const ImplT& s1, T t) {
+				return ImplT(
+					Math::Lerp(s0.x, s1.x, t),
+					Math::Lerp(s0.y, s1.y, t),
+					Math::Lerp(s0.z, s1.z, t),
+					Math::Lerp(s0.w, s1.w, t)
+				);
+			}
 		};
 	}
 }

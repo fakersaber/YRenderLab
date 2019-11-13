@@ -25,6 +25,13 @@ namespace YRender{
 			aiMesh* mesh,
 			const aiScene* scene,
 			std::shared_ptr<YObject> meshobj);
+
+		std::shared_ptr<Image> LoadTexture(
+			std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
+			const std::string& dir,
+			aiMaterial* material,
+			aiTextureType type
+		);
 	}
 }
 

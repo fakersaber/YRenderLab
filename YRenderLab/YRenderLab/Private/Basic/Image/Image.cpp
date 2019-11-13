@@ -31,7 +31,7 @@ namespace YRender {
 
 	Image::~Image() {
 		delete data;
-		//width = height = channel = 0;
+		width = height = channel = 0;
 	}
 
 
@@ -59,6 +59,32 @@ namespace YRender {
 		int xi = static_cast<int>(xf);
 		int yi = static_cast<int>(yf);
 		return GetPixel(xi, yi);
+	}
+
+	const RGBAf Image::SampleBilinear(float u, float v) const
+	{
+		float xf = YGM::Math::Clamp(u, 0.f, 0.999999f) * width;
+		float yf = YGM::Math::Clamp(v, 0.f, 0.999999f) * height;
+		int x0 = static_cast<int>(xf);
+		int y0 = static_cast<int>(yf);
+		int x1 = 0;
+		int y1 = 0;
+		if (x0 == width - 1)
+			x1 = width - 1;
+		else
+			x1 = x0 + 1;
+		if (y0 == height - 1)
+			y1 = height - 1;
+		else
+			y1 = y0 + 1;
+		float tx = abs(xf - x0);
+		float ty = abs(yf - y0);
+		RGBAf mixColor = RGBAf::Lerp(
+			RGBAf::Lerp(GetPixel(x0, y0), GetPixel(x1, y0), tx), 
+			RGBAf::Lerp(GetPixel(x1, y1), GetPixel(x1, y1), tx),
+			ty
+		);
+		return mixColor;
 	}
 
 
