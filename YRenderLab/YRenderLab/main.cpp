@@ -1,20 +1,12 @@
 ﻿#include <Public/YCore.h>
 
 #include <Public/Scene/AssimpLoader.h>
-
+#include <Public/Scene/Scene.h>
 
 
 int main() {
-
-	std::shared_ptr<int> testptr = std::make_shared<int>(3);
-
-	auto Scene = YRender::AssimpLoader::Load("C:/Users/Administrator/Desktop/nanosuit/nanosuit.obj");
-	std::cout << Scene.use_count() << std::endl;
-
-
-
-
-
+	auto Root = YRender::AssimpLoader::Load("C:/Users/Administrator/Desktop/nanosuit/nanosuit.obj");
+	auto Scene = YRender::New<YRender::Scene>(Root);
 
 	//auto YEngine = YRender::YCore::GetCore();
 	//if (YEngine->Initial(800, 600)) {

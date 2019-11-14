@@ -127,6 +127,12 @@
     <Filter Include="Private\Material">
       <UniqueIdentifier>{ebec9b23-fed4-4823-b41c-d88a87b90305}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public\Viewer">
+      <UniqueIdentifier>{998e36cf-b9b3-4478-a5c2-577d754d96ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Viewer">
+      <UniqueIdentifier>{f2c614d6-ac87-4acc-91a6-274547cfd064}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\RenderClass.h">
@@ -549,6 +555,12 @@
     <ClInclude Include="Public\Basic\MaterialComponent.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Scene\Scene.h">
+      <Filter>Public\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Viewer\Raster.h">
+      <Filter>Public\Viewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -656,6 +668,12 @@
     </ClCompile>
     <ClCompile Include="Private\Material\BSDF_Diffuse.cpp">
       <Filter>Private\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Scene\Scene.cpp">
+      <Filter>Private\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Viewer\Raster.cpp">
+      <Filter>Private\Viewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

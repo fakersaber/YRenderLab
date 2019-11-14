@@ -12,8 +12,6 @@ namespace YRender {
 		return 0.0f;
 	}
 
-
-
 	const RGBf BSDF_Diffuse::GetAlbedo(const Vector2 & texcoord) const
 	{
 		if (!albedoTexture || !albedoTexture->IsValid())

@@ -105,6 +105,11 @@ namespace YRender {
 		Use();
 		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, matValue);
 	}
+
+	void GLShader::UniformBlockBind(const std::string& name, uint32_t bindPoint) const {
+		glUniformBlockBinding(ID, glGetUniformBlockIndex(ID, name.c_str()), bindPoint);
+	}
+
 	int GLShader::CheckCompileErrors(uint32_t shader, CompileType type) {
 		int success;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);

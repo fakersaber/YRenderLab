@@ -43,7 +43,7 @@ namespace YRender {
 			SetMat4f(name, tsfm.GetMatrix());
 		}
 
-		void UniformBlockBind(const std::string &name, uint32_t bindPoint) const;
+		void UniformBlockBind(const std::string& name, uint32_t bindPoint) const;
 
 	//public:
 	//	static const GLShader InValid;
