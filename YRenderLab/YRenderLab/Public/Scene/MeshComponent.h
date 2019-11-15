@@ -23,7 +23,11 @@ namespace YRender {
 		MeshComponent() = delete;
 		virtual ~MeshComponent() = default;
 
+	//public:
+	//	virtual void Accept() override;
 
+	public:
+		const std::shared_ptr<TriMesh> GetMesh() const { return mesh; };
 
 	private:
 		std::shared_ptr<TriMesh> mesh;

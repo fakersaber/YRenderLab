@@ -32,6 +32,10 @@ namespace YRender {
 				y = rhs.y;
 				return *this;
 			}
+
+		public:
+			const value_type* Data() const { return _data; }
+			value_type* Data() { return _data; }
 		public:
 			union
 			{

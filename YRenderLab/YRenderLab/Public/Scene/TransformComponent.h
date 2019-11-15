@@ -23,9 +23,12 @@ namespace YRender {
 		TransformComponent() = delete;
 		virtual ~TransformComponent() = default;
 
+	public:
+		const YGM::Transform& GetTransform() const { return transform; }
 	private:
 		Vector3 position;
 		Vector3 scale;
+		mutable YGM::Transform transform;
 	};
 }
 

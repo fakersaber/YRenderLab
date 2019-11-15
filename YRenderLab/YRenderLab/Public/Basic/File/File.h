@@ -8,6 +8,10 @@ namespace YRender {
 	class File {
 	public:
 		static std::string ReadFile(const std::string& filepath);
+
+	private:
+		File() = delete;
+		~File() = delete;
 	};
 }
 

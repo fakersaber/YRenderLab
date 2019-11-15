@@ -4,15 +4,22 @@
 
 namespace YRender {
 	void YObject::AttachComponent(const std::shared_ptr<Component>& component){
+		auto iter = components.find(typeid(*component));
+		if (iter != components.end()) {
+			iter->second->OwnerObj.reset();
+		}
 		component->OwnerObj = weak_this<YObject>();
-		components.insert(component);
+		components[typeid(*component)] = component;
 	}
 
 
 	void YObject::DetachComponent(const std::shared_ptr<Component>& component){
-		auto iter = components.find(component);
-		if (iter != components.end()) {	
-			components.erase(iter);
-		}
+		auto iter = components.find(typeid(*component));
+		if (iter == components.end())
+			return;
+		if (iter->second != component)
+			return;
+		component->OwnerObj.reset();
+		components.erase(iter);
 	}
 }

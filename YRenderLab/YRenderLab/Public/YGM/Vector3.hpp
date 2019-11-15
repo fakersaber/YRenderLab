@@ -111,6 +111,10 @@ namespace YRender {
 			}
 
 		public:
+			const value_type* Data() const { return _data; }
+			value_type* Data() { return _data; }
+
+		public:
 			union
 			{
 				value_type _data[3];

@@ -14,6 +14,9 @@ namespace YRender {
 		virtual ~MaterialComponent() = default;
 
 	public:
+		const std::shared_ptr<Material> GetMaterial() const { return material; };
+
+	private:
 		std::shared_ptr<Material> material;
 	};
 }

@@ -44,54 +44,56 @@ namespace YRender {
 		}
 	}
 
-	VAO::~VAO(){
-		glDeleteVertexArrays(1, &VAO_ID);
-		glDeleteBuffers(1, &VBO_ID);
-		if (hasIndex)
-			glDeleteBuffers(1, &EBO_ID);
+
+
+	VAO::VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, const std::vector<uint32_t>& divisors) {
+		if (vec_VBO_DataPatch.size() == 0
+			|| (divisors.size() > 0 && vec_VBO_DataPatch.size() != divisors.size())) {
+			isValid = false;
+			return;
+		}
+
+		glGenVertexArrays(1, &VAO_ID);
+		glBindVertexArray(VAO_ID);
+
+		for (uint32_t i = 0; i < vec_VBO_DataPatch.size(); i++) {
+			auto & dataPatch = vec_VBO_DataPatch[i];
+			uint32_t VBO;
+			glGenBuffers(1, &VBO);
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferData(GL_ARRAY_BUFFER, dataPatch.dataSize, dataPatch.data, GL_STATIC_DRAW);
+			glVertexAttribPointer(i, dataPatch.attrLen, GL_FLOAT, GL_FALSE, dataPatch.attrLen * sizeof(float), (void*)(0 * sizeof(float)));
+			glEnableVertexAttribArray(i);
+			if (divisors.size() != 0 && divisors[i] > 0)
+				glVertexAttribDivisor(i, divisors[i]);
+		}
+		VertexNum = vec_VBO_DataPatch[0].dataSize / (sizeof(float) * vec_VBO_DataPatch[0].attrLen);
+		hasIndex = false;
+		isValid = true;
 	}
 
-	//VAO::VAO(const std::vector<VBO_DataPatch> & vec_VBO_DataPatch, const std::vector<uint32_t> & divisors) {
-	//	if (vec_VBO_DataPatch.size() == 0
-	//		|| (divisors.size() > 0 && vec_VBO_DataPatch.size() != divisors.size())) {
-	//		isValid = false;
-	//		return;
-	//	}
-
-	//	glGenVertexArrays(1, &ID);
-	//	glBindVertexArray(ID);
-
-	//	for (uint32_t i = 0; i < vec_VBO_DataPatch.size(); i++) {
-	//		auto & dataPatch = vec_VBO_DataPatch[i];
-	//		uint32_t VBO;
-	//		glGenBuffers(1, &VBO);
-	//		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//		glBufferData(GL_ARRAY_BUFFER, dataPatch.dataSize, dataPatch.data, GL_STATIC_DRAW);
-	//		glVertexAttribPointer(i, dataPatch.attrLen, GL_FLOAT, GL_FALSE, dataPatch.attrLen * sizeof(float), (void*)(0 * sizeof(float)));
-	//		glEnableVertexAttribArray(i);
-	//		if (divisors.size() != 0 && divisors[i] > 0)
-	//			glVertexAttribDivisor(i, divisors[i]);
-	//	}
-	//	//按照没有索引的情况设置 pointNum
-	//	this->pointNum = vec_VBO_DataPatch[0].dataSize / (sizeof(float) * vec_VBO_DataPatch[0].attrLen);
-	//	hasIndex = false;
-	//	isValid = true;
-	//}
-
-	//VAO::VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, uint32_t const * index, uint32_t indexSize, const std::vector<uint32_t> & divisors)
-	//	: VAO(vec_VBO_DataPatch, divisors) {
-	//	if (IsValid()) {
-	//		pointNum = indexSize / sizeof(uint32_t);
-	//		hasIndex = true;
-	//		isValid = GenBindEBO(index, indexSize);
-	//	}
-	//}
+	VAO::VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, uint32_t const * index, uint32_t indexSize, const std::vector<uint32_t> & divisors)
+		: VAO(vec_VBO_DataPatch, divisors) {
+		if (isValid) {
+			VertexNum = indexSize / sizeof(uint32_t);
+			hasIndex = true;
+			isValid = GenBindEBO(index, indexSize);
+		}
+	}
 
 	bool VAO::GenBindEBO(uint32_t const* indexArray, uint32_t indexSize) {
 		glGenBuffers(1, &EBO_ID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_ID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, indexArray, GL_STATIC_DRAW);
 		return true;
+	}
+
+
+	VAO::~VAO() {
+		glDeleteVertexArrays(1, &VAO_ID);
+		glDeleteBuffers(1, &VBO_ID);
+		if (hasIndex)
+			glDeleteBuffers(1, &EBO_ID);
 	}
 
 	bool VAO::Use() const {

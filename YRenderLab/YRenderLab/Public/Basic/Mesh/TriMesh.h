@@ -20,6 +20,13 @@ namespace YRender {
 		
 	protected:
 		virtual void InitAfterNew() override;
+
+	public:
+		const std::vector<Vector3>& GetPositions() const { return position; }
+		const std::vector<Vector3>& GetNormals() const { return normal; }
+		const std::vector<Vector2>& GetTexcoords() const { return texcoords; }
+		const std::vector<Vector3>& GetTangents() const { return tangents; }
+		const std::vector<unsigned int>& GetIndice() const { return indice; }
 	private:
 		std::vector<unsigned int> indice;
 		std::vector<Vector3> position;

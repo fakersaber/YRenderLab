@@ -2,6 +2,9 @@
 
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 #include <Public/OpenGLRHI/GLShader.h>
+
+#include <Public/Scene/Scene.h>
+
 namespace YRender {
 	void Raster::Initial(){
 		glGenBuffers(1, &directionalLightsUBO);
@@ -13,7 +16,7 @@ namespace YRender {
 
 
 
-	void Raster::MapUBOToShader(const GLShader & shader){
+	void Raster::MapUBOToShader(const GLShader& shader){
 		shader.UniformBlockBind("Camera", 0);
 		shader.UniformBlockBind("PointLights", 1);
 		shader.UniformBlockBind("DirectionalLights", 2);

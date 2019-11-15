@@ -561,6 +561,9 @@
     <ClInclude Include="Public\Viewer\Raster.h">
       <Filter>Public\Viewer</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Viewer\ForwardRaster.h">
+      <Filter>Public\Viewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -673,6 +676,9 @@
       <Filter>Private\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Private\Viewer\Raster.cpp">
+      <Filter>Private\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Viewer\ForwardRaster.cpp">
       <Filter>Private\Viewer</Filter>
     </ClCompile>
   </ItemGroup>

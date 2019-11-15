@@ -5,11 +5,25 @@
 #include <Public/Basic/Node.h>
 
 #include <string>
-#include <unordered_set>
+#include <unordered_map>
 
 namespace YRender {
 	class Component;
 	class YObject : public Node<YObject> {
+	public:
+		//当key值为引用类型时，使用reference_wrapper包装后接受右值类型
+		using TypeInfoRef = std::reference_wrapper<const std::type_info>;
+		struct Hasher {
+			std::size_t operator()(TypeInfoRef type) const {
+				return type.get().hash_code();
+			}
+		};
+
+		struct EqualTo {
+			bool operator()(TypeInfoRef lhs, TypeInfoRef rhs) const {
+				return lhs.get() == rhs.get();
+			}
+		};
 	public:
 		YObject(const std::string& objname, std::shared_ptr<YObject> parent = nullptr) :
 			name(objname),
@@ -24,25 +38,37 @@ namespace YRender {
 
 	public:
 
-		//逻辑线程，shared_ptr安全，不使用值类型
 		void AttachComponent(const std::shared_ptr<Component>& component);
 
 		void DetachComponent(const std::shared_ptr<Component>& component);
 
-		const std::unordered_set<std::shared_ptr<Component>>& Getcomponents() const { return components; };
+		const std::unordered_map<TypeInfoRef, std::shared_ptr<Component>, Hasher, EqualTo>& Getcomponents() const { return components; };
 
+		template <typename ComponentType>
+		const std::shared_ptr<ComponentType> GetComponent(ComponentType* TemplateParam = nullptr) const;
+
+		//template <typename ComponentType>
+		//const std::shared_ptr<ComponentType> GetComponentInChildren()
 
 	private:
 		friend YHeapObject;
-		//shared_ptr的hash是对原生值计算，所以不同的shared对象也能查找
-		std::unordered_set<std::shared_ptr<Component>> components;
+	
+		std::unordered_map<TypeInfoRef, std::shared_ptr<Component>, Hasher, EqualTo> components;
+
 		std::string name;
 	};
 
-	//template<typename ComponentType>
-	//inline void Yobject::AttachComponent(const std::shared_ptr<ComponentType>& component){
 
-	//}
+	template<typename ComponentType>
+	inline const std::shared_ptr<ComponentType> YObject::GetComponent(ComponentType* TemplateParam) const{
+		static_assert(std::is_base_of_v<Component, ComponentType>, "Component Type Error!");
+		auto iter = components.find(typeid(ComponentType));
+		if (iter == components.end())
+			return nullptr;
+		return Cast<ComponentType>(iter->second);
+	}
+
+
 }
 
 

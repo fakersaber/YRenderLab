@@ -10,7 +10,8 @@ namespace YRender {
 		//右手系，y轴朝上
 		class Transform {
 		public:
-			Transform(float d) :Matrix(d) {}//InvMatrix(1.f/d){};
+			Transform(float d) :Matrix(d) {}//InvMatrix(1.f/d){};.
+			Transform() :Transform(1.f) { }
 			Transform(const Mat4f& matrix) : Matrix(matrix) {} //InvMatrix(matrix.Inverse()) {}
 			Transform(const Mat4f& matrix, const Mat4f& invMatrix) :Matrix(matrix),InvMatrix(invMatrix){};
 

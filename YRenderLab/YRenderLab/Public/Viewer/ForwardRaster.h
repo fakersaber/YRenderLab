@@ -4,6 +4,10 @@
 #include <Public/Viewer/Raster.h>
 #include <Public/YGM/Transform.h>
 
+#include <Public/OpenGLRHI/GLVAO.h>
+
+#include <vector>
+#include <unordered_map>
 namespace YRender {
 	class YObject;
 	
@@ -31,6 +35,10 @@ namespace YRender {
 
 	private:
 		std::vector<YGM::Transform> modelVec;
+
+		//这样创建表一直变大，且如果TriMesh被释放后，对于容器也是不可知的，如何要这样缓存，需要定时清理。
+		std::unordered_map<std::weak_ptr<TriMesh>, VAO> mesh2VAO;
+		GLShader curShader;
 	};
 }
 

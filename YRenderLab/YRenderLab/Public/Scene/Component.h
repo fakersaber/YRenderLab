@@ -14,7 +14,7 @@ namespace YRender {
 
 	protected:
 		virtual void InitAfterNew() override;
-
+		//virtual void Accept() = 0;
 	public:
 		const std::shared_ptr<YObject> GetOwner() const { return OwnerObj.lock(); }
 	private:
