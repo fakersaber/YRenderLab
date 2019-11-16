@@ -116,7 +116,9 @@ namespace YRender {
 				this->z += rhs.z;
 				return *this;
 			}
-
+		public:
+			const value_type* Data() const { return _data; }
+			value_type* Data() { return _data; }
 		public:
 			bool HasNaN() const { return std::isnan<double>(x) || std::isnan<double>(y) || std::isnan<double>(z); }
 

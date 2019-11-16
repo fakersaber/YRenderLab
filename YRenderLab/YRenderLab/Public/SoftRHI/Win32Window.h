@@ -25,6 +25,7 @@ namespace YRender {
 
 	private:
 		//增加渲染线程后可以分开，现在暂时不能分开，渲染在窗体循环里面
+		std::unique_ptr<RenderClass> _RenderClass;
 		HWND hwnd;	
 	};
 }

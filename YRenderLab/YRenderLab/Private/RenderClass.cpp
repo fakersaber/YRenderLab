@@ -3,6 +3,6 @@
 
 
 namespace YRender {
-	RenderClass::RenderClass() {}
+	RenderClass::RenderClass() : MainCamera(YRender::New<Camera>()){}
 	RenderClass::~RenderClass() {}
 }

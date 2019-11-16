@@ -21,7 +21,7 @@ namespace YRender {
 
 	protected:
 		MeshComponent() = delete;
-		virtual ~MeshComponent() = default;
+		virtual ~MeshComponent() = default; //被销毁时通知全局容器清除VAO
 
 	//public:
 	//	virtual void Accept() override;

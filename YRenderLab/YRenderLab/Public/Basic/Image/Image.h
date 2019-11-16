@@ -36,6 +36,10 @@ namespace YRender {
 		const RGBAf SampleNearest(float u, float v) const;
 		const RGBAf SampleBilinear(float u, float v) const;
 		const RGBAf GetPixel(int x, int y) const;
+		const int GetChannel() const { return channel; }
+		const int GetWidth() const { return width; }
+		const int GetHeight() const { return height; }
+		float* GetData() const { return data; }
 		bool SaveToPNG(const std::string& fileName, bool flip = false);
 		const RGBAf Sample(float u, float v, Mode mode) const {
 			switch (mode)

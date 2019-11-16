@@ -3,6 +3,19 @@ Personal rendering pipline
 
 ### BPR WORKFLOW
 
+- [x] 单光源diffuse_bsdf
+- [x] ForwardRaster pipline
+
+- [x] Architecture Build 
+- [x] module loading
+- [ ] Sky Box
+- [ ] Light
+  - [x] diffuse Lambert
+  - [x] Ambient
+  - [ ] Specular
+- [ ] Shadow
+- [ ] CubeMap
+
 ### SoftRHI
 - [x] Coordinate Transformation
 - [x] Matrix Caculation
@@ -12,17 +25,6 @@ Personal rendering pipline
 - [x] Texture Mapping
 - [x] Barycentric Interpolation
 - [x] Camera controller
-
-### OpenGL
-- [x] Architecture Build 
-- [ ] module loading
-- [ ] Sky Box
-- [ ] Light
-  - [x]  diffuse Lambert
-  - [x]  Ambient
-  - [ ]  Specular
-- [ ] Shadow
-- [ ] CubeMap
 
 
 ### Path Tracer

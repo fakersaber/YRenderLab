@@ -1,16 +1,25 @@
 #include <Public/Viewer/ForwardRaster.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
-#include <Public/OpenGLRHI/GLShader.h>
 
 #include <Public/Scene/Scene.h>
 #include <Public/Scene/Yobject.h>
 #include <Public/Scene/MeshComponent.h>
 #include <Public/Scene/TransformComponent.h>
-#include <Public/Basic/MaterialComponent.h>
 
+#include <Public/Basic/Mesh/TriMesh.h>
+#include <Public/Basic/MaterialComponent.h>
+#include <Public/Basic/Image/Image.h>
 #include <Public/Basic/BSDF_Diffuse.h>
 
+
+
 namespace YRender {
+
+	ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera) : Raster(scene, camera){
+
+	}
+
+
 	void ForwardRaster::Draw(){
 		glEnable(GL_DEPTH_TEST);
 		glClearColor(0, 0, 0, 1);
@@ -25,6 +34,21 @@ namespace YRender {
 
 		//DrawEnvironment();
 	}
+	void ForwardRaster::Initial(){
+		Raster::Initial();
+		InitShaderDiffuse();
+	}
+
+	void ForwardRaster::InitShaderDiffuse() {
+		DiffuseShader = GLShader("Data/shaders/Test.vs", "Data/shaders/Test.fs");
+		DiffuseShader.SetInt("bsdf.albedoTexture", 0);
+		//RegShader(shader_diffuse, 1);
+		MapUBOToShader(DiffuseShader);
+	}
+
+
+
+
 	void ForwardRaster::Visit(std::shared_ptr<YObject> obj){
 		auto mesh = obj->GetComponent<MeshComponent>();
 		auto material = obj->GetComponent<MaterialComponent>();
@@ -38,13 +62,13 @@ namespace YRender {
 			modelVec.push_back(transform->GetTransform());
 		}
 
-		if (mesh && mesh->GetMesh())
-			this->Visit(mesh->GetMesh());
-
 		if (material && material->GetMaterial()) {
 			//先都设置为这个材质，之后再重写每个让mesh或者material自己调用管线的函数
 			this->Visit(Cast<BSDF_Diffuse>(material->GetMaterial()));
 		}
+
+		if (mesh && mesh->GetMesh())
+			this->Visit(mesh->GetMesh());
 
 		for (auto child : children) {
 			this->Visit(child);
@@ -53,12 +77,23 @@ namespace YRender {
 	}
 
 	void ForwardRaster::Visit(std::shared_ptr<BSDF_Diffuse> bsdf) {
-
+		SetCurShader(DiffuseShader);
+		auto target = img2tex.find(bsdf->albedoTexture);
+		GLTexture* TexturePtr = nullptr;
+		TexturePtr = &target->second;
+		if (target == img2tex.end()) {
+			img2tex[bsdf->albedoTexture] = GLTexture(bsdf->albedoTexture);
+			TexturePtr = &img2tex[bsdf->albedoTexture];
+		}
+		TexturePtr->Use(0);
 	}
 
 	void ForwardRaster::Visit(std::shared_ptr<TriMesh> mesh) {
 		//curShader.SetMat4f("model", modelVec.back());
+
 		auto TargetVAO = mesh2VAO.find(mesh);
+		VAO* VaoPtr = nullptr;
+		VaoPtr = &TargetVAO->second;
 		if (TargetVAO == mesh2VAO.end()) {
 			std::vector<VAO::VBO_DataPatch> Mesh_VAO_DataPatch = {
 			{mesh->GetPositions().data()->Data(), static_cast<unsigned int>(mesh->GetPositions().size() * 3 * sizeof(float)), 3},
@@ -68,10 +103,9 @@ namespace YRender {
 
 			VAO VAO_P3N3T2T3_Mesh(Mesh_VAO_DataPatch, mesh->GetIndice().data(), static_cast<unsigned int>(mesh->GetIndice().size() * sizeof(unsigned int)));
 			mesh2VAO[mesh] = VAO_P3N3T2T3_Mesh;
+			VaoPtr = &mesh2VAO[mesh];
 		}
-		else {
-			TargetVAO->second.Draw(curShader);
-		}
+		VaoPtr->Draw(curShader);
 	}
 }
 

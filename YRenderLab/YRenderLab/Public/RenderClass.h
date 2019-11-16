@@ -23,13 +23,13 @@ namespace YRender {
 		virtual ~RenderClass();
 
 		Camera& GetCamera(){
-			return this->MainCamera;
+			return *MainCamera;
 		};
 
 
 	protected:
 		std::unique_ptr<RenderDevice> _RenderDevice;
-		Camera MainCamera;
+		std::shared_ptr<Camera> MainCamera;
 		MeshData Mesh;
 		Mat4f NdcToScreen;
 

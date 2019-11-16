@@ -19,8 +19,6 @@ namespace YRender {
 		RenderWindow();
 		virtual ~RenderWindow();
 
-	public:
-		std::unique_ptr<RenderClass> _RenderClass;
 	};
 
 

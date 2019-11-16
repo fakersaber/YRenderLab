@@ -642,9 +642,6 @@
     <ClCompile Include="Private\OpenGLRHI\GLVAO.cpp">
       <Filter>Private\OpenGLRHI</Filter>
     </ClCompile>
-    <ClCompile Include="Private\OpenGLRHI\GLTexture.cpp">
-      <Filter>Private\OpenGLRHI</Filter>
-    </ClCompile>
     <ClCompile Include="Private\Scene\AssimpLoader.cpp">
       <Filter>Private\Scene</Filter>
     </ClCompile>
@@ -680,6 +677,9 @@
     </ClCompile>
     <ClCompile Include="Private\Viewer\ForwardRaster.cpp">
       <Filter>Private\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp">
+      <Filter>Private\OpenGLRHI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

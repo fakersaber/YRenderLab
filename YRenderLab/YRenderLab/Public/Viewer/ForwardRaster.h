@@ -5,39 +5,40 @@
 #include <Public/YGM/Transform.h>
 
 #include <Public/OpenGLRHI/GLVAO.h>
+#include <Public/OpenGLRHI/GLTexture.h>
 
 #include <vector>
-#include <unordered_map>
+#include <map>
+
 namespace YRender {
 	class YObject;
-	
 	class TriMesh;
-
 	class BSDF_Diffuse;
 
 	class ForwardRaster : public Raster {
 	public:
-		ForwardRaster();
+		ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera);
 
 	public:
 		virtual void Draw() override;
-
+		virtual void Initial() override;
 	protected:
 		virtual ~ForwardRaster() = default;
-
-	protected:
 		virtual void Visit(std::shared_ptr<YObject> obj);
-
-		//set shader for target
 		virtual void Visit(std::shared_ptr<BSDF_Diffuse> bsdf);
-
 		void Visit(std::shared_ptr<TriMesh> mesh);
-
+		void InitShaderDiffuse();
+	public:
+		void SetCurShader(const GLShader& shader) { curShader = shader; };
 	private:
 		std::vector<YGM::Transform> modelVec;
 
-		//这样创建表一直变大，且如果TriMesh被释放后，对于容器也是不可知的，如何要这样缓存，需要定时清理。
-		std::unordered_map<std::weak_ptr<TriMesh>, VAO> mesh2VAO;
+		//暂时只有Component持有Mesh，注意容器没有清除
+		std::map<std::weak_ptr<TriMesh>, VAO, std::owner_less<std::weak_ptr<TriMesh>>> mesh2VAO;
+		std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;
+
+
+		GLShader DiffuseShader;
 		GLShader curShader;
 	};
 }

@@ -72,7 +72,7 @@ namespace YRender {
 		}
 		glEnable(GL_DEPTH_TEST);
 
-		GlslShader = std::make_unique<GLShader>("data/shaders/Test.vs", "data/shaders/Test.fs");
+		GlslShader = std::make_unique<GLShader>("Data/shaders/Test.vs", "Data/shaders/Test.fs");
 		GlslShader->SetFloat("_AmbientLight.intensity", 0.3f);
 		GlslShader->SetVec3f("_AmbientLight.lightColor", RGBf::White);
 		GlslShader->SetVec3f("_DirectLight.direction", Val3(0.f,0.f,1.f));
@@ -92,8 +92,8 @@ namespace YRender {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//gl按照列读取内存
-		GlslShader->SetMat4f("_WorldToCamera", MainCamera.GetViewMatrix().selfTranspose());
-		GlslShader->SetMat4f("_CameraToClip", MainCamera.GetProjectMatrix().selfTranspose());
+		GlslShader->SetMat4f("_WorldToCamera", MainCamera->GetViewMatrix().selfTranspose());
+		GlslShader->SetMat4f("_CameraToClip", MainCamera->GetProjectMatrix().selfTranspose());
 		GlVAO->Draw(*GlslShader);											 	
 	}
 }

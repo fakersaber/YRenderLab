@@ -19,7 +19,7 @@ namespace YRender {
 		Load(path, flip);
 	}
 
-	Image::Image(Image && img) {
+	Image::Image(Image&& img) {
 		width = img.width;
 		height = img.height;
 		channel = img.channel;

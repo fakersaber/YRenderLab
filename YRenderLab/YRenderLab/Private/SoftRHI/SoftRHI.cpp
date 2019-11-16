@@ -87,7 +87,7 @@ namespace YRender {
 
 	Vertex SoftRender::VertexShader(const Vertex& vertex) {
 		Vertex Out;
-		Out.Position = MainCamera.GetProjectMatrix() * MainCamera.GetViewMatrix() * vertex.Position;
+		Out.Position = MainCamera->GetProjectMatrix() * MainCamera->GetViewMatrix() * vertex.Position;
 		Out.PosH = 1.f / Out.Position.z;
 		Out.UV = vertex.UV;
 		return Out;
@@ -166,7 +166,7 @@ namespace YRender {
 		for (auto i = 0; i < mesh.indices.size(); i += 3) {
 
 			//如果有一个顶点没在视锥体内，丢弃三角面
-			if (MainCamera.GetCameraMode() == Camera::ENUM_ProjectType::Perspective) {
+			if (MainCamera->GetCameraMode() == Camera::ENUM_ProjectType::Perspective) {
 				//背面剔除放在这里，完全根据模型给定的顶点数据裁剪，不管视角如何变换都没有用,所以不正确。
 				//if (BackFaceCulling(mesh.vertices[mesh.indices[i]].Position, mesh.vertices[mesh.indices[i + 1]].Position, mesh.vertices[mesh.indices[i + 2]].Position))
 				//	continue;

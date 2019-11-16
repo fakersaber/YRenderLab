@@ -1,6 +1,6 @@
 #include <Public/Basic/Camera/Camera.h>
 
-
+#include <Public/OpenGLRHI/GLAD/glad/glad.h>
 
 namespace YRender {
 	const float Camera::ASPECT_WH = 1.333f;
@@ -31,10 +31,27 @@ namespace YRender {
 		project_mode(projectionMode),
 		fov(FOV)
 	{
+
 		Camera::updateCameraVectors();	
 	}
 
 
+
+
+	void Camera::Initial(int w, int h){
+		glGenBuffers(1, &cameraUBO);
+		glBindBuffer(GL_UNIFORM_BUFFER, cameraUBO);
+		glBufferData(GL_UNIFORM_BUFFER, 160, NULL, GL_DYNAMIC_DRAW);
+		glBindBufferBase(GL_UNIFORM_BUFFER, 0, cameraUBO);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		aspect_wh = static_cast<float>(w) / static_cast<float>(h);
+		UpdateCamera();
+	}
+
+	void Camera::SetWH(int w, int h) {
+		aspect_wh = static_cast<float>(w) / static_cast<float>(h);
+		UpdateCamera();
+	}
 
 
 	void Camera::SetCameraPose(const Vector3& pos, float yaw,float pitch) {
@@ -42,6 +59,7 @@ namespace YRender {
 		this->yaw = yaw;
 		this->pitch = pitch;
 		updateCameraVectors();
+		UpdateCamera();
 	}
 
 
@@ -58,7 +76,7 @@ namespace YRender {
 		//								  [-cos(yaw)cos(pitch)]
 		//上述表示方案是yaw和pitch起始值从0开始的推导
 
-		//u老师的运算方式与opengl运算代码相同,yaw的起始值为-PI/2,实际变为了3PI/2 - x, 即- x - PI/2
+		//u神的运算方式与opengl运算代码相同,yaw的起始值为-PI/2,实际变为了3PI/2 - x, 即- x - PI/2
 		//								 [-sin(yaw), -cos(yaw)sin(pitch),  -cos(yaw)cos(pitch)]
 		// R(yaw - PI/2) * R(pitch) == > [0,         cos(pitch),          -sin(pitch)]
 		//								 [cos(yaw), -sin(yaw)sin(pitch),  -sin(yaw)cos(pitch)]
@@ -104,6 +122,7 @@ namespace YRender {
 			position -= up * velocity;
 			break;
 		}
+		UpdateCamera();
 	}
 
 
@@ -128,5 +147,22 @@ namespace YRender {
 
 		// Update Front, Right and Up Vectors using the updated Euler angles
 		updateCameraVectors();
+		UpdateCamera();
+	}
+
+
+	void Camera::UpdateCamera() {
+		glBindBuffer(GL_UNIFORM_BUFFER, cameraUBO);
+		auto viewMatrix = GetViewMatrix();
+		auto projectM = GetProjectMatrix();
+
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, 64, viewMatrix.Data());
+		glBufferSubData(GL_UNIFORM_BUFFER, 64, 64, projectM.Data());
+		glBufferSubData(GL_UNIFORM_BUFFER, 128, 12, position.Data());
+		glBufferSubData(GL_UNIFORM_BUFFER, 140, 4, &nearPlane);
+		glBufferSubData(GL_UNIFORM_BUFFER, 144, 4, &farPlane);
+		glBufferSubData(GL_UNIFORM_BUFFER, 148, 4, &fov);
+		glBufferSubData(GL_UNIFORM_BUFFER, 152, 4, &aspect_wh);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 }

@@ -2,9 +2,10 @@
 #define _YRENDER_CAMERA_H
 
 #include <Public/YGM/Transform.h>
+#include <Public/Basic/YHeapObject.h>
 
 namespace YRender {
-	class Camera {
+	class Camera : public YHeapObject {
 	public:
 		enum class ENUM_ProjectType : uint8_t {
 			Orthogonal = 1,
@@ -31,8 +32,11 @@ namespace YRender {
 			const Vector3& up = Vector3(0.f, 1.f, 0.f),
 			ENUM_ProjectType projectionMode = ENUM_ProjectType::Perspective
 		);
+	protected:
+		virtual ~Camera() = default;
 
 	public:
+		void Initial(int w, int h);
 		Mat4f GetViewMatrix() const { return YGM::Transform::LookAt(position, position + front, up).GetMatrix(); }
 		Mat4f GetInvViewMatrix() const { return YGM::Transform::LookAt(position, position + front, up).GetInvMatrix(); }
 		Mat4f GetProjectMatrix() const { return YGM::Transform::Perspective(fov, aspect_wh, nearPlane, farPlane).GetMatrix(); }
@@ -42,7 +46,8 @@ namespace YRender {
 		void ProcessKeyboard(ENUM_Movement event,float deltaTime);
 		void ProcessMouseMovement(float xoffset, float yoffset);
 		void updateCameraVectors();
-		
+		void UpdateCamera();
+		void SetWH(int w, int h);
 
 	private:
 		Vector3 position;
@@ -65,6 +70,8 @@ namespace YRender {
 		static const float YAW;
 		static const float PITCH;
 		static const float FOV;
+
+		unsigned int cameraUBO;
 	};
 }
 

@@ -190,7 +190,6 @@
     <ClCompile Include="Private\OpenGLRHI\GlfwWindow.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GlRenderClass.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLShader.cpp" />
-    <ClCompile Include="Private\OpenGLRHI\GLTexture.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLVAO.cpp" />
     <ClCompile Include="Private\Ray\HitInfo.cpp" />
     <ClCompile Include="Private\Ray\HitinfoManager.cpp" />
@@ -215,6 +214,7 @@
     <ClCompile Include="Private\Viewer\Raster.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
+    <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\shaders\Test.fs" />

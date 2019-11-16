@@ -20,7 +20,7 @@ namespace YRender {
 		
 	protected:
 		virtual void InitAfterNew() override;
-
+		virtual ~TriMesh() = default; 
 	public:
 		const std::vector<Vector3>& GetPositions() const { return position; }
 		const std::vector<Vector3>& GetNormals() const { return normal; }

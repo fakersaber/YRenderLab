@@ -1,6 +1,7 @@
 #include <Public/OpenGLRHI/GlfwWindow.h>
-
-
+#include <Public/Scene/AssimpLoader.h>
+#include <Public/Scene/Scene.h>
+#include <Public/OpenGLRHI/GLAD/glad/glad.h>
 
 namespace YRender {
 	GlfwWindow* GlfwWindow::GetInstance(){
@@ -21,19 +22,23 @@ namespace YRender {
 			return false;
 		}
 
-		this->_RenderClass = std::make_unique<GlRenderClass>();
+		//创建场景、管线、相机
+		auto Root = YRender::AssimpLoader::Load("C:/Users/Administrator/Desktop/nanosuit/nanosuit.obj");
+		auto Scene = YRender::New<YRender::Scene>(Root);
+		MainCamera = YRender::New<Camera>();
+		ForwardPipline = YRender::New<ForwardRaster>(Scene, MainCamera);
+		
+
 		lastX = width * 0.2f;
 		lastY = height * 0.2f;
 		glfwMakeContextCurrent(window);
 		glfwSetFramebufferSizeCallback(window, GlfwWindow::framebuffer_size_callback);
 		glfwSetCursorPosCallback(window, GlfwWindow::mouse_callback);
-		glfwSetScrollCallback(window, GlfwWindow::scroll_callback);
+		//glfwSetScrollCallback(window, GlfwWindow::scroll_callback);
 
+		ForwardPipline->Initial();
+		MainCamera->Initial(width, height);
 
-
-		if (!_RenderClass->Initial(width, height)) {
-			return false;
-		}
 		return true;
 	}
 
@@ -41,13 +46,11 @@ namespace YRender {
 		while (!glfwWindowShouldClose(window)) {
 			double beginTime = glfwGetTime();
 			ProcessInput(window);
-			//RenderClass Update
-			{
-				beginTime = glfwGetTime();
-				_RenderClass->Tick();
-				_RenderClass->Render();
-				deltaTime = static_cast<float>(glfwGetTime() - beginTime);
-			}
+			beginTime = glfwGetTime();
+
+			ForwardPipline->Draw();
+
+			deltaTime = static_cast<float>(glfwGetTime() - beginTime);
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}
@@ -72,19 +75,20 @@ namespace YRender {
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, true);
 		else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD, GlfwWindow::GetInstance()->GetDeltaTime());
+			GlfwWindow::GetInstance()->MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD, GlfwWindow::GetInstance()->GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD, GlfwWindow::GetInstance()->GetDeltaTime());
+			GlfwWindow::GetInstance()->MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD, GlfwWindow::GetInstance()->GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT, GlfwWindow::GetInstance()->GetDeltaTime());
+			GlfwWindow::GetInstance()->MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT, GlfwWindow::GetInstance()->GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT, GlfwWindow::GetInstance()->GetDeltaTime());
+			GlfwWindow::GetInstance()->MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT, GlfwWindow::GetInstance()->GetDeltaTime());
 	}
 
 	void GlfwWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 		// make sure the viewport matches the new window dimensions; note that width and 
 		// height will be significantly larger than specified on retina displays.
 		glViewport(0, 0, width, height);
+		GlfwWindow::GetInstance()->MainCamera->SetWH(width,height);
 	}
 
 	void GlfwWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos){
@@ -100,18 +104,18 @@ namespace YRender {
 			GlfwWindow::GetInstance()->lastX = static_cast<float>(xpos);
 			GlfwWindow::GetInstance()->lastY = static_cast<float>(ypos);
 			GlfwWindow::GetInstance()->firstFlag = false;
-			GlfwWindow::GetInstance()->_RenderClass->GetCamera().ProcessMouseMovement(xoffset, yoffset);
+			GlfwWindow::GetInstance()->MainCamera->ProcessMouseMovement(xoffset, yoffset);
 		}
 		else {
 			GlfwWindow::GetInstance()->firstFlag = true;
 		}
 	}
 
-	void GlfwWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+	//void GlfwWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
 
-	}
+	//}
 
-	void GlfwWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
+	//void GlfwWindow::scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
 
-	}
+	//}
 }
