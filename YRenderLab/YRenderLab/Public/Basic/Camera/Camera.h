@@ -23,7 +23,7 @@ namespace YRender {
 
 	public:
 		Camera(
-			const Vector3& pos = Vector3(0.f, 0.f, 4.f),
+			const Vector3& pos = Vector3(0.f, 5.f, 10.f),
 			float yaw = Camera::YAW,
 			float pitch = Camera::PITCH,
 			float aspect = Camera::ASPECT_WH,

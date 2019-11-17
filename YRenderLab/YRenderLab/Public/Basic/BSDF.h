@@ -13,8 +13,8 @@ namespace YRender {
 	public:
 		//BSDF函数项(大多数继承只实现BRDF，即反射部分)
 		/*
-		@Param1 入射方向
-		@Param2 出射方向
+		@Param1 出射方向
+		@Param2 入射方向
 		@Param3 采样UV
 		*/
 		virtual const RGBf F(const Vector3& Wo, const Vector3& Wi, const Vector2& texcoord) = 0;

@@ -11,7 +11,7 @@ namespace YRender {
 
 	bool GlfwWindow::Initial(const int width, const int height) {
 		glfwInit();
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		window = glfwCreateWindow(width, height, "YRender", NULL, NULL);
@@ -22,19 +22,25 @@ namespace YRender {
 			return false;
 		}
 
+		lastX = width * 0.5f;
+		lastY = height * 0.5f;
+		glfwMakeContextCurrent(window);
+		glfwSetFramebufferSizeCallback(window, GlfwWindow::framebuffer_size_callback);
+		glfwSetCursorPosCallback(window, GlfwWindow::mouse_callback);
+		//glfwSetScrollCallback(window, GlfwWindow::scroll_callback);
+
+		//初始化glad
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		{
+			std::cout << "Failed to initialize GLAD" << std::endl;
+			return false;
+		}
+
 		//创建场景、管线、相机
 		auto Root = YRender::AssimpLoader::Load("C:/Users/Administrator/Desktop/nanosuit/nanosuit.obj");
 		auto Scene = YRender::New<YRender::Scene>(Root);
 		MainCamera = YRender::New<Camera>();
 		ForwardPipline = YRender::New<ForwardRaster>(Scene, MainCamera);
-		
-
-		lastX = width * 0.2f;
-		lastY = height * 0.2f;
-		glfwMakeContextCurrent(window);
-		glfwSetFramebufferSizeCallback(window, GlfwWindow::framebuffer_size_callback);
-		glfwSetCursorPosCallback(window, GlfwWindow::mouse_callback);
-		//glfwSetScrollCallback(window, GlfwWindow::scroll_callback);
 
 		ForwardPipline->Initial();
 		MainCamera->Initial(width, height);

@@ -153,8 +153,8 @@ namespace YRender {
 
 	void Camera::UpdateCamera() {
 		glBindBuffer(GL_UNIFORM_BUFFER, cameraUBO);
-		auto viewMatrix = GetViewMatrix();
-		auto projectM = GetProjectMatrix();
+		auto viewMatrix = GetViewMatrix().Transpose();
+		auto projectM = GetProjectMatrix().Transpose();
 
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, 64, viewMatrix.Data());
 		glBufferSubData(GL_UNIFORM_BUFFER, 64, 64, projectM.Data());

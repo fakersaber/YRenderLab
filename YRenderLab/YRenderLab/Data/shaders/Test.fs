@@ -1,36 +1,47 @@
 #version 330 core
 
-//#include "Lights/DirectLight.h"
-struct AmbientLight{
-    vec3 lightColor;
-    float intensity;
-};
-
-
-
-struct DirectLight{
-    vec3 direction;
-    vec3 lightColor;
-};
-
-
-
-
-in vec3 Normal;
-in vec3 WorldPos;
-in vec2 TexCoords;
-
+//----------------- input and output
 out vec4 FragColor;
 
-uniform AmbientLight _AmbientLight;
-uniform DirectLight _DirectLight;
-uniform vec3 _CameraPos;
+in VS_OUT {
+	vec3 FragPos;
+	vec3 Normal;
+	vec2 TexCoords;
+} fs_in;
+
+// ----------- const variable--------------//
+const float INV_PI = 0.31830988618;
 
 
-void main()
-{
-    vec3 ambient = _AmbientLight.lightColor * _AmbientLight.intensity;
-    vec3 diffuse = max(dot(normalize(Normal),_DirectLight.direction),0.f) * _DirectLight.lightColor;
+//------------- struct -----------------
+struct BSDF_Diffuse {
+	vec3 colorFactor;
+	bool haveAlbedoTexture;
+    sampler2D albedoTexture;// 0
+};
 
-    FragColor = vec4(ambient + diffuse,1.f);
+struct DirectionalLight{
+	vec3 L;         // 12   0
+	vec3 dir;       // 12   16
+	//mat4 ProjView;  // 64   32
+};
+
+// -----------------uniform block-----------
+layout (std140) uniform DirectionalLights{
+	DirectionalLight directionaLight;
+};
+
+
+uniform BSDF_Diffuse bsdf;
+
+void main(){
+    vec3 albedo = bsdf.colorFactor * texture(bsdf.albedoTexture, fs_in.TexCoords).xyz;
+    
+    vec3 diffuse = albedo * INV_PI; //lambert brdf,diffuse中各个方向相同所以跟wi无关
+    vec3 wi = -normalize(directionaLight.dir);
+    float cosTheta = max(dot(fs_in.Normal,wi),0);
+
+    vec3 result = cosTheta * diffuse * directionaLight.L;
+    // gamma 校正
+	FragColor = vec4(sqrt(result), 1.0);
 }

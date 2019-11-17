@@ -281,7 +281,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(ProjectDir)Public\3rdPart;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Public\3rdPart\Lib\Debug;$(ProjectDir)Public\3rdPart\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Public\3rdPart\Lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

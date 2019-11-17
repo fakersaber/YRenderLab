@@ -52,17 +52,22 @@ namespace YRender {
 			isValid = false;
 			return;
 		}
-
+		//std::cout << glGetError() << std::endl;
 		glGenVertexArrays(1, &VAO_ID);
+		//std::cout << glGetError() << std::endl;
 		glBindVertexArray(VAO_ID);
-
+		//std::cout << glGetError() << std::endl;
 		for (uint32_t i = 0; i < vec_VBO_DataPatch.size(); i++) {
 			auto & dataPatch = vec_VBO_DataPatch[i];
 			uint32_t VBO;
 			glGenBuffers(1, &VBO);
+			//std::cout << glGetError() << std::endl;
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			//std::cout << glGetError() << std::endl;
 			glBufferData(GL_ARRAY_BUFFER, dataPatch.dataSize, dataPatch.data, GL_STATIC_DRAW);
+			//std::cout << glGetError() << std::endl;
 			glVertexAttribPointer(i, dataPatch.attrLen, GL_FLOAT, GL_FALSE, dataPatch.attrLen * sizeof(float), (void*)(0 * sizeof(float)));
+			//std::cout << glGetError() << std::endl;
 			glEnableVertexAttribArray(i);
 			if (divisors.size() != 0 && divisors[i] > 0)
 				glVertexAttribDivisor(i, divisors[i]);
@@ -89,15 +94,16 @@ namespace YRender {
 	}
 
 
-	VAO::~VAO() {
-		glDeleteVertexArrays(1, &VAO_ID);
-		glDeleteBuffers(1, &VBO_ID);
-		if (hasIndex)
-			glDeleteBuffers(1, &EBO_ID);
-	}
+	//VAO::~VAO() {
+	//	glDeleteVertexArrays(1, &VAO_ID);
+	//	glDeleteBuffers(1, &VBO_ID);
+	//	if (hasIndex)
+	//		glDeleteBuffers(1, &EBO_ID);
+	//}
 
 	bool VAO::Use() const {
 		if (!isValid) {
+
 			printf("ERROR::VAO::Use:\n"
 				"\t""use a invalid VAO\n");
 			return false;
@@ -110,8 +116,9 @@ namespace YRender {
 	bool VAO::Draw(const GLShader& shader) const {
 		if (!Use() || !shader.Use())
 			return false;
-		if (hasIndex)
+		if (hasIndex) {
 			glDrawElements(GL_TRIANGLES, VertexNum, GL_UNSIGNED_INT, NULL);
+		}
 		else
 			glDrawArrays(GL_TRIANGLES, 0, VertexNum);
 

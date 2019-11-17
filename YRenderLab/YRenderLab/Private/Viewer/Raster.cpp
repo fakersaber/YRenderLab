@@ -8,6 +8,9 @@
 
 namespace YRender {
 	void Raster::Initial(){
+
+
+
 		glGenBuffers(1, &directionalLightsUBO);
 		glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);
 		glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_DYNAMIC_DRAW); //暂时一个光强和一个光颜色
@@ -20,7 +23,7 @@ namespace YRender {
 	void Raster::UpdateUBO_DirectionalLights(){
 		//uniform一个变量在我的显卡上最小数据对其16字节
 		glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);
-		Vector3 dir(0.f,0.f,1.f);
+		Vector3 dir(0.f,0.f,-1.f);
 		//Mat4f ProjViewMatrix = camera->GetProjectMatrix() * camera->GetViewMatrix();
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float) * 3, RGBf::White.Data());
 		glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float) * 3, dir.Data());

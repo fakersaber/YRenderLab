@@ -1,11 +1,10 @@
 # YRenderLab
-Personal rendering pipline
+**~Personal rendering pipline~**
 
-### BPR WORKFLOW
+## BPR WORKFLOW
 
 - [x] 单光源diffuse_bsdf
 - [x] ForwardRaster pipline
-
 - [x] Architecture Build 
 - [x] module loading
 - [ ] Sky Box
@@ -15,6 +14,7 @@ Personal rendering pipline
   - [ ] Specular
 - [ ] Shadow
 - [ ] CubeMap
+- [x] 流程调试
 
 ### SoftRHI
 - [x] Coordinate Transformation
@@ -35,4 +35,9 @@ Cpu implement
 - [x] Antialiasing
 - [x] Diffuse Material
 - [ ] Metal Material
+
+### Fix
+
+- [ ] VAO-Mesh容器，Texture-Image容器清理
+- [ ] delete Vertex shader  Error ?
 

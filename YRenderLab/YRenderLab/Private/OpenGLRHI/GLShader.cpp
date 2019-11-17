@@ -47,6 +47,7 @@ namespace YRender {
 		glDeleteShader(glvs);
 		glDeleteShader(glfs);
 		valid = true;
+		std::cout << glGetError() << std::endl;
 	}
 
 	bool GLShader::Use() const
@@ -112,16 +113,14 @@ namespace YRender {
 
 	int GLShader::CheckCompileErrors(uint32_t shader, CompileType type) {
 		int success;
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-
 		char infoLog[1024];
-
 		switch (type)
 		{
 		case CompileType::VERTEX:
 		case CompileType::GEOMETRY:
 		case CompileType::FRAGMENT: {
-			if (!success) {
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success) {	
 				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
 				std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type._to_string() << std::endl
 					<< infoLog

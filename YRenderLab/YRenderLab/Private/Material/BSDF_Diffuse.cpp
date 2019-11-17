@@ -2,7 +2,7 @@
 #include <Public/Basic/Image/Image.h>
 
 namespace YRender {
-	const RGBf BSDF_Diffuse::F(const Vector3& Wo, const Vector3& Wi, const Vector2& texcoord)
+	const RGBf BSDF_Diffuse::F(const Vector3& Wi, const Vector3& Wo, const Vector2& texcoord)
 	{
 		return GetAlbedo(texcoord) / YGM::Math::PI;
 	}

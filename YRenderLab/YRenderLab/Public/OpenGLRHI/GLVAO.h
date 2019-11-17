@@ -19,10 +19,10 @@ namespace YRender {
 
 		VAO(float const* data, uint32_t dataSize, const std::vector<uint32_t>& attrLen, uint32_t const* indexArray, uint32_t indexSize);
 
-		VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, const std::vector<uint32_t> & divisors = std::vector<uint32_t>());
+		VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, const std::vector<uint32_t>& divisors = std::vector<uint32_t>());
 
 		VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, uint32_t const* index, uint32_t indexSize, const std::vector<uint32_t>& divisors = std::vector<uint32_t>());
-		~VAO();
+		//~VAO();
 
 		//uint32_t GetID() const;
 		//uint32_t GetAttrNum() const;
