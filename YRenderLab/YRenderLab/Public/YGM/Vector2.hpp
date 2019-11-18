@@ -39,7 +39,7 @@ namespace YRender {
 		public:
 			union
 			{
-				value_type _data[3];
+				value_type _data[2];
 				struct {
 					union { value_type x, r, s, u; };
 					union { value_type y, g, t, v; };

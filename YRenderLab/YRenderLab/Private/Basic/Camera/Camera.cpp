@@ -101,7 +101,7 @@ namespace YRender {
 
 
 	void Camera::ProcessKeyboard(ENUM_Movement direction,float deltaTime){
-		float velocity = 5.f * deltaTime;  //ready change for deltaTime
+		float velocity = 20.f * deltaTime;  //ready change for deltaTime
 		switch (direction) {
 		case ENUM_Movement::MOVE_FORWARD:
 			position += front * velocity;
@@ -130,8 +130,8 @@ namespace YRender {
 	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
 	void Camera::ProcessMouseMovement(float xoffset, float yoffset)
 	{
-		xoffset *= 0.5f;
-		yoffset *= 0.5f;
+		xoffset *= 0.2f;
+		yoffset *= 0.2f;
 
 		yaw += xoffset;
 		pitch += yoffset;

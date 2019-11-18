@@ -47,7 +47,7 @@ namespace YRender {
 		glDeleteShader(glvs);
 		glDeleteShader(glfs);
 		valid = true;
-		std::cout << glGetError() << std::endl;
+		//std::cout << glGetError() << std::endl;
 	}
 
 	bool GLShader::Use() const

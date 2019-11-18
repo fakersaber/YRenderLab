@@ -35,13 +35,12 @@ layout (std140) uniform DirectionalLights{
 uniform BSDF_Diffuse bsdf;
 
 void main(){
-    vec3 albedo = bsdf.colorFactor * texture(bsdf.albedoTexture, fs_in.TexCoords).xyz;
-    
-    vec3 diffuse = albedo * INV_PI; //lambert brdf,diffuse中各个方向相同所以跟wi无关
-    vec3 wi = -normalize(directionaLight.dir);
-    float cosTheta = max(dot(fs_in.Normal,wi),0);
-
-    vec3 result = cosTheta * diffuse * directionaLight.L;
+    // vec3 albedo = bsdf.colorFactor * texture(bsdf.albedoTexture, fs_in.TexCoords).xyz;
+    // vec3 diffuse = albedo * INV_PI; //lambert brdf,diffuse中各个方向相同所以跟wi无关
+    // vec3 wi = -normalize(directionaLight.dir);
+    // float cosTheta = max(dot(fs_in.Normal,wi),0);
+    // vec3 result = cosTheta * diffuse * directionaLight.L;
     // gamma 校正
-	FragColor = vec4(sqrt(result), 1.0);
+	FragColor = texture(bsdf.albedoTexture, fs_in.TexCoords);
+	//FragColor = vec4(bsdf.colorFactor,1.f);
 }

@@ -39,5 +39,5 @@ Cpu implement
 ### Fix
 
 - [ ] VAO-Mesh容器，Texture-Image容器清理
-- [ ] delete Vertex shader  Error ?
+- [x] delete Vertex shader  Error ?
 

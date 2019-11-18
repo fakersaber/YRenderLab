@@ -17,10 +17,14 @@
 
 namespace YRender{
 	namespace AssimpLoader {
+		RGBAf TestColor[7] = { {0.5f,0.5f,0.5f,1.f},{0.8f,0.8f,0.8f,1.f},{0.9f,0.9f,0.9f,1.f},{0.7f,0.7f,0.7f,1.f},{0.6f,0.6f,0.6f,1.f},{0.3f,0.3f,0.3f,1.f},{0.2f,0.5f,0.8f,1.f} };
+		int curindex = 0;
+
+
 		const std::shared_ptr<YObject> Load(const std::string& path)
 		{
 			bool isSupport = false;
-			const std::string suffix[] = { ".FBX",".obj" };
+			const std::string suffix[] = { ".FBX",".obj",".fbx" };
 			for(auto& temp : suffix){
 				if (StrAPI::Is_suffix(path, temp)) {
 					isSupport = true;
@@ -53,7 +57,7 @@ namespace YRender{
 			for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
 				//std::cout << node->mNumMeshes << std::endl;
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-				auto meshObj = YRender::New<YObject>("mesh_" + std::to_string(i),obj);
+				auto meshObj = YRender::New<YObject>(node->mName.C_Str() + std::to_string(i),obj);
 				YRender::New<TransformComponent>(meshObj);
 				LoadMesh(image_table, dir, mesh, scene, meshObj);
 			}
@@ -117,6 +121,8 @@ namespace YRender{
 			YRender::New<MeshComponent>(meshobj, TriMeshPtr);
 
 			auto bsdf = YRender::New<BSDF_Diffuse>();
+			//bsdf->colorFactor = TestColor[curindex];
+			//curindex++;
 			YRender::New<MaterialComponent>(meshobj, bsdf);
 
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
