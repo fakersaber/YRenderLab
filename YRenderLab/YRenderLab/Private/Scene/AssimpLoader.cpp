@@ -6,7 +6,7 @@
 #include <Public/Scene/MeshComponent.h>
 #include <Public/Basic/MaterialComponent.h>
 
-#include <Public/Basic/BSDF_Diffuse.h>
+#include <Public/Basic/BSDF_blinnPhong.h>
 
 #include <Public/Basic/StrApi.h>
 #include <Public/Basic/Image/Image.h>
@@ -120,7 +120,7 @@ namespace YRender{
 			auto TriMeshPtr = YRender::New<TriMesh>(indices, poses, normals, texcoords, tangents);
 			YRender::New<MeshComponent>(meshobj, TriMeshPtr);
 
-			auto bsdf = YRender::New<BSDF_Diffuse>();
+			auto bsdf = YRender::New<BSDF_blinnPhong>();
 			//bsdf->colorFactor = TestColor[curindex];
 			//curindex++;
 			YRender::New<MaterialComponent>(meshobj, bsdf);
@@ -132,6 +132,7 @@ namespace YRender{
 			//}
 
 			bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
+			bsdf->specularTexture = LoadTexture(image_table,dir,material, aiTextureType_SPECULAR);
 		}
 
 		std::shared_ptr<Image> AssimpLoader::LoadTexture(

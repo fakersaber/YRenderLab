@@ -13,7 +13,7 @@
 namespace YRender {
 	class YObject;
 	class TriMesh;
-	class BSDF_Diffuse;
+	class BSDF_blinnPhong;
 
 	class ForwardRaster : public Raster {
 	public:
@@ -25,7 +25,7 @@ namespace YRender {
 	protected:
 		virtual ~ForwardRaster() = default;
 		virtual void Visit(std::shared_ptr<YObject> obj);
-		virtual void Visit(std::shared_ptr<BSDF_Diffuse> bsdf);
+		virtual void Visit(std::shared_ptr<BSDF_blinnPhong> bsdf);
 		void Visit(std::shared_ptr<TriMesh> mesh);
 		void InitShaderDiffuse();
 	public:
@@ -38,7 +38,7 @@ namespace YRender {
 		std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;
 
 
-		GLShader DiffuseShader;
+		GLShader BlinnPhongShader;
 		GLShader curShader;
 	};
 }

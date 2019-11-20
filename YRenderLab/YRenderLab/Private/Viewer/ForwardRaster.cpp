@@ -9,7 +9,7 @@
 #include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/MaterialComponent.h>
 #include <Public/Basic/Image/Image.h>
-#include <Public/Basic/BSDF_Diffuse.h>
+#include <Public/Basic/BSDF_blinnPhong.h>
 
 
 
@@ -40,10 +40,11 @@ namespace YRender {
 	}
 
 	void ForwardRaster::InitShaderDiffuse() {
-		DiffuseShader = GLShader("Data/shaders/Test.vs", "Data/shaders/Test.fs");
-		DiffuseShader.SetInt("bsdf.albedoTexture", 0);
+		BlinnPhongShader = GLShader("Data/shaders/Test.vs", "Data/shaders/Test.fs");
+		BlinnPhongShader.SetInt("bsdf.albedoTexture", 0);
+		BlinnPhongShader.SetInt("bsdf.specular", 1);
 		//RegShader(shader_diffuse, 1);
-		MapUBOToShader(DiffuseShader);
+		MapUBOToShader(BlinnPhongShader);
 	}
 
 
@@ -64,7 +65,7 @@ namespace YRender {
 
 		if (material && material->GetMaterial()) {
 			//先都设置为这个材质，之后再重写每个让mesh或者material自己调用管线的函数
-			this->Visit(Cast<BSDF_Diffuse>(material->GetMaterial()));
+			this->Visit(Cast<BSDF_blinnPhong>(material->GetMaterial()));
 		}
 
 		if (mesh && mesh->GetMesh())
@@ -72,23 +73,29 @@ namespace YRender {
 
 		for (auto child : children) {
 			this->Visit(child);
-		}
-			
+		}	
 	}
 
-	void ForwardRaster::Visit(std::shared_ptr<BSDF_Diffuse> bsdf) {
-		SetCurShader(DiffuseShader);
+	void ForwardRaster::Visit(std::shared_ptr<BSDF_blinnPhong> bsdf) {
+		SetCurShader(BlinnPhongShader);
 		std::string DiffusePreFix = "bsdf.";
-		DiffuseShader.SetVec3f(DiffusePreFix + "colorFactor", bsdf->colorFactor);
-		auto target = img2tex.find(bsdf->albedoTexture);
-		if (target == img2tex.end()) {
-			GLTexture DiffuseAlbedoTexture(bsdf->albedoTexture);
-			img2tex[bsdf->albedoTexture] = DiffuseAlbedoTexture;
-			DiffuseAlbedoTexture.Use(0);
+		BlinnPhongShader.SetVec3f(DiffusePreFix + "colorFactor", bsdf->colorFactor);
+		BlinnPhongShader.SetFloat(DiffusePreFix + "gloss", bsdf->gloss);
+
+		const int texNum = 2;
+		std::shared_ptr<Image> imgs[texNum] = { bsdf->albedoTexture, bsdf->specularTexture};
+		for (int i = 0; i < texNum; ++i) {
+			auto target = img2tex.find(bsdf->albedoTexture);
+			if (target == img2tex.end()) {
+				GLTexture DiffuseAlbedoTexture(imgs[i]);
+				img2tex[imgs[i]] = DiffuseAlbedoTexture;
+				DiffuseAlbedoTexture.Use(i);
+			}
+			else {
+				target->second.Use(i);
+			}
 		}
-		else {
-			target->second.Use(0);
-		}
+
 	}
 
 	void ForwardRaster::Visit(std::shared_ptr<TriMesh> mesh) {

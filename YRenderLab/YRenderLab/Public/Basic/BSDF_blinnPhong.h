@@ -1,17 +1,19 @@
-#ifndef _YRENDER_BASIC_BSDF_DIFFUSE_H_
-#define _YRENDER_BASIC_BSDF_DIFFUSE_H_
+#ifndef _YRENDER_BASIC_BSDF_BLINNPHONG_H_
+#define _YRENDER_BASIC_BSDF_BLINNPHONG_H_
 
 #include <Public/Basic/BSDF.h>
 
 namespace YRender{
-	class BSDF_Diffuse final : public BSDF {
+	class BSDF_blinnPhong final : public BSDF {
 	public:
-		BSDF_Diffuse(const RGBf& colorFactor = RGBf::White)
-			: colorFactor(colorFactor), albedoTexture(nullptr){
+		BSDF_blinnPhong(const RGBf& colorFactor = RGBf::White, float gloss = 10.f)
+			: colorFactor(colorFactor), albedoTexture(nullptr),gloss(gloss)
+		{
+
 		}
 
 	protected:
-		virtual ~BSDF_Diffuse() = default;
+		virtual ~BSDF_blinnPhong() = default;
 
 	public:
 		//BSDFÏî
@@ -24,7 +26,9 @@ namespace YRender{
 
 	public:
 		RGBf colorFactor;
+		float gloss;
 		std::shared_ptr<Image> albedoTexture;
+		std::shared_ptr<Image> specularTexture;
 	};
 }
 

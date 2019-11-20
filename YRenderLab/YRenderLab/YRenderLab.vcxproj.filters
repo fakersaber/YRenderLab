@@ -546,9 +546,6 @@
     <ClInclude Include="Public\Basic\BSDF.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Basic\BSDF_Diffuse.h">
-      <Filter>Public\Basic</Filter>
-    </ClInclude>
     <ClInclude Include="Public\YGM\Matrix3.hpp">
       <Filter>Public\YGM</Filter>
     </ClInclude>
@@ -563,6 +560,9 @@
     </ClInclude>
     <ClInclude Include="Public\Viewer\ForwardRaster.h">
       <Filter>Public\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\BSDF_blinnPhong.h">
+      <Filter>Public\Basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -666,9 +666,6 @@
     <ClCompile Include="Private\Material\BSDF.cpp">
       <Filter>Private\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Private\Material\BSDF_Diffuse.cpp">
-      <Filter>Private\Material</Filter>
-    </ClCompile>
     <ClCompile Include="Private\Scene\Scene.cpp">
       <Filter>Private\Scene</Filter>
     </ClCompile>
@@ -680,6 +677,9 @@
     </ClCompile>
     <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp">
       <Filter>Private\OpenGLRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Material\BSDF_blinnPhong.cpp">
+      <Filter>Private\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
