@@ -9,13 +9,18 @@
 namespace YRender {
 	void Raster::Initial(){
 
-
+		//envGenerator->Init();
 
 		glGenBuffers(1, &directionalLightsUBO);
 		glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);
 		glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_DYNAMIC_DRAW); //暂时一个光强和一个光颜色
 		glBindBufferBase(GL_UNIFORM_BUFFER, 2, directionalLightsUBO);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+
+		//glGenBuffers(1, &environmentUBO);
+		//glBindBuffer(GL_UNIFORM_BUFFER, environmentUBO);
+		//glBufferData(GL_UNIFORM_BUFFER,)
 	}
 
 
@@ -31,9 +36,14 @@ namespace YRender {
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
+	void Raster::UpdateUBO_Environment(){
+
+	}
+
 
 	void Raster::UpdateUBO(){
 		UpdateUBO_DirectionalLights();
+		UpdateUBO_Environment();
 	}
 
 

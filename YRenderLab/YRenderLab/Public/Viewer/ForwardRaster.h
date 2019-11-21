@@ -14,6 +14,7 @@ namespace YRender {
 	class YObject;
 	class TriMesh;
 	class BSDF_blinnPhong;
+	class BSDF_DiffuseSpecular;
 
 	class ForwardRaster : public Raster {
 	public:
@@ -27,7 +28,8 @@ namespace YRender {
 		virtual void Visit(std::shared_ptr<YObject> obj);
 		virtual void Visit(std::shared_ptr<BSDF_blinnPhong> bsdf);
 		void Visit(std::shared_ptr<TriMesh> mesh);
-		void InitShaderDiffuse();
+		void InitShaderPbrBlinnPhong();
+		void InitShaderDiffuseSpecular();
 	public:
 		void SetCurShader(const GLShader& shader) { curShader = shader; };
 	private:
@@ -39,6 +41,7 @@ namespace YRender {
 
 
 		GLShader BlinnPhongShader;
+		GLShader DiffuseSpecular;
 		GLShader curShader;
 	};
 }

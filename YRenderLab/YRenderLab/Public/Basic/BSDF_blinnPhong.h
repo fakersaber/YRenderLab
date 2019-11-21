@@ -6,7 +6,7 @@
 namespace YRender{
 	class BSDF_blinnPhong final : public BSDF {
 	public:
-		BSDF_blinnPhong(const RGBf& colorFactor = RGBf::White, float gloss = 10.f)
+		BSDF_blinnPhong(const RGBf& colorFactor = RGBf::White, float gloss = 20.f)
 			: colorFactor(colorFactor), albedoTexture(nullptr),gloss(gloss)
 		{
 

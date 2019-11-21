@@ -36,15 +36,24 @@ namespace YRender {
 	}
 	void ForwardRaster::Initial(){
 		Raster::Initial();
-		InitShaderDiffuse();
+		InitShaderPbrBlinnPhong();
+		InitShaderDiffuseSpecular();
 	}
 
-	void ForwardRaster::InitShaderDiffuse() {
-		BlinnPhongShader = GLShader("Data/shaders/Test.vs", "Data/shaders/Test.fs");
+	void ForwardRaster::InitShaderPbrBlinnPhong() {
+		BlinnPhongShader = GLShader("Data/shaders/P3N3T2.vs", "Data/shaders/Pbr_Blinn_Phong/Pbr_Blinn_Phong.fs");
 		BlinnPhongShader.SetInt("bsdf.albedoTexture", 0);
 		BlinnPhongShader.SetInt("bsdf.specular", 1);
 		//RegShader(shader_diffuse, 1);
 		MapUBOToShader(BlinnPhongShader);
+	}
+
+	void ForwardRaster::InitShaderDiffuseSpecular(){
+		DiffuseSpecular = GLShader("Data/shaders/P3N3T2.vs", "Data/shaders/Diffuse_Specular/Diffuse_Specular.fs");
+		DiffuseSpecular.SetInt("bsdf.albedoTexture", 0);
+		DiffuseSpecular.SetInt("bsdf.normalTexture", 1);
+		DiffuseSpecular.SetInt("bsdf.specularTexture", 2);
+		MapUBOToShader(DiffuseSpecular);
 	}
 
 
@@ -95,8 +104,10 @@ namespace YRender {
 				target->second.Use(i);
 			}
 		}
-
 	}
+
+
+
 
 	void ForwardRaster::Visit(std::shared_ptr<TriMesh> mesh) {
 		//curShader.SetMat4f("model", modelVec.back());

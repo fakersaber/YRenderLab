@@ -51,12 +51,19 @@ layout (std140) uniform Camera{
 uniform BSDF_blinnPhong bsdf;
 
 
+
+// ---------- function define
+vec3 CalcBumpedNormal(vec3 normal, vec3 tangent, sampler2D normalTexture, vec2 texcoord){
+	
+}
+
 vec3 lambert_diffuse(vec3 albedo){
 	return albedo * INV_PI;
 }
 
 // Schlick Fresnel approximation
 //SpecularColor其实更像是一种描述basecolor与reflect的关系，在金属工作流中插值到albedo，但在我这个不太物理的模型中就使用高光贴图
+//其实可能直接用采样出来的高光颜色可能效果更好，看美术给这张贴图的意义在哪里，反正虚幻是0.08*高光贴图作为F0
 vec3 F_Schlick(vec3 SpecularColor, float VoH){
 	return SpecularColor + (vec3(1.f) - SpecularColor) * pow(1.f - VoH,5.f);
 }
@@ -79,7 +86,6 @@ vec3 Blinn_Phong_BRDF(vec3 wi,vec3 wo){
 	vec3 Fr = F_Schlick(specular_color,VoH);
 	vec3 diffusecolor = lambert_diffuse(albedo);
 	vec3 specularcolor = (bsdf.gloss + 2.f)/8.f * pow(max(dot(wh,fs_in.Normal),0),bsdf.gloss) * Fr;
-	//return diffusecolor + specularcolor;
 	return (vec3(1.f) - Fr) * diffusecolor + specularcolor;
 }
 
@@ -90,9 +96,5 @@ void main(){
 	vec3 wh = normalize(wi + wo);
 	float cosTheta = max(dot(fs_in.Normal,wi),0);
 	vec3 result = Blinn_Phong_BRDF(wi,wo) * directionaLight.L * cosTheta;
-	// vec3 albedo = texture(bsdf.albedoTexture,fs_in.TexCoords).xyz;
-	// vec3 diffusecolor = lambert_diffuse(albedo) * cosTheta * directionaLight.L;
-	// vec3 specularcolor = pow(max(dot(wh,fs_in.Normal),0),bsdf.gloss) * directionaLight.L;
-	// vec3 result = diffusecolor + specularcolor;
 	FragColor = vec4(result,1.f); //gamma矫正
 }

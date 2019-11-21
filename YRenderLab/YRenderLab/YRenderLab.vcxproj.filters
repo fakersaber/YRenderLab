@@ -103,9 +103,6 @@
     <Filter Include="Data\shaders">
       <UniqueIdentifier>{147e5250-f599-41b9-ae35-6ade7e4a8b8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\shaders\Lights">
-      <UniqueIdentifier>{59045584-c8b3-4e5e-b0bb-f88456137971}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Private\Scene">
       <UniqueIdentifier>{d1c809c9-d5ae-4634-9d14-b5ea9e991dbd}</UniqueIdentifier>
     </Filter>
@@ -683,18 +680,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\shaders\Test.vs">
-      <Filter>Data\shaders</Filter>
-    </None>
-    <None Include="data\shaders\Test.fs">
-      <Filter>Data\shaders</Filter>
-    </None>
-    <None Include="data\shaders\Lights\DirectLight.h">
-      <Filter>Data\shaders\Lights</Filter>
-    </None>
-    <None Include="data\shaders\Lights\AmbientLight.h">
-      <Filter>Data\shaders\Lights</Filter>
-    </None>
     <None Include="Public\3rdPart\assimp\.editorconfig">
       <Filter>Public\3rdPart\assimp</Filter>
     </None>

@@ -21,7 +21,7 @@ namespace YRender {
 		void UpdateUBO();//更新UBO数据
 		void MapUBOToShader(const GLShader& shader);
 		void UpdateUBO_DirectionalLights();
-
+		void UpdateUBO_Environment();
 	public:
 		
 
