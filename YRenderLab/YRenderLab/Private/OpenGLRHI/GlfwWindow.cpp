@@ -37,7 +37,7 @@ namespace YRender {
 		}
 
 		//创建场景、管线、相机
-		auto Root = YRender::AssimpLoader::Load("C:/Users/Administrator/Desktop/nanosuit/nanosuit.obj");
+		auto Root = YRender::AssimpLoader::Load("C:/Users/Administrator/Desktop/45 ACP Smith and Wesson Hand Gun/Handgun_obj.obj");
 		auto Scene = YRender::New<YRender::Scene>(Root);
 		MainCamera = YRender::New<Camera>();
 		ForwardPipline = YRender::New<ForwardRaster>(Scene, MainCamera);

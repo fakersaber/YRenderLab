@@ -37,24 +37,25 @@ namespace YRender {
 	void ForwardRaster::Initial(){
 		Raster::Initial();
 		InitShaderPbrBlinnPhong();
-		InitShaderDiffuseSpecular();
+		//InitShaderDiffuseSpecular();
 	}
 
 	void ForwardRaster::InitShaderPbrBlinnPhong() {
-		BlinnPhongShader = GLShader("Data/shaders/P3N3T2.vs", "Data/shaders/Pbr_Blinn_Phong/Pbr_Blinn_Phong.fs");
+		BlinnPhongShader = GLShader("Data/shaders/P3N3T2T3.vs", "Data/shaders/Pbr_Blinn_Phong/Pbr_Blinn_Phong.fs");
 		BlinnPhongShader.SetInt("bsdf.albedoTexture", 0);
-		BlinnPhongShader.SetInt("bsdf.specular", 1);
+		BlinnPhongShader.SetInt("bsdf.normalTexture", 1);
+		BlinnPhongShader.SetInt("bsdf.specularTexture", 2);
 		//RegShader(shader_diffuse, 1);
 		MapUBOToShader(BlinnPhongShader);
 	}
 
-	void ForwardRaster::InitShaderDiffuseSpecular(){
-		DiffuseSpecular = GLShader("Data/shaders/P3N3T2.vs", "Data/shaders/Diffuse_Specular/Diffuse_Specular.fs");
-		DiffuseSpecular.SetInt("bsdf.albedoTexture", 0);
-		DiffuseSpecular.SetInt("bsdf.normalTexture", 1);
-		DiffuseSpecular.SetInt("bsdf.specularTexture", 2);
-		MapUBOToShader(DiffuseSpecular);
-	}
+	//void ForwardRaster::InitShaderDiffuseSpecular(){
+	//	DiffuseSpecular = GLShader("Data/shaders/P3N3T2.vs", "Data/shaders/Diffuse_Specular/Diffuse_Specular.fs");
+	//	DiffuseSpecular.SetInt("bsdf.albedoTexture", 0);
+	//	DiffuseSpecular.SetInt("bsdf.normalTexture", 1);
+	//	DiffuseSpecular.SetInt("bsdf.specularTexture", 2);
+	//	MapUBOToShader(DiffuseSpecular);
+	//}
 
 
 
@@ -87,21 +88,28 @@ namespace YRender {
 
 	void ForwardRaster::Visit(std::shared_ptr<BSDF_blinnPhong> bsdf) {
 		SetCurShader(BlinnPhongShader);
-		std::string DiffusePreFix = "bsdf.";
-		BlinnPhongShader.SetVec3f(DiffusePreFix + "colorFactor", bsdf->colorFactor);
-		BlinnPhongShader.SetFloat(DiffusePreFix + "gloss", bsdf->gloss);
+		std::string PreFix = "bsdf.";
+		BlinnPhongShader.SetVec3f(PreFix + "colorFactor", bsdf->colorFactor);
+		BlinnPhongShader.SetFloat(PreFix + "gloss", bsdf->gloss);
 
-		const int texNum = 2;
-		std::shared_ptr<Image> imgs[texNum] = { bsdf->albedoTexture, bsdf->specularTexture};
+		const int texNum = 3;
+		std::shared_ptr<Image> imgs[texNum] = { bsdf->albedoTexture, bsdf->normalTexture,bsdf->specularTexture};
+		std::string names[texNum] = { "bsdf.haveAlbedoTexture","bsdf.haveNormalTexture","bsdf.haveSpecularTexture" };
 		for (int i = 0; i < texNum; ++i) {
-			auto target = img2tex.find(bsdf->albedoTexture);
-			if (target == img2tex.end()) {
-				GLTexture DiffuseAlbedoTexture(imgs[i]);
-				img2tex[imgs[i]] = DiffuseAlbedoTexture;
-				DiffuseAlbedoTexture.Use(i);
+			if (imgs[i] && imgs[i]->IsValid()) {
+				BlinnPhongShader.SetBool(names[i], true);
+				auto target = img2tex.find(imgs[i]);
+				if (target == img2tex.end()) {
+					GLTexture CurTextrue(imgs[i]);
+					img2tex[imgs[i]] = CurTextrue;
+					CurTextrue.Use(i);
+				}
+				else {
+					target->second.Use(i);
+				}
 			}
 			else {
-				target->second.Use(i);
+				BlinnPhongShader.SetBool(names[i],false);
 			}
 		}
 	}
@@ -111,14 +119,13 @@ namespace YRender {
 
 	void ForwardRaster::Visit(std::shared_ptr<TriMesh> mesh) {
 		//curShader.SetMat4f("model", modelVec.back());
-
 		auto TargetVAO = mesh2VAO.find(mesh);
 		if (TargetVAO == mesh2VAO.end()) {
 			std::vector<VAO::VBO_DataPatch> Mesh_VAO_DataPatch = {
 			{mesh->GetPositions().data()->Data(), static_cast<unsigned int>(mesh->GetPositions().size() * 3 * sizeof(float)), 3},
 			{ mesh->GetNormals().data()->Data(), static_cast<unsigned int>(mesh->GetNormals().size() * 3 * sizeof(float)), 3 },
 			{ mesh->GetTexcoords().data()->Data(), static_cast<unsigned int>(mesh->GetTexcoords().size() * 2 * sizeof(float)), 2 },
-			/*{ mesh->GetTangents().data()->Data(), static_cast<unsigned int>(mesh->GetTangents().size() * 3 * sizeof(float)), 3 },*/};
+			{ mesh->GetTangents().data()->Data(), static_cast<unsigned int>(mesh->GetTangents().size() * 3 * sizeof(float)), 3 }};
 			VAO VAO_P3N3T2T3_Mesh(Mesh_VAO_DataPatch, mesh->GetIndice().data(), static_cast<unsigned int>(mesh->GetIndice().size() * sizeof(unsigned int)));
 			mesh2VAO[mesh] = VAO_P3N3T2T3_Mesh;
 			VAO_P3N3T2T3_Mesh.Draw(curShader);

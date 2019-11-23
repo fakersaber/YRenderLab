@@ -28,6 +28,7 @@ namespace YRender{
 		RGBf colorFactor;
 		float gloss;
 		std::shared_ptr<Image> albedoTexture;
+		std::shared_ptr<Image> normalTexture;
 		std::shared_ptr<Image> specularTexture;
 	};
 }

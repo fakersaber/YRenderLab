@@ -33,6 +33,9 @@ namespace YRender {
 				return *this;
 			}
 
+			const T& operator[](int i) const { assert(i >= 0 && i < 2); return _data[i]; }
+			T& operator[](int i) { assert(i >= 0 && i < 2); return _data[i]; }
+
 		public:
 			const value_type* Data() const { return _data; }
 			value_type* Data() { return _data; }

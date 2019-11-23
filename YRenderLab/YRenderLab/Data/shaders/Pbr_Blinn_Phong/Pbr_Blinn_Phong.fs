@@ -7,6 +7,7 @@ in VS_OUT {
 	vec3 FragPos;
 	vec3 Normal;
 	vec2 TexCoords;
+	vec3 Tangent;
 } fs_in;
 
 // ----------- const variable--------------//
@@ -16,10 +17,13 @@ const float INV_PI = 0.31830988618;
 //------------- struct -----------------
 struct BSDF_blinnPhong {
 	vec3 colorFactor;
-	bool haveAlbedoTexture;
 	float gloss;
-    sampler2D albedoTexture;// 0
-	sampler2D specularTexture;// 1
+	bool haveAlbedoTexture;
+	sampler2D albedoTexture;// 0
+	bool haveNormalTexture;
+	sampler2D normalTexture; // 1
+	bool haveSpecularTexture;
+	sampler2D specularTexture;// 2
 };
 
 struct DirectionalLight{
@@ -53,8 +57,22 @@ uniform BSDF_blinnPhong bsdf;
 
 
 // ---------- function define
+
+//由于这里的法线贴图没有给完全，按照映射过来的法线与repeat的法线相同，但是切线不相同，导致副切线反向
+//代码顺序不同会造成崩溃----暂时没找到原因
 vec3 CalcBumpedNormal(vec3 normal, vec3 tangent, sampler2D normalTexture, vec2 texcoord){
-	
+	vec3 newNormal = normal;
+	if(bsdf.haveNormalTexture){
+		tangent = normalize(tangent - dot(normal,tangent) * normal);
+		vec3 bitangent = cross(tangent,normal);
+		mat3 TBN = mat3(tangent,bitangent,normal);
+		vec3 TangentNormal = texture(normalTexture,texcoord).xyz;
+		TangentNormal = 2.f * TangentNormal - 1.f;
+		newNormal = TBN * TangentNormal;
+		newNormal = normalize(TangentNormal);
+	}
+	return newNormal;
+
 }
 
 vec3 lambert_diffuse(vec3 albedo){
@@ -78,15 +96,21 @@ vec3 F_Schlick(vec3 SpecularColor, float VoH){
 //所以当使用半角向量时，使用入射角与使用出射角是等价的。
 
 
-vec3 Blinn_Phong_BRDF(vec3 wi,vec3 wo){
-	vec3 albedo = texture(bsdf.albedoTexture,fs_in.TexCoords).xyz;
-	vec3 specular_color = texture(bsdf.specularTexture,fs_in.TexCoords).xyz;
-	vec3 wh = normalize(wi + wo);
-	float VoH = dot(wo,wh);
-	vec3 Fr = F_Schlick(specular_color,VoH);
-	vec3 diffusecolor = lambert_diffuse(albedo);
-	vec3 specularcolor = (bsdf.gloss + 2.f)/8.f * pow(max(dot(wh,fs_in.Normal),0),bsdf.gloss) * Fr;
-	return (vec3(1.f) - Fr) * diffusecolor + specularcolor;
+vec3 Blinn_Phong_BRDF(vec3 wi, vec3 wo, vec3 SarfaceNormal){
+	vec3 diffusecolor = vec3(0.f);
+	if(bsdf.haveAlbedoTexture){
+		vec3 albedo = texture(bsdf.albedoTexture,fs_in.TexCoords).xyz;
+		diffusecolor = lambert_diffuse(albedo);
+	}
+	vec3 specularcolor = vec3(0.f);
+	if(bsdf.haveSpecularTexture){
+		vec3 specular_color = texture(bsdf.specularTexture,fs_in.TexCoords).xyz;
+		vec3 wh = normalize(wi + wo);
+		float VoH = dot(wo,wh);
+		vec3 Fr = F_Schlick(specular_color,VoH);
+		specularcolor = (bsdf.gloss + 2.f)/8.f * pow(max(dot(wh,SarfaceNormal),0),bsdf.gloss) * Fr;
+	}
+	return diffusecolor + specularcolor; 
 }
 
 
@@ -94,7 +118,8 @@ void main(){
 	vec3 wi = -normalize(directionaLight.dir);
 	vec3 wo = normalize(viewPos - fs_in.FragPos);
 	vec3 wh = normalize(wi + wo);
-	float cosTheta = max(dot(fs_in.Normal,wi),0);
-	vec3 result = Blinn_Phong_BRDF(wi,wo) * directionaLight.L * cosTheta;
-	FragColor = vec4(result,1.f); //gamma矫正
+	vec3 NewNormal = CalcBumpedNormal(normalize(fs_in.Normal),normalize(fs_in.Tangent),bsdf.normalTexture,fs_in.TexCoords);
+	float cosTheta = max(dot(NewNormal,wi),0);
+	vec3 result = Blinn_Phong_BRDF(wi,wo,NewNormal) * directionaLight.L * cosTheta;
+	FragColor = vec4(result,1.f); //gamma矫正	
 }

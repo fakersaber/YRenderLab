@@ -29,7 +29,7 @@ namespace YRender {
 		virtual void Visit(std::shared_ptr<BSDF_blinnPhong> bsdf);
 		void Visit(std::shared_ptr<TriMesh> mesh);
 		void InitShaderPbrBlinnPhong();
-		void InitShaderDiffuseSpecular();
+		//void InitShaderDiffuseSpecular();
 	public:
 		void SetCurShader(const GLShader& shader) { curShader = shader; };
 	private:

@@ -132,7 +132,7 @@ namespace YRender{
 			//}
 
 			bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
-			//bsdf->normalTexture = LoadTexture(image_table, dir, material, aiTextureType_NORMALS);
+			bsdf->normalTexture = LoadTexture(image_table, dir, material, aiTextureType_HEIGHT);
 			bsdf->specularTexture = LoadTexture(image_table,dir,material, aiTextureType_SPECULAR);
 
 		}

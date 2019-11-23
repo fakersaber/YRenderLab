@@ -1,12 +1,14 @@
 # YRenderLab
-**~Personal rendering pipline~**
+**Personal rendering pipline**
 
 ## BPR WORKFLOW
 
-- [x] 单光源diffuse_bsdf
+- [x] diffuse_bsdf material~
+- [x] PBR Blinn Phong
 - [x] ForwardRaster pipline
 - [x] Architecture Build 
 - [x] module loading
+- [x] Normal Mapping
 - [ ] Sky Box
 - [ ] Light
   - [x] diffuse Lambert
@@ -40,4 +42,5 @@ Cpu implement
 
 - [ ] VAO-Mesh容器，Texture-Image容器清理
 - [x] delete Vertex shader  Error ?
+- [ ] shader指令不同造成的崩溃？
 

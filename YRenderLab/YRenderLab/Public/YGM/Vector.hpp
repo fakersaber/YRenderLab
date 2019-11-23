@@ -2,7 +2,7 @@
 #define _YRENDER_YGM_VAL_HPP_
 
 #include <Public/YGM/Math.hpp>
-
+#include <cassert>
 namespace YRender {
 	namespace YGM {
 		template <unsigned int N, typename T>
