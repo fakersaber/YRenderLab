@@ -20,12 +20,15 @@ namespace YRender {
 		GLTexture(unsigned int ID, ENUM_TYPE type);
 		GLTexture(ENUM_TYPE type);
 		GLTexture(std::shared_ptr<Image> img);
+		GLTexture(const std::vector<std::string>& skybox);
+
 		void UnBind();
 		unsigned int Type2GL(ENUM_TYPE type);
 		bool IsValid();
 		bool Use(unsigned int id);
 	private:
 		bool SetImg(const Image& img);
+		bool Load(const std::vector<std::string> & skybox);
 
 	private:
 		unsigned int ID;

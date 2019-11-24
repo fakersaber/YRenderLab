@@ -24,7 +24,7 @@ namespace YRender{
 		const std::shared_ptr<YObject> Load(const std::string& path)
 		{
 			bool isSupport = false;
-			const std::string suffix[] = { ".FBX",".obj",".fbx" };
+			const std::string suffix[] = { ".FBX",".obj",".fbx",".blend"};
 			for(auto& temp : suffix){
 				if (StrAPI::Is_suffix(path, temp)) {
 					isSupport = true;
@@ -157,7 +157,9 @@ namespace YRender{
 			material->GetTexture(type, 0, &str);
 
 			std::string path = dir + "/" + str.C_Str();
-
+			#ifdef _DEBUG
+			std::cout << path << std::endl;
+			#endif 
 			if (image_table.find(path) != image_table.end())
 				return image_table[path];
 

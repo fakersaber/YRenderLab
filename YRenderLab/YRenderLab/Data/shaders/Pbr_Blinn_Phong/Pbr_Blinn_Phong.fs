@@ -115,11 +115,16 @@ vec3 Blinn_Phong_BRDF(vec3 wi, vec3 wo, vec3 SarfaceNormal){
 
 
 void main(){
-	vec3 wi = -normalize(directionaLight.dir);
-	vec3 wo = normalize(viewPos - fs_in.FragPos);
-	vec3 wh = normalize(wi + wo);
-	vec3 NewNormal = CalcBumpedNormal(normalize(fs_in.Normal),normalize(fs_in.Tangent),bsdf.normalTexture,fs_in.TexCoords);
-	float cosTheta = max(dot(NewNormal,wi),0);
-	vec3 result = Blinn_Phong_BRDF(wi,wo,NewNormal) * directionaLight.L * cosTheta;
-	FragColor = vec4(result,1.f); //gamma矫正	
+	// vec3 wi = -normalize(directionaLight.dir);
+	// vec3 wo = normalize(viewPos - fs_in.FragPos);
+	// vec3 wh = normalize(wi + wo);
+	// vec3 NewNormal = CalcBumpedNormal(normalize(fs_in.Normal),normalize(fs_in.Tangent),bsdf.normalTexture,fs_in.TexCoords);
+	// float cosTheta = max(dot(NewNormal,wi),0);
+	// vec3 result = Blinn_Phong_BRDF(wi,wo,NewNormal) * directionaLight.L * cosTheta;
+	vec3 diffusecolor = vec3(1.f);
+	if(bsdf.haveAlbedoTexture){
+		vec3 albedo = texture(bsdf.albedoTexture,fs_in.TexCoords).xyz;
+		diffusecolor = lambert_diffuse(albedo);
+	}
+	FragColor = vec4(diffusecolor,1.f); //gamma矫正	
 }

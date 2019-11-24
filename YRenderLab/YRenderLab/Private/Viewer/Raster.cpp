@@ -25,6 +25,11 @@ namespace YRender {
 
 
 
+	void Raster::UpdateEnvironment() {
+
+	}
+
+
 	void Raster::UpdateUBO_DirectionalLights(){
 		//uniform一个变量在我的显卡上最小数据对其16字节
 		glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);

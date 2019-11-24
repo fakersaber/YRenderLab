@@ -26,7 +26,11 @@ out VS_OUT {
 void main()
 {
     //model matrix set identity temply
-    vs_out.FragPos = iModelPos;
+    vec3 x = vec3(1.f,0.f,0.f);
+    vec3 y = vec3(0.f,0.f,1.f);
+    vec3 z = vec3(0.f,1.f,0.f);
+    mat3 TempModule = mat3(x,y,z);
+    vs_out.FragPos = TempModule * iModelPos;
     vs_out.Normal = iModelNormal;
     vs_out.TexCoords = iTexCoords;
     vs_out.Tangent = iModelTangent;

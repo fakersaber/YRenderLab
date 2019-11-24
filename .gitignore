@@ -31,8 +31,14 @@
 *.out
 *.app
 
+
 .vs/
 x64/
 YRenderLab/Debug
 
+#module file
+module/
+sky_box/
+
+# 3rdLib
 !YRenderLab/YRenderLab/Public/3rdPart/Lib/*/*

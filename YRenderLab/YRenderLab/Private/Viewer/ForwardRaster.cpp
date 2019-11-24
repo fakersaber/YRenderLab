@@ -1,4 +1,5 @@
 #include <Public/Viewer/ForwardRaster.h>
+
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 
 #include <Public/Scene/Scene.h>
@@ -15,8 +16,10 @@
 
 namespace YRender {
 
-	ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera) : Raster(scene, camera){
-
+	ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera) 
+		: 
+		Raster(scene, camera, YRender::New<EnviromentGen>())
+	{
 	}
 
 
@@ -25,8 +28,7 @@ namespace YRender {
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//UpdateShadowMap();
-		//UpdateEnvironment();
-		// 要放在深度图生成之后
+		UpdateEnvironment();
 		UpdateUBO();
 		modelVec.clear();
 		//modelVec.push_back(YGM::Transform(1.f));

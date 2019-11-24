@@ -37,8 +37,9 @@ namespace YRender {
 		}
 
 		//创建场景、管线、相机
-		auto Root = YRender::AssimpLoader::Load("C:/Users/Administrator/Desktop/45 ACP Smith and Wesson Hand Gun/Handgun_obj.obj");
+		auto Root = YRender::AssimpLoader::Load("C:/Users/Administrator/Desktop/module/yui/source/Yui/Yui 1.fbx");
 		auto Scene = YRender::New<YRender::Scene>(Root);
+		//camera可以从pipline中获得，可以不写在窗口类中
 		MainCamera = YRender::New<Camera>();
 		ForwardPipline = YRender::New<ForwardRaster>(Scene, MainCamera);
 
