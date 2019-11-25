@@ -8,7 +8,6 @@
 namespace YRender {
 	class Scene;
 	class Camera;
-	class GLShader;
 
 	class Raster : public YHeapObject {
 	protected:

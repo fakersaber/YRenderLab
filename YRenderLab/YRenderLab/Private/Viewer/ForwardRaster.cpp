@@ -33,8 +33,8 @@ namespace YRender {
 		modelVec.clear();
 		//modelVec.push_back(YGM::Transform(1.f));
 		this->Visit(scene->GetRoot());
-
-		//DrawEnvironment();
+		//×îºódraw environment¼õÉÙoverdraw
+		DrawEnvironment();
 	}
 	void ForwardRaster::Initial(){
 		Raster::Initial();
@@ -117,8 +117,6 @@ namespace YRender {
 	}
 
 
-
-
 	void ForwardRaster::Visit(std::shared_ptr<TriMesh> mesh) {
 		//curShader.SetMat4f("model", modelVec.back());
 		auto TargetVAO = mesh2VAO.find(mesh);
@@ -135,6 +133,16 @@ namespace YRender {
 		else {
 			TargetVAO->second.Draw(curShader);
 		}
+	}
+
+
+	void ForwardRaster::DrawEnvironment(){
+		glDepthFunc(GL_LEQUAL);
+
+
+		const PtrC<TriMesh> RawAPI_OGLW::cube = TriMesh::GenCube();
+
+		glDepthFunc(GL_LESS);
 	}
 }
 

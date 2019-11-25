@@ -3,20 +3,18 @@
 
 ## BPR WORKFLOW
 
-- [x] diffuse_bsdf material~
+- [x] diffuse_bsdf material
 - [x] PBR Blinn Phong
 - [x] ForwardRaster pipline
 - [x] Architecture Build 
 - [x] module loading
 - [x] Normal Mapping
 - [ ] Sky Box
-- [ ] Light
-  - [x] diffuse Lambert
-  - [x] Ambient
-  - [ ] Specular
+- [x] Direct Light
 - [ ] Shadow
 - [ ] CubeMap
 - [x] 流程调试
+- [ ] IBL
 
 ### SoftRHI
 - [x] Coordinate Transformation

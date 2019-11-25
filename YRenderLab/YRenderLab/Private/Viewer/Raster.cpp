@@ -8,9 +8,7 @@
 
 namespace YRender {
 	void Raster::Initial(){
-
-		//envGenerator->Init();
-
+		enviromentGen->Init();
 		glGenBuffers(1, &directionalLightsUBO);
 		glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);
 		glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_DYNAMIC_DRAW); //暂时一个光强和一个光颜色
@@ -26,7 +24,7 @@ namespace YRender {
 
 
 	void Raster::UpdateEnvironment() {
-
+		enviromentGen->Visit(scene);
 	}
 
 

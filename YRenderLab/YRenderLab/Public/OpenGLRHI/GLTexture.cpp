@@ -15,21 +15,17 @@ namespace YRender {
 		SetImg(*img);
 	}
 
-	GLTexture::GLTexture(const std::vector<std::string>& skybox){
-		type = ENUM_TYPE_NOT_VALID;
+	GLTexture::GLTexture(const std::vector<std::string>& skybox) : type(ENUM_TYPE_CUBE_MAP) {
 		Load(skybox);
 	}
 
 	bool GLTexture::Load(const std::vector<std::string>& skybox) {
 		if (IsValid()) {
 			printf("ERROR: The texture is valid already.\n");
-
 			return false;
 		}
-
 		glGenTextures(1, &ID);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, ID);
-
 		// loads a cubemap texture from 6 individual texture faces
 		// order:
 		// +X (right)
@@ -47,18 +43,15 @@ namespace YRender {
 				type = ENUM_TYPE_NOT_VALID;
 				return false;
 			}
-
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, img->GetWidth(), img->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, img->GetData());
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, img->GetWidth(), img->GetHeight(), 0, GL_RGB, GL_FLOAT, img->GetData());
 			glGenerateMipmap(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i);
 		}
-
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-		type = ENUM_TYPE_CUBE_MAP;
 		UnBind();
 		return true;
 	}
