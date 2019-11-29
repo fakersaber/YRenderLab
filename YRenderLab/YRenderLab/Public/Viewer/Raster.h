@@ -11,9 +11,9 @@ namespace YRender {
 
 	class Raster : public YHeapObject {
 	protected:
-		Raster(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera,std::shared_ptr<EnviromentGen> enviromentGen)
+		Raster(std::shared_ptr<Scene> scene, /*std::shared_ptr<Camera> camera,*/std::shared_ptr<EnviromentGen> enviromentGen)
 			: scene(scene), 
-			camera(camera),
+			/*camera(camera),*/
 			enviromentGen(enviromentGen)
 		{
 
@@ -35,7 +35,7 @@ namespace YRender {
 
 	protected:
 		std::shared_ptr<Scene> scene;
-		std::shared_ptr<Camera> camera;
+		//std::shared_ptr<Camera> camera;
 		std::shared_ptr<EnviromentGen> enviromentGen;
 	private:
 		unsigned int directionalLightsUBO;

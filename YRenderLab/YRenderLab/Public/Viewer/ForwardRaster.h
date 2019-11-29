@@ -18,7 +18,7 @@ namespace YRender {
 
 	class ForwardRaster : public Raster {
 	public:
-		ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera);
+		ForwardRaster(std::shared_ptr<Scene> scene/*, std::shared_ptr<Camera> camera*/);
 
 	public:
 		virtual void Draw() override;
@@ -29,6 +29,7 @@ namespace YRender {
 		virtual void Visit(std::shared_ptr<BSDF_blinnPhong> bsdf);
 		void Visit(std::shared_ptr<TriMesh> mesh);
 		void InitShaderPbrBlinnPhong();
+		void InitShader_Skybox();
 		void DrawEnvironment();
 		//void InitShaderDiffuseSpecular();
 	public:
@@ -42,8 +43,12 @@ namespace YRender {
 
 
 		GLShader BlinnPhongShader;
-		GLShader DiffuseSpecular;
 		GLShader curShader;
+		GLShader shader_skybox;
+
+
+	public:
+		const static VAO CubeVAO;
 	};
 }
 

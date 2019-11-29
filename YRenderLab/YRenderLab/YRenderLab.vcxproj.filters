@@ -564,6 +564,9 @@
     <ClInclude Include="Public\Viewer\EnviromentGen.h">
       <Filter>Public\Viewer</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\Mesh\Cube.h">
+      <Filter>Public\Basic\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -683,6 +686,9 @@
     </ClCompile>
     <ClCompile Include="Private\Viewer\EnviromentGen.cpp">
       <Filter>Private\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\Mesh\Cube.cpp">
+      <Filter>Private\Basic\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -16,9 +16,15 @@
 
 namespace YRender {
 
-	ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<Camera> camera) 
+	//ForwardRaster::CubeVAO = VAO(
+	//	std::vector<VAO::VBO_DataPatch>{ {}},
+	//	TriMesh::OriginCube->GetIndice().data(), 
+	//	static_cast<unsigned int>(TriMesh::OriginCube->GetIndice().size() * sizeof(unsigned int))
+	//);
+
+	ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene/*, std::shared_ptr<Camera> camera*/) 
 		: 
-		Raster(scene, camera, YRender::New<EnviromentGen>())
+		Raster(scene, /*camera, */YRender::New<EnviromentGen>())
 	{
 	}
 
@@ -38,6 +44,7 @@ namespace YRender {
 	}
 	void ForwardRaster::Initial(){
 		Raster::Initial();
+		InitShader_Skybox();
 		InitShaderPbrBlinnPhong();
 		//InitShaderDiffuseSpecular();
 	}
@@ -51,6 +58,12 @@ namespace YRender {
 		MapUBOToShader(BlinnPhongShader);
 	}
 
+	void ForwardRaster::InitShader_Skybox(){
+		shader_skybox = GLShader("Data/shaders/SkyBox/skybox.vs", "Data/shaders/SkyBox/skybox.fs");
+		shader_skybox.SetInt("skybox", 0);
+		MapUBOToShader(shader_skybox);
+	}
+
 	//void ForwardRaster::InitShaderDiffuseSpecular(){
 	//	DiffuseSpecular = GLShader("Data/shaders/P3N3T2.vs", "Data/shaders/Diffuse_Specular/Diffuse_Specular.fs");
 	//	DiffuseSpecular.SetInt("bsdf.albedoTexture", 0);
@@ -58,9 +71,6 @@ namespace YRender {
 	//	DiffuseSpecular.SetInt("bsdf.specularTexture", 2);
 	//	MapUBOToShader(DiffuseSpecular);
 	//}
-
-
-
 
 	void ForwardRaster::Visit(std::shared_ptr<YObject> obj){
 		auto mesh = obj->GetComponent<MeshComponent>();
@@ -138,10 +148,21 @@ namespace YRender {
 
 	void ForwardRaster::DrawEnvironment(){
 		glDepthFunc(GL_LEQUAL);
-
-
-		const PtrC<TriMesh> RawAPI_OGLW::cube = TriMesh::GenCube();
-
+		enviromentGen->GetSkyBox().Use(0);
+		auto TargetVAO = mesh2VAO.find(TriMesh::OriginCube);
+		if (TargetVAO == mesh2VAO.end()) {
+			std::vector<VAO::VBO_DataPatch> Mesh_VAO_DataPatch = {
+			{TriMesh::OriginCube->GetPositions().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetPositions().size() * 3 * sizeof(float)), 3},
+			{ TriMesh::OriginCube->GetNormals().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetNormals().size() * 3 * sizeof(float)), 3 },
+			{ TriMesh::OriginCube->GetTexcoords().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetTexcoords().size() * 2 * sizeof(float)), 2 },
+			{ TriMesh::OriginCube->GetTangents().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetTangents().size() * 3 * sizeof(float)), 3 } };
+			VAO VAO_P3N3T2T3_Mesh(Mesh_VAO_DataPatch, TriMesh::OriginCube->GetIndice().data(), static_cast<unsigned int>(TriMesh::OriginCube->GetIndice().size() * sizeof(unsigned int)));
+			mesh2VAO[TriMesh::OriginCube] = VAO_P3N3T2T3_Mesh;
+			VAO_P3N3T2T3_Mesh.Draw(shader_skybox);
+		}
+		else {
+			TargetVAO->second.Draw(shader_skybox);
+		}
 		glDepthFunc(GL_LESS);
 	}
 }

@@ -9,6 +9,7 @@
 namespace YRender {
 	void Raster::Initial(){
 		enviromentGen->Init();
+
 		glGenBuffers(1, &directionalLightsUBO);
 		glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);
 		glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_DYNAMIC_DRAW); //暂时一个光强和一个光颜色
@@ -16,9 +17,13 @@ namespace YRender {
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 
-		//glGenBuffers(1, &environmentUBO);
-		//glBindBuffer(GL_UNIFORM_BUFFER, environmentUBO);
-		//glBufferData(GL_UNIFORM_BUFFER,)
+		glGenBuffers(1, &environmentUBO);
+		glBindBuffer(GL_UNIFORM_BUFFER, environmentUBO);
+		glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_DYNAMIC_DRAW);
+		glBindBufferBase(GL_UNIFORM_BUFFER, 4, environmentUBO);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+
 	}
 
 
@@ -40,7 +45,15 @@ namespace YRender {
 	}
 
 	void Raster::UpdateUBO_Environment(){
-
+		glBindBuffer(GL_UNIFORM_BUFFER, environmentUBO);
+		//auto color = RGBf::White;
+		float intensity = 0;
+		bool haveSkybox = false;
+		bool haveEnvironment = false;
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, RGBf::White.Data());
+		glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &intensity);
+		glBufferSubData(GL_UNIFORM_BUFFER, 16, 1, &haveSkybox);
+		glBufferSubData(GL_UNIFORM_BUFFER, 20, 1, &haveEnvironment);
 	}
 
 
@@ -55,7 +68,7 @@ namespace YRender {
 		//shader.UniformBlockBind("PointLights", 1);
 		shader.UniformBlockBind("DirectionalLights", 2);
 		//shader.UniformBlockBind("SpotLights", 3);
-		//shader.UniformBlockBind("Environment", 4);
+		shader.UniformBlockBind("Environment", 4);
 		//shader.UniformBlockBind("SphereLights", 5);
 		//shader.UniformBlockBind("DiskLights", 6);
 		//shader.UniformBlockBind("AreaLights", 7);

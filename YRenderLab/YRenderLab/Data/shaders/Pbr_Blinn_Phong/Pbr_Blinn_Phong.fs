@@ -128,3 +128,12 @@ void main(){
 	}
 	FragColor = vec4(diffusecolor,1.f); //gamma矫正	
 }
+
+
+
+// vec2 importance_sample_phong(vec2 xi)
+// {
+//   float phi = 2.0f * PI * xi.x;
+//   float theta = acos(pow(1.0f - xi.y, 1.0f/(n+1.0f)));
+//   return vec2(phi, theta);
+// }

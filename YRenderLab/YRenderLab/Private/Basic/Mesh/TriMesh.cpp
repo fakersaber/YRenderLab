@@ -1,6 +1,12 @@
 #include <Public/Basic/Mesh/TriMesh.h>
+#include <Public/Basic/Mesh/Cube.h>
+
 
 namespace YRender {
+	//Create static Cube
+	std::shared_ptr<TriMesh> TriMesh::OriginCube = GebCube();
+
+
 	TriMesh::TriMesh(
 		const std::vector<unsigned int>& indice, 
 		const std::vector<Vector3>& position, 
@@ -36,5 +42,11 @@ namespace YRender {
 	void TriMesh::InitAfterNew(){
 		//auto triMesh = shared_this<TriMesh>();
 		//for(auto )
+	}
+	std::shared_ptr<TriMesh> TriMesh::GenCube()
+	{
+		Cube cube;
+		auto cubeMesh = YRender::New<TriMesh>(cube.GetIndice(),cube.GetPositions(),cube.GetNormals(), cube.GetTexcoords());
+		return cubeMesh;
 	}
 }

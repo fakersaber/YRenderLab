@@ -107,6 +107,7 @@
     <ClInclude Include="Public\Basic\Image\stb_image_write.h" />
     <ClInclude Include="Public\Basic\Material.h" />
     <ClInclude Include="Public\Basic\MaterialComponent.h" />
+    <ClInclude Include="Public\Basic\Mesh\Cube.h" />
     <ClInclude Include="Public\Basic\Mesh\GeometryGenerator.h" />
     <ClInclude Include="Public\Basic\Mesh\TriMesh.h" />
     <ClInclude Include="Public\Basic\Node.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Private\Basic\Camera\Camera.cpp" />
     <ClCompile Include="Private\Basic\File\File.cpp" />
     <ClCompile Include="Private\Basic\Image\Image.cpp" />
+    <ClCompile Include="Private\Basic\Mesh\Cube.cpp" />
     <ClCompile Include="Private\Basic\Mesh\GeometryGenerator.cpp" />
     <ClCompile Include="Private\Basic\Mesh\TriMesh.cpp" />
     <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp" />

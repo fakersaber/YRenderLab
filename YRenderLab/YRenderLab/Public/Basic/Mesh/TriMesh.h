@@ -35,6 +35,10 @@ namespace YRender {
 		std::vector<Vector3> tangents;
 
 		//BoundBox °ó¶¨ºĞ´ıĞø
+
+	public:
+		static std::shared_ptr<TriMesh> GenCube();
+		static std::shared_ptr<TriMesh> OriginCube;
 	};
 }
 

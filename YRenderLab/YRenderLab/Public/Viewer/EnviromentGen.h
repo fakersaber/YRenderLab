@@ -3,11 +3,11 @@
 
 #include <Public/Basic/YHeapObject.h>
 #include <Public/OpenGLRHI/GLShader.h>
-
+#include <Public/OpenGLRHI/GLTexture.h>
 
 namespace YRender {
 	class Scene;
-
+	class GLTexture;
 
 	class EnviromentGen : public YHeapObject {
 	public:
@@ -19,14 +19,21 @@ namespace YRender {
 	public:
 		void Init();
 		void Visit(std::shared_ptr<Scene> scene);
+		GLTexture GetSkyBox() const { return SkyBox; }
 
 	private:
+		//IBL sky box
 		void InitShaders();
-		void InitShader_Skybox();
+		void InitGenShader_IBLSkybox();
 
+
+		//ordinary sky box 
+		void InitSkyBoxTexture();
+		
 
 	private:
-		GLShader shader_genSkybox;
+		GLShader shader_genIBLSkybox;
+		GLTexture SkyBox;
 	};
 }
 
