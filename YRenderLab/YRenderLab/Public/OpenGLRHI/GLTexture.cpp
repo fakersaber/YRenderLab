@@ -20,10 +20,7 @@ namespace YRender {
 	}
 
 	bool GLTexture::Load(const std::vector<std::string>& skybox) {
-		if (IsValid()) {
-			printf("ERROR: The texture is valid already.\n");
-			return false;
-		}
+
 		glGenTextures(1, &ID);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, ID);
 		// loads a cubemap texture from 6 individual texture faces

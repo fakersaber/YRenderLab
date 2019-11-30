@@ -4,7 +4,7 @@
 
 namespace YRender {
 	//Create static Cube
-	std::shared_ptr<TriMesh> TriMesh::OriginCube = GebCube();
+	std::shared_ptr<TriMesh> TriMesh::OriginCube = GenCube();
 
 
 	TriMesh::TriMesh(
@@ -39,6 +39,24 @@ namespace YRender {
 		//if(tangents.empty())
 		//	GenTangents();
 	}
+
+
+	TriMesh::TriMesh(
+		const int indiceNum,
+		const int vertexNum,
+		const unsigned int* indice, 
+		const Vector3* positions, 
+		const Vector3* normals, 
+		const Vector2* texcoords, 
+		const Vector3* tangents)
+	{
+		if (!indice || !positions || !normals || !texcoords) {
+			printf("ERROR: TriMesh is invalid.\n");
+			return;
+		}
+	}
+
+
 	void TriMesh::InitAfterNew(){
 		//auto triMesh = shared_this<TriMesh>();
 		//for(auto )

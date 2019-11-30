@@ -9,11 +9,11 @@ layout (std140) uniform Environment{
     float intensity;
     bool haveSkyBox;
     bool haveEnvironment;
-}
+};
 
+uniform samplerCube skybox;
 
-void main()
-{    
-    vec3 ambient = texture(skybox, texcoord).rgb;
-	FragColor = vec4(ambient, 1);
+void main(){
+    vec3 ambient = texture(skybox, TexCoords).xyz;
+	FragColor = vec4(ambient,1.f);
 }

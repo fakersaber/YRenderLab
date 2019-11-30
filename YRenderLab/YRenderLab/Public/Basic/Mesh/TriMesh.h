@@ -18,6 +18,16 @@ namespace YRender {
 		);
 
 		
+		TriMesh(
+			const int indiceNum,
+			const int vertexNum,
+			const unsigned int* indice,
+			const Vector3* position,
+			const Vector3* normal,
+			const Vector2* texcoords,
+			const Vector3* tangents = nullptr
+		);
+
 	protected:
 		virtual void InitAfterNew() override;
 		virtual ~TriMesh() = default; 
