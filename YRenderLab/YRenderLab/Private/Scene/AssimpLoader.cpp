@@ -126,10 +126,10 @@ namespace YRender{
 			YRender::New<MaterialComponent>(meshobj, bsdf);
 
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-			//for (int i = 0; i <= 12; i++) {
-			//	auto n = material->GetTextureCount(static_cast<aiTextureType>(i));
-			//	printf("%d : %d\n", i, n);
-			//}
+			for (int i = 0; i <= 12; i++) {
+				auto n = material->GetTextureCount(static_cast<aiTextureType>(i));
+				printf("%d : %d\n", i, n);
+			}
 
 			bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
 			bsdf->normalTexture = LoadTexture(image_table, dir, material, aiTextureType_HEIGHT);

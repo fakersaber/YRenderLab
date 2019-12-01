@@ -4,17 +4,16 @@
 ## BPR WORKFLOW
 
 - [x] diffuse_bsdf material
-- [x] PBR Blinn Phong
+- [x] physics Blinn Phong
 - [x] ForwardRaster pipline
 - [x] Architecture Build 
 - [x] module loading
 - [x] Normal Mapping
-- [ ] Sky Box
+- [x] Sky Box
 - [x] Direct Light
-- [ ] Shadow
-- [ ] CubeMap
-- [x] 流程调试
 - [ ] IBL
+- [x] CubeMap
+- [ ] Shadow
 
 ### SoftRHI
 - [x] Coordinate Transformation
@@ -41,4 +40,15 @@ Cpu implement
 - [ ] VAO-Mesh容器，Texture-Image容器清理
 - [x] delete Vertex shader  Error ?
 - [ ] shader指令不同造成的崩溃？
+
+
+
+### Note
+
+- 3dmax修改模型时贴图对应关系（使用默认材质导出，所以在assimp加载模型时贴图名称要改改..）
+  -  Diffuse --> basecolor
+  -  specular --> metallic
+  -  emitter --> roughness
+  -  height --> normal
+  -  ??? --> ao （还没决定）
 

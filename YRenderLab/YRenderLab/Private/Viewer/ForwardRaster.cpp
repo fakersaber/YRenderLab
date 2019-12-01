@@ -59,7 +59,7 @@ namespace YRender {
 	}
 
 	void ForwardRaster::InitShader_Skybox(){
-		shader_skybox = GLShader("Data/shaders/SkyBox/skybox.vs", "D:/YRenderLab/YRenderLab/YRenderLab/Data/shaders/SkyBox/skybox.fs");
+		shader_skybox = GLShader("Data/shaders/SkyBox/skybox.vs", "Data/shaders/SkyBox/skybox.fs");
 		shader_skybox.SetInt("skybox", 0);
 		MapUBOToShader(shader_skybox);
 	}
