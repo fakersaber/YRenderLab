@@ -148,7 +148,7 @@ namespace YRender {
 
 	void ForwardRaster::DrawEnvironment(){
 		glDepthFunc(GL_LEQUAL);
-		enviromentGen->GetSkyBox().Use(0);
+		enviromentGen->GetSkyBox()->Use(0);
 		auto TargetVAO = mesh2VAO.find(TriMesh::OriginCube);
 		if (TargetVAO == mesh2VAO.end()) {
 			std::vector<VAO::VBO_DataPatch> Mesh_VAO_DataPatch = {

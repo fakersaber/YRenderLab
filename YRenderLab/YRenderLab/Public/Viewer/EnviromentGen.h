@@ -19,13 +19,14 @@ namespace YRender {
 	public:
 		void Init();
 		void Visit(std::shared_ptr<Scene> scene);
-		GLTexture GetSkyBox() const { return SkyBox; }
+		std::shared_ptr <GLTexture> GetSkyBox() const { return SkyBox; }
 
 	private:
 		//IBL sky box
 		void InitShaders();
 		void InitGenShader_IBLSkybox();
-
+		void InitGenShader_Irradiance();
+		void InitGenShader_PreFilter();
 
 		//ordinary sky box 
 		void InitSkyBoxTexture();
@@ -33,7 +34,7 @@ namespace YRender {
 
 	private:
 		GLShader shader_genIBLSkybox;
-		GLTexture SkyBox;
+		std::shared_ptr<GLTexture> SkyBox;
 	};
 }
 

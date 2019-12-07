@@ -23,8 +23,8 @@ namespace YRender{
 		InitGenShader_IBLSkybox();
 	}
 
-	//先不实现IBL,走通cubemap
-	//先draw模型，然后开启深度避免overdraw
+
+	//将equirectangular转换为cubemap
 	void EnviromentGen::InitGenShader_IBLSkybox(){
 		//std::string vsPath = "data/shaders/IBL/cubemap.vs";
 		//std::string fsPath = "data/shaders/IBL/equirectangular_to_cubemap.fs";
@@ -34,6 +34,15 @@ namespace YRender{
 		//shader_genSkybox.SetMat4f("projection", captureProjection);
 	}
 
+
+	//生成漫反射的Irradiance
+	void EnviromentGen::InitGenShader_Irradiance() {
+
+	}
+
+	void EnviromentGen::InitGenShader_PreFilter(){
+
+	}
 
 	void EnviromentGen::InitSkyBoxTexture(){
 		std::vector<std::string> SkyboxTexturePath = 
@@ -45,6 +54,6 @@ namespace YRender{
 			"Data/sky_box/front.jpg",
 			"Data/sky_box/back.jpg"
 		};
-		SkyBox = GLTexture(SkyboxTexturePath);
+		SkyBox = std::make_shared<GLTexture>(SkyboxTexturePath);
 	}
 }
