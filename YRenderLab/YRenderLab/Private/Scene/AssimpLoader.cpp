@@ -158,7 +158,7 @@ namespace YRender{
 
 			std::string path = dir + "/" + str.C_Str();
 			#ifdef _DEBUG
-			std::cout << path << std::endl;
+				std::cout << path << std::endl;
 			#endif 
 			if (image_table.find(path) != image_table.end())
 				return image_table[path];

@@ -26,12 +26,12 @@ namespace YRender{
 
 	//½«equirectangular×ª»»Îªcubemap
 	void EnviromentGen::InitGenShader_IBLSkybox(){
-		//std::string vsPath = "data/shaders/IBL/cubemap.vs";
-		//std::string fsPath = "data/shaders/IBL/equirectangular_to_cubemap.fs";
-		//shader_genSkybox = GLShader(vsPath, fsPath);
-		//shader_genSkybox.SetInt("equirectangularMap", 0);
+		std::string vsPath = "data/shaders/P3N3T2.vs";
+		std::string fsPath = "data/shaders/IBL/equirectangular_to_cubemap.fs";
+		shader_genIBLSkybox = GLShader(vsPath, fsPath);
+		shader_genIBLSkybox.SetInt("equirectangularMap", 0);
 		//auto captureProjection = YGM::Transform::Perspective(90.f, 1.0f, 0.1f, 10.0f);
-		//shader_genSkybox.SetMat4f("projection", captureProjection);
+		//shader_genIBLSkybox.SetMat4f("projection", captureProjection.GetMatrix().Transpose());
 	}
 
 

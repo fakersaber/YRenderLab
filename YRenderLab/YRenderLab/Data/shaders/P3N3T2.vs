@@ -24,7 +24,7 @@ out VS_OUT {
 void main()
 {
     //model matrix set identity temply
-    vs_out.FragPos = iModelPos;
+    vs_out.FragPos = mat3(10.f,0.f,0.f,0.f,10.f,0.f,0.f,0.f,10.f) * iModelPos;
     vs_out.Normal = iModelNormal;
     vs_out.TexCoords = iTexCoords;
     gl_Position = projection * view * vec4(vs_out.FragPos,1.0f);

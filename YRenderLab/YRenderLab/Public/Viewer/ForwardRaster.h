@@ -47,8 +47,10 @@ namespace YRender {
 		GLShader shader_skybox;
 
 
+
+	//test
 	public:
-		const static VAO CubeVAO;
+		GLTexture IBLmap;
 	};
 }
 

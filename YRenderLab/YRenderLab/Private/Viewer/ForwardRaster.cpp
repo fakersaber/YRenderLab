@@ -43,6 +43,10 @@ namespace YRender {
 		DrawEnvironment();
 	}
 	void ForwardRaster::Initial(){
+		//test
+		IBLmap = GLTexture(YRender::New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
+
+
 		Raster::Initial();
 		InitShader_Skybox();
 		InitShaderPbrBlinnPhong();
@@ -148,7 +152,9 @@ namespace YRender {
 
 	void ForwardRaster::DrawEnvironment(){
 		glDepthFunc(GL_LEQUAL);
+
 		enviromentGen->GetSkyBox()->Use(0);
+
 		auto TargetVAO = mesh2VAO.find(TriMesh::OriginCube);
 		if (TargetVAO == mesh2VAO.end()) {
 			std::vector<VAO::VBO_DataPatch> Mesh_VAO_DataPatch = {
@@ -158,10 +164,16 @@ namespace YRender {
 			{ TriMesh::OriginCube->GetTangents().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetTangents().size() * 3 * sizeof(float)), 3 } };
 			VAO VAO_P3N3T2T3_Mesh(Mesh_VAO_DataPatch, TriMesh::OriginCube->GetIndice().data(), static_cast<unsigned int>(TriMesh::OriginCube->GetIndice().size() * sizeof(unsigned int)));
 			mesh2VAO[TriMesh::OriginCube] = VAO_P3N3T2T3_Mesh;
-			VAO_P3N3T2T3_Mesh.Draw(shader_skybox);
+			//VAO_P3N3T2T3_Mesh.Draw(shader_skybox);
 		}
 		else {
-			TargetVAO->second.Draw(shader_skybox);
+			//TargetVAO->second.Draw(shader_skybox);
+
+			//test equiremap
+			enviromentGen->shader_genIBLSkybox.SetMat4f("Camera.view", this->scene->GetCamera()->GetViewMatrix().Transpose());
+			enviromentGen->shader_genIBLSkybox.SetMat4f("Camera.projection", this->scene->GetCamera()->GetProjectMatrix().Transpose());
+			IBLmap.Use(0);
+			TargetVAO->second.Draw(enviromentGen->shader_genIBLSkybox);
 		}
 		glDepthFunc(GL_LESS);
 	}

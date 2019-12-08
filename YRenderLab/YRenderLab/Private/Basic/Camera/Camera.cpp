@@ -139,10 +139,10 @@ namespace YRender {
 		// Make sure that when pitch is out of bounds, screen doesn't get flipped
 		//if (constrainPitch)
 		//{
-			if (pitch > 89.0f)
-				pitch = 89.0f;
-			else if (pitch < -89.0f)
-				pitch = -89.0f;
+			if (pitch > 89.f)
+				pitch = 89.f;
+			else if (pitch < -89.f)
+				pitch = -89.f;
 		//}
 
 		// Update Front, Right and Up Vectors using the updated Euler angles

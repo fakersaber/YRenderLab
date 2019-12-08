@@ -1,39 +1,13 @@
 #version 330 core
+layout (location = 0) in vec3 aPos;
 
-// 160，总大小按vec4对齐（必须是vec4倍数） but padded to a multiple of the size of a vec4.
-layout (std140) uniform Camera{
-	mat4 view;			// 64	0	
-	mat4 projection;	// 64	64	
-	vec3 viewPos;		// 12	128
-	float nearPlane;	// 4	140	 //float按4字节对齐，140
-	float farPlane;		// 4	144	
-	float fov;			// 4	148	
-	float ar;			// 4	152	
-};
+out vec3 WorldPos;
 
-layout (location = 0) in vec3 iModelPos;
-layout (location = 1) in vec3 iModelNormal;
-layout (location = 2) in vec2 iTexCoords;
-layout (location = 3) in vec3 iModelTangent;
-
-out VS_OUT {
-    vec3 FragPos;
-    vec3 Normal;
-    vec2 TexCoords;
-    vec3 Tangent;
-} vs_out;
+uniform mat4 projection;
+uniform mat4 view;
 
 void main()
 {
-    //model matrix set identity temply
-    vec3 x = vec3(1.f,0.f,0.f);
-    vec3 y = vec3(0.f,0.f,1.f);
-    vec3 z = vec3(0.f,1.f,0.f);
-    mat3 TempModule = mat3(x,y,z);
-    vs_out.FragPos = TempModule * iModelPos;
-    vs_out.Normal = iModelNormal;
-    vs_out.TexCoords = iTexCoords;
-    vs_out.Tangent = iModelTangent;
-    gl_Position = projection * view * vec4(vs_out.FragPos,1.0f);
-
+    WorldPos = aPos;
+    gl_Position =  projection * view * vec4(WorldPos, 1.0);
 }

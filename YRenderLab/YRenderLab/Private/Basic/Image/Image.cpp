@@ -6,6 +6,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <Public/Basic/Image/stb_image_write.h>
 
+#include <Public/Basic/StrApi.h>
 
 namespace YRender {
 
@@ -30,23 +31,35 @@ namespace YRender {
 
 
 	Image::~Image() {
-		delete data;
-		width = height = channel = 0;
+		Free();
 	}
 
 
 	bool Image::Load(const std::string& path, bool flip) {
 		stbi_set_flip_vertically_on_load(flip);
-		auto fdata = stbi_load(path.c_str(), &width, &height, &channel, 0);
-		if (!fdata) {
-			return false;
+		if (StrAPI::Is_suffix(path, ".hdr")) {
+			auto fdata = stbi_loadf(path.c_str(), &width, &height, &channel, 0);
+			if (!fdata) {
+				return false;
+			}
+			const int ValNum = width * height * channel;
+			data = new float[ValNum];
+			for (int i = 0; i < ValNum; i++)
+				data[i] = fdata[i];
+			stbi_image_free(fdata);
 		}
-		const int byteSize = width * height * channel;
-		data = new float[byteSize];
-		for (int i = 0; i < byteSize; ++i) {
-			data[i] = fdata[i] / 255.f;
+		else {
+			auto fdata = stbi_load(path.c_str(), &width, &height, &channel, 0);
+			if (!fdata) {
+				return false;
+			}
+			const int ValNum = width * height * channel;
+			data = new float[ValNum];
+			for (int i = 0; i < ValNum; ++i) {
+				data[i] = fdata[i] / 255.f;
+			}
+			stbi_image_free(fdata);
 		}
-		stbi_image_free(fdata);
 		return true;
 	}
 

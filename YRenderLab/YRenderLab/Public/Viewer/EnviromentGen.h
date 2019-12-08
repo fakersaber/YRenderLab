@@ -33,8 +33,11 @@ namespace YRender {
 		
 
 	private:
-		GLShader shader_genIBLSkybox;
+		
 		std::shared_ptr<GLTexture> SkyBox;
+
+	public:
+		GLShader shader_genIBLSkybox;
 	};
 }
 
