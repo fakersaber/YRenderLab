@@ -19,6 +19,7 @@ namespace YRender {
 		};
 	public:
 		Image();
+		Image(int width, int height, int channel);
 		Image(const std::string& path, bool flip = false);
 		Image(Image&& image);
 		Image(const Image& image);

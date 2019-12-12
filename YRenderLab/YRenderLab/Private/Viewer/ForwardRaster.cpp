@@ -1,5 +1,7 @@
 #include <Public/Viewer/ForwardRaster.h>
+#include <Public/Viewer/EnviromentGen.h>
 
+#include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 
 #include <Public/Scene/Scene.h>
@@ -7,10 +9,11 @@
 #include <Public/Scene/MeshComponent.h>
 #include <Public/Scene/TransformComponent.h>
 
-#include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/MaterialComponent.h>
+#include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/Image/Image.h>
 #include <Public/Basic/BSDF_blinnPhong.h>
+
 
 
 
@@ -22,9 +25,9 @@ namespace YRender {
 	//	static_cast<unsigned int>(TriMesh::OriginCube->GetIndice().size() * sizeof(unsigned int))
 	//);
 
-	ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene/*, std::shared_ptr<Camera> camera*/) 
+	ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene,std::shared_ptr<GlfwWindow> pGLWindow) 
 		: 
-		Raster(scene, /*camera, */YRender::New<EnviromentGen>())
+		Raster(scene,YRender::New<EnviromentGen>(pGLWindow), pGLWindow)
 	{
 	}
 
@@ -43,10 +46,6 @@ namespace YRender {
 		DrawEnvironment();
 	}
 	void ForwardRaster::Initial(){
-		//test
-		IBLmap = GLTexture(YRender::New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
-
-
 		Raster::Initial();
 		InitShader_Skybox();
 		InitShaderPbrBlinnPhong();
@@ -58,7 +57,6 @@ namespace YRender {
 		BlinnPhongShader.SetInt("bsdf.albedoTexture", 0);
 		BlinnPhongShader.SetInt("bsdf.normalTexture", 1);
 		BlinnPhongShader.SetInt("bsdf.specularTexture", 2);
-		//RegShader(shader_diffuse, 1);
 		MapUBOToShader(BlinnPhongShader);
 	}
 
@@ -114,15 +112,7 @@ namespace YRender {
 		for (int i = 0; i < texNum; ++i) {
 			if (imgs[i] && imgs[i]->IsValid()) {
 				BlinnPhongShader.SetBool(names[i], true);
-				auto target = img2tex.find(imgs[i]);
-				if (target == img2tex.end()) {
-					GLTexture CurTextrue(imgs[i]);
-					img2tex[imgs[i]] = CurTextrue;
-					CurTextrue.Use(i);
-				}
-				else {
-					target->second.Use(i);
-				}
+				pGLWindow->GetTexture(imgs[i]).Use(i);
 			}
 			else {
 				BlinnPhongShader.SetBool(names[i],false);
@@ -132,49 +122,18 @@ namespace YRender {
 
 
 	void ForwardRaster::Visit(std::shared_ptr<TriMesh> mesh) {
-		//curShader.SetMat4f("model", modelVec.back());
-		auto TargetVAO = mesh2VAO.find(mesh);
-		if (TargetVAO == mesh2VAO.end()) {
-			std::vector<VAO::VBO_DataPatch> Mesh_VAO_DataPatch = {
-			{mesh->GetPositions().data()->Data(), static_cast<unsigned int>(mesh->GetPositions().size() * 3 * sizeof(float)), 3},
-			{ mesh->GetNormals().data()->Data(), static_cast<unsigned int>(mesh->GetNormals().size() * 3 * sizeof(float)), 3 },
-			{ mesh->GetTexcoords().data()->Data(), static_cast<unsigned int>(mesh->GetTexcoords().size() * 2 * sizeof(float)), 2 },
-			{ mesh->GetTangents().data()->Data(), static_cast<unsigned int>(mesh->GetTangents().size() * 3 * sizeof(float)), 3 }};
-			VAO VAO_P3N3T2T3_Mesh(Mesh_VAO_DataPatch, mesh->GetIndice().data(), static_cast<unsigned int>(mesh->GetIndice().size() * sizeof(unsigned int)));
-			mesh2VAO[mesh] = VAO_P3N3T2T3_Mesh;
-			VAO_P3N3T2T3_Mesh.Draw(curShader);
-		}
-		else {
-			TargetVAO->second.Draw(curShader);
-		}
+		pGLWindow->GetVAO(mesh).Draw(curShader);
 	}
 
 
 	void ForwardRaster::DrawEnvironment(){
 		glDepthFunc(GL_LEQUAL);
 
-		enviromentGen->GetSkyBox()->Use(0);
 
-		auto TargetVAO = mesh2VAO.find(TriMesh::OriginCube);
-		if (TargetVAO == mesh2VAO.end()) {
-			std::vector<VAO::VBO_DataPatch> Mesh_VAO_DataPatch = {
-			{TriMesh::OriginCube->GetPositions().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetPositions().size() * 3 * sizeof(float)), 3},
-			{ TriMesh::OriginCube->GetNormals().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetNormals().size() * 3 * sizeof(float)), 3 },
-			{ TriMesh::OriginCube->GetTexcoords().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetTexcoords().size() * 2 * sizeof(float)), 2 },
-			{ TriMesh::OriginCube->GetTangents().data()->Data(), static_cast<unsigned int>(TriMesh::OriginCube->GetTangents().size() * 3 * sizeof(float)), 3 } };
-			VAO VAO_P3N3T2T3_Mesh(Mesh_VAO_DataPatch, TriMesh::OriginCube->GetIndice().data(), static_cast<unsigned int>(TriMesh::OriginCube->GetIndice().size() * sizeof(unsigned int)));
-			mesh2VAO[TriMesh::OriginCube] = VAO_P3N3T2T3_Mesh;
-			//VAO_P3N3T2T3_Mesh.Draw(shader_skybox);
-		}
-		else {
-			//TargetVAO->second.Draw(shader_skybox);
-
-			//test equiremap
-			enviromentGen->shader_genIBLSkybox.SetMat4f("Camera.view", this->scene->GetCamera()->GetViewMatrix().Transpose());
-			enviromentGen->shader_genIBLSkybox.SetMat4f("Camera.projection", this->scene->GetCamera()->GetProjectMatrix().Transpose());
-			IBLmap.Use(0);
-			TargetVAO->second.Draw(enviromentGen->shader_genIBLSkybox);
-		}
+		//enviromentGen->GetSkyBox()->Use(0);
+		//enviromentGen->shader_genIBLSkybox.SetMat4f("Camera.view", this->scene->GetCamera()->GetViewMatrix().Transpose());
+		//enviromentGen->shader_genIBLSkybox.SetMat4f("Camera.projection", this->scene->GetCamera()->GetProjectMatrix().Transpose());
+		//pGLWindow->GetVAO(TriMesh::OriginCube).Draw(enviromentGen->shader_genIBLSkybox);
 		glDepthFunc(GL_LESS);
 	}
 }

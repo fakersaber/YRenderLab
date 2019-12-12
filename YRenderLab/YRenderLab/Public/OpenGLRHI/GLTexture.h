@@ -22,10 +22,15 @@ namespace YRender {
 		GLTexture(std::shared_ptr<Image> img);
 		GLTexture(const std::vector<std::string>& skybox);
 
-		void UnBind();
-		unsigned int Type2GL(ENUM_TYPE type);
-		bool IsValid();
+		void Bind() const;
+		void UnBind() const;
+		bool GenMipmap();
+		unsigned int Type2GL(ENUM_TYPE type) const;
+		bool GenBufferForCubemap(unsigned int width, unsigned int height);
+		bool IsValid() const;
 		bool Use(unsigned int id);
+		ENUM_TYPE GetType() const;
+		unsigned int GetID() const;
 	private:
 		bool SetImg(const Image& img);
 		bool Load(const std::vector<std::string> & skybox);

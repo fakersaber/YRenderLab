@@ -1,10 +1,10 @@
 #include <Public/Viewer/Raster.h>
-
+#include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
-
 #include <Public/Basic/Camera/Camera.h>
-
 #include <Public/Scene/Scene.h>
+#include <Public/OpenGLRHI/GlfwWindow.h>
+#include <Public/Viewer/EnviromentGen.h>
 
 namespace YRender {
 	void Raster::Initial(){
@@ -22,8 +22,6 @@ namespace YRender {
 		glBufferData(GL_UNIFORM_BUFFER, 32, NULL, GL_DYNAMIC_DRAW);
 		glBindBufferBase(GL_UNIFORM_BUFFER, 4, environmentUBO);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-
 	}
 
 
@@ -63,6 +61,7 @@ namespace YRender {
 	}
 
 
+	//在某些shader其中的一个uniformBlock抛出GL_INVALID_VALUE错误，无视
 	void Raster::MapUBOToShader(const GLShader& shader) {
 		shader.UniformBlockBind("Camera", 0);
 		//shader.UniformBlockBind("PointLights", 1);

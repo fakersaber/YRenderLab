@@ -3,18 +3,20 @@
 
 #include <Public/Basic/YHeapObject.h>
 #include <Public/OpenGLRHI/GLShader.h>
-#include <Public/Viewer/EnviromentGen.h>
 
 namespace YRender {
 	class Scene;
 	class Camera;
+	class EnviromentGen;
+	class GlfwWindow;
 
 	class Raster : public YHeapObject {
 	protected:
-		Raster(std::shared_ptr<Scene> scene, /*std::shared_ptr<Camera> camera,*/std::shared_ptr<EnviromentGen> enviromentGen)
-			: scene(scene), 
-			/*camera(camera),*/
-			enviromentGen(enviromentGen)
+		Raster(std::shared_ptr<Scene> scene, std::shared_ptr<EnviromentGen> enviromentGen, std::shared_ptr<GlfwWindow> pGLWindow)
+			: 
+			scene(scene), 
+			enviromentGen(enviromentGen),
+			pGLWindow(pGLWindow)
 		{
 
 		};
@@ -35,7 +37,7 @@ namespace YRender {
 
 	protected:
 		std::shared_ptr<Scene> scene;
-		//std::shared_ptr<Camera> camera;
+		std::shared_ptr<GlfwWindow> pGLWindow;
 		std::shared_ptr<EnviromentGen> enviromentGen;
 	private:
 		unsigned int directionalLightsUBO;

@@ -116,6 +116,7 @@
     <ClInclude Include="Public\Basic\YHeapObject.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\KHR\khrplatform.h" />
+    <ClInclude Include="Public\OpenGLRHI\GLFBO.h" />
     <ClInclude Include="Public\OpenGLRHI\GlfwWindow.h" />
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3.h" />
     <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Private\Material\BSDF.cpp" />
     <ClCompile Include="Private\Material\BSDF_blinnPhong.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
+    <ClCompile Include="Private\OpenGLRHI\GLFBO.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GlfwWindow.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GlRenderClass.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLShader.cpp" />

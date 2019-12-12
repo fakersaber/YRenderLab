@@ -1,36 +1,38 @@
 #ifndef _YRENDER_OPENGLRHI_GLFWWINDOW_H
 #define _YRENDER_OPENGLRHI_GLFWWINDOW_H
 
-
-#include <Public/RenderWindow.h>
+#include <Public/Basic/YHeapObject.h>
 #include <Public/OpenGLRHI/GLFW/glfw3.h>
-#include <Public/Viewer/ForwardRaster.h>
+#include <Public/OpenGLRHI/GLVAO.h>
+#include <Public/OpenGLRHI/GLTexture.h>
+#include <map>
 
 namespace YRender {
-	class GlfwWindow : public RenderWindow
+	class TriMesh;
+	class Image;
+	class Camera;
+	class ForwardRaster;
+
+	class GlfwWindow : public YHeapObject
 	{
-	public:
-		GlfwWindow(const GlfwWindow& rhs) = delete;
-		GlfwWindow& operator=(const GlfwWindow& rhs) = delete;
-
-	public:
-		virtual bool Initial(const int width, const int height) override;
-		virtual void Run() override;
-		static GlfwWindow* GetInstance();
-
-	public:
-		float GetDeltaTime() const { return deltaTime; };
-		//float GetLastX() const { return lastX; }
-		//float GetLastY() const { return lastY; }
-
-	private:
-		GlfwWindow();
-		virtual ~GlfwWindow();
-
-	private:
-		static void ProcessInput(GLFWwindow* window);
 		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 		static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
+	public:
+		GlfwWindow();
+		GlfwWindow(const GlfwWindow& rhs) = delete;
+		GlfwWindow& operator=(const GlfwWindow& rhs) = delete;
+		float GetDeltaTime() const { return deltaTime; };
+		bool Initial(const int width, const int height);
+		void Run();
+		VAO GetVAO(std::shared_ptr<TriMesh> mesh);
+		GLTexture GetTexture(std::shared_ptr<Image> img);
+		std::shared_ptr<Camera> GetCamera() const;
+
+	private:
+		virtual ~GlfwWindow() = default;
+		void ProcessInput(GLFWwindow* window);
+
 		//static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 		//static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
@@ -41,8 +43,11 @@ namespace YRender {
 		float lastY;
 		bool firstFlag; // check if you hold down mouse right mouse button for first time
 
+		//Camera准备移除，从Pipline中获取
 		std::shared_ptr<ForwardRaster> ForwardPipline;
 		std::shared_ptr<Camera> MainCamera;
+		std::map<std::weak_ptr<TriMesh>, VAO, std::owner_less<std::weak_ptr<TriMesh>>> mesh2VAO;
+		std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;
 	};
 }
 

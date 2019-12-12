@@ -1,14 +1,13 @@
 #include <Public/OpenGLRHI/GlfwWindow.h>
+#include <Public/OpenGLRHI/GLAD/glad/glad.h>
+#include <Public/Viewer/ForwardRaster.h>
 #include <Public/Scene/AssimpLoader.h>
 #include <Public/Scene/Scene.h>
-#include <Public/OpenGLRHI/GLAD/glad/glad.h>
+#include <Public/Basic/Mesh/TriMesh.h>
+#include <Public/Basic/Image/Image.h>
+#include <Public/YCore.h>
 
 namespace YRender {
-	GlfwWindow* GlfwWindow::GetInstance(){
-		static GlfwWindow instance;
-		return &instance;
-	}
-
 	bool GlfwWindow::Initial(const int width, const int height) {
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -25,7 +24,7 @@ namespace YRender {
 		lastX = width * 0.5f;
 		lastY = height * 0.5f;
 		glfwMakeContextCurrent(window);
-		glfwSetFramebufferSizeCallback(window, GlfwWindow::framebuffer_size_callback);
+		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 		glfwSetCursorPosCallback(window, GlfwWindow::mouse_callback);
 		//glfwSetScrollCallback(window, GlfwWindow::scroll_callback);
 
@@ -40,11 +39,9 @@ namespace YRender {
 		//创建场景、管线、相机
 		auto Root = YRender::AssimpLoader::Load("D:/YRenderLab/YRenderLab/YRenderLab/Data/module/revolver/source/Test.FBX");
 		auto Scene = YRender::New<YRender::Scene>(Root,MainCamera);
-		ForwardPipline = YRender::New<ForwardRaster>(Scene);
-
+		ForwardPipline = YRender::New<ForwardRaster>(Scene, shared_this<GlfwWindow>());
 		ForwardPipline->Initial();
 		MainCamera->Initial(width, height);
-
 		return true;
 	}
 
@@ -62,6 +59,39 @@ namespace YRender {
 		}
 	}
 
+	VAO GlfwWindow::GetVAO(std::shared_ptr<TriMesh> mesh){
+		auto TargetVAO = mesh2VAO.find(mesh);
+		if (TargetVAO == mesh2VAO.end()) {
+			std::vector<VAO::VBO_DataPatch> Mesh_VAO_DataPatch = {
+			{mesh->GetPositions().data()->Data(), static_cast<unsigned int>(mesh->GetPositions().size() * 3 * sizeof(float)), 3},
+			{ mesh->GetNormals().data()->Data(), static_cast<unsigned int>(mesh->GetNormals().size() * 3 * sizeof(float)), 3 },
+			{ mesh->GetTexcoords().data()->Data(), static_cast<unsigned int>(mesh->GetTexcoords().size() * 2 * sizeof(float)), 2 },
+			{ mesh->GetTangents().data()->Data(), static_cast<unsigned int>(mesh->GetTangents().size() * 3 * sizeof(float)), 3 } };
+			VAO VAO_P3N3T2T3_Mesh(Mesh_VAO_DataPatch, mesh->GetIndice().data(), static_cast<unsigned int>(mesh->GetIndice().size() * sizeof(unsigned int)));
+			mesh2VAO[mesh] = VAO_P3N3T2T3_Mesh;
+			return VAO_P3N3T2T3_Mesh;
+		}
+		else {
+			return TargetVAO->second;
+		}
+	}
+
+	GLTexture GlfwWindow::GetTexture(std::shared_ptr<Image> img){
+		auto target = img2tex.find(img);
+		if (target == img2tex.end()) {
+			GLTexture CurTextrue(img);
+			img2tex[img] = CurTextrue;
+			return CurTextrue;
+		}
+		else {
+			return target->second;
+		}
+	}
+
+	std::shared_ptr<Camera> GlfwWindow::GetCamera() const {
+		return MainCamera;
+	}
+
 
 
 	GlfwWindow::GlfwWindow()
@@ -71,49 +101,43 @@ namespace YRender {
 	}
 
 
-	GlfwWindow::~GlfwWindow(){
-
-	}
-
-
 	void GlfwWindow::ProcessInput(GLFWwindow* window) {
-
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, true);
 		else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD, GlfwWindow::GetInstance()->GetDeltaTime());
+			MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD, GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD, GlfwWindow::GetInstance()->GetDeltaTime());
+			MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD, GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT, GlfwWindow::GetInstance()->GetDeltaTime());
+			MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT, GetDeltaTime());
 		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			GlfwWindow::GetInstance()->MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT, GlfwWindow::GetInstance()->GetDeltaTime());
+			MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT, GetDeltaTime());
 	}
 
 	void GlfwWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 		// make sure the viewport matches the new window dimensions; note that width and 
 		// height will be significantly larger than specified on retina displays.
 		glViewport(0, 0, width, height);
-		GlfwWindow::GetInstance()->MainCamera->SetWH(width,height);
+		YCore::GetCore()->GetGLWindow()->GetCamera()->SetWH(width, height);
 	}
 
 	void GlfwWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos){
-
+		auto GlWindow = YCore::GetCore()->GetGLWindow();
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
 			float xoffset = 0.f;
 			float yoffset = 0.f;
-			if (!GlfwWindow::GetInstance()->firstFlag) {
+			if (!GlWindow->firstFlag) {
 				//不是第一次按住鼠标右键才计算差值
-				xoffset = GlfwWindow::GetInstance()->lastX - static_cast<float>(xpos);
-				yoffset = GlfwWindow::GetInstance()->lastY - static_cast<float>(ypos);
+				xoffset = GlWindow->lastX - static_cast<float>(xpos);
+				yoffset = GlWindow->lastY - static_cast<float>(ypos);
 			}
-			GlfwWindow::GetInstance()->lastX = static_cast<float>(xpos);
-			GlfwWindow::GetInstance()->lastY = static_cast<float>(ypos);
-			GlfwWindow::GetInstance()->firstFlag = false;
-			GlfwWindow::GetInstance()->MainCamera->ProcessMouseMovement(xoffset, yoffset);
+			GlWindow->lastX = static_cast<float>(xpos);
+			GlWindow->lastY = static_cast<float>(ypos);
+			GlWindow->firstFlag = false;
+			GlWindow->MainCamera->ProcessMouseMovement(xoffset, yoffset);
 		}
 		else {
-			GlfwWindow::GetInstance()->firstFlag = true;
+			GlWindow->firstFlag = true;
 		}
 	}
 

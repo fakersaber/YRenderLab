@@ -13,6 +13,13 @@ namespace YRender {
 	Image::Image()
 		:data(nullptr), width(0), height(0), channel(0) { }
 
+	Image::Image(int width, int height, int channel){
+		this->width = width;
+		this->height = height;
+		this->channel = channel;
+		data = new float[width*height*channel]();
+	}
+
 
 	Image::Image(const std::string& path, bool flip)
 		: data(nullptr)
@@ -112,8 +119,9 @@ namespace YRender {
 			return false;
 		stbi_flip_vertically_on_write(flip);
 		uint8_t* Todata = new uint8_t[width * height * channel];
+
 		for (int i = 0; i < width * height * channel; ++i) {
-			Todata[i] = static_cast<uint8_t>(data[i] * 255.f);
+			Todata[i] = static_cast<uint8_t>(YGM::Math::Clamp(data[i] * 255.f, 0.f, 255.f));
 		}
 		auto result = stbi_write_png(fileName.c_str(), width, height, channel, Todata, width * channel);
 		delete Todata;

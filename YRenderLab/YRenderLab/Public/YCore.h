@@ -3,25 +3,23 @@
 
 
 #define NOMINMAX
-#include <Public/SoftRHI/Win32Window.h>
-#include <Public/SoftRHI/SoftRHI.h>
 
-#include <Public/OpenGLRHI/GlfwWindow.h>
-
-
-#include <Public/Ray/RayCamera.h>
+//#include <Public/SoftRHI/SoftRHI.h>
+//#include <Public/Ray/RayCamera.h>
+#include <memory>
 
 namespace YRender {
+	class GlfwWindow;
+	class RenderWindow;
+
 	class YCore {
 	public:
 		YCore(const YCore& rhs) = delete;
 		YCore& operator=(const YCore& rhs) = delete;
 		static YCore* GetCore();
-
-	public:
 		bool Initial(const int width, const int height);
 		void Run();
-
+		std::shared_ptr<GlfwWindow> GetGLWindow() const;
 
 	private:
 		YCore();
@@ -29,9 +27,8 @@ namespace YRender {
 
 
 	private:
+		std::shared_ptr<GlfwWindow> pGLInstance;
 		RenderWindow* _RenderWindow;
-		//RenderClass* _RenderClass;
-
 	};
 }
 

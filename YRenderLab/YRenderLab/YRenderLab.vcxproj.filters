@@ -567,6 +567,9 @@
     <ClInclude Include="Public\Basic\Mesh\Cube.h">
       <Filter>Public\Basic\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Public\OpenGLRHI\GLFBO.h">
+      <Filter>Public\OpenGLRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -689,6 +692,9 @@
     </ClCompile>
     <ClCompile Include="Private\Basic\Mesh\Cube.cpp">
       <Filter>Private\Basic\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\OpenGLRHI\GLFBO.cpp">
+      <Filter>Private\OpenGLRHI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -53,7 +53,33 @@ namespace YRender {
 		return true;
 	}
 
-	unsigned int GLTexture::Type2GL(ENUM_TYPE type) {
+	bool GLTexture::GenBufferForCubemap(unsigned int width, unsigned int height) {
+		if (type != ENUM_TYPE_CUBE_MAP) {
+			printf("ERROR::Texture::GenBufferForCubemap:\n"
+				"\t""type is not ENUM_TYPE_CUBE_MAP\n");
+			return false;
+		}
+
+		glGenTextures(1, &ID);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, ID);
+
+		for (unsigned int i = 0; i < 6; i++)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, nullptr);
+		}
+
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);		//这样写貌似并不正确
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		type = ENUM_TYPE_CUBE_MAP;
+		UnBind();
+		return true;
+	}
+
+	unsigned int GLTexture::Type2GL(ENUM_TYPE type) const {
 		switch (type)
 		{
 		case ENUM_TYPE_NOT_VALID:
@@ -68,7 +94,7 @@ namespace YRender {
 		}
 	}
 
-	bool GLTexture::IsValid()
+	bool GLTexture::IsValid() const
 	{
 		return ID != 0 && type != ENUM_TYPE_NOT_VALID;
 	}
@@ -115,11 +141,32 @@ namespace YRender {
 		return true;
 	}
 
-	void GLTexture::UnBind(){
+	void GLTexture::UnBind() const {
 		if (!IsValid())
 			return;
 
 		glBindTexture(Type2GL(type), 0);
+	}
+
+	bool GLTexture::GenMipmap() {
+		if (!IsValid()) {
+			printf("ERROR::Texture::GenMipmap:\n"
+				"\t""texture is not valid\n");
+			return false;
+		}
+
+		glBindTexture(Type2GL(type), ID);
+		auto glType = Type2GL(type);
+		glTexParameteri(glType, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glGenerateMipmap(glType);
+		return true;
+	}
+
+	void GLTexture::Bind() const {
+		if (!IsValid())
+			return;
+
+		glBindTexture(Type2GL(type), ID);
 	}
 
 
@@ -133,5 +180,13 @@ namespace YRender {
 		glActiveTexture(GL_TEXTURE0 + id);
 		glBindTexture(Type2GL(type), ID);
 		return true;
+	}
+
+	GLTexture::ENUM_TYPE GLTexture::GetType() const
+	{
+		return type;
+	}
+	unsigned int GLTexture::GetID() const{
+		return ID;
 	}
 }

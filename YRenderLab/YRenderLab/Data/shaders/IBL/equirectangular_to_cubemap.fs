@@ -1,4 +1,4 @@
-#version 330
+#version 330 core
 
 #define PI            3.14159265359
 #define TWO_PI        6.28318530718
@@ -11,11 +11,7 @@
 #define INV_HALF_PI   0.636619772367
 
 out vec4 FragColor;
-in VS_OUT {
-    vec3 FragPos;
-    vec3 Normal;
-    vec2 TexCoords;
-} fs_in;
+in vec3 WorldPos;
 
 uniform sampler2D equirectangularMap;
 
@@ -25,7 +21,7 @@ vec2 TexcoordOf(vec3 dir);
 
 
 void main(){
-    vec2 uv = TexcoordOf(normalize(fs_in.FragPos));
+    vec2 uv = TexcoordOf(normalize(WorldPos));
     vec3 color = texture(equirectangularMap,uv).rgb;
 
     FragColor = vec4(color,1.0);
