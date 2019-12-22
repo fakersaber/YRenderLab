@@ -32,7 +32,8 @@ namespace YRender {
 		void InitGenShader_PreFilter();
 		void UpdateSkyBox();
 		void UpdateIrradianceMap();
-		
+		void UpdatePreFilterMap();
+		void UpdateBRDFLut();
 		//ordinary sky box 
 		void InitSkyBoxTexture();
 		
@@ -52,6 +53,7 @@ namespace YRender {
 		GLFBO genIrradianceFBO;
 		GLTexture skyBox;
 		GLTexture irradianceMap;
+		GLTexture prefilterMap;
 		//std::weak_ptr<Image> curImg;
 
 		std::shared_ptr<Image> curImg;

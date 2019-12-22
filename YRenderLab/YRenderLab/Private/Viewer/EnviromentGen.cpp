@@ -90,7 +90,12 @@ namespace YRender{
 	}
 
 	void EnviromentGen::InitGenShader_PreFilter(){
-
+		std::string vsPath = "data/shaders/IBL/cubeMap.vs";
+		std::string fsPath = "data/shaders/IBL/prefilter.fs";
+		shader_genIrradianceMap = GLShader(vsPath, fsPath);
+		shader_genIrradianceMap.SetInt("environmentMap", 0);
+		auto captureProjection = YGM::Transform::Perspective(90.f, 1.0f, 0.1f, 10.0f);
+		shader_genIrradianceMap.SetMat4f("projection", captureProjection.GetMatrix().Transpose());
 	}
 
 	void EnviromentGen::UpdateSkyBox(){
@@ -110,21 +115,20 @@ namespace YRender{
 
 
 		}
-		{
-			skyBox.Bind();
-			auto TestMap = YRender::New<Image>(skyboxSize, skyboxSize, 3);
-			for (int i = 0; i < 6; ++i) {
-				glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
-				TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/cubeMap") + std::to_string(i) + std::string(".png"));
-			}
-		}
+		//{
+		//	skyBox.Bind();
+		//	auto TestMap = YRender::New<Image>(skyboxSize, skyboxSize, 3);
+		//	for (int i = 0; i < 6; ++i) {
+		//		glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
+		//		TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/cubeMap") + std::to_string(i) + std::string(".png"));
+		//	}
+		//}
 		skyBox.GenMipmap();
 	}
 
 	void EnviromentGen::UpdateIrradianceMap() {
 		irradianceMap = GLTexture(GLTexture::ENUM_TYPE_CUBE_MAP);
 		irradianceMap.GenBufferForCubemap(irradianceSize, irradianceSize);
-		//先用FBO渲染到Texture,RenderTarget设置为Texture,再调用glGetTexImage输出数据
 		genIrradianceFBO.Use();
 		glViewport(0, 0, irradianceSize, irradianceSize);
 
@@ -136,14 +140,23 @@ namespace YRender{
 			pGLWindow->GetVAO(TriMesh::OriginCube).Draw(shader_genIrradianceMap);
 		}
 
-		{
-			irradianceMap.Bind();
-			auto TestMap = YRender::New<Image>(irradianceSize, irradianceSize, 3);
-			for (int i = 0; i < 6; ++i) {
-				glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
-				TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/irradianceMap") + std::to_string(i) + std::string(".png"));
-			}
-		}
+		//{
+		//先用FBO渲染到Texture,RenderTarget设置为Texture,再调用glGetTexImage输出数据
+		//	irradianceMap.Bind();
+		//	auto TestMap = YRender::New<Image>(irradianceSize, irradianceSize, 3);
+		//	for (int i = 0; i < 6; ++i) {
+		//		glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
+		//		TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/irradianceMap") + std::to_string(i) + std::string(".png"));
+		//	}
+		//}
+	}
+
+	void EnviromentGen::UpdatePreFilterMap(){
+		//prefilterMap
+	}
+
+	void EnviromentGen::UpdateBRDFLut(){
+
 	}
 
 

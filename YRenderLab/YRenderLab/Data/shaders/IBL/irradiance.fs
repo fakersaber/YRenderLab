@@ -8,7 +8,7 @@ out vec4 FragColor;
 
 in vec3 WorldPos;
 
-uniform samplerCube enviromentMap;
+uniform samplerCube environmentMap;
 
 void main(){
     vec3 N = normalize(WorldPos);
@@ -23,11 +23,11 @@ void main(){
     float nrSamples = 0.f;
     for(float phi = 0.f; phi < TWO_PI; phi += sampleDelta){
         for(float theta = 0.f; theta <HALF_PI; theta += sampleDelta){
-            //从球面的dir为front变换到worldPos为front
+            //将采样出的向量映射到以N为front的新坐标系下
             vec3 OriginSampleDir = vec3(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
             vec3 CurSampleDir = right * OriginSampleDir.x + up * OriginSampleDir.y + N * OriginSampleDir.z;
 
-            irradiance += texture(enviromentMap,CurSampleDir).rgb * cos(theta) * sin(theta);
+            irradiance += texture(environmentMap,CurSampleDir).rgb * cos(theta) * sin(theta);
             nrSamples++;
         }
     }
