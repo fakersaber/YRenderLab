@@ -16,7 +16,7 @@ void main(){
 
     //如果N方向在竖直方向采样结果应该是错误的。 需要修改为四元数旋转
     vec3 up = vec3(0.f,1.f,0.f);
-    vec3 right = cross(up,N);
+    vec3 right = normalize(cross(up,N));
     up = cross(N,right);
 
     float sampleDelta = 0.025f;

@@ -13,21 +13,18 @@ namespace YRender {
 	:
 		width(width),height(height)
 	{
-		glGenFramebuffers(1, &ID);
-		glBindFramebuffer(GL_FRAMEBUFFER,ID);
-
-		//just create renderbuffer and attach to depth buffer,not render
-		//这里只是一个创建renderbuffer然后绑定的过程，并没有向framebuffer渲染东西
-		unsigned int renderbuffer;
-		glGenRenderbuffers(1, &renderbuffer);
-		glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
-
-		isValid = IsComplete();
-		if (!isValid) {
-			colorTexture.clear();
+		//todo: Perform different logic based on type 
+		switch (type) {
+		case ENUM_TYPE::ENUM_TYPE_DYNAMIC_COLOR:
+			if (!GenFBO_DynamicColor(width, height))  printf("GenFBO_DynamicColor fail!\n");
+			break;
+		case ENUM_TYPE::ENUM_TYPE_COLOR_FLOAT:
+			if (!GenFBO_RGB16FColor(width, height))  printf("GenFBO_RGB16FColor fail!\n");
+			break;
 		}
+
+
+
 	}
 
 	void GLFBO::SetRenderTargetToTexture(const GLTexture& tex, TexRenderTarget index, int mip){
@@ -57,9 +54,17 @@ namespace YRender {
 			return;
 		}
 
-		Use();
+		this->Use();
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mapper[idx], tex.GetID(), mip);
+	}
+
+	GLTexture GLFBO::GetColorTexture(unsigned int index) const
+	{
+		GLTexture texture;
+		if (isValid && index < colorTextures.size())
+			texture = colorTextures[index];
+		return texture;
 	}
 
 
@@ -84,6 +89,59 @@ namespace YRender {
 			printf("FrameBuffer is not complete!\n");
 			return false;
 		}
+		return true;
+	}
+
+
+	bool GLFBO::GenFBO_DynamicColor(unsigned int width, unsigned int height){
+		glGenFramebuffers(1, &ID);
+		glBindFramebuffer(GL_FRAMEBUFFER, ID);
+
+		//just create renderbuffer and attach to depth buffer,not render
+		//这里只是一个创建renderbuffer然后绑定的过程，并没有向framebuffer渲染东西
+		unsigned int renderbuffer;
+		glGenRenderbuffers(1, &renderbuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		isValid = IsComplete();
+		if (!isValid) {
+			printf("Framebuffer is not complete!\n");
+			colorTextures.clear();
+			return false;
+		}
+		return true;
+	}
+
+
+	bool GLFBO::GenFBO_RGB16FColor(unsigned int width, unsigned int height)
+	{
+		glGenFramebuffers(1, &ID);
+		glBindFramebuffer(GL_FRAMEBUFFER, ID);
+		// create a color attachment texture
+		unsigned int colorBufferID;
+		glGenTextures(1, &colorBufferID);
+		glBindTexture(GL_TEXTURE_2D, colorBufferID);
+		glTexImage2D(GL_TEXTURE_2D,0, GL_RGB16F, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorBufferID, 0);	// we only need a color buffer
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		isValid = IsComplete();
+		if (!isValid) {
+			printf("Framebuffer is not complete!\n");
+			//显存上的资源并没有被释放
+			colorTextures.clear();
+			return false;
+		}
+
+		colorTextures.emplace_back(colorBufferID, GLTexture::ENUM_TYPE_2D);
 		return true;
 	}
 }

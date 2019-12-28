@@ -30,6 +30,32 @@ namespace YRender {
 		std::shared_ptr<GlfwWindow> pGLInstance;
 		RenderWindow* _RenderWindow;
 	};
+
+
+
+	namespace CoreDefine {
+		const float data_ScreenVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+			// positions   // texCoords
+			-1.0f,  1.0f,  0.0f, 1.0f,
+			-1.0f, -1.0f,  0.0f, 0.0f,
+			 1.0f, -1.0f,  1.0f, 0.0f,
+
+			-1.0f,  1.0f,  0.0f, 1.0f,
+			 1.0f, -1.0f,  1.0f, 0.0f,
+			 1.0f,  1.0f,  1.0f, 1.0f
+		};
+
+		const float data_Flip_ScreenVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+			// positions   // texCoords
+			-1.0f,  1.0f,  0.0f, 0.0f,
+			-1.0f, -1.0f,  0.0f, 1.0f,
+			 1.0f, -1.0f,  1.0f, 1.0f,
+
+			-1.0f,  1.0f,  0.0f, 0.0f,
+			 1.0f, -1.0f,  1.0f, 1.0f,
+			 1.0f,  1.0f,  1.0f, 0.0f
+		};
+	}
 }
 
 

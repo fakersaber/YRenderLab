@@ -60,6 +60,17 @@ namespace YRender {
 			return false;
 		}
 
+		/*
+		@1 纹理目标
+		@2 多级渐远纹理的级别 （0 为基本级别)
+		@3 纹理格式
+		@4 width
+		@5 height
+		@6 0 (历史遗留问题)
+		@7 源图格式
+		@8 源图类型
+		@9 图像数据
+		*/
 		glGenTextures(1, &ID);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, ID);
 
@@ -71,32 +82,12 @@ namespace YRender {
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);		//这样写貌似并不正确
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		type = ENUM_TYPE_CUBE_MAP;
 		UnBind();
 		return true;
-	}
-
-	unsigned int GLTexture::Type2GL(ENUM_TYPE type) const {
-		switch (type)
-		{
-		case ENUM_TYPE_NOT_VALID:
-			return 0;
-		case ENUM_TYPE_2D:
-		case ENUM_TYPE_2D_DYNAMIC:
-			return GL_TEXTURE_2D;
-		case ENUM_TYPE_CUBE_MAP:
-			return GL_TEXTURE_CUBE_MAP;
-		default:
-			return 0;
-		}
-	}
-
-	bool GLTexture::IsValid() const
-	{
-		return ID != 0 && type != ENUM_TYPE_NOT_VALID;
 	}
 
 	bool GLTexture::SetImg(const Image& img) {
@@ -132,7 +123,7 @@ namespace YRender {
 		glBindTexture(GL_TEXTURE_2D, ID);
 		glTexImage2D(GL_TEXTURE_2D, 0, innerFormat, img.GetWidth(), img.GetHeight(), 0, outerFormat, GL_FLOAT, img.GetData());
 		glGenerateMipmap(GL_TEXTURE_2D); //内存多1/3
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); //GL_LINEAR
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //GL_LINEAR
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); //GL_CLAMP_TO_EDGE 默认先都repeat
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); //GL_CLAMP_TO_EDGE
@@ -141,12 +132,7 @@ namespace YRender {
 		return true;
 	}
 
-	void GLTexture::UnBind() const {
-		if (!IsValid())
-			return;
 
-		glBindTexture(Type2GL(type), 0);
-	}
 
 	bool GLTexture::GenMipmap() {
 		if (!IsValid()) {
@@ -169,8 +155,34 @@ namespace YRender {
 		glBindTexture(Type2GL(type), ID);
 	}
 
+	void GLTexture::UnBind() const {
+		if (!IsValid())
+			return;
 
-	bool GLTexture::Use(unsigned int id){
+		glBindTexture(Type2GL(type), 0);
+	}
+
+	unsigned int GLTexture::Type2GL(ENUM_TYPE type) const {
+		switch (type)
+		{
+		case ENUM_TYPE_NOT_VALID:
+			return 0;
+		case ENUM_TYPE_2D:
+		case ENUM_TYPE_2D_DYNAMIC:
+			return GL_TEXTURE_2D;
+		case ENUM_TYPE_CUBE_MAP:
+			return GL_TEXTURE_CUBE_MAP;
+		default:
+			return 0;
+		}
+	}
+
+	bool GLTexture::IsValid() const
+	{
+		return ID != 0 && type != ENUM_TYPE_NOT_VALID;
+	}
+
+	bool GLTexture::Use(unsigned int id) {
 		if (!IsValid()) {
 			printf("ERROR::Texture::Use:\n"
 				"\t""use a invalid texture\n");
@@ -186,7 +198,8 @@ namespace YRender {
 	{
 		return type;
 	}
-	unsigned int GLTexture::GetID() const{
+
+	unsigned int GLTexture::GetID() const {
 		return ID;
 	}
 }

@@ -1,12 +1,23 @@
 ﻿#include <Public/YCore.h>
 
 
-class TestClass {
+class TestClass2 {
+//public:
+//	TestClass2() = default;
+private:
+	double test2 = 0.0;
+};
+
+
+class TestClass :public TestClass2 {
 public:
-	TestClass(int param) : test(param) {}
+	TestClass() = default;
+	TestClass(int param) : test(param){}
 
 	int test = 0;
 };
+
+
 
 
 

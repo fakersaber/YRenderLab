@@ -19,6 +19,12 @@ namespace YRender {
 		static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 
 	public:
+		enum class VAOTYPE : uint8_t {
+			Sphere,
+			Plane,
+			Screen
+		};
+
 		GlfwWindow();
 		GlfwWindow(const GlfwWindow& rhs) = delete;
 		GlfwWindow& operator=(const GlfwWindow& rhs) = delete;
@@ -26,6 +32,7 @@ namespace YRender {
 		bool Initial(const int width, const int height);
 		void Run();
 		VAO GetVAO(std::shared_ptr<TriMesh> mesh);
+		VAO GetVAO(GlfwWindow::VAOTYPE CurType);
 		GLTexture GetTexture(std::shared_ptr<Image> img);
 		std::shared_ptr<Camera> GetCamera() const;
 

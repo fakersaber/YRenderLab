@@ -51,8 +51,10 @@ namespace YRender {
 			}
 			const int ValNum = width * height * channel;
 			data = new float[ValNum];
-			for (int i = 0; i < ValNum; i++)
+			for (int i = 0; i < ValNum; i++) {
 				data[i] = fdata[i];
+			}
+				
 			stbi_image_free(fdata);
 		}
 		else {

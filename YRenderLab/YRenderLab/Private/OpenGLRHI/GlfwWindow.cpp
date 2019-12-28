@@ -34,6 +34,8 @@ namespace YRender {
 			std::cout << "Failed to initialize GLAD" << std::endl;
 			return false;
 		}
+
+
 		//camera可以从pipline中获得，可以不写在窗口类中
 		MainCamera = YRender::New<Camera>();
 		//创建场景、管线、相机
@@ -73,6 +75,17 @@ namespace YRender {
 		}
 		else {
 			return TargetVAO->second;
+		}
+	}
+
+	VAO GlfwWindow::GetVAO(GlfwWindow::VAOTYPE CurType)
+	{
+		switch (CurType) {
+		case VAOTYPE::Screen:
+			return VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 });
+		default:
+			printf("GetVAO Error! %d", CurType);
+			return VAO();
 		}
 	}
 

@@ -61,7 +61,7 @@ namespace YRender {
 	}
 
 
-	//在某些shader其中的一个uniformBlock抛出GL_INVALID_VALUE错误，无视
+	//在某些shader中会因为不存在某些uniformBlock而抛出GL_INVALID_VALUE错误，无视
 	void Raster::MapUBOToShader(const GLShader& shader) {
 		shader.UniformBlockBind("Camera", 0);
 		//shader.UniformBlockBind("PointLights", 1);

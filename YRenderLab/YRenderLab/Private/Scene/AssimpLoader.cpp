@@ -128,7 +128,7 @@ namespace YRender{
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 			for (int i = 0; i <= 12; i++) {
 				auto n = material->GetTextureCount(static_cast<aiTextureType>(i));
-				printf("%d : %d\n", i, n);
+				//printf("%d : %d\n", i, n);
 			}
 
 			bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
@@ -157,9 +157,9 @@ namespace YRender{
 			material->GetTexture(type, 0, &str);
 
 			std::string path = dir + "/" + str.C_Str();
-			#ifdef _DEBUG
-				std::cout << path << std::endl;
-			#endif 
+			//#ifdef _DEBUG
+			//	std::cout << path << std::endl;
+			//#endif 
 			if (image_table.find(path) != image_table.end())
 				return image_table[path];
 
