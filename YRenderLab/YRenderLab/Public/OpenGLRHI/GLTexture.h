@@ -31,6 +31,7 @@ namespace YRender {
 		bool Use(unsigned int id);
 		ENUM_TYPE GetType() const;
 		unsigned int GetID() const;
+		void Free();
 	private:
 		bool SetImg(const Image& img);
 		bool Load(const std::vector<std::string> & skybox);

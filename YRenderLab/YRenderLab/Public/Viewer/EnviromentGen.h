@@ -21,7 +21,9 @@ namespace YRender {
 	public:
 		void Init();
 		void Visit(std::shared_ptr<Scene> scene);
-		std::shared_ptr <GLTexture> GetSkyBox() const { return OldSkyBox; }
+		GLTexture GetSkyBox() const { return skyBox; }
+
+
 
 	private:
 		//IBL sky box
@@ -35,14 +37,11 @@ namespace YRender {
 		void UpdateIrradianceMap();
 		void UpdatePreFilterMap();
 		void UpdateBRDFLut();
-		
+		void Clear();
 
-		//ordinary sky box 
-		void InitSkyBoxTexture();
 		
 
 	private:
-		std::shared_ptr<GLTexture> OldSkyBox;
 		int skyboxSize;
 		int irradianceSize;
 		int prefilterSize;
@@ -66,9 +65,7 @@ namespace YRender {
 		GLTexture skyBox;
 		GLTexture irradianceMap;
 		GLTexture prefilterMap;
-		//std::weak_ptr<Image> curImg;
-
-		std::shared_ptr<Image> curImg;
+		std::weak_ptr<Image> curImg;
 
 		
 

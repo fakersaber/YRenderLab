@@ -45,9 +45,9 @@ namespace YRender {
 	void Raster::UpdateUBO_Environment(){
 		glBindBuffer(GL_UNIFORM_BUFFER, environmentUBO);
 		//auto color = RGBf::White;
-		float intensity = 0;
-		bool haveSkybox = false;
-		bool haveEnvironment = false;
+		float intensity = 1.f;
+		bool haveSkybox = true;
+		bool haveEnvironment = true;
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, RGBf::White.Data());
 		glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &intensity);
 		glBufferSubData(GL_UNIFORM_BUFFER, 16, 1, &haveSkybox);

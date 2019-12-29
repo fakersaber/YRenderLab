@@ -34,7 +34,7 @@ vec3 Trowbridge_Reitz_GGX_Sample(vec2 Xi, vec3 N, float roughness){
     H.z = cosTheta;
 
 	// from tangent-space H vector to world-space sample vector
-	vec3 up          = abs(N.z) < 0.999 ? vec3(0.0, 0.0, 1.0) : vec3(1.0, 0.0, 0.0);
+	vec3 up          = vec3(0.0, 1.0, 0.0);
 	vec3 tangent   = normalize(cross(up, N));
 	vec3 bitangent = cross(N, tangent);
 	
@@ -66,7 +66,7 @@ vec2 IntegrateBRDF(float NdotV, float roughness){
     float Green = 0.0;
 
     vec3 N = vec3(0.0,0.0,1.0);
-    
+
     const uint SAMPLE_COUNT = 1024u;
     for(uint i = 0u; i < SAMPLE_COUNT; ++i){
         vec2 Xi = Hammersley(i,SAMPLE_COUNT);

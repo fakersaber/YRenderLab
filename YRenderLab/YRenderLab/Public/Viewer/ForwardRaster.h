@@ -14,7 +14,6 @@ namespace YRender {
 	class YObject;
 	class TriMesh;
 	class BSDF_blinnPhong;
-	class BSDF_DiffuseSpecular;
 	class GlfwWindow;
 
 	class ForwardRaster : public Raster {
@@ -38,9 +37,6 @@ namespace YRender {
 	private:
 		std::vector<YGM::Transform> modelVec;
 		//暂时只有Component持有Mesh，注意容器没有清除
-		//std::map<std::weak_ptr<TriMesh>, VAO, std::owner_less<std::weak_ptr<TriMesh>>> mesh2VAO;
-		//std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;
-
 
 		GLShader BlinnPhongShader;
 		GLShader curShader;

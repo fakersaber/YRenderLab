@@ -19,8 +19,6 @@ public:
 
 
 
-
-
 std::shared_ptr<TestClass> fun1() {
 	auto Rtl = std::make_shared<TestClass>(2);
 	return Rtl;
@@ -30,7 +28,7 @@ std::shared_ptr<TestClass> fun1() {
 
 int main() {
 	auto YEngine = YRender::YCore::GetCore();
-	if (YEngine->Initial(1920, 1080)) {
+	if (YEngine->Initial(800, 600)) {
 		YEngine->Run();
 	}
 }

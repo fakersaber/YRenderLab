@@ -38,9 +38,9 @@ namespace YRender {
 
 	public:
 
-		void AttachComponent(const std::shared_ptr<Component>& component);
+		void AttachComponent(const std::shared_ptr<Component> component);
 
-		void DetachComponent(const std::shared_ptr<Component>& component);
+		void DetachComponent(const std::shared_ptr<Component> component);
 
 		const std::unordered_map<TypeInfoRef, std::shared_ptr<Component>, Hasher, EqualTo>& Getcomponents() const { return components; };
 

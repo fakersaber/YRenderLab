@@ -8,7 +8,7 @@ namespace YRender {
 	class YObject;
 	class Component : public YHeapObject {
 	protected:
-		Component(const std::shared_ptr<YObject>& Owner) : OwnerObj(Owner) {};
+		Component(const std::shared_ptr<YObject> Owner) : OwnerObj(Owner) {};
 		Component() = delete;
 		virtual ~Component() = default;
 

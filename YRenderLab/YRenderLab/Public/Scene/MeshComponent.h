@@ -10,8 +10,8 @@ namespace YRender {
 	class MeshComponent : public Component {
 	public:
 		MeshComponent(
-			const std::shared_ptr<YObject>& obj,
-			const std::shared_ptr<TriMesh>& mesh
+			const std::shared_ptr<YObject> obj,
+			const std::shared_ptr<TriMesh> mesh
 		):
 			Component(obj),
 			mesh(mesh)

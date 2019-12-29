@@ -44,17 +44,34 @@ namespace YRender{
 
 
 	void EnviromentGen::Visit(std::shared_ptr<Scene> scene){
-		//update IBL texture
 
-		//test code 
-		//if (curImg.expired()) {
-			curImg = YRender::New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr");
+		if (!scene || !scene->GetRoot()) {
+			printf("ERROR::EnviromentGen::Visit(std::shared_ptr<Scene> scene):\n"
+				"\t""scene or scene's root is nullptr\n");
+			return;
+		}
+		auto environmentImg = scene->GetEnviromentImg();
+		if (!environmentImg) {
+			Clear();
+			return;
+		}
+
+		//if img has changed
+		if (curImg.lock() != environmentImg) {
+			//save origin data 
+			GLint origFBO;
+			glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &origFBO);
+			GLint origViewport[4];
+			glGetIntegerv(GL_VIEWPORT, origViewport);
+
+			curImg = environmentImg;
 			UpdateBRDFLut();
 			UpdateSkyBox();
 			UpdateIrradianceMap();
 			UpdatePreFilterMap();
-
-		//}
+			glBindFramebuffer(GL_FRAMEBUFFER, origFBO);
+			glViewport(origViewport[0], origViewport[1], origViewport[2], origViewport[3]);
+		}
 	}
 
 
@@ -118,7 +135,7 @@ namespace YRender{
 		genSkyboxFBO.Use();
 		glViewport(0, 0, skyboxSize, skyboxSize);
 
-		GLTexture imgTex(curImg);
+		GLTexture imgTex(curImg.lock());
 		imgTex.Use(0);
 
 		for (int i = 0; i < 6; i++) {
@@ -126,8 +143,6 @@ namespace YRender{
 			genSkyboxFBO.SetRenderTargetToTexture(skyBox, mapper[i]);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			pGLWindow->GetVAO(TriMesh::OriginCube).Draw(shader_genIBLSkybox);
-
-
 		}
 		//{
 		//	skyBox.Bind();
@@ -155,7 +170,6 @@ namespace YRender{
 		}
 
 		//{
-		//先用FBO渲染到Texture,RenderTarget设置为Texture,再调用glGetTexImage输出数据
 		//	irradianceMap.Bind();
 		//	auto TestMap = YRender::New<Image>(irradianceSize, irradianceSize, 3);
 		//	for (int i = 0; i < 6; ++i) {
@@ -212,28 +226,34 @@ namespace YRender{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		pGLWindow->GetVAO(GlfwWindow::VAOTYPE::Screen).Draw(shader_genBRDFLUT);
 		isInitBRDFFBO = true;
-		{
-			genBrdfLutFBO.GetColorTexture(0).Bind();
-			auto TestMap = YRender::New<Image>(brdfSize, brdfSize, 3);
-			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
-			TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/brdf") + std::string(".png"),true);
-		}
+		//{
+		//	genBrdfLutFBO.GetColorTexture(0).Bind();
+		//	auto TestMap = YRender::New<Image>(brdfSize, brdfSize, 3);
+		//	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
+		//	TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/brdf") + std::string(".png"),true);
+		//}
+	}
+
+	void EnviromentGen::Clear(){
+		curImg.reset();
+		skyBox.Free();
+		irradianceMap.Free();
+		prefilterMap.Free();
 	}
 
 
 
 
-
-	void EnviromentGen::InitSkyBoxTexture(){
-		std::vector<std::string> SkyboxTexturePath = 
-		{
-			"Data/sky_box/right.jpg",
-			"Data/sky_box/left.jpg",
-			"Data/sky_box/top.jpg",
-			"Data/sky_box/bottom.jpg",
-			"Data/sky_box/front.jpg",
-			"Data/sky_box/back.jpg"
-		};
-		OldSkyBox = std::make_shared<GLTexture>(SkyboxTexturePath);
-	}
+	//void EnviromentGen::InitSkyBoxTexture(){
+		//std::vector<std::string> SkyboxTexturePath = 
+		//{
+		//	"Data/sky_box/right.jpg",
+		//	"Data/sky_box/left.jpg",
+		//	"Data/sky_box/top.jpg",
+		//	"Data/sky_box/bottom.jpg",
+		//	"Data/sky_box/front.jpg",
+		//	"Data/sky_box/back.jpg"
+		//};
+		//OldSkyBox = std::make_shared<GLTexture>(SkyboxTexturePath);
+	//}
 }

@@ -202,4 +202,14 @@ namespace YRender {
 	unsigned int GLTexture::GetID() const {
 		return ID;
 	}
+
+
+	void GLTexture::Free() {
+		if (!IsValid())
+			return;
+
+		glDeleteTextures(1, &ID);
+		ID = 0ul;
+		type = ENUM_TYPE_NOT_VALID;
+	}
 }

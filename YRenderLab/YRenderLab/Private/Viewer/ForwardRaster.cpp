@@ -42,6 +42,7 @@ namespace YRender {
 		modelVec.clear();
 		//modelVec.push_back(YGM::Transform(1.f));
 		this->Visit(scene->GetRoot());
+
 		//最后draw environment减少overdraw
 		DrawEnvironment();
 	}
@@ -129,11 +130,12 @@ namespace YRender {
 	void ForwardRaster::DrawEnvironment(){
 		glDepthFunc(GL_LEQUAL);
 
-
-		//enviromentGen->GetSkyBox()->Use(0);
-		//enviromentGen->shader_genIBLSkybox.SetMat4f("Camera.view", this->scene->GetCamera()->GetViewMatrix().Transpose());
-		//enviromentGen->shader_genIBLSkybox.SetMat4f("Camera.projection", this->scene->GetCamera()->GetProjectMatrix().Transpose());
-		//pGLWindow->GetVAO(TriMesh::OriginCube).Draw(enviromentGen->shader_genIBLSkybox);
+		//U聚是将普通材质的shader与skybox的Texture绑定都写到一起，这里分离一下
+		shader_skybox.SetInt("skybox",0);
+		shader_skybox.SetBool("needGamma", true);
+		auto skybox = enviromentGen->GetSkyBox();
+		skybox.Use(0);
+		pGLWindow->GetVAO(TriMesh::OriginCube).Draw(shader_skybox);
 		glDepthFunc(GL_LESS);
 	}
 }

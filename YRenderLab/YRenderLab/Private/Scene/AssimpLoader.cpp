@@ -24,7 +24,7 @@ namespace YRender{
 		const std::shared_ptr<YObject> Load(const std::string& path)
 		{
 			bool isSupport = false;
-			const std::string suffix[] = { ".FBX",".obj",".fbx",".blend"};
+			const std::string suffix[] = { ".FBX",".obj",".fbx"};
 			for(auto& temp : suffix){
 				if (StrAPI::Is_suffix(path, temp)) {
 					isSupport = true;
@@ -131,9 +131,16 @@ namespace YRender{
 				//printf("%d : %d\n", i, n);
 			}
 
-			bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
-			bsdf->normalTexture = LoadTexture(image_table, dir, material, aiTextureType_HEIGHT);
-			bsdf->specularTexture = LoadTexture(image_table,dir,material, aiTextureType_SPECULAR);
+			//bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
+			//bsdf->normalTexture = LoadTexture(image_table, dir, material, aiTextureType_HEIGHT);
+			//bsdf->specularTexture = LoadTexture(image_table,dir,material, aiTextureType_SPECULAR);
+
+			//1024 * 1024 Ò»ÕÅÌùÍ¼16M
+			auto AlbedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
+			auto NormalTexture = LoadTexture(image_table, dir, material, aiTextureType_HEIGHT);
+			auto MetallicTexture = LoadTexture(image_table, dir, material, aiTextureType_SPECULAR);
+			auto AOTexture = LoadTexture(image_table, dir, material, aiTextureType_AMBIENT);
+			auto RoughnessTexture = LoadTexture(image_table, dir, material, aiTextureType_EMISSIVE);
 
 		}
 
@@ -156,7 +163,7 @@ namespace YRender{
 			aiString str;
 			material->GetTexture(type, 0, &str);
 
-			std::string path = dir + "/" + str.C_Str();
+			std::string path = dir + "\\" + str.C_Str();
 			//#ifdef _DEBUG
 			//	std::cout << path << std::endl;
 			//#endif 

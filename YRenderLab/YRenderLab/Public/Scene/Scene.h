@@ -6,11 +6,15 @@
 
 namespace YRender {
 	class YObject;
+	class Image;
+
+
 	class Scene : public YHeapObject {
 	public:
-		Scene(std::shared_ptr<YObject> root, std::shared_ptr<Camera> camera) : 
+		Scene(std::shared_ptr<YObject> root, std::shared_ptr<Camera> camera, std::shared_ptr<Image> EnviromentImg) :
 			root(root),
-			camera(camera)
+			camera(camera),
+			EnviromentImg(EnviromentImg)
 		{
 		}
 
@@ -18,12 +22,14 @@ namespace YRender {
 		virtual ~Scene() = default;
 
 	public:
+		const std::shared_ptr<Image> GetEnviromentImg() const { return EnviromentImg; }
 		const std::shared_ptr<YObject> GetRoot() const { return root; }
 		const std::shared_ptr<Camera> GetCamera() const { return camera; }
 
 	private:
 		std::shared_ptr<YObject> root;
 		std::shared_ptr<Camera> camera;
+		std::shared_ptr<Image> EnviromentImg;
 	};
 }
 

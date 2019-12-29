@@ -39,8 +39,8 @@ namespace YRender {
 		//camera可以从pipline中获得，可以不写在窗口类中
 		MainCamera = YRender::New<Camera>();
 		//创建场景、管线、相机
-		auto Root = YRender::AssimpLoader::Load("D:/YRenderLab/YRenderLab/YRenderLab/Data/module/revolver/source/Test.FBX");
-		auto Scene = YRender::New<YRender::Scene>(Root,MainCamera);
+		auto Root = YRender::AssimpLoader::Load("D:/YRenderLab/YRenderLab/YRenderLab/Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
+		auto Scene = YRender::New<YRender::Scene>(Root,MainCamera, YRender::New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
 		ForwardPipline = YRender::New<ForwardRaster>(Scene, shared_this<GlfwWindow>());
 		ForwardPipline->Initial();
 		MainCamera->Initial(width, height);

@@ -9,7 +9,7 @@ namespace YRender {
 		
 	public:
 		TransformComponent(
-			const std::shared_ptr<YObject>& obj,
+			const std::shared_ptr<YObject> obj,
 			const Vector3& pos = Vector3(0.f, 0.f, 0.f),
 			const Vector3& scale = Vector3(1.f, 1.f, 1.f)
 		) :
