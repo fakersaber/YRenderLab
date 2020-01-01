@@ -570,6 +570,9 @@
     <ClInclude Include="Public\OpenGLRHI\GLFBO.h">
       <Filter>Public\OpenGLRHI</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\BSDF_StandardPBR.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -695,6 +698,9 @@
     </ClCompile>
     <ClCompile Include="Private\OpenGLRHI\GLFBO.cpp">
       <Filter>Private\OpenGLRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Material\BSDF_StandardPBR.cpp">
+      <Filter>Private\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

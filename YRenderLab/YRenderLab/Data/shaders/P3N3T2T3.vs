@@ -26,14 +26,25 @@ out VS_OUT {
 void main()
 {
     //model matrix set identity temply
+
+    //也算进行了变换，应该同时变换法线，
     vec3 x = vec3(1.f,0.f,0.f);
-    vec3 y = vec3(0.f,0.f,1.f);
+    vec3 y = vec3(0.f,0.f,-1.f);
     vec3 z = vec3(0.f,1.f,0.f);
+
     mat3 TempModule = mat3(x,y,z);
-    vs_out.FragPos = TempModule * iModelPos;
-    vs_out.Normal = iModelNormal;
+    vec3 ScaleModule = iModelPos * vec3(0.1);
+    vs_out.FragPos = TempModule * ScaleModule;
     vs_out.TexCoords = iTexCoords;
-    vs_out.Tangent = iModelTangent;
+
+
+    mat3 normalMatrix = transpose(inverse(TempModule));
+    vec3 N = normalize(normalMatrix * iModelNormal);
+	vs_out.Normal = N;
+
+    vec3 T = normalize(normalMatrix * iModelTangent);
+    vs_out.Tangent = normalize(T - dot(T, N) * N);
+
     gl_Position = projection * view * vec4(vs_out.FragPos,1.0f);
 
 }

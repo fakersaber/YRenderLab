@@ -5,14 +5,18 @@
 
 - [x] diffuse_bsdf material
 - [x] physics Blinn Phong
+- [x] standardPbr material
 - [x] ForwardRaster pipline
 - [x] Architecture Build 
 - [x] module loading
 - [x] Normal Mapping
 - [x] Sky Box
 - [x] Direct Light
-- [ ] IBL
+- [x] IBL
+  - [x] Diffuse
+  - [x] specular
 - [x] CubeMap
+- [ ] Point Light
 - [ ] Shadow
 - [ ] Matrix-MainCol
 

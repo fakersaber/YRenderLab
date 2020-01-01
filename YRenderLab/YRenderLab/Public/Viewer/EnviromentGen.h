@@ -22,7 +22,9 @@ namespace YRender {
 		void Init();
 		void Visit(std::shared_ptr<Scene> scene);
 		GLTexture GetSkyBox() const { return skyBox; }
-
+		GLTexture GetIrradianceMap() const { return irradianceMap; }
+		GLTexture GetPrefilterMap() const { return prefilterMap; }
+		GLTexture GetBRDF_LUT() const { return genBrdfLutFBO.GetColorTexture(0); }
 
 
 	private:

@@ -44,14 +44,29 @@ namespace YRender {
 
 	void Raster::UpdateUBO_Environment(){
 		glBindBuffer(GL_UNIFORM_BUFFER, environmentUBO);
-		//auto color = RGBf::White;
-		float intensity = 1.f;
-		bool haveSkybox = true;
-		bool haveEnvironment = true;
-		glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, RGBf::White.Data());
-		glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &intensity);
-		glBufferSubData(GL_UNIFORM_BUFFER, 16, 1, &haveSkybox);
-		glBufferSubData(GL_UNIFORM_BUFFER, 20, 1, &haveEnvironment);
+
+		auto environment = scene->GetEnviromentImg();
+		if (!environment) {
+			auto color = RGBf(0.f);
+			float intensity = 0;
+			bool haveSkybox = false;
+			bool haveEnvironment = false;
+			glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, color.Data());
+			glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &intensity);
+			glBufferSubData(GL_UNIFORM_BUFFER, 16, 1, &haveSkybox);
+			glBufferSubData(GL_UNIFORM_BUFFER, 20, 1, &haveEnvironment);
+		}
+		else {
+			float intensity = 1.f;
+			bool haveSkybox = true;
+			bool haveEnvironment = true;
+			glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, RGBf::White.Data());
+			glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &intensity);
+			glBufferSubData(GL_UNIFORM_BUFFER, 16, 1, &haveSkybox);
+			glBufferSubData(GL_UNIFORM_BUFFER, 20, 1, &haveEnvironment);
+		}
+
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
 

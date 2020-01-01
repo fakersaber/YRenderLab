@@ -1,9 +1,11 @@
 ﻿#include <Public/YCore.h>
 
-
+#include <iostream>
 class TestClass2 {
-//public:
+public:
 //	TestClass2() = default;
+	virtual void Test1() {};
+	virtual void Test2() {};
 private:
 	double test2 = 0.0;
 };
@@ -20,7 +22,11 @@ public:
 
 
 std::shared_ptr<TestClass> fun1() {
-	auto Rtl = std::make_shared<TestClass>(2);
+	auto Rtl = std::make_shared<TestClass>(2); 
+	if (Rtl) {
+	
+		std::cout << "test" << std::endl;
+	}
 	return Rtl;
 }
 

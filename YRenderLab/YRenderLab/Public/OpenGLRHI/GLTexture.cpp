@@ -135,6 +135,9 @@ namespace YRender {
 
 
 	bool GLTexture::GenMipmap() {
+		//This doesn't have any effect since mipmaps are primarily used for when textures get downscaled
+		//所以超出纹理最大纹素密度后只能线性插值，GL_TEXTURE_MIN_FILTER都是讨论的基于当前最大分辨率变小的情况
+		//如果lod超过或者小于最小的MipMap后，应该是直接使用的线性插值而不是基于MipMap插值
 		if (!IsValid()) {
 			printf("ERROR::Texture::GenMipmap:\n"
 				"\t""texture is not valid\n");

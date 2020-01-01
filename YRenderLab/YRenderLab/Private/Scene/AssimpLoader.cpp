@@ -6,7 +6,9 @@
 #include <Public/Scene/MeshComponent.h>
 #include <Public/Basic/MaterialComponent.h>
 
-#include <Public/Basic/BSDF_blinnPhong.h>
+//#include <Public/Basic/BSDF_blinnPhong.h>
+#include <Public/Basic/BSDF_StandardPBR.h>
+
 
 #include <Public/Basic/StrApi.h>
 #include <Public/Basic/Image/Image.h>
@@ -120,9 +122,8 @@ namespace YRender{
 			auto TriMeshPtr = YRender::New<TriMesh>(indices, poses, normals, texcoords, tangents);
 			YRender::New<MeshComponent>(meshobj, TriMeshPtr);
 
-			auto bsdf = YRender::New<BSDF_blinnPhong>();
-			//bsdf->colorFactor = TestColor[curindex];
-			//curindex++;
+			auto bsdf = YRender::New<BSDF_StandardPBR>();
+
 			YRender::New<MaterialComponent>(meshobj, bsdf);
 
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
@@ -136,11 +137,11 @@ namespace YRender{
 			//bsdf->specularTexture = LoadTexture(image_table,dir,material, aiTextureType_SPECULAR);
 
 			//1024 * 1024 Ò»ÕÅÌùÍ¼16M
-			auto AlbedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
-			auto NormalTexture = LoadTexture(image_table, dir, material, aiTextureType_HEIGHT);
-			auto MetallicTexture = LoadTexture(image_table, dir, material, aiTextureType_SPECULAR);
-			auto AOTexture = LoadTexture(image_table, dir, material, aiTextureType_AMBIENT);
-			auto RoughnessTexture = LoadTexture(image_table, dir, material, aiTextureType_EMISSIVE);
+			bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
+			bsdf->normalTexture = LoadTexture(image_table, dir, material, aiTextureType_HEIGHT);
+			bsdf->metallicTexture = LoadTexture(image_table, dir, material, aiTextureType_SPECULAR);
+			bsdf->aoTexture = LoadTexture(image_table, dir, material, aiTextureType_AMBIENT);
+			bsdf->roughnessTexture = LoadTexture(image_table, dir, material, aiTextureType_EMISSIVE);
 
 		}
 

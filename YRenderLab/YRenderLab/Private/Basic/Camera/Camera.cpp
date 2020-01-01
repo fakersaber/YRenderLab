@@ -101,7 +101,7 @@ namespace YRender {
 
 
 	void Camera::ProcessKeyboard(ENUM_Movement direction,float deltaTime){
-		float velocity = 20.f * deltaTime;  //ready change for deltaTime
+		float velocity = 200.f * deltaTime;  //ready change for deltaTime
 		switch (direction) {
 		case ENUM_Movement::MOVE_FORWARD:
 			position += front * velocity;
