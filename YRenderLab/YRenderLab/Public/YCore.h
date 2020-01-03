@@ -21,6 +21,7 @@ namespace YRender {
 		void Run();
 		std::shared_ptr<GlfwWindow> GetGLWindow() const;
 
+
 	private:
 		YCore();
 		~YCore();

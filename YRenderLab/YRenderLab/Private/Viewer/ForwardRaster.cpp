@@ -65,8 +65,6 @@ namespace YRender {
 		StandardPBRShader.SetInt("bsdf.normalTexture", 4);
 
 		RegisterShader(StandardPBRShader,5);
-
-		
 	}
 
 

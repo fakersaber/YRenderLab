@@ -9,9 +9,14 @@ in VS_OUT {
 	vec3 Tangent;
 } fs_in;
 
+
+
+#define MAX_DIRECTIONAL_LIGHTS 8
 const float PI = 3.14159265359;
 const float INV_PI = 0.31830988618;
 
+
+//-------------- material struct -------------//
 
 struct BSDF_StandardPBR {
 	vec3 colorFactor;
@@ -33,6 +38,16 @@ struct BSDF_StandardPBR {
 	sampler2D normalTexture;
 };
 
+//----------- material end ---------------//
+
+
+//----------- uniform struct -------------//
+
+struct DirectionalLight{
+	vec3 L;         // 12   0
+	vec3 dir;       // 12   16
+	//mat4 ProjView;  // 64   32
+};
 
 // 160
 layout (std140) uniform Camera{
@@ -51,6 +66,14 @@ layout (std140) uniform Environment{
 	bool haveSkybox;      //  4    16
 	bool haveEnvironment; //  4    20
 };
+
+
+
+layout (std140) uniform DirectionalLights{
+	int numDirectionalLight;// 16
+	DirectionalLight directionaLights[MAX_DIRECTIONAL_LIGHTS];// 96 * MAX_DIRECTIONAL_LIGHTS = 96 * 8 = 768
+};
+
 
 uniform BSDF_StandardPBR bsdf;
 uniform samplerCube skybox; // 25
@@ -75,59 +98,55 @@ vec3 GetF0(vec3 albedo, float metallic) {
     return mix(vec3(0.04), albedo, metallic);
 }
 
-// float Trowbridge_Reitz_GGX_D(vec3 norm, vec3 h, float roughness){
-// 	float NoH = max(dot(norm, h),0.0);
-// 	float alpha = roughness * roughness;
-// 	float alpha2 = alpha * alpha;
-// 	float cos2Theta = NoH * NoH;
-// 	float t = (alpha2 - 1) * cos2Theta + 1;
-// 	return alpha2 / (PI * t * t);
-// }
-
-// float SchlickGGX_G1(vec3 norm, vec3 w, float roughness) {
-//     // remapping roughness using (Roughness+1)/2  --- epic paper
-// 	float k = (roughness+1) * (roughness+1) / 8;
-// 	float Ndotw = max(0.f, dot(norm, w));
-// 	return Ndotw / (Ndotw * (1 - k) + k);
-// }
-
-// float SchlickGGX_Smith_G(vec3 N, vec3 wo, vec3 wi, float roughness){
-//     return SchlickGGX_G1(N, wo, roughness) * SchlickGGX_G1(N, wi, roughness);
-// }
-
-// vec3 Fr_epic(vec3 wi, vec3 h, vec3 albedo, float metallic) {
-// 	vec3 F0 = GetF0(albedo, metallic);
-// 	float HdotL = dot(h, wi);
-// 	return F0 + exp2((-5.55473f * HdotL - 6.98316f) * HdotL) * (vec3(1.0f) - F0);
-// }
-
 vec3 Fr_Approx(vec3 wo, vec3 norm, vec3 F0, float roughness){
     float cosTheta = max(dot(wo, norm), 0);
     return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
-// vec3 BRDF(vec3 norm, vec3 wo, vec3 wi, vec3 albedo, float metallic, float roughness) {
-// 	vec3 wh = normalize(wo + wi);
-	
-// 	float D = Trowbridge_Reitz_GGX_D(norm, wh, roughness);
-// 	float G = SchlickGGX_Smith_G(norm, wo, wi, roughness);
-// 	vec3 F = Fr_epic(wi, wh, albedo, metallic);
-	
-// 	vec3 specular = D * G * F / (4.0f * dot(wh, wo) * dot(wh, wi));
-	
-// 	vec3 diffuse = albedo * INV_PI;
-	
-// 	vec3 kS = 1 - F;
-// 	vec3 kD = (1-metallic) * (1 - kS);
-	
-// 	vec3 rst = kD * diffuse + specular;
+float Trowbridge_Reitz_GGX_D(vec3 norm, vec3 h, float roughness){
+	float NoH = max(dot(norm, h),0.0);
+	float alpha = roughness * roughness;
+	float alpha2 = alpha * alpha;
+	float cos2Theta = NoH * NoH;
+	float t = (alpha2 - 1) * cos2Theta + 1;
+	return alpha2 / (PI * t * t);
+}
 
-// 	return rst;
-// }
+float SchlickGGX_G1(vec3 norm, vec3 w, float roughness) {
+    // remapping roughness using (Roughness+1)/2  --- epic paper
+	float k = (roughness+1) * (roughness+1) / 8;
+	float Ndotw = max(0.f, dot(norm, w));
+	return Ndotw / (Ndotw * (1 - k) + k);
+}
 
+float SchlickGGX_Smith_G(vec3 N, vec3 wo, vec3 wi, float roughness){
+    return SchlickGGX_G1(N, wo, roughness) * SchlickGGX_G1(N, wi, roughness);
+}
 
+vec3 Fr_epic(vec3 wi, vec3 h, vec3 albedo, float metallic) {
+	vec3 F0 = GetF0(albedo, metallic);
+	float HdotL = dot(h, wi);
+	return F0 + exp2((-5.55473f * HdotL - 6.98316f) * HdotL) * (vec3(1.0f) - F0);
+}
 
+vec3 BRDF(vec3 norm, vec3 wo, vec3 wi, vec3 albedo, float metallic, float roughness) {
+	vec3 wh = normalize(wo + wi);
+	
+	float D = Trowbridge_Reitz_GGX_D(norm, wh, roughness);
+	float G = SchlickGGX_Smith_G(norm, wo, wi, roughness);
+	vec3 F = Fr_epic(wi, wh, albedo, metallic);
+	
+	vec3 specular = D * G * F / (4.0f * dot(wh, wo) * dot(wh, wi));
+	
+	vec3 diffuse = albedo * INV_PI;
+	
+	vec3 kS = 1 - F;
+	vec3 kD = (1-metallic) * (1 - kS);
+	
+	vec3 rst = kD * diffuse + specular;
 
+	return rst;
+}
 
 
 void main(){
@@ -142,6 +161,21 @@ void main(){
 
     vec3 result = vec3(0);
 
+
+	// directional light
+	for(int i=0; i < numDirectionalLight; i++){
+		vec3 wi = -normalize(directionaLights[i].dir);
+
+		vec3 f = BRDF(normal, wo, wi, albedo, metallic, roughness);
+
+		float cosTheta = max(dot(wi, normal), 0);
+		
+		// vec4 pos4 = directionaLights[i].ProjView * vec4(fs_in.FragPos, 1);
+		// vec3 normPos = ((pos4.xyz / pos4.w) + 1) / 2;
+		// float visibility = DirectionalLightVisibility(normPos, cosTheta, i);
+		
+		result +=  cosTheta * f * directionaLights[i].L;
+	}
 
 
     // ambient light
