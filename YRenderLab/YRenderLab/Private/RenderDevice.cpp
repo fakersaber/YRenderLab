@@ -2,7 +2,5 @@
 
 
 
-namespace YRender{
 	RenderDevice::RenderDevice() {}
 	RenderDevice::~RenderDevice() {}
-}

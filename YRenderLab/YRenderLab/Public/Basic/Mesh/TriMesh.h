@@ -6,7 +6,7 @@
 #include <Public/YGM/Vector2.hpp>
 #include <vector>
 
-namespace YRender {
+
 	class TriMesh final : public YHeapObject {
 	public:
 		TriMesh(
@@ -50,7 +50,7 @@ namespace YRender {
 		static std::shared_ptr<TriMesh> GenCube();
 		static std::shared_ptr<TriMesh> OriginCube;
 	};
-}
+
 
 
 

@@ -2,7 +2,7 @@
 #define _YRENDER_YGM_GCALGORITHM_HPP
 
 
-namespace YRender {
+
 	namespace YGM {
 		//static void BresenhamDrawLine(int x1, int y1, int x2, int y2)
 		//{
@@ -65,7 +65,7 @@ namespace YRender {
 		//	}
 		//}
 	}
-}
+
 
 
 

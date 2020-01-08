@@ -5,7 +5,6 @@
 #include <Public/YGM/RGBA.hpp>
 #include <Public/Basic/YHeapObject.h>
 
-namespace YRender {
 
 	//opengl是从左下，但stb图片是左上
 
@@ -67,7 +66,6 @@ namespace YRender {
 		int channel;
 		//std::string path;
 	};
-}
 
 
 #endif

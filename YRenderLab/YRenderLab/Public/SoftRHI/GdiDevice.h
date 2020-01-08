@@ -6,7 +6,7 @@
 
 #include <windows.h>
 
-namespace YRender {
+
 	class GdiDevice : public RenderDevice
 	{
 	public:
@@ -32,7 +32,7 @@ namespace YRender {
 		HBITMAP hBitmap;
 		HBITMAP hOldBitmap;
 	};
-}
+
 
 
 

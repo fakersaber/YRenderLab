@@ -3,7 +3,7 @@
 
 #include <Public/Ray/Ray.h>
 
-namespace YRender {
+
 	class RayCamera {
 	public:
 		RayCamera(
@@ -29,7 +29,6 @@ namespace YRender {
 		Ray ray;
 	};
 
-}
 
 
 

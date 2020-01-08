@@ -6,7 +6,6 @@
 //#define SOFT_RENDER
 #define OPENGL_RENDER
 
-namespace YRender {
 
 	YCore* YCore::GetCore() {
 		static YCore instance;
@@ -19,7 +18,7 @@ namespace YRender {
 		#ifdef SOFT_RENDER
 			this->_RenderWindow = Win32Window::GetInstance();
 		#elif defined(OPENGL_RENDER)
-			this->pGLInstance = YRender::New<GlfwWindow>();
+			this->pGLInstance = New<GlfwWindow>();
 		#endif 
 	}
 
@@ -63,4 +62,3 @@ namespace YRender {
 	//}
 
 
-}

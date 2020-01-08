@@ -5,7 +5,7 @@
 
 #include <Public/YGM/RGB.hpp>
 
-namespace YRender {
+
 	namespace YGM {
 		template <typename T>
 		class RGBA : public Basic_Val<4, T, RGBA<T>> {
@@ -60,7 +60,6 @@ namespace YRender {
 
 	template <typename T>
 	YGM::RGBA<T> YGM::RGBA<T>::White = RGBA<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1), static_cast<T>(1));
-}
 
 
 #endif

@@ -7,7 +7,6 @@
 #include <string>
 #include <unordered_map>
 
-namespace YRender {
 	class Component;
 	class YObject : public Node<YObject> {
 	public:
@@ -69,7 +68,6 @@ namespace YRender {
 	}
 
 
-}
 
 
 

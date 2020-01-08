@@ -5,7 +5,7 @@
 
 #include <Public/RenderClass.h>
 
-namespace YRender {
+
 	class RenderWindow {
 	public:
 		RenderWindow(const RenderWindow& rhs) = delete;
@@ -21,8 +21,6 @@ namespace YRender {
 
 	};
 
-
-}
 
 
 #endif

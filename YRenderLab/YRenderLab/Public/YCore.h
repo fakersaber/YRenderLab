@@ -8,7 +8,6 @@
 //#include <Public/Ray/RayCamera.h>
 #include <memory>
 
-namespace YRender {
 	class GlfwWindow;
 	class RenderWindow;
 
@@ -29,6 +28,8 @@ namespace YRender {
 
 	private:
 		std::shared_ptr<GlfwWindow> pGLInstance;
+
+		//todo remove
 		RenderWindow* _RenderWindow;
 	};
 
@@ -57,7 +58,6 @@ namespace YRender {
 			 1.0f,  1.0f,  1.0f, 0.0f
 		};
 	}
-}
 
 
 #endif

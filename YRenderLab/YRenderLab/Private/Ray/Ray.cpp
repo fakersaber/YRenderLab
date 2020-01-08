@@ -1,7 +1,7 @@
 #include <Public/Ray/Ray.h>
 
 
-namespace YRender {
+
 	//float Ray::HitSphere(const Vector3& center, const float radius) const {
 	//	//t*t*B*B + 2*t*B*(A-C) + (A-C)*(A-C) = radius^2
 	//	Vector3 TempVal = origin - center;
@@ -15,4 +15,3 @@ namespace YRender {
 	//	return (-b - sqrt(discriminant)) / (2.f*a);
 	//}
 
-}

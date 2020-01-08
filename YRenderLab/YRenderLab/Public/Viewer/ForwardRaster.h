@@ -10,49 +10,50 @@
 #include <vector>
 #include <map>
 
-namespace YRender {
-	class YObject;
-	class TriMesh;
-	class BSDF_blinnPhong;
-	class BSDF_StandardPBR;
-	class GlfwWindow;
 
-	class ForwardRaster : public Raster {
-	public:
-		ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwWindow> pGlwindow);
+class YObject;
+class TriMesh;
+class BSDF_blinnPhong;
+class BSDF_StandardPBR;
+class GlfwWindow;
 
-	public:
-		virtual void Draw() override;
-		virtual void Initial() override;
-		void SetCurShader(const GLShader& shader) { curShader = shader; };
-	protected:
-		virtual ~ForwardRaster() = default;
-		virtual void Visit(std::shared_ptr<YObject> obj);
-		virtual void Visit(std::shared_ptr<BSDF_blinnPhong> bsdf);
-		virtual void Visit(std::shared_ptr<BSDF_StandardPBR> bsdf);
-		void Visit(std::shared_ptr<TriMesh> mesh);
-		void InitShaderPbrBlinnPhong();
-		void InitShaderStandardPBR();
-		void InitShader_Skybox();
-		void DrawEnvironment();
-		void RegisterShader(const GLShader& shader, const uint32_t TextureBase);
-		void UseLightTexureResource(const GLShader & shader) const;
+class ForwardRaster : public Raster {
+public:
+	ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwWindow> pGlwindow);
 
-	private:
-		std::vector<YGM::Transform> modelVec;
-		//暂时只有Component持有Mesh，注意容器没有清除
+public:
+	virtual void Draw() override;
+	//virtual void Update() override; //update uniform etc...
+	virtual void Initial() override;
+	void SetCurShader(const GLShader& shader) { curShader = shader; };
+protected:
+	virtual ~ForwardRaster() = default;
+	virtual void Visit(std::shared_ptr<YObject> obj);
+	virtual void Visit(std::shared_ptr<BSDF_blinnPhong> bsdf);
+	virtual void Visit(std::shared_ptr<BSDF_StandardPBR> bsdf);
+	void Visit(std::shared_ptr<TriMesh> mesh);
+	void InitShaderPbrBlinnPhong();
+	void InitShaderStandardPBR();
+	void InitShader_Skybox();
+	void DrawEnvironment();
+	void RegisterShader(const GLShader& shader, const uint32_t TextureBase);
+	void UseLightTexureResource(const GLShader & shader) const;
 
-		GLShader BlinnPhongShader;
-		GLShader StandardPBRShader;
-		GLShader curShader;
-		GLShader shader_skybox;
+private:
+	std::vector<YGM::Transform> ObjectTransformVec;
+	//暂时只有Component持有Mesh，注意容器没有清除
+
+	GLShader BlinnPhongShader;
+	GLShader StandardPBRShader;
+	GLShader curShader;
+	GLShader shader_skybox;
 
 
 
 	//test
-	public:
-		GLTexture IBLmap;
-	};
-}
+public:
+	GLTexture IBLmap;
+};
+
 
 #endif

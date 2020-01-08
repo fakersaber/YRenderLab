@@ -2,7 +2,6 @@
 #include <Public/OpenGLRHI/GLShader.h>
 #include <Public/OpenGLRHI/GLVAO.h>
 
-namespace YRender {
 	namespace Utils {
 		template<typename T, int size>
 		constexpr uint32_t GetArrLength(T(&)[size]) { return size; }
@@ -96,6 +95,5 @@ namespace YRender {
 		GlslShader->SetMat4f("_CameraToClip", MainCamera->GetProjectMatrix().selfTranspose());
 		GlVAO->Draw(*GlslShader);											 	
 	}
-}
 
 

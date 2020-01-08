@@ -4,7 +4,7 @@
 
 #include <Public/YGM/Base/Val.hpp>
 
-namespace YRender {
+
 	namespace YGM {
 		template <typename T>
 		class Val<4, T> {
@@ -88,6 +88,6 @@ namespace YRender {
 			};
 		};
 	}
-}
+
 
 #endif

@@ -1,6 +1,5 @@
 #include <Public/Ray/HitinfoManager.h>
 
-namespace YRender{
 	bool HitInfoManager::CheckHit(const Ray& ray, float TStart, float TEnd, HitInfo& hitinfo) {
 		float ClosestDistance = TEnd;
 		HitInfo TempHitInfo;
@@ -14,4 +13,3 @@ namespace YRender{
 		}
 		return RetVal;
 	}
-}

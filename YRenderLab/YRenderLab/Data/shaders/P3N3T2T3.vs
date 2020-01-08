@@ -27,7 +27,7 @@ void main()
 {
     //model matrix set identity temply
 
-    //也算进行了变换，应该同时变换法线，
+    
     vec3 x = vec3(1.f,0.f,0.f);
     vec3 y = vec3(0.f,0.f,-1.f);
     vec3 z = vec3(0.f,1.f,0.f);

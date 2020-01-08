@@ -4,7 +4,7 @@
 #include <Public/YGM/Vector3.hpp>
 #include <iostream>
 
-namespace YRender {
+
 	namespace YGM {
 		template<typename T>
 		class Mat3x3 {
@@ -233,7 +233,7 @@ namespace YRender {
 		};
 	}
 	using Mat3f = YGM::Mat3x3<float>;
-}
+
 
 
 #endif

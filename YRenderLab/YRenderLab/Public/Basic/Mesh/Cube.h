@@ -7,7 +7,7 @@
 #include <vector>
 
 
-namespace YRender {
+
 	class Cube {
 	public:
 		Cube();
@@ -25,7 +25,7 @@ namespace YRender {
 
 		static const float cubeData[192];
 	};
-}
+
 
 
 

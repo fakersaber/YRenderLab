@@ -17,9 +17,8 @@
 
 #include <iostream>
 
-namespace YRender{
 	namespace AssimpLoader {
-		RGBAf TestColor[7] = { {0.5f,0.5f,0.5f,1.f},{0.8f,0.8f,0.8f,1.f},{0.9f,0.9f,0.9f,1.f},{0.7f,0.7f,0.7f,1.f},{0.6f,0.6f,0.6f,1.f},{0.3f,0.3f,0.3f,1.f},{0.2f,0.5f,0.8f,1.f} };
+		
 		int curindex = 0;
 
 
@@ -54,13 +53,13 @@ namespace YRender{
 			const aiScene* scene
 		)
 		{
-			auto obj = YRender::New<YObject>(node->mName.C_Str());
-			YRender::New<TransformComponent>(obj);
+			auto obj = New<YObject>(node->mName.C_Str());
+			New<TransformComponent>(obj);
 			for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
 				//std::cout << node->mNumMeshes << std::endl;
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-				auto meshObj = YRender::New<YObject>(node->mName.C_Str() + std::to_string(i),obj);
-				YRender::New<TransformComponent>(meshObj);
+				auto meshObj = New<YObject>(node->mName.C_Str() + std::to_string(i),obj);
+				New<TransformComponent>(meshObj);
 				LoadMesh(image_table, dir, mesh, scene, meshObj);
 			}
 			// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
@@ -119,12 +118,12 @@ namespace YRender{
 				}
 			}
 
-			auto TriMeshPtr = YRender::New<TriMesh>(indices, poses, normals, texcoords, tangents);
-			YRender::New<MeshComponent>(meshobj, TriMeshPtr);
+			auto TriMeshPtr = New<TriMesh>(indices, poses, normals, texcoords, tangents);
+			New<MeshComponent>(meshobj, TriMeshPtr);
 
-			auto bsdf = YRender::New<BSDF_StandardPBR>();
+			auto bsdf = New<BSDF_StandardPBR>();
 
-			YRender::New<MaterialComponent>(meshobj, bsdf);
+			New<MaterialComponent>(meshobj, bsdf);
 
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 			for (int i = 0; i <= 12; i++) {
@@ -171,7 +170,7 @@ namespace YRender{
 			if (image_table.find(path) != image_table.end())
 				return image_table[path];
 
-			auto img = YRender::New<Image>(path);
+			auto img = New<Image>(path);
 			if (!img->IsValid()) {
 				printf("ERROR::AssimpLoader::LoadMeshTexture:"
 					"\t""[%s] load fail.\n", path.c_str());
@@ -182,4 +181,3 @@ namespace YRender{
 			return img;
 		}
 	}
-}

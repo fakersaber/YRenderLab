@@ -7,13 +7,13 @@
 #include <Public/YGM/RGB.hpp>
 #include <Public/YGM/Math.hpp>
 
-namespace YRender {
+
 	class Material : public YHeapObject {
 	protected:
 		Material() = default;
 		virtual ~Material() = default;
 	};
-}
+
 
 
 

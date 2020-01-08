@@ -3,7 +3,7 @@
 
 #include <Public/Basic/BSDF.h>
 
-namespace YRender{
+
 	class BSDF_blinnPhong final : public BSDF {
 	public:
 		BSDF_blinnPhong(const RGBf& colorFactor = RGBf::White, float gloss = 20.f)
@@ -31,6 +31,6 @@ namespace YRender{
 		std::shared_ptr<Image> normalTexture;
 		std::shared_ptr<Image> specularTexture;
 	};
-}
+
 
 #endif

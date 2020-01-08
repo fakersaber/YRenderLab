@@ -4,7 +4,7 @@
 #include <vector>
 #include <Public/Ray/HitInfo.h>
 
-namespace YRender {
+
 	class HitInfoManager {
 	public:
 		HitInfoManager(const HitInfoManager& rhs) = delete;
@@ -31,7 +31,7 @@ namespace YRender {
 	public:
 		std::vector<HitGeometric*> GeometricList;
 	};
-}
+
 
 
 

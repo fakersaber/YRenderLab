@@ -1,7 +1,5 @@
 #include <public/SoftRHI/GdiDevice.h>
 
-namespace YRender {
-
 	//RenderDevice* RenderDevice::GetDevice() {
 	//	static RenderDevice instance;
 	//	return &instance;
@@ -58,4 +56,3 @@ namespace YRender {
 	void GdiDevice::DrawPixel(const int x, const int y, const RGBAf& color) {
 		FrameBuffer[y * width + x] = color.RBGA2UINT();
 	}
-}

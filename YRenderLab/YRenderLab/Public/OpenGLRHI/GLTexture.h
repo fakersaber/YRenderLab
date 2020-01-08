@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-namespace YRender {
+
 	class Image;
 	class GLTexture {
 	public:
@@ -40,7 +40,6 @@ namespace YRender {
 		unsigned int ID;
 		ENUM_TYPE type;
 	};
-}
 
 
 

@@ -4,7 +4,7 @@
 #include <Public/Ray/Ray.h>
 
 
-namespace YRender {
+
 
 	struct HitInfo {
 		float t;
@@ -17,7 +17,7 @@ namespace YRender {
 	public:
 		virtual bool hit(const Ray& r, float Mint, float Maxt, HitInfo& hitinfo) = 0;
 	};
-}
+
 
 
 

@@ -5,7 +5,6 @@
 #include <Public/Scene/Component.h>
 
 
-namespace YRender {
 	//class TriMesh;
 	class MeshComponent : public Component {
 	public:
@@ -32,7 +31,6 @@ namespace YRender {
 	private:
 		std::shared_ptr<TriMesh> mesh;
 	};
-}
 
 
 

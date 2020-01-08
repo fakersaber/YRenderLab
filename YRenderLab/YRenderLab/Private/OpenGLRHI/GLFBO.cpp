@@ -2,8 +2,6 @@
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 #include <iostream>
 
-namespace YRender {
-
 	GLFBO::GLFBO()
 		:isValid(false) 
 	{ }
@@ -144,5 +142,4 @@ namespace YRender {
 		colorTextures.emplace_back(colorBufferID, GLTexture::ENUM_TYPE_2D);
 		return true;
 	}
-}
 

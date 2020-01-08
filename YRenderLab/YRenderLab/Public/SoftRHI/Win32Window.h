@@ -6,7 +6,7 @@
 #include <Public/SoftRHI/SoftRHI.h>
 
 #include <windows.h>
-namespace YRender {
+
 	class Win32Window : public RenderWindow
 	{
 	public:
@@ -28,7 +28,7 @@ namespace YRender {
 		std::unique_ptr<RenderClass> _RenderClass;
 		HWND hwnd;	
 	};
-}
+
 
 
 

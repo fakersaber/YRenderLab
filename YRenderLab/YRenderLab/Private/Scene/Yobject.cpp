@@ -2,7 +2,7 @@
 
 #include <Public/Scene/Component.h>
 
-namespace YRender {
+
 	void YObject::AttachComponent(const std::shared_ptr<Component> component){
 		auto iter = components.find(typeid(*component));
 		if (iter != components.end()) {
@@ -22,4 +22,3 @@ namespace YRender {
 		component->OwnerObj.reset();
 		components.erase(iter);
 	}
-}

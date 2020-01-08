@@ -3,7 +3,7 @@
 
 #include <Public/Basic/YHeapObject.h>
 #include <unordered_set>
-namespace YRender {
+
 	template<typename T>
 	class Node : public YHeapObject {
 	protected:
@@ -46,7 +46,7 @@ namespace YRender {
 		
 		
 	};
-}
+
 
 
 

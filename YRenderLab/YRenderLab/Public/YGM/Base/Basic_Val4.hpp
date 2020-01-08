@@ -8,7 +8,6 @@
 
 #include <vector>
 
-namespace YRender {
 	namespace YGM {
 		template <typename T, typename ImplT>
 		class Basic_Val<4, T, ImplT> : public Val<4, T> {
@@ -27,6 +26,6 @@ namespace YRender {
 			}
 		};
 	}
-}
+
 
 #endif 

@@ -1,9 +1,11 @@
 ﻿#include <Public/YCore.h>
 
 #include <iostream>
+
+#include <Public/Basic/File/File.h>
 class TestClass2 {
 public:
-//	TestClass2() = default;
+	//	TestClass2() = default;
 	virtual void Test1() {};
 	virtual void Test2() {};
 private:
@@ -14,7 +16,7 @@ private:
 class TestClass :public TestClass2 {
 public:
 	TestClass() = default;
-	TestClass(int param) : test(param){}
+	TestClass(int param) : test(param) {}
 
 	int test = 0;
 };
@@ -22,9 +24,9 @@ public:
 
 
 std::shared_ptr<TestClass> fun1() {
-	auto Rtl = std::make_shared<TestClass>(2); 
+	auto Rtl = std::make_shared<TestClass>(2);
 	if (Rtl) {
-	
+
 		std::cout << "test" << std::endl;
 	}
 	return Rtl;
@@ -33,7 +35,10 @@ std::shared_ptr<TestClass> fun1() {
 
 
 int main() {
-	auto YEngine = YRender::YCore::GetCore();
+	//int a = 1;
+	//int* b = &a;
+	//int const* const* i = &b;
+	auto YEngine = YCore::GetCore();
 	if (YEngine->Initial(800, 600)) {
 		YEngine->Run();
 	}

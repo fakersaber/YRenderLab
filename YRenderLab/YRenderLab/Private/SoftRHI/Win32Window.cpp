@@ -2,7 +2,6 @@
 #include <thread>
 
 
-namespace YRender {
 	enum Win32KeyBoard
 	{
 		W = 0x57,
@@ -114,4 +113,3 @@ namespace YRender {
 		}
 		return 0;
 	}
-}

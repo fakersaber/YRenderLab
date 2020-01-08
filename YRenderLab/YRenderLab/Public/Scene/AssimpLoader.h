@@ -7,7 +7,7 @@
 
 #include <unordered_map>
 
-namespace YRender{
+
 	class YObject;
 	class Image;
 	namespace AssimpLoader {
@@ -33,6 +33,6 @@ namespace YRender{
 			aiTextureType type
 		);
 	}
-}
+
 
 #endif

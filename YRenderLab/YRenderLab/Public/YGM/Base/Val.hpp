@@ -5,7 +5,7 @@
 #include <cassert>
 #include <iostream>
 
-namespace YRender {
+
 	namespace YGM {
 		template <unsigned N,typename T>
 		class Val;
@@ -29,7 +29,7 @@ namespace YRender {
 	using Val4f = Val<4, float>;
 	using Val4i = Val<4, int>;
 	using Val4 = Val4f;
-}
+
 
 
 #endif

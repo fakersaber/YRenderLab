@@ -9,7 +9,6 @@
 
 
 
-namespace YRender {
 	class GLShader;
 	class VAO;
 
@@ -35,7 +34,6 @@ namespace YRender {
 		std::unique_ptr<GLShader> GlslShader;
 		std::unique_ptr<VAO> GlVAO;
 	};
-}
 
 
 #endif

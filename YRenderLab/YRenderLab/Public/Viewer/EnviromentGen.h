@@ -7,7 +7,7 @@
 #include <Public/OpenGLRHI/GLFBO.h>
 
 
-namespace YRender {
+
 	class Scene;
 	class GlfwWindow;
 
@@ -75,7 +75,6 @@ namespace YRender {
 		static const YGM::Transform captureViews[6];
 		static const GLFBO::TexRenderTarget mapper[6];
 	};
-}
 
 
 

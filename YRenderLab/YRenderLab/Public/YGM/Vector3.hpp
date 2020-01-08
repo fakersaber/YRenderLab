@@ -4,7 +4,6 @@
 #include <Public/YGM/Vector.hpp>
 #include <iostream>
 
-namespace YRender {
 	namespace YGM {
 		template <typename T>
 		class Vector<3, T> {
@@ -130,7 +129,6 @@ namespace YRender {
 		};
 
 	}
-}
 
 
 

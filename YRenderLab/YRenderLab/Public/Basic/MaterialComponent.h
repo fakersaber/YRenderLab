@@ -3,7 +3,7 @@
 
 #include <Public/Scene/Component.h>
 
-namespace YRender {
+
 	class Material;
 	class MaterialComponent final : public Component {
 	public:
@@ -19,7 +19,7 @@ namespace YRender {
 	private:
 		std::shared_ptr<Material> material;
 	};
-}
+
 
 
 

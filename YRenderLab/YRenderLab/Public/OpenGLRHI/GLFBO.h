@@ -4,7 +4,7 @@
 #include <Public/OpenGLRHI/GLTexture.h>
 #include <vector>
 
-namespace YRender {
+
 	//RenderTarget
 	class GLFBO {
 	public:
@@ -40,7 +40,7 @@ namespace YRender {
 		unsigned int width;
 		unsigned int height;
 	};
-}
+
 
 
 

@@ -6,7 +6,7 @@
 
 #include <random>
 
-namespace YRender {
+
 	RayCamera::RayCamera(
 		const Vector3& lowLeftCorner,
 		const Vector3& horizontal,
@@ -65,5 +65,4 @@ namespace YRender {
 		Image::OutPng("C:\\Users\\Administrator\\Desktop\\ray.png", width, height, 3, OutPutData);
 		delete OutPutData;
 	}
-}
 

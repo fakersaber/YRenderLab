@@ -4,16 +4,18 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-namespace YRender {
-	class File {
-	public:
-		static std::string ReadFile(const std::string& filepath);
+#include <vector>
 
-	private:
-		File() = delete;
-		~File() = delete;
-	};
-}
+class File {
+public:
+	static std::string ReadFile(const std::string& filepath);
+	static std::vector<std::string> ReadAllLines(const std::string& filepath);
+
+private:
+	File() = delete;
+	~File() = delete;
+};
+
 
 
 #endif

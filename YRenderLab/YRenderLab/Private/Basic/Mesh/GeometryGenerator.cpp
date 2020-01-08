@@ -1,7 +1,6 @@
 ﻿#include <Public/Basic/Mesh/GeometryGenerator.h>
 
 
-namespace YRender {
 
 	const float cubeData[192] = {
 		// positions          // normals           // texture coords
@@ -36,7 +35,7 @@ namespace YRender {
 		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
 		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
 	};
-	void YRender::GeometryGenerator::CreateBox(_MeshData & mesh)
+	void GeometryGenerator::CreateBox(_MeshData & mesh)
 	{
 		mesh.vertices.clear();
 		mesh.indices.clear();
@@ -58,4 +57,3 @@ namespace YRender {
 			mesh.indices[i] = 4 * (i / 6) + squarIndex[i % 6];
 		}
 	}
-}

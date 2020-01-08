@@ -4,7 +4,7 @@
 
 #include <Public/Ray/HitInfo.h>
 
-namespace YRender {
+
 	class Sphere : public HitGeometric {
 	public:
 		Sphere(){}
@@ -18,7 +18,7 @@ namespace YRender {
 		Vector3 center;
 		float radius;
 	};
-}
+
 
 
 

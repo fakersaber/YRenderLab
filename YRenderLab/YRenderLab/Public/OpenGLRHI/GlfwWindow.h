@@ -7,7 +7,7 @@
 #include <Public/OpenGLRHI/GLTexture.h>
 #include <map>
 
-namespace YRender {
+
 	class TriMesh;
 	class Image;
 	class Camera;
@@ -56,7 +56,7 @@ namespace YRender {
 		std::map<std::weak_ptr<TriMesh>, VAO, std::owner_less<std::weak_ptr<TriMesh>>> mesh2VAO;
 		std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;
 	};
-}
+
 
 
 

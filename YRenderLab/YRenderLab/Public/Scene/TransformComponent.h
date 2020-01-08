@@ -4,7 +4,7 @@
 #include <Public/Scene/Component.h>
 #include <Public/YGM/Transform.h>
 
-namespace YRender {
+
 	class TransformComponent : public Component {
 		
 	public:
@@ -30,7 +30,7 @@ namespace YRender {
 		Vector3 scale;
 		mutable YGM::Transform transform;
 	};
-}
+
 
 
 

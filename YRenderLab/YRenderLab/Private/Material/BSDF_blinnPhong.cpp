@@ -1,7 +1,6 @@
 #include <Public/Basic/BSDF_blinnPhong.h>
 #include <Public/Basic/Image/Image.h>
 
-namespace YRender {
 	const RGBf BSDF_blinnPhong::F(const Vector3& Wi, const Vector3& Wo, const Vector2& texcoord)
 	{
 		//vec3 albedo = texture(bsdf.albedoTexture, fs_in.TexCoords).xyz;
@@ -26,5 +25,3 @@ namespace YRender {
 		return colorFactor * albedoTexture->Sample(texcoord.x, texcoord.y,Image::Mode::BILINEAR).ToRGB();
 	}
 
-
-}

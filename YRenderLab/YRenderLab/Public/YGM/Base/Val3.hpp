@@ -6,7 +6,7 @@
 
 
 
-namespace YRender {
+
 	namespace YGM {
 		template <typename T>
 		class Val<3, T> {
@@ -134,6 +134,6 @@ namespace YRender {
 			};
 		};
 	}
-}
+
 
 #endif

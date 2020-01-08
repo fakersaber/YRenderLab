@@ -3,7 +3,7 @@
 
 #include <Public/YGM/Math.hpp>
 #include <cassert>
-namespace YRender {
+
 	namespace YGM {
 		template <unsigned int N, typename T>
 		class Vector;
@@ -26,7 +26,7 @@ namespace YRender {
 	using Vector4i = Vector<4, int>;
 	using Vector4f = Vector<4, float>;
 	using Vector4 = Vector4f;
-}
+
 
 
 

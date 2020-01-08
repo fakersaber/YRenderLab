@@ -3,7 +3,7 @@
 
 #include <Public/Basic/Material.h>
 
-namespace YRender {
+
 	class Image;
 	class BSDF : public Material {
 	protected:
@@ -28,7 +28,7 @@ namespace YRender {
 		//还是右手系y轴朝上
 		static Vector3 TangentSpaceToWorld(const Vector3& worldTangenet, const Vector3& worldNormal, const Vector3& TangentSpaceNormal);
 	};
-}
+
 
 
 

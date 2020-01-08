@@ -3,7 +3,7 @@
 
 #include <vector>
 
-namespace YRender {
+
 	class GLShader;
 
 	//现在的shader,VAO,VBO,EBO,FBO,Texture等所有资源都没有释放，后续需要资源管理
@@ -44,7 +44,7 @@ namespace YRender {
 	//public:
 	//	static const VAO inValid;
 	};
-}
+
 
 
 #endif

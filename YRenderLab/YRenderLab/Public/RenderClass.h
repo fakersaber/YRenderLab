@@ -6,7 +6,7 @@
 
 
 
-namespace YRender {
+
 	class RenderClass 
 	{
 	public:
@@ -38,6 +38,5 @@ namespace YRender {
 		int32_t width;
 		int32_t height;
 	};
-}
 
 #endif

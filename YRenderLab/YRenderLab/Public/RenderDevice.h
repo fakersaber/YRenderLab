@@ -5,7 +5,7 @@
 #include <Public/YGM/RGBA.hpp>
 
 
-namespace YRender {
+
 	class RenderDevice {
 	public:
 		RenderDevice& operator=(const RenderDevice& rhs) = delete;
@@ -27,7 +27,7 @@ namespace YRender {
 		int32_t width;
 		int32_t height;
 	};
-}
+
 
 
 

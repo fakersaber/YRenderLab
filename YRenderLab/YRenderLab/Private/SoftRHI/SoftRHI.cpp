@@ -1,7 +1,5 @@
 #include <Public/SoftRHI/SoftRHI.h>
 
-namespace YRender {
-
 
 	//SoftRender* SoftRender::GetRender() {
 	//	static SoftRender instance;
@@ -265,4 +263,3 @@ namespace YRender {
 			}
 		}
 	}
-}

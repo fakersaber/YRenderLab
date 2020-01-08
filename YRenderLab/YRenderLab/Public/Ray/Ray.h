@@ -4,7 +4,7 @@
 #include <Public/YGM/Vector3.hpp>
 
 
-namespace YRender {
+
 	// y = origin + t * direction
 	class Ray {
 	public:
@@ -33,7 +33,7 @@ namespace YRender {
 		Vector3 origin;
 		Vector3 direct;
 	};
-}
+
 
 
 

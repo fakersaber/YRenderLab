@@ -6,7 +6,7 @@
 #include <Public/YGM/Vector4.hpp>
 
 
-namespace YRender {
+
 	class Vertex
 	{
 	public:
@@ -29,6 +29,6 @@ namespace YRender {
 		Vector2 UV;
 		float PosH;
 	};
-}
+
 
 #endif

@@ -4,7 +4,6 @@
 #include <Public/RenderClass.h>
 #include <Public/SoftRHI/GdiDevice.h>
 
-namespace YRender {
 	class SoftRender : public RenderClass
 	{
 	public:
@@ -37,7 +36,7 @@ namespace YRender {
 		//test image
 		Image texture;
 	};
-}
+
 
 
 #endif

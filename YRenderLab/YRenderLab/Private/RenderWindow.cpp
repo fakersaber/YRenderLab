@@ -2,8 +2,6 @@
 
 
 
-namespace YRender {
-
 	//RenderWindow* RenderWindow::GetWindow()
 	//{
 	//	static RenderWindow instance;
@@ -12,6 +10,3 @@ namespace YRender {
 
 	RenderWindow::RenderWindow() {}
 	RenderWindow::~RenderWindow() {}
-
-
-}

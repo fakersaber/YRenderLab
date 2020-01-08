@@ -4,7 +4,6 @@
 #include <public/Basic/YHeapObject.h>
 
 
-namespace YRender {
 	class YObject;
 	class Component : public YHeapObject {
 	protected:
@@ -21,7 +20,7 @@ namespace YRender {
 		friend YObject;
 		std::weak_ptr<YObject> OwnerObj;
 	};
-}
+
 
 
 

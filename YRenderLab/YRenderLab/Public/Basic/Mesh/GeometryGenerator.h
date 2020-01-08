@@ -6,7 +6,7 @@
 
 
 
-namespace YRender {
+
 	class GeometryGenerator
 	{
 	public:
@@ -21,7 +21,7 @@ namespace YRender {
 	};
 
 	using MeshData = GeometryGenerator::_MeshData;
-}
+
 
 
 

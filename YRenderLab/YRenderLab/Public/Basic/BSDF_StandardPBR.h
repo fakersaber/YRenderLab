@@ -3,7 +3,7 @@
 
 #include <Public/Basic/BSDF.h>
 
-namespace YRender {
+
 
 	class BSDF_StandardPBR final : public BSDF {
 	public:
@@ -34,7 +34,7 @@ namespace YRender {
 		std::shared_ptr<Image> normalTexture;
 		
 	};
-}
+
 
 
 

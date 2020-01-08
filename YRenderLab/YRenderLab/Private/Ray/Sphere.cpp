@@ -1,7 +1,6 @@
 #include <Public/Ray/Sphere.h>
 #include <random>
 
-namespace YRender {
 	bool Sphere::hit(const Ray& r, float Mint, float Maxt, HitInfo& hitinfo) {
 		//在此求根可以令b = r.GetDirection().Dot(TempVal)，提出2约掉
 		Vector3 TempVal = r.GetOrigin() - center;
@@ -67,4 +66,3 @@ namespace YRender {
 		);
 
 	}
-}
