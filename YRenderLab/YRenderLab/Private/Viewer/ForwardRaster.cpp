@@ -8,8 +8,8 @@
 #include <Public/Scene/Yobject.h>
 #include <Public/Scene/MeshComponent.h>
 #include <Public/Scene/TransformComponent.h>
-
 #include <Public/Basic/MaterialComponent.h>
+
 #include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/Image/Image.h>
 #include <Public/Basic/BSDF_blinnPhong.h>
@@ -48,7 +48,7 @@ void ForwardRaster::Initial() {
 }
 
 void ForwardRaster::InitShaderStandardPBR() {
-	StandardPBRShader = GLShader("Data/shaders/P3N3T2T3.vs", "Data/shaders/materials/StandardPBR.fs");
+	new (&StandardPBRShader) GLShader("Data/shaders/P3N3T2T3.vs", "Data/shaders/materials/StandardPBR.fs");
 	StandardPBRShader.SetInt("bsdf.albedoTexture", 0);
 	StandardPBRShader.SetInt("bsdf.metallicTexture", 1);
 	StandardPBRShader.SetInt("bsdf.roughnessTexture", 2);
@@ -60,17 +60,16 @@ void ForwardRaster::InitShaderStandardPBR() {
 
 
 void ForwardRaster::InitShaderPbrBlinnPhong() {
-	BlinnPhongShader = GLShader("Data/shaders/P3N3T2T3.vs", "Data/shaders/materials/Pbr_Blinn_Phong.fs");
-	BlinnPhongShader.SetInt("bsdf.albedoTexture", 0);
-	BlinnPhongShader.SetInt("bsdf.normalTexture", 1);
-	BlinnPhongShader.SetInt("bsdf.specularTexture", 2);
+	//BlinnPhongShader = GLShader("Data/shaders/P3N3T2T3.vs", "Data/shaders/materials/Pbr_Blinn_Phong.fs");
+	//BlinnPhongShader.SetInt("bsdf.albedoTexture", 0);
+	//BlinnPhongShader.SetInt("bsdf.normalTexture", 1);
+	//BlinnPhongShader.SetInt("bsdf.specularTexture", 2);
 
-	RegisterShader(BlinnPhongShader, 3);
+	//RegisterShader(BlinnPhongShader, 3);
 }
 
 void ForwardRaster::InitShader_Skybox() {
-	shader_skybox = GLShader("Data/shaders/SkyBox/skybox.vs", "Data/shaders/SkyBox/skybox.fs");
-
+	new (&shader_skybox) GLShader("Data/shaders/SkyBox/skybox.vs", "Data/shaders/SkyBox/skybox.fs");
 	RegisterShader(shader_skybox, 0);
 }
 

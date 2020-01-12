@@ -1,67 +1,95 @@
 #include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/Mesh/Cube.h>
 
-	//Create static Cube
-	std::shared_ptr<TriMesh> TriMesh::OriginCube = GenCube();
+//Create static Cube
+std::shared_ptr<TriMesh> TriMesh::OriginCube = GenCube();
 
 
-	TriMesh::TriMesh(
-		const std::vector<unsigned int>& indice, 
-		const std::vector<Vector3>& position, 
-		const std::vector<Vector3>& normal, 
-		const std::vector<Vector2>& texcoords, 
-		const std::vector<Vector3>& tangents)
-		:
-		indice(indice),
-		position(position),
-		normal(normal),
-		texcoords(texcoords),
-		tangents(tangents)
+TriMesh::TriMesh(
+	const std::vector<unsigned int>& indice,
+	const std::vector<Vector3>& position,
+	const std::vector<Vector3>& normal,
+	const std::vector<Vector2>& texcoords,
+	const std::vector<Vector3>& tangents)
+	:
+	indice(indice),
+	position(position),
+	normal(normal),
+	texcoords(texcoords),
+	tangents(tangents)
+{
+	if (indice.size() <= 0
+		|| indice.size() % 3 != 0
+		|| position.size() <= 0
+		|| normal.size() != position.size()
+		|| texcoords.size() != position.size()
+		|| (tangents.size() != 0 && tangents.size() != position.size())
+		)
 	{
-		if (indice.size() <= 0 
-			|| indice.size() % 3 != 0
-			|| position.size() <=0
-			|| normal.size() !=position.size()
-			|| texcoords.size() !=position.size()
-			|| (tangents.size()!=0 && tangents.size()!=position.size())
-			) 
-		{
-			printf("ERROR: TriMesh is invalid.\n");
-			return;
-		}
-
-		//for (unsigned int i = 0; i < indice.size(); i += 3) {
-		//	triangles.push_back(Triangle::New(indice[i], indice[i + 1], indice[i + 2]));
-		//}
-
-		//if(tangents.empty())
-		//	GenTangents();
+		printf("ERROR: TriMesh is invalid.\n");
+		return;
 	}
 
+	//for (unsigned int i = 0; i < indice.size(); i += 3) {
+	//	triangles.push_back(Triangle::New(indice[i], indice[i + 1], indice[i + 2]));
+	//}
 
-	TriMesh::TriMesh(
-		const int indiceNum,
-		const int vertexNum,
-		const unsigned int* indice, 
-		const Vector3* positions, 
-		const Vector3* normals, 
-		const Vector2* texcoords, 
-		const Vector3* tangents)
+	//if(tangents.empty())
+	//	GenTangents();
+}
+
+TriMesh::TriMesh(
+	std::vector<unsigned int>&& indice, 
+	std::vector<Vector3>&& position, 
+	std::vector<Vector3>&& normal, 
+	std::vector<Vector2>&& texcoords, 
+	std::vector<Vector3>&& tangents)
+{
+	if (indice.size() <= 0
+		|| indice.size() % 3 != 0
+		|| position.size() <= 0
+		|| normal.size() != position.size()
+		|| texcoords.size() != position.size()
+		|| (tangents.size() != 0 && tangents.size() != position.size())
+		)
 	{
-		if (!indice || !positions || !normals || !texcoords) {
-			printf("ERROR: TriMesh is invalid.\n");
-			return;
-		}
+		printf("ERROR: TriMesh is invalid.\n");
+		return;
 	}
+	this->indice = std::move(indice);
+	this->position = std::move(position);
+	this->normal = std::move(normal);
+	this->texcoords = std::move(texcoords);
+	this->tangents = std::move(tangents);
+
+	//if(tangents.empty())
+//	GenTangents();
+}
 
 
-	void TriMesh::InitAfterNew(){
-		//auto triMesh = shared_this<TriMesh>();
-		//for(auto )
+TriMesh::TriMesh(
+	const int indiceNum,
+	const int vertexNum,
+	const unsigned int* indice,
+	const Vector3* positions,
+	const Vector3* normals,
+	const Vector2* texcoords,
+	const Vector3* tangents)
+{
+	if (!indice || !positions || !normals || !texcoords) {
+		printf("ERROR: TriMesh is invalid.\n");
+		return;
 	}
-	std::shared_ptr<TriMesh> TriMesh::GenCube()
-	{
-		Cube cube;
-		auto cubeMesh = New<TriMesh>(cube.GetIndice(),cube.GetPositions(),cube.GetNormals(), cube.GetTexcoords());
-		return cubeMesh;
-	}
+}
+
+
+void TriMesh::InitAfterNew() {
+	//auto triMesh = shared_this<TriMesh>();
+	//for(auto )
+}
+std::shared_ptr<TriMesh> TriMesh::GenCube()
+{
+	Cube cube;
+	auto cubeMesh = New<TriMesh>(std::move(cube.GetIndice()), std::move(cube.GetPositions()), std::move(cube.GetNormals()), std::move(cube.GetTexcoords()));
+	return cubeMesh;
+}

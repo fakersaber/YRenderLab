@@ -1,11 +1,15 @@
 # YRenderLab
 **Personal rendering pipline**
 
+![1578831093943](asset/1578831093943.png)
+
 ## PipLine WorkFlow
 
 - [x] diffuse_bsdf material
 - [x] standardPbr material
-- [x] ForwardRaster pipline
+- [x] Raster
+  - [x] ForwardRaster
+  - [ ] DeferredRaster
 - [x] Architecture Build 
 - [x] module loading
 - [x] Normal Mapping
@@ -45,10 +49,17 @@ Cpu implement
 ### Fix
 
 - [ ] VAO-Mesh容器，Texture-Image容器清理
-- [x] delete Vertex shader  Error ?
-- [ ] shader指令不同造成的崩溃？
+- [x] delete Vertex shader  Error 
 
 
 
-### 
+### Tips
+
+*Gbuffer layout*
+
+**GLTexture::TexTureformat::TEX_GL_RGBA32F, //pixpos + roughness
+GLTexture::TexTureformat::TEX_GL_RGBA32F, //normal + metallic
+GLTexture::TexTureformat::TEX_GL_RGBA32F  //albedo + ao**
+
+
 

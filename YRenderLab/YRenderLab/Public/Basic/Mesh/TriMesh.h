@@ -7,49 +7,56 @@
 #include <vector>
 
 
-	class TriMesh final : public YHeapObject {
-	public:
-		TriMesh(
-			const std::vector<unsigned int>& indice,
-			const std::vector<Vector3>& position,
-			const std::vector<Vector3>& normal,
-			const std::vector<Vector2>& texcoords,
-			const std::vector<Vector3>& tangents = std::vector<Vector3>()
-		);
+class TriMesh final : public YHeapObject {
+public:
+	TriMesh(
+		const std::vector<unsigned int>& indice,
+		const std::vector<Vector3>& position,
+		const std::vector<Vector3>& normal,
+		const std::vector<Vector2>& texcoords,
+		const std::vector<Vector3>& tangents = std::vector<Vector3>()
+	);
 
-		
-		TriMesh(
-			const int indiceNum,
-			const int vertexNum,
-			const unsigned int* indice,
-			const Vector3* position,
-			const Vector3* normal,
-			const Vector2* texcoords,
-			const Vector3* tangents = nullptr
-		);
+	TriMesh(
+		std::vector<unsigned int>&& indice,
+		std::vector<Vector3>&& position,
+		std::vector<Vector3>&& normal,
+		std::vector<Vector2>&& texcoords,
+		std::vector<Vector3>&& tangents = std::vector<Vector3>()
+	);
 
-	protected:
-		virtual void InitAfterNew() override;
-		virtual ~TriMesh() = default; 
-	public:
-		const std::vector<Vector3>& GetPositions() const { return position; }
-		const std::vector<Vector3>& GetNormals() const { return normal; }
-		const std::vector<Vector2>& GetTexcoords() const { return texcoords; }
-		const std::vector<Vector3>& GetTangents() const { return tangents; }
-		const std::vector<unsigned int>& GetIndice() const { return indice; }
-	private:
-		std::vector<unsigned int> indice;
-		std::vector<Vector3> position;
-		std::vector<Vector3> normal;
-		std::vector<Vector2> texcoords;
-		std::vector<Vector3> tangents;
+	TriMesh(
+		const int indiceNum,
+		const int vertexNum,
+		const unsigned int* indice,
+		const Vector3* position,
+		const Vector3* normal,
+		const Vector2* texcoords,
+		const Vector3* tangents = nullptr
+	);
 
-		//BoundBox 绑定盒待续
+protected:
+	virtual void InitAfterNew() override;
+	virtual ~TriMesh() = default;
+public:
+	const std::vector<Vector3>& GetPositions() const { return position; }
+	const std::vector<Vector3>& GetNormals() const { return normal; }
+	const std::vector<Vector2>& GetTexcoords() const { return texcoords; }
+	const std::vector<Vector3>& GetTangents() const { return tangents; }
+	const std::vector<unsigned int>& GetIndice() const { return indice; }
+private:
+	std::vector<unsigned int> indice;
+	std::vector<Vector3> position;
+	std::vector<Vector3> normal;
+	std::vector<Vector2> texcoords;
+	std::vector<Vector3> tangents;
 
-	public:
-		static std::shared_ptr<TriMesh> GenCube();
-		static std::shared_ptr<TriMesh> OriginCube;
-	};
+	//BoundBox 绑定盒待续
+
+public:
+	static std::shared_ptr<TriMesh> GenCube();
+	static std::shared_ptr<TriMesh> OriginCube;
+};
 
 
 

@@ -7,7 +7,8 @@
 #include <Public/Basic/Image/Image.h>
 #include <Public/YCore.h>
 
-bool GlfwWindow::Initial(const int width, const int height) {
+bool GlfwWindow::Initial(const int width, const int height) 
+{
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -22,6 +23,8 @@ bool GlfwWindow::Initial(const int width, const int height) {
 
 	lastX = width * 0.5f;
 	lastY = height * 0.5f;
+	this->width = width;
+	this->height = height;
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(window, GlfwWindow::mouse_callback);
@@ -38,7 +41,11 @@ bool GlfwWindow::Initial(const int width, const int height) {
 	//camera可以从pipline中获得，可以不写在窗口类中
 	MainCamera = New<Camera>();
 	//创建场景、管线、相机
+
+
 	auto Root = AssimpLoader::Load("D:/YRenderLab/YRenderLab/YRenderLab/Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
+
+
 	auto scene = New<Scene>(Root, MainCamera, New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
 	ForwardPipline = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
 	ForwardPipline->Initial();
@@ -104,6 +111,11 @@ std::shared_ptr<Camera> GlfwWindow::GetCamera() const {
 	return MainCamera;
 }
 
+void GlfwWindow::UpdateViewPort(unsigned int width, unsigned int height){
+	this->width = width;
+	this->height = height;
+}
+
 
 
 GlfwWindow::GlfwWindow()
@@ -126,11 +138,23 @@ void GlfwWindow::ProcessInput(GLFWwindow* window) {
 		MainCamera->ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT, GetDeltaTime());
 }
 
+auto GlfwWindow::GetViewPortW() -> decltype(width)
+{
+	return width;
+}
+
+auto GlfwWindow::GetViewPortH() -> decltype(height)
+{
+	return height;
+}
+
 void GlfwWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
 	glViewport(0, 0, width, height);
-	YCore::GetCore()->GetGLWindow()->GetCamera()->SetWH(width, height);
+	auto GLWindowPtr = YCore::GetCore()->GetGLWindow();
+	GLWindowPtr->GetCamera()->SetWH(width, height);
+	GLWindowPtr->UpdateViewPort(width, height);
 }
 
 void GlfwWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos) {

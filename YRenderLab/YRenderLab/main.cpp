@@ -1,8 +1,7 @@
 ﻿#include <Public/YCore.h>
 
 #include <iostream>
-
-#include <Public/Basic/File/File.h>
+#include <unordered_set>
 class TestClass2 {
 public:
 	//	TestClass2() = default;
@@ -33,11 +32,7 @@ std::shared_ptr<TestClass> fun1() {
 }
 
 
-
 int main() {
-	//int a = 1;
-	//int* b = &a;
-	//int const* const* i = &b;
 	auto YEngine = YCore::GetCore();
 	if (YEngine->Initial(800, 600)) {
 		YEngine->Run();

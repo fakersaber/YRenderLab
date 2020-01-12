@@ -79,13 +79,13 @@ void EnviromentGen::InitShaders() {
 }
 
 void EnviromentGen::InitFBOs() {
-	genSkyboxFBO = GLFBO(skyboxSize, skyboxSize, GLFBO::ENUM_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
-	genIrradianceFBO = GLFBO(irradianceSize, irradianceSize, GLFBO::ENUM_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
+	genSkyboxFBO = GLFBO(skyboxSize, skyboxSize, GLFBO::FBO_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
+	genIrradianceFBO = GLFBO(irradianceSize, irradianceSize, GLFBO::FBO_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
 	for (int i = 0; i < maxMipLevels; i++) {
 		int curSize = prefilterSize >> i;
-		prefilterFBOs[i] = GLFBO(curSize, curSize, GLFBO::ENUM_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
+		prefilterFBOs[i] = GLFBO(curSize, curSize, GLFBO::FBO_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
 	}
-	genBrdfLutFBO = GLFBO(brdfSize, brdfSize, GLFBO::ENUM_TYPE::ENUM_TYPE_COLOR_FLOAT);
+	genBrdfLutFBO = GLFBO(brdfSize, brdfSize, GLFBO::FBO_TYPE::ENUM_TYPE_COLOR_FLOAT);
 }
 
 
@@ -167,7 +167,7 @@ void EnviromentGen::UpdateIrradianceMap() {
 
 	//{
 	//	irradianceMap.Bind();
-	//	auto TestMap = YRender::New<Image>(irradianceSize, irradianceSize, 3);
+	//	auto TestMap = New<Image>(irradianceSize, irradianceSize, 3);
 	//	for (int i = 0; i < 6; ++i) {
 	//		glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
 	//		TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/irradianceMap") + std::to_string(i) + std::string(".png"));
@@ -222,9 +222,10 @@ void EnviromentGen::UpdateBRDFLut() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	pGLWindow->GetVAO(GlfwWindow::VAOTYPE::Screen).Draw(shader_genBRDFLUT);
 	isInitBRDFFBO = true;
+
 	//{
 	//	genBrdfLutFBO.GetColorTexture(0).Bind();
-	//	auto TestMap = YRender::New<Image>(brdfSize, brdfSize, 3);
+	//	auto TestMap = New<Image>(brdfSize, brdfSize, 3);
 	//	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
 	//	TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/brdf") + std::string(".png"),true);
 	//}

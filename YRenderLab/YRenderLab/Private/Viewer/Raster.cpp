@@ -71,7 +71,7 @@ void Raster::UpdateUBO_Environment() {
 }
 
 
-void Raster::UpdateUBO_Camera() {
+void Raster::UpdateUBO_Camera(){
 	glBindBuffer(GL_UNIFORM_BUFFER, cameraUBO);
 	auto camera = scene->GetCamera();
 

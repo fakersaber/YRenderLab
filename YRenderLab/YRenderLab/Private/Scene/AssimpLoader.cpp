@@ -94,6 +94,7 @@
 					mesh->mNormals[i].y,
 					mesh->mNormals[i].z
 				);
+
 				if (mesh->mTextureCoords[0]) {
 					texcoords.emplace_back(
 						mesh->mTextureCoords[0][i].x,
@@ -117,8 +118,7 @@
 					indices.push_back(face.mIndices[j]);
 				}
 			}
-
-			auto TriMeshPtr = New<TriMesh>(indices, poses, normals, texcoords, tangents);
+			auto TriMeshPtr = New<TriMesh>(std::move(indices), std::move(poses), std::move(normals), std::move(texcoords), std::move(tangents));
 			New<MeshComponent>(meshobj, TriMeshPtr);
 
 			auto bsdf = New<BSDF_StandardPBR>();

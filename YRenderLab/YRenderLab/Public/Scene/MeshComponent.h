@@ -5,32 +5,32 @@
 #include <Public/Scene/Component.h>
 
 
-	//class TriMesh;
-	class MeshComponent : public Component {
-	public:
-		MeshComponent(
-			const std::shared_ptr<YObject> obj,
-			const std::shared_ptr<TriMesh> mesh
-		):
-			Component(obj),
-			mesh(mesh)
-		{
+//class TriMesh;
+class MeshComponent : public Component {
+public:
+	MeshComponent(
+		const std::shared_ptr<YObject> obj,
+		const std::shared_ptr<TriMesh> mesh
+	) :
+		Component(obj),
+		mesh(mesh)
+	{
 
-		}
+	}
 
-	protected:
-		MeshComponent() = delete;
-		virtual ~MeshComponent() = default; //被销毁时通知全局容器清除VAO
+protected:
+	MeshComponent() = delete;
+	virtual ~MeshComponent() = default; //被销毁时通知全局容器清除VAO
 
-	//public:
-	//	virtual void Accept() override;
+//public:
+//	virtual void Accept() override;
 
-	public:
-		const std::shared_ptr<TriMesh> GetMesh() const { return mesh; };
+public:
+	const std::shared_ptr<TriMesh> GetMesh() const { return mesh; };
 
-	private:
-		std::shared_ptr<TriMesh> mesh;
-	};
+private:
+	std::shared_ptr<TriMesh> mesh;
+};
 
 
 

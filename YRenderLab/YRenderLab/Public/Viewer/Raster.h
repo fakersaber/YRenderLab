@@ -38,6 +38,7 @@ protected:
 	std::shared_ptr<Scene> scene;
 	std::shared_ptr<GlfwWindow> pGLWindow;
 	std::shared_ptr<EnviromentGen> enviromentGen;
+	std::vector<YGM::Transform> ObjectTransformVec;
 private:
 	unsigned int directionalLightsUBO;
 	unsigned int environmentUBO;

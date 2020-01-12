@@ -573,6 +573,9 @@
     <ClInclude Include="Public\Basic\BSDF_StandardPBR.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Viewer\DeferredRaster.h">
+      <Filter>Public\Viewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\RenderClass.cpp">
@@ -701,6 +704,9 @@
     </ClCompile>
     <ClCompile Include="Private\Material\BSDF_StandardPBR.cpp">
       <Filter>Private\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Viewer\DeferredRaster.cpp">
+      <Filter>Private\Viewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

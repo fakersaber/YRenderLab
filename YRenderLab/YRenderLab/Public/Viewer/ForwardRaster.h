@@ -40,7 +40,7 @@ protected:
 	void UseLightTexureResource(const GLShader & shader) const;
 
 private:
-	std::vector<YGM::Transform> ObjectTransformVec;
+	
 	//暂时只有Component持有Mesh，注意容器没有清除
 
 	GLShader BlinnPhongShader;
