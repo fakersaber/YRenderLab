@@ -25,11 +25,9 @@ out VS_OUT {
 
 void main()
 {
-    //model matrix set identity temply
-
-    
+    //左手的yz互换后y为-z，到右手再reverse后变为z
     vec3 x = vec3(1.f,0.f,0.f);
-    vec3 y = vec3(0.f,0.f,-1.f);
+    vec3 y = vec3(0.f,0.f,1.f);
     vec3 z = vec3(0.f,1.f,0.f);
 
     mat3 TempModule = mat3(x,y,z);
@@ -42,8 +40,11 @@ void main()
     vec3 N = normalize(normalMatrix * iModelNormal);
 	vs_out.Normal = N;
 
-    vec3 T = normalize(normalMatrix * iModelTangent);
-    vs_out.Tangent = normalize(T - dot(T, N) * N);
+    // vec3 T = normalize(normalMatrix * iModelTangent);
+    // vs_out.Tangent = normalize(T - dot(T, N) * N);
+
+    //法线计算都使用了模型的逆转置，那么切线的变换一定是模型矩阵
+    vs_out.Tangent = normalize(TempModule * iModelTangent);
 
     gl_Position = projection * view * vec4(vs_out.FragPos,1.0f);
 

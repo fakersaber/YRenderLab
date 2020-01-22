@@ -46,6 +46,7 @@ void DeferredRaster::Initial(){
 
 	
 	InitShader_GBuffer();
+	InitShader_Lights();
 	InitShader_AmbientLight();
 	InitShader_Skybox();
 	InitShader_TAA();
