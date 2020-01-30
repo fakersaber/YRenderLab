@@ -103,6 +103,7 @@
     <ClInclude Include="Public\Basic\BSDF_StandardPBR.h" />
     <ClInclude Include="Public\Basic\Camera\Camera.h" />
     <ClInclude Include="Public\Basic\File\File.h" />
+    <ClInclude Include="Public\Basic\FunctionTraits.h" />
     <ClInclude Include="Public\Basic\Image\Image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image.h" />
     <ClInclude Include="Public\Basic\Image\stb_image_write.h" />
@@ -115,6 +116,9 @@
     <ClInclude Include="Public\Basic\StrApi.h" />
     <ClInclude Include="Public\Basic\Vertex\Vertex.h" />
     <ClInclude Include="Public\Basic\YHeapObject.h" />
+    <ClInclude Include="Public\Lights\DirectionLight.h" />
+    <ClInclude Include="Public\Lights\Light.h" />
+    <ClInclude Include="Public\Lights\PointLight.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\KHR\khrplatform.h" />
     <ClInclude Include="Public\OpenGLRHI\GLFBO.h" />
@@ -132,9 +136,6 @@
     <ClInclude Include="Public\Ray\Ray.h" />
     <ClInclude Include="Public\Ray\RayCamera.h" />
     <ClInclude Include="Public\Ray\Sphere.h" />
-    <ClInclude Include="Public\RenderClass.h" />
-    <ClInclude Include="Public\RenderDevice.h" />
-    <ClInclude Include="Public\RenderWindow.h" />
     <ClInclude Include="Public\Scene\AssimpLoader.h" />
     <ClInclude Include="Public\Scene\Component.h" />
     <ClInclude Include="Public\Scene\MeshComponent.h" />
@@ -142,6 +143,9 @@
     <ClInclude Include="Public\Scene\TransformComponent.h" />
     <ClInclude Include="Public\Scene\Yobject.h" />
     <ClInclude Include="Public\SoftRHI\GdiDevice.h" />
+    <ClInclude Include="Public\SoftRHI\RenderClass.h" />
+    <ClInclude Include="Public\SoftRHI\RenderDevice.h" />
+    <ClInclude Include="Public\SoftRHI\RenderWindow.h" />
     <ClInclude Include="Public\SoftRHI\SoftRHI.h" />
     <ClInclude Include="Public\SoftRHI\Win32Window.h" />
     <ClInclude Include="Public\Viewer\DeferredRaster.h" />
@@ -188,6 +192,9 @@
     <ClCompile Include="Private\Basic\Mesh\TriMesh.cpp" />
     <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp" />
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp" />
+    <ClCompile Include="Private\Lights\DirectionLight.cpp" />
+    <ClCompile Include="Private\Lights\Light.cpp" />
+    <ClCompile Include="Private\Lights\PointLight.cpp" />
     <ClCompile Include="Private\Material\BSDF.cpp" />
     <ClCompile Include="Private\Material\BSDF_blinnPhong.cpp" />
     <ClCompile Include="Private\Material\BSDF_StandardPBR.cpp" />
@@ -204,9 +211,6 @@
     <ClCompile Include="Private\Ray\Ray.cpp" />
     <ClCompile Include="Private\Ray\RayCamera.cpp" />
     <ClCompile Include="Private\Ray\Sphere.cpp" />
-    <ClCompile Include="Private\RenderClass.cpp" />
-    <ClCompile Include="Private\RenderDevice.cpp" />
-    <ClCompile Include="Private\RenderWindow.cpp" />
     <ClCompile Include="Private\Scene\AssimpLoader.cpp" />
     <ClCompile Include="Private\Scene\Component.cpp" />
     <ClCompile Include="Private\Scene\MeshComponent.cpp" />
@@ -214,6 +218,9 @@
     <ClCompile Include="Private\Scene\TransformComponent.cpp" />
     <ClCompile Include="Private\Scene\Yobject.cpp" />
     <ClCompile Include="Private\SoftRHI\GdiDevice.cpp" />
+    <ClCompile Include="Private\SoftRHI\RenderClass.cpp" />
+    <ClCompile Include="Private\SoftRHI\RenderDevice.cpp" />
+    <ClCompile Include="Private\SoftRHI\RenderWindow.cpp" />
     <ClCompile Include="Private\SoftRHI\SoftRHI.cpp" />
     <ClCompile Include="Private\SoftRHI\Win32Window.cpp" />
     <ClCompile Include="Private\Viewer\DeferredRaster.cpp" />

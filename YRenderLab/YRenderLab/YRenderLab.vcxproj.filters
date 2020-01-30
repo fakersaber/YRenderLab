@@ -130,17 +130,14 @@
     <Filter Include="Private\Viewer">
       <UniqueIdentifier>{f2c614d6-ac87-4acc-91a6-274547cfd064}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public\Lights">
+      <UniqueIdentifier>{8a8cfda5-6bb0-4cf1-ae71-758c8f4b192a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Lights">
+      <UniqueIdentifier>{4ebc464e-ed3b-4158-8655-e60984bae088}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Public\RenderClass.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\RenderDevice.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\RenderWindow.h">
-      <Filter>Public</Filter>
-    </ClInclude>
     <ClInclude Include="Public\YCore.h">
       <Filter>Public</Filter>
     </ClInclude>
@@ -576,17 +573,29 @@
     <ClInclude Include="Public\Viewer\DeferredRaster.h">
       <Filter>Public\Viewer</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Lights\DirectionLight.h">
+      <Filter>Public\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Lights\Light.h">
+      <Filter>Public\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Lights\PointLight.h">
+      <Filter>Public\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\SoftRHI\RenderClass.h">
+      <Filter>Public\SoftRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\SoftRHI\RenderDevice.h">
+      <Filter>Public\SoftRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\SoftRHI\RenderWindow.h">
+      <Filter>Public\SoftRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\FunctionTraits.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Private\RenderClass.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\RenderDevice.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\RenderWindow.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
     <ClCompile Include="Private\YCore.cpp">
       <Filter>Private</Filter>
     </ClCompile>
@@ -707,6 +716,24 @@
     </ClCompile>
     <ClCompile Include="Private\Viewer\DeferredRaster.cpp">
       <Filter>Private\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\SoftRHI\RenderClass.cpp">
+      <Filter>Private\SoftRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\SoftRHI\RenderDevice.cpp">
+      <Filter>Private\SoftRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\SoftRHI\RenderWindow.cpp">
+      <Filter>Private\SoftRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Lights\DirectionLight.cpp">
+      <Filter>Private\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Lights\Light.cpp">
+      <Filter>Private\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Lights\PointLight.cpp">
+      <Filter>Private\Lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

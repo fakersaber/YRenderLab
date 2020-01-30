@@ -25,7 +25,7 @@ out VS_OUT {
 
 void main()
 {
-    //左手的yz互换后y为-z，到右手再reverse后变为z
+    //这是先转换左手的以z轴为上转换到y轴为上，然后再reverseZ换到右手系
     vec3 x = vec3(1.f,0.f,0.f);
     vec3 y = vec3(0.f,0.f,1.f);
     vec3 z = vec3(0.f,1.f,0.f);

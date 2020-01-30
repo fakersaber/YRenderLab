@@ -8,31 +8,31 @@
 #include <unordered_map>
 
 
-	class YObject;
-	class Image;
-	namespace AssimpLoader {
-		const std::shared_ptr<YObject> Load(const std::string& path);
+class YObject;
+class Image;
+namespace AssimpLoader {
+	const std::shared_ptr<YObject> Load(const std::string& path);
 
-		const std::shared_ptr<YObject> LoadNodes(
-			std::unordered_map<std::string, std::shared_ptr<Image>>& image_table, 
-			const std::string& dir, 
-			aiNode* node, 
-			const aiScene* scene);
+	const std::shared_ptr<YObject> LoadNodes(
+		std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
+		const std::string& dir,
+		aiNode* node,
+		const aiScene* scene);
 
-		void LoadMesh(
-			std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
-			const std::string& dir,
-			aiMesh* mesh,
-			const aiScene* scene,
-			std::shared_ptr<YObject> meshobj);
+	void LoadMesh(
+		std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
+		const std::string& dir,
+		aiMesh* mesh,
+		const aiScene* scene,
+		std::shared_ptr<YObject> meshobj);
 
-		std::shared_ptr<Image> LoadTexture(
-			std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
-			const std::string& dir,
-			aiMaterial* material,
-			aiTextureType type
-		);
-	}
+	std::shared_ptr<Image> LoadTexture(
+		std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
+		const std::string& dir,
+		aiMaterial* material,
+		aiTextureType type
+	);
+}
 
 
 #endif

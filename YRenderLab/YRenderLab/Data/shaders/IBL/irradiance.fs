@@ -27,6 +27,8 @@ void main(){
             vec3 OriginSampleDir = vec3(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
             vec3 CurSampleDir = right * OriginSampleDir.x + up * OriginSampleDir.y + N * OriginSampleDir.z;
 
+
+            //注意没有tone mapping
             irradiance += texture(environmentMap,CurSampleDir).rgb * cos(theta) * sin(theta);
             nrSamples++;
         }

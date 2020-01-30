@@ -5,12 +5,12 @@
 //#include <Public/YGM/Vector3.hpp>
 
 
-	namespace YGM {
-		template <typename T>
-		class RGB : public Basic_Val<3, T, RGB<T>> {
-		public:
-			using Basic_Val<3, T, RGB<T>>::Basic_Val;
-		
+namespace YGM {
+	template <typename T>
+	class RGB : public Basic_Val<3, T, RGB<T>> {
+	public:
+		using Basic_Val<3, T, RGB<T>>::Basic_Val;
+
 
 		//public:
 		//	RGB& operator=(const Vector<3,T>& rhs) {
@@ -29,22 +29,22 @@
 
 
 
-		public:
-			static RGB<T> Red;
-			static RGB<T> White;
-		};
+	public:
+		static RGB<T> Red;
+		static RGB<T> White;
+	};
 
-	}
-	template <typename T>
-	using RGB = YGM::RGB<T>;
+}
+template <typename T>
+using RGB = YGM::RGB<T>;
 
-	using RGBf = RGB<float>;
+using RGBf = RGB<float>;
 
-	template <typename T>
-	YGM::RGB<T> YGM::RGB<T>::Red = RGB<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0));
+template <typename T>
+YGM::RGB<T> YGM::RGB<T>::Red = RGB<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0));
 
-	template <typename T>
-	YGM::RGB<T> YGM::RGB<T>::White = RGB<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1));
+template <typename T>
+YGM::RGB<T> YGM::RGB<T>::White = RGB<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1));
 
 
 

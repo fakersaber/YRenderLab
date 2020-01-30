@@ -2,12 +2,12 @@
 #define _YRENDER_SCENE_SCENE_H_
 
 #include <Public/Basic/YHeapObject.h>
-#include <Public/Basic/Camera/Camera.h>
+#include <vector>
 
-
+class Camera;
 class YObject;
 class Image;
-
+class LightComponent;
 
 class Scene : public YHeapObject {
 public:
@@ -22,9 +22,11 @@ protected:
 	virtual ~Scene() = default;
 
 public:
-	const std::shared_ptr<Image> GetEnviromentImg() const { return EnviromentImg; }
-	const std::shared_ptr<YObject> GetRoot() const { return root; }
-	const std::shared_ptr<Camera> GetCamera() const { return camera; }
+	std::shared_ptr<Image> GetEnviromentImg() const { return EnviromentImg; }
+	std::shared_ptr<YObject> GetRoot() const { return root; }
+	std::shared_ptr<Camera> GetCamera() const { return camera; }
+	std::vector<std::shared_ptr<LightComponent>> GetLightComponents() const;
+
 
 private:
 	std::shared_ptr<YObject> root;

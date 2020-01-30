@@ -1,11 +1,13 @@
 #ifndef _YRENDER_SCENE_YOBJECT_H_
 #define _YRENDER_SCENE_YOBJECT_H_
 
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 #include <Public/Basic/YHeapObject.h>
 #include <Public/Basic/Node.h>
 
-#include <string>
-#include <unordered_map>
 
 class Component;
 class YObject : public Node<YObject> {
@@ -24,7 +26,7 @@ public:
 		}
 	};
 public:
-	YObject(const std::string& objname, std::shared_ptr<YObject> parent = nullptr) :
+	YObject(const std::string& objname = "default", std::shared_ptr<YObject> parent = nullptr) :
 		name(objname),
 		Node(parent)
 	{
@@ -41,11 +43,13 @@ public:
 
 	void DetachComponent(const std::shared_ptr<Component> component);
 
-	const std::unordered_map<TypeInfoRef, std::shared_ptr<Component>, Hasher, EqualTo>& Getcomponents() const { return components; };
+	const std::unordered_map<TypeInfoRef, std::shared_ptr<Component>, Hasher, EqualTo>& GetComponents() const { return components; };
 
 	template <typename ComponentType>
-	const std::shared_ptr<ComponentType> GetComponent(ComponentType* TemplateParam = nullptr) const;
+	const std::shared_ptr<ComponentType> GetComponent() const;
 
+	template<typename ComponentType>
+	const std::vector<std::shared_ptr<ComponentType>> GetComponentsInChildren();
 	//template <typename ComponentType>
 	//const std::shared_ptr<ComponentType> GetComponentInChildren()
 
@@ -59,7 +63,7 @@ private:
 
 
 template<typename ComponentType>
-inline const std::shared_ptr<ComponentType> YObject::GetComponent(ComponentType* TemplateParam) const {
+const std::shared_ptr<ComponentType> YObject::GetComponent() const {
 	static_assert(std::is_base_of_v<Component, ComponentType>, "Component Type Error!");
 	auto iter = components.find(typeid(ComponentType));
 	if (iter == components.end())
@@ -67,8 +71,19 @@ inline const std::shared_ptr<ComponentType> YObject::GetComponent(ComponentType*
 	return Cast<ComponentType>(iter->second);
 }
 
+template<typename ComponentType>
+const std::vector<std::shared_ptr<ComponentType>> YObject::GetComponentsInChildren() {
+	std::vector<std::shared_ptr<ComponentType>> RetComponents;
+	
 
+	ForEachNode([&RetComponents](std::shared_ptr<YObject>&& obj) {
+		if (auto ComponentOfType = obj->GetComponent<ComponentType>()) {
+			RetComponents.emplace_back(ComponentOfType);
+		}
+	});
 
+	return RetComponents;
+}
 
 
 

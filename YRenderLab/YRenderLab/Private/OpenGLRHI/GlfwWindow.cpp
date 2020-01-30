@@ -10,7 +10,7 @@
 bool GlfwWindow::Initial(const int width, const int height) 
 {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	window = glfwCreateWindow(width, height, "YRender", NULL, NULL);
@@ -41,9 +41,7 @@ bool GlfwWindow::Initial(const int width, const int height)
 	//camera可以从pipline中获得，可以不写在窗口类中
 	MainCamera = New<Camera>();
 	//创建场景、管线、相机
-
-
-	auto Root = AssimpLoader::Load("D:/YRenderLab/YRenderLab/YRenderLab/Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
+	auto Root = AssimpLoader::Load("F:/Render/YRenderLab/YRenderLab/YRenderLab/Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
 
 
 	auto scene = New<Scene>(Root, MainCamera, New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));

@@ -50,6 +50,7 @@ private:
 	GLShader shader_skybox;
 
 	GLFBO gbufferFBO;
+	GLFBO windowFBO;
 };
 
 #endif

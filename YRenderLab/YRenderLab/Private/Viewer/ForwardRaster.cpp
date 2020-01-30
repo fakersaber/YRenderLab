@@ -77,7 +77,6 @@ void ForwardRaster::InitShader_Skybox() {
 void ForwardRaster::Visit(std::shared_ptr<YObject> obj) {
 	auto mesh = obj->GetComponent<MeshComponent>();
 	auto material = obj->GetComponent<MaterialComponent>();
-	auto children = obj->GetChildren();
 
 	auto transform = obj->GetComponent<TransformComponent>();
 	if (transform != nullptr) {
@@ -90,7 +89,7 @@ void ForwardRaster::Visit(std::shared_ptr<YObject> obj) {
 		this->Visit(mesh->GetMesh());
 	}
 
-	for (auto child : children) {
+	for (auto child : obj->GetChildrens()) {
 		this->Visit(child);
 	}
 

@@ -4,6 +4,7 @@
 
 namespace StrAPI {
 	const std::vector<std::string> Split(const std::string& str, const std::string& separator) {
+		//如果没有找到separator直接返回str
 		std::vector<std::string> rst;
 		if (separator.empty())
 			return rst;

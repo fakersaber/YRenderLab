@@ -2,6 +2,9 @@
 #define _YRENDER_BASIC_NODE_H_
 
 #include <Public/Basic/YHeapObject.h>
+
+#include <Public/Basic/FunctionTraits.h>
+
 #include <unordered_set>
 
 template<typename T>
@@ -31,7 +34,18 @@ public:
 	}
 
 	const std::shared_ptr<T> GetParent() const { return parent.lock(); }
-	const std::unordered_set<std::shared_ptr<T>>& GetChildren() const { return childrens; }
+	const std::unordered_set<std::shared_ptr<T>>& GetChildrens() const { return childrens; }
+
+
+	template<typename LambdaExpr>
+	void ForEachNode(LambdaExpr lambdaFunc) {
+		//exec function
+		lambdaFunc(shared_this<T>());
+		 
+		for (auto Children : childrens) {
+			Children->ForEachNode(lambdaFunc);
+		}
+	}
 
 protected:
 	virtual void InitAfterNew() override {

@@ -6,17 +6,17 @@
 
 
 
-	struct HitInfo {
-		float t;
-		Vector3 HitPoint;
-		Vector3 Normal;
-	};
+struct HitInfo {
+	float t;
+	Vector3 HitPoint;
+	Vector3 Normal;
+};
 
 
-	class HitGeometric {
-	public:
-		virtual bool hit(const Ray& r, float Mint, float Maxt, HitInfo& hitinfo) = 0;
-	};
+class HitGeometric {
+public:
+	virtual bool hit(const Ray& r, float Mint, float Maxt, HitInfo& hitinfo) = 0;
+};
 
 
 

@@ -4,32 +4,32 @@
 #include <Public/Scene/Component.h>
 #include <Public/YGM/Transform.h>
 
+//TODO:: Transform只需要储存一个矩阵，不需要单独存position与scale
+class TransformComponent : public Component {
 
-	class TransformComponent : public Component {
-		
-	public:
-		TransformComponent(
-			const std::shared_ptr<YObject> obj,
-			const Vector3& pos = Vector3(0.f, 0.f, 0.f),
-			const Vector3& scale = Vector3(1.f, 1.f, 1.f)
-		) :
-			Component(obj),
-			position(pos),
-			scale(scale)
-		{
+public:
+	TransformComponent(
+		const std::shared_ptr<YObject> obj,
+		const Vector3& pos = Vector3(0.f, 0.f, 0.f),
+		const Vector3& scale = Vector3(1.f, 1.f, 1.f)
+	) :
+		Component(obj),
+		position(pos),
+		scale(scale)
+	{
 
-		}
-	protected:
-		TransformComponent() = delete;
-		virtual ~TransformComponent() = default;
+	}
+protected:
+	TransformComponent() = delete;
+	virtual ~TransformComponent() = default;
 
-	public:
-		const YGM::Transform& GetTransform() const { return transform; }
-	private:
-		Vector3 position;
-		Vector3 scale;
-		mutable YGM::Transform transform;
-	};
+public:
+	const YGM::Transform& GetTransform() const { return transform; }
+private:
+	Vector3 position;
+	Vector3 scale;
+	mutable YGM::Transform transform;
+};
 
 
 

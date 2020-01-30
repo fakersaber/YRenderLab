@@ -71,7 +71,7 @@ vec2 IntegrateBRDF(float NdotV, float roughness){
     for(uint i = 0u; i < SAMPLE_COUNT; ++i){
         vec2 Xi = Hammersley(i,SAMPLE_COUNT);
         vec3 H = Trowbridge_Reitz_GGX_Sample(Xi,N,roughness);
-        vec3 L = normalize(2 * dot(H,V) * H - V); //貌似不需要normalize，因为V是单位向量，待定
+        vec3 L = normalize(2 * dot(H,V) * H - V); 
         
         float NdotL = max(L.z,0.0);
         float NdotH = max(H.z,0.0);

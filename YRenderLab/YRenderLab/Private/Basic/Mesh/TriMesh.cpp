@@ -34,6 +34,7 @@ TriMesh::TriMesh(
 	//	triangles.push_back(Triangle::New(indice[i], indice[i + 1], indice[i + 2]));
 	//}
 
+	//这里处理镜像模型，根据w手动reverse一下tangent
 	//if(tangents.empty())
 	//	GenTangents();
 }

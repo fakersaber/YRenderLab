@@ -53,7 +53,7 @@ VAO::VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, const std::vector<
 	glGenVertexArrays(1, &VAO_ID);
 	glBindVertexArray(VAO_ID);
 	for (uint32_t i = 0; i < vec_VBO_DataPatch.size(); i++) {
-		auto & dataPatch = vec_VBO_DataPatch[i];
+		auto& dataPatch = vec_VBO_DataPatch[i];
 		uint32_t VBO;
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);

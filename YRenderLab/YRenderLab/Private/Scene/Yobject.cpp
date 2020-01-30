@@ -22,3 +22,4 @@ void YObject::DetachComponent(const std::shared_ptr<Component> component) {
 	component->OwnerObj.reset();
 	components.erase(iter);
 }
+
