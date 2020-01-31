@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 // 160，总大小按vec4对齐（必须是vec4倍数） but padded to a multiple of the size of a vec4.
 layout (std140) uniform Camera{

@@ -4,7 +4,7 @@
 #include <Public/Scene/Component.h>
 #include <Public/YGM/Transform.h>
 
-//TODO:: Transform只需要储存一个矩阵，不需要单独存position与scale
+//#TODO Transform只需要储存一个矩阵，不需要单独存position与scale
 class TransformComponent : public Component {
 
 public:

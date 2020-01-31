@@ -9,8 +9,9 @@
 #include <Public/Basic/BSDF_StandardPBR.h>
 #include <Public/Basic/MaterialComponent.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
-
-
+#include <Public/Scene/LightComponent.h>
+#include <Public/Lights/DirectionLight.h>
+#include <Public/Lights/PointLight.h>
 
 DeferredRaster::DeferredRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwWindow> pGLWindow)
 	:
@@ -28,12 +29,10 @@ void DeferredRaster::Draw() {
 		UpdateUBO_Environment();
 	}
 
-
-	//Update data that like shadows and lut etc...
+	//Update data that like  lut etc...
 	{
 		enviromentGen->Visit(scene);
 	}
-
 
 	{
 		Pass_GBuffer();
@@ -53,7 +52,6 @@ void DeferredRaster::Draw() {
 
 void DeferredRaster::Initial() {
 	Raster::Initial();
-
 
 	InitShader_GBuffer();
 	InitShader_Lights();
@@ -102,21 +100,26 @@ void DeferredRaster::InitShader_GBuffer() {
 	}
 }
 
+void DeferredRaster::InitShader_Lights() {
+	new (&DirectLight_Shader) GLShader("Data/shaders/P2T2.vs", "Data/shaders/DeferredPipline/DirectLight.fs");
+	int StartIndex = 0;
+	DirectLight_Shader.SetInt("GBuffer0", StartIndex++);
+	DirectLight_Shader.SetInt("GBuffer1", StartIndex++);
+	DirectLight_Shader.SetInt("GBuffer2", StartIndex++);
+
+	MapUBOToShader(DirectLight_Shader);
+}
+
 void DeferredRaster::InitShader_AmbientLight() {
+
 }
 
 void DeferredRaster::InitShader_Skybox() {
-	new (&shader_skybox) GLShader("Data/shaders/SkyBox/skybox.vs", "Data/shaders/SkyBox/skybox.fs");
-
-	shader_skybox.SetInt("skybox", 0);
-
-	MapUBOToShader(shader_skybox);
+	new (&Skybox_Shader) GLShader("Data/shaders/SkyBox/skybox.vs", "Data/shaders/SkyBox/skybox.fs");
+	Skybox_Shader.SetInt("skybox", 0);
+	MapUBOToShader(Skybox_Shader);
 }
 
-
-void DeferredRaster::InitShader_Lights() {
-
-}
 
 void DeferredRaster::InitShader_TAA() {
 
@@ -140,18 +143,6 @@ void DeferredRaster::Pass_GBuffer() {
 	this->Visit(scene->GetRoot());
 }
 
-void DeferredRaster::Pass_SkyBox() {
-
-}
-
-void DeferredRaster::Pass_AmbientLight() {
-	glDisable(GL_DEPTH_TEST);
-
-
-
-	glEnable(GL_DEPTH_TEST);
-}
-
 void DeferredRaster::Pass_Lights() {
 	glDisable(GL_DEPTH_TEST);
 	windowFBO.Use();
@@ -162,7 +153,7 @@ void DeferredRaster::Pass_Lights() {
 	gbufferFBO.GetColorTexture(0).Use(0);
 	gbufferFBO.GetColorTexture(1).Use(1);
 	gbufferFBO.GetColorTexture(2).Use(2);
-	gbufferFBO.GetColorTexture(3).Use(3);
+	//gbufferFBO.GetColorTexture(3).Use(3);
 
 	//set point light
 	//for (auto cmptLight : scene->GetCmptLights()) {
@@ -177,8 +168,8 @@ void DeferredRaster::Pass_Lights() {
 
 	// set directional light
 	//const int directionalLightBase = maxPointLights;
-	//for (auto cmptLight : scene->GetCmptLights()) {
-	//	auto directionalLight = CastTo<DirectionalLight>(cmptLight->light);
+	//for (auto cmptLight : scene->GetLightComponents()) {
+	//	auto directionalLight = Cast<DirectionLight>(cmptLight->GetLight());
 	//	auto target = directionalLight2idx.find(directionalLight);
 	//	if (target == directionalLight2idx.cend())
 	//		continue;
@@ -203,10 +194,50 @@ void DeferredRaster::Pass_Lights() {
 	//const int ltcBase = spotLightBase + maxSpotLights;
 	//ltcTex1.Use(ltcBase);
 	//ltcTex2.Use(ltcBase + 1);
+
+	pGLWindow->GetVAO(GlfwWindow::VAOTYPE::Screen).Draw(DirectLight_Shader);
 	//pOGLW->GetVAO(ShapeType::Screen).Draw(directLightShader);
 
 
 	glEnable(GL_DEPTH_TEST);
+}
+
+
+
+//两个计算光照的Pass都不用开depth，因为前面的pass已经算过一次深度信息了
+void DeferredRaster::Pass_AmbientLight() {
+	glDisable(GL_DEPTH_TEST);
+
+	//环境光需要叠加解析光
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+
+	windowFBO.Use();
+	gbufferFBO.GetColorTexture(0).Use(0);
+	gbufferFBO.GetColorTexture(1).Use(1);
+	gbufferFBO.GetColorTexture(2).Use(2);
+
+	const int environmentBase = 3;
+
+	auto environment = scene->GetEnviromentImg();
+	if (environment) {
+		//auto skybox = enviromentGen->GetSkyBox();
+		//skybox.Use(environmentBase);
+		auto irradianceMap = enviromentGen->GetIrradianceMap();
+		irradianceMap.Use(environmentBase);
+		auto prefilterMap = enviromentGen->GetPrefilterMap();
+		prefilterMap.Use(environmentBase + 1);
+		auto brdfLUT = enviromentGen->GetBRDF_LUT();
+		brdfLUT.Use(environmentBase + 2);
+	}
+
+	pGLWindow->GetVAO(GlfwWindow::VAOTYPE::Screen).Draw();
+	glEnable(GL_DEPTH_TEST);
+}
+
+
+void DeferredRaster::Pass_SkyBox() {
+
 }
 
 void DeferredRaster::Pass_TAA() {

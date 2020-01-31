@@ -138,6 +138,7 @@
     <ClInclude Include="Public\Ray\Sphere.h" />
     <ClInclude Include="Public\Scene\AssimpLoader.h" />
     <ClInclude Include="Public\Scene\Component.h" />
+    <ClInclude Include="Public\Scene\LightComponent.h" />
     <ClInclude Include="Public\Scene\MeshComponent.h" />
     <ClInclude Include="Public\Scene\Scene.h" />
     <ClInclude Include="Public\Scene\TransformComponent.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Public\YGM\Vector2.hpp" />
     <ClInclude Include="Public\YGM\Vector3.hpp" />
     <ClInclude Include="Public\YGM\Vector4.hpp" />
+    <ClInclude Include="Test\FileTest.h" />
     <None Include="Public\3rdPart\assimp\.editorconfig" />
     <None Include="Public\3rdPart\assimp\color4.inl" />
     <None Include="Public\3rdPart\assimp\config.h.in" />
@@ -213,6 +215,7 @@
     <ClCompile Include="Private\Ray\Sphere.cpp" />
     <ClCompile Include="Private\Scene\AssimpLoader.cpp" />
     <ClCompile Include="Private\Scene\Component.cpp" />
+    <ClCompile Include="Private\Scene\LightComponent.cpp" />
     <ClCompile Include="Private\Scene\MeshComponent.cpp" />
     <ClCompile Include="Private\Scene\Scene.cpp" />
     <ClCompile Include="Private\Scene\TransformComponent.cpp" />
@@ -230,6 +233,7 @@
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
     <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp" />
+    <ClCompile Include="Test\FileTest.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

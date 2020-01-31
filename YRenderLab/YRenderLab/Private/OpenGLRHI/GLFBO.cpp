@@ -11,7 +11,7 @@ GLFBO::GLFBO(unsigned int width, unsigned int height, FBO_TYPE type)
 	:
 	width(width), height(height)
 {
-	//todo: Perform different logic based on type 
+	//#TODO: Perform different logic based on type 
 	switch (type) {
 	case FBO_TYPE::ENUM_TYPE_DYNAMIC_COLOR:
 		if (!GenFBO_DynamicColor(width, height))  printf("GenFBO_DynamicColor fail!\n");
@@ -49,7 +49,17 @@ GLFBO::GLFBO(unsigned int width, unsigned int height, const std::vector<GLTextur
 		colorTextures.emplace_back(texID, GLTexture::ENUM_TYPE_2D);
 	}
 
+	//Specifies a list of color buffers to be drawn into
 	glDrawBuffers(static_cast<GLsizei>(VecForGbuffer.size()), attachments.data());
+
+	isValid = IsComplete();
+	if (!isValid) {
+		printf("Framebuffer is not complete!\n");
+		ID = 0;
+		return;
+	}
+
+	return;
 }
 
 
@@ -86,6 +96,7 @@ void GLFBO::SetRenderTargetToTexture(const GLTexture& tex, TexRenderTarget index
 	this->Use();
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mapper[idx], tex.GetID(), mip);
+
 }
 
 GLTexture GLFBO::GetColorTexture(unsigned int index) const

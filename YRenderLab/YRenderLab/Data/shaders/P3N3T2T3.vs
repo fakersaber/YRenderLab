@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 // 160，总大小按vec4对齐（必须是vec4倍数） but padded to a multiple of the size of a vec4.
 layout (std140) uniform Camera{
@@ -31,7 +31,7 @@ void main()
     vec3 z = vec3(0.f,1.f,0.f);
 
     mat3 TempModule = mat3(x,y,z);
-    vec3 ScaleModule = iModelPos * vec3(0.1);
+    vec3 ScaleModule = iModelPos * vec3(0.2);
     vs_out.FragPos = TempModule * ScaleModule;
     vs_out.TexCoords = iTexCoords;
 
@@ -43,7 +43,7 @@ void main()
     // vec3 T = normalize(normalMatrix * iModelTangent);
     // vs_out.Tangent = normalize(T - dot(T, N) * N);
 
-    //法线计算都使用了模型的逆转置，那么切线的变换一定是模型矩阵
+    //法线计算都使用了模型的逆转置，那么切线变换矩阵一定是ModelToWorld
     vs_out.Tangent = normalize(TempModule * iModelTangent);
 
     gl_Position = projection * view * vec4(vs_out.FragPos,1.0f);

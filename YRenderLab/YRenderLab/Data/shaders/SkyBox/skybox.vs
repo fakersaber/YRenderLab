@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 // 160，总大小按vec4对齐（必须是vec4倍数） but padded to a multiple of the size of a vec4.
 layout (std140) uniform Camera{
@@ -15,6 +15,7 @@ layout (location = 0) in vec3 iModelPos;
 
 out vec3 TexCoords;
 
+//NDC左手系 深度-1为最近
 void main()
 {
     TexCoords = iModelPos;

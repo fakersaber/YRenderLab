@@ -16,7 +16,7 @@ public:
 
 protected:
 	MeshComponent() = delete;
-	virtual ~MeshComponent() = default; //TODO: 被销毁时通知全局容器清除VAO
+	virtual ~MeshComponent() = default; //#TODO: 被销毁时通知全局容器清除VAO
 
 //public:
 //	virtual void Accept() override;

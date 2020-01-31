@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 #define PI            3.14159265359
 #define TWO_PI        6.28318530718
 #define INV_TWO_PI    0.15915494309

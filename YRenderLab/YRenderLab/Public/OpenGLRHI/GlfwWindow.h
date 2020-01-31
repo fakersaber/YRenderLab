@@ -11,7 +11,9 @@
 class TriMesh;
 class Image;
 class Camera;
-class ForwardRaster;
+class Raster;
+//class ForwardRaster;
+//class DeferredRaster;
 
 class GlfwWindow : public YHeapObject
 {
@@ -55,7 +57,10 @@ private:
 	bool firstFlag; // check if you hold down mouse right mouse button for first time
 
 	//Camera准备移除，从Pipline中获取
-	std::shared_ptr<ForwardRaster> ForwardPipline;
+	std::shared_ptr<Raster> RenderRaster;
+
+	//std::shared_ptr<ForwardRaster> ForwardPipline;
+	//std::shared_ptr<DeferredRaster> DefferdRaster;
 	std::shared_ptr<Camera> MainCamera;
 	std::map<std::weak_ptr<TriMesh>, VAO, std::owner_less<std::weak_ptr<TriMesh>>> mesh2VAO;
 	std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;

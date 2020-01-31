@@ -8,8 +8,24 @@
 
 class File {
 public:
-	static std::string ReadFile(const std::string& filepath);
-	static std::vector<std::string> ReadAllLines(const std::string& filepath);
+	inline static std::string ReadFile(const std::string& filepath) {
+		std::ifstream file(filepath);
+		std::stringstream filestream;
+		filestream << file.rdbuf();
+		file.close();
+		return filestream.str();
+	}
+
+	inline static std::vector<std::string> ReadAllLines(const std::string& filepath) {
+		std::vector<std::string> AllLines;
+		std::ifstream file(filepath);
+		std::string CurLine;
+		while (std::getline(file, CurLine)) {
+			AllLines.emplace_back(CurLine + '\n');
+		}
+		file.close();
+		return AllLines;
+	}
 
 private:
 	File() = delete;

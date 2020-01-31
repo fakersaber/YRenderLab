@@ -8,56 +8,56 @@
 //#include <Public/Ray/RayCamera.h>
 #include <memory>
 
-	class GlfwWindow;
-	class RenderWindow;
+class GlfwWindow;
+class RenderWindow;
 
-	class YCore {
-	public:
-		YCore(const YCore& rhs) = delete;
-		YCore& operator=(const YCore& rhs) = delete;
-		static YCore* GetCore();
-		bool Initial(const int width, const int height);
-		void Run();
-		std::shared_ptr<GlfwWindow> GetGLWindow() const;
-
-
-	private:
-		YCore();
-		~YCore();
+class YCore {
+public:
+	YCore(const YCore& rhs) = delete;
+	YCore& operator=(const YCore& rhs) = delete;
+	static YCore* GetCore();
+	bool Initial(const int width, const int height);
+	void Run();
+	std::shared_ptr<GlfwWindow> GetGLWindow() const;
 
 
-	private:
-		std::shared_ptr<GlfwWindow> pGLInstance;
+private:
+	YCore();
+	~YCore();
 
-		//todo remove
-		RenderWindow* _RenderWindow;
+
+private:
+	std::shared_ptr<GlfwWindow> pGLInstance;
+
+	//#TODO remove
+	RenderWindow* _RenderWindow;
+};
+
+
+
+namespace CoreDefine {
+	const float data_ScreenVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+		// positions   // texCoords
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		-1.0f, -1.0f,  0.0f, 0.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+		 1.0f,  1.0f,  1.0f, 1.0f
 	};
 
+	const float data_Flip_ScreenVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+		// positions   // texCoords
+		-1.0f,  1.0f,  0.0f, 0.0f,
+		-1.0f, -1.0f,  0.0f, 1.0f,
+		 1.0f, -1.0f,  1.0f, 1.0f,
 
-
-	namespace CoreDefine {
-		const float data_ScreenVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-			// positions   // texCoords
-			-1.0f,  1.0f,  0.0f, 1.0f,
-			-1.0f, -1.0f,  0.0f, 0.0f,
-			 1.0f, -1.0f,  1.0f, 0.0f,
-
-			-1.0f,  1.0f,  0.0f, 1.0f,
-			 1.0f, -1.0f,  1.0f, 0.0f,
-			 1.0f,  1.0f,  1.0f, 1.0f
-		};
-
-		const float data_Flip_ScreenVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-			// positions   // texCoords
-			-1.0f,  1.0f,  0.0f, 0.0f,
-			-1.0f, -1.0f,  0.0f, 1.0f,
-			 1.0f, -1.0f,  1.0f, 1.0f,
-
-			-1.0f,  1.0f,  0.0f, 0.0f,
-			 1.0f, -1.0f,  1.0f, 1.0f,
-			 1.0f,  1.0f,  1.0f, 0.0f
-		};
-	}
+		-1.0f,  1.0f,  0.0f, 0.0f,
+		 1.0f, -1.0f,  1.0f, 1.0f,
+		 1.0f,  1.0f,  1.0f, 0.0f
+	};
+}
 
 
 #endif

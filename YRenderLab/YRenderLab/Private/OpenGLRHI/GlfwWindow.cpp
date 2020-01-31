@@ -1,6 +1,8 @@
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 #include <Public/Viewer/ForwardRaster.h>
+#include <Public/Viewer/DeferredRaster.h>
+#include <Public/Viewer/Raster.h>
 #include <Public/Scene/AssimpLoader.h>
 #include <Public/Scene/Scene.h>
 #include <Public/Basic/Mesh/TriMesh.h>
@@ -11,7 +13,7 @@ bool GlfwWindow::Initial(const int width, const int height)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	window = glfwCreateWindow(width, height, "YRender", NULL, NULL);
 	if (window == NULL)
@@ -45,8 +47,14 @@ bool GlfwWindow::Initial(const int width, const int height)
 
 
 	auto scene = New<Scene>(Root, MainCamera, New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
-	ForwardPipline = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
-	ForwardPipline->Initial();
+	RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
+	//RenderRaster = New<DeferredRaster>(scene, shared_this<GlfwWindow>());
+	RenderRaster->Initial();
+
+	#ifdef ForwardRaster
+		RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
+	#endif
+
 	MainCamera->Initial(width, height);
 	return true;
 }
@@ -57,7 +65,7 @@ void GlfwWindow::Run() {
 		ProcessInput(window);
 		beginTime = glfwGetTime();
 
-		ForwardPipline->Draw();
+		RenderRaster->Draw();
 		
 		deltaTime = static_cast<float>(glfwGetTime() - beginTime);
 		glfwSwapBuffers(window);

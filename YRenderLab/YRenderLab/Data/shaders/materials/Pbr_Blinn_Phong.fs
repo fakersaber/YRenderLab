@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 //----------------- input and output
 out vec4 FragColor;

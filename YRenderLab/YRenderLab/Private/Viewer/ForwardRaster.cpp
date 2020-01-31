@@ -117,7 +117,7 @@ void ForwardRaster::Visit(std::shared_ptr<BSDF_StandardPBR> bsdf) {
 		//}
 	}
 
-	UseLightTexureResource(StandardPBRShader);
+	UseLightTexureResource(StandardPBRShader,5);
 }
 
 
@@ -174,13 +174,13 @@ void ForwardRaster::RegisterShader(const GLShader& shader, const uint32_t Textur
 
 	// environment
 	const int environmentBase = TextureBase;
-	shader.SetInt("skybox", environmentBase);
+	shader.SetInt("skybox", environmentBase );
 	shader.SetInt("irradianceMap", environmentBase + 1);
 	shader.SetInt("prefilterMap", environmentBase + 2);
 	shader.SetInt("brdfLUT", environmentBase + 3);
 }
 
-void ForwardRaster::UseLightTexureResource(const GLShader & shader) const {
+void ForwardRaster::UseLightTexureResource(const GLShader & shader,int StartIndex) const {
 	//auto target = shader2depthmapBase.find(shader);
 	//if (target == shader2depthmapBase.cend()) {
 	//	printf("ERROR::ForwardRaster::UseLightTex:\n"
@@ -226,17 +226,21 @@ void ForwardRaster::UseLightTexureResource(const GLShader & shader) const {
 	//}
 
 	// environment
+
 	auto environment = scene->GetEnviromentImg();
-	const int environmentBase = 5;
 	if (environment) {
 		auto skybox = enviromentGen->GetSkyBox();
-		skybox.Use(environmentBase);
+		skybox.Use(StartIndex);
+
 		auto irradianceMap = enviromentGen->GetIrradianceMap();
-		irradianceMap.Use(environmentBase + 1);
+		irradianceMap.Use(StartIndex + 1);
+
 		auto prefilterMap = enviromentGen->GetPrefilterMap();
-		prefilterMap.Use(environmentBase + 2);
+		prefilterMap.Use(StartIndex + 2);
+
 		auto brdfLUT = enviromentGen->GetBRDF_LUT();
-		brdfLUT.Use(environmentBase + 3);
+		brdfLUT.Use(StartIndex + 3);
+
 	}
 }
 
@@ -248,7 +252,7 @@ void ForwardRaster::DrawEnvironment() {
 	}
 
 	glDepthFunc(GL_LEQUAL);
-	UseLightTexureResource(shader_skybox);
+	UseLightTexureResource(shader_skybox,0);
 	shader_skybox.SetBool("needGamma", true);
 	pGLWindow->GetVAO(TriMesh::OriginCube).Draw(shader_skybox);
 	glDepthFunc(GL_LESS);

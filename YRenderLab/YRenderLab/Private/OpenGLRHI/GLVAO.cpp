@@ -4,7 +4,7 @@
 
 VAO::VAO() :isValid(false) { }
 
-
+//----------------------------------------交错排列 1个VBO----------------------------------//
 VAO::VAO(float const* data, uint32_t dataSize, const std::vector<uint32_t>& attrLen) {
 	if (data == NULL || dataSize == 0 || attrLen.size() == 0) {
 		isValid = false;
@@ -41,9 +41,10 @@ VAO::VAO(float const* data, uint32_t dataSize, const std::vector<uint32_t>& attr
 		isValid = GenBindEBO(indexArray, indexSize);
 	}
 }
+//----------------------------------VNTVNTVNT END------------------------------------------//
 
 
-
+//----------------------------------每个属性一个VBO----------------------------------------//
 VAO::VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, const std::vector<uint32_t>& divisors) {
 	if (vec_VBO_DataPatch.size() == 0
 		|| (divisors.size() > 0 && vec_VBO_DataPatch.size() != divisors.size())) {
@@ -83,7 +84,7 @@ bool VAO::GenBindEBO(uint32_t const* indexArray, uint32_t indexSize) {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, indexArray, GL_STATIC_DRAW);
 	return true;
 }
-
+//-----------------------------------------VVVVNNNNTTTT END--------------------------------------------------//
 
 //VAO::~VAO() {
 //	glDeleteVertexArrays(1, &VAO_ID);

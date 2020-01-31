@@ -9,7 +9,5 @@
 //}
 
 std::vector<std::shared_ptr<LightComponent>> Scene::GetLightComponents() const{
-	//root->G
-
-	return std::vector<std::shared_ptr<LightComponent>>();
+	return root->GetComponentsInChildren<LightComponent>();
 }

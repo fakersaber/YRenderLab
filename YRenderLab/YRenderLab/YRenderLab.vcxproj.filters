@@ -136,6 +136,9 @@
     <Filter Include="Private\Lights">
       <UniqueIdentifier>{4ebc464e-ed3b-4158-8655-e60984bae088}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{03720db2-8f15-46ac-9469-a43271e15741}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\YCore.h">
@@ -594,6 +597,12 @@
     <ClInclude Include="Public\Basic\FunctionTraits.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Scene\LightComponent.h">
+      <Filter>Public\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\FileTest.h">
+      <Filter>Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -734,6 +743,12 @@
     </ClCompile>
     <ClCompile Include="Private\Lights\PointLight.cpp">
       <Filter>Private\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Scene\LightComponent.cpp">
+      <Filter>Private\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\FileTest.cpp">
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

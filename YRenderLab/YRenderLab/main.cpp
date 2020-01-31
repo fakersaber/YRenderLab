@@ -2,39 +2,15 @@
 
 #include <iostream>
 #include <unordered_set>
-class TestClass2 {
-public:
-	//	TestClass2() = default;
-	virtual void Test1() {};
-	virtual void Test2() {};
-private:
-	double test2 = 0.0;
-};
 
-
-class TestClass :public TestClass2 {
-public:
-	TestClass() = default;
-	TestClass(int param) : test(param) {}
-
-	int test = 0;
-};
-
-
-
-std::shared_ptr<TestClass> fun1() {
-	auto Rtl = std::make_shared<TestClass>(2);
-	if (Rtl) {
-
-		std::cout << "test" << std::endl;
-	}
-	return Rtl;
-}
+#include <Public/Basic/File/File.h>
 
 
 int main() {
+	//auto test = File::ReadAllLines("Data/../Data/shaders/P3N3T2T3.vs");
 	auto YEngine = YCore::GetCore();
 	if (YEngine->Initial(800, 600)) {
 		YEngine->Run();
 	}
+	return 0;
 }

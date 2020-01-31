@@ -8,6 +8,7 @@
 
 BETTER_ENUM(CompileType, int, VERTEX, GEOMETRY, FRAGMENT, PROGRAM);
 
+//#TODO  Shader资源管理,但是shader被连接成功后貌似不是存放在GPU中
 class GLShader {
 public:
 	GLShader();

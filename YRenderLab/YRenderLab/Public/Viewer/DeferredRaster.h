@@ -47,7 +47,9 @@ private:
 private:
 	GLShader curShader;
 	GLShader GBuffer_StandardPBRShader;
-	GLShader shader_skybox;
+	GLShader Skybox_Shader;
+	GLShader DirectLight_Shader;
+
 
 	GLFBO gbufferFBO;
 	GLFBO windowFBO;

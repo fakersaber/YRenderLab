@@ -152,7 +152,7 @@ int GLShader::CheckCompileErrors(uint32_t shader, CompileType type) {
 	return success;
 }
 
-//先不处理上下级目录等
+
 std::string GLShader::ProcessShaderFile(const std::string& path){
 	auto contents = File::ReadAllLines(path);
 	std::string root = StrAPI::DelTailAfter(path, '/') + "/";

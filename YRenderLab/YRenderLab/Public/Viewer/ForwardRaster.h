@@ -37,7 +37,7 @@ protected:
 	void InitShader_Skybox();
 	void DrawEnvironment();
 	void RegisterShader(const GLShader& shader, const uint32_t TextureBase);
-	void UseLightTexureResource(const GLShader & shader) const;
+	void UseLightTexureResource(const GLShader & shader, int StartIndex) const;
 
 private:
 	
