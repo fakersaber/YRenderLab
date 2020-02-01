@@ -252,9 +252,9 @@ void SoftRender::HalfSpaceTriangle(const Vertex& v0, const Vertex& v1, const Ver
 				//首先求当前点的z倒数： z = 1/(e1/z1 + e2/z2 + e3/z3);
 
 				//计算插值系数
-				float Cache0 = e0 * v0.PosH / area;
-				float Cache1 = e1 * v1.PosH / area;
-				float Cache2 = e2 * v2.PosH / area;
+				float Cache0 = e0 / area * v0.PosH;
+				float Cache1 = e1 / area * v1.PosH;
+				float Cache2 = e2 / area * v2.PosH;
 				float CurDepth = 1.f / (Cache0 + Cache1 + Cache2);
 
 				//最后计算插值后的z

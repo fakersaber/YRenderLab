@@ -3,11 +3,11 @@
 
 #include "FDG.h"
 
-vec3 Standard_BRDF(vec3 norm, vec3 wo, vec3 wi, vec3 albedo, float metallic, float roughness) {
+vec3 Standard_BRDF(vec3 normal, vec3 wo, vec3 wi, vec3 albedo, float metallic, float roughness) {
 	vec3 wh = normalize(wo + wi);
 	
-	float D = Trowbridge_Reitz_GGX_D(norm, wh, roughness);
-	float G = SchlickGGX_Smith_G(norm, wo, wi, roughness);
+	float D = Trowbridge_Reitz_GGX_D(normal, wh, roughness);
+	float G = SchlickGGX_Smith_G(normal, wo, wi, roughness);
 	vec3 F = Fr_epic(wi, wh, albedo, metallic);
 	
 	vec3 specular = D * G * F / (4.0f * dot(wh, wo) * dot(wh, wi));

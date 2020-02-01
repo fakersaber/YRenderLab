@@ -16,13 +16,13 @@ const YGM::Transform EnviromentGen::captureViews[6] = {
 	YGM::Transform::LookAt(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f,  0.0f, -1.0f), Vector3(0.0f, -1.0f,  0.0f))
 };
 
-const GLFBO::TexRenderTarget EnviromentGen::mapper[6] = {
-	GLFBO::TexRenderTarget::TEXTURE_CUBE_MAP_POSITIVE_X,
-	GLFBO::TexRenderTarget::TEXTURE_CUBE_MAP_NEGATIVE_X,
-	GLFBO::TexRenderTarget::TEXTURE_CUBE_MAP_POSITIVE_Y,
-	GLFBO::TexRenderTarget::TEXTURE_CUBE_MAP_NEGATIVE_Y,
-	GLFBO::TexRenderTarget::TEXTURE_CUBE_MAP_POSITIVE_Z,
-	GLFBO::TexRenderTarget::TEXTURE_CUBE_MAP_NEGATIVE_Z,
+const GLFBO::RenderTargetType EnviromentGen::mapper[6] = {
+	GLFBO::RenderTargetType::TEXTURE_CUBE_MAP_POSITIVE_X,
+	GLFBO::RenderTargetType::TEXTURE_CUBE_MAP_NEGATIVE_X,
+	GLFBO::RenderTargetType::TEXTURE_CUBE_MAP_POSITIVE_Y,
+	GLFBO::RenderTargetType::TEXTURE_CUBE_MAP_NEGATIVE_Y,
+	GLFBO::RenderTargetType::TEXTURE_CUBE_MAP_POSITIVE_Z,
+	GLFBO::RenderTargetType::TEXTURE_CUBE_MAP_NEGATIVE_Z,
 };
 
 
@@ -79,13 +79,15 @@ void EnviromentGen::InitShaders() {
 }
 
 void EnviromentGen::InitFBOs() {
-	genSkyboxFBO = GLFBO(skyboxSize, skyboxSize, GLFBO::FBO_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
-	genIrradianceFBO = GLFBO(irradianceSize, irradianceSize, GLFBO::FBO_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
+	genSkyboxFBO = GLFBO(skyboxSize, skyboxSize, GLFBO::FrameBufferType::ENUM_TYPE_DYNAMIC_COLOR);
+	genIrradianceFBO = GLFBO(irradianceSize, irradianceSize, GLFBO::FrameBufferType::ENUM_TYPE_DYNAMIC_COLOR);
 	for (int i = 0; i < maxMipLevels; i++) {
 		int curSize = prefilterSize >> i;
-		prefilterFBOs[i] = GLFBO(curSize, curSize, GLFBO::FBO_TYPE::ENUM_TYPE_DYNAMIC_COLOR);
+		prefilterFBOs[i] = GLFBO(curSize, curSize, GLFBO::FrameBufferType::ENUM_TYPE_DYNAMIC_COLOR);
 	}
-	genBrdfLutFBO = GLFBO(brdfSize, brdfSize, GLFBO::FBO_TYPE::ENUM_TYPE_COLOR_FLOAT);
+
+	//#TODO 多余的构造类型
+	genBrdfLutFBO = GLFBO(brdfSize, brdfSize, GLFBO::FrameBufferType::ENUM_TYPE_COLOR_FLOAT);
 }
 
 

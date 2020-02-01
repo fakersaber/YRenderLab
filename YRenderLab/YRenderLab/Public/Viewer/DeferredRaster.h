@@ -20,6 +20,7 @@ public:
 protected:
 	virtual void Draw() override;
 	virtual void Initial() override;
+	virtual void Resize(unsigned int width, unsigned int height) override;
 	virtual ~DeferredRaster() = default;
 
 	/*----------------------------All Shader initial----------------------------------------------*/
@@ -49,6 +50,8 @@ private:
 	GLShader GBuffer_StandardPBRShader;
 	GLShader Skybox_Shader;
 	GLShader DirectLight_Shader;
+	GLShader AmbientLight_Shader;
+	GLShader postProcessShader;
 
 
 	GLFBO gbufferFBO;

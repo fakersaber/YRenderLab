@@ -25,6 +25,7 @@ protected:
 public:
 	virtual void Draw() = 0;
 	virtual void Initial();
+	virtual void Resize(unsigned int width, unsigned int height) = 0;
 
 protected:
 	void MapUBOToShader(const GLShader& shader);

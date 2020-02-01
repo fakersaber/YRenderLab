@@ -9,7 +9,7 @@
 - [x] standardPbr material
 - [x] Raster
   - [x] ForwardRaster
-  - [ ] DeferredRaster
+  - [x] DeferredRaster
 - [x] Architecture Build 
 - [x] module loading
 - [x] Normal Mapping
@@ -50,8 +50,8 @@ Cpu implement
 
 - [ ] VAO-Mesh容器，Texture-Image容器清理
 - [x] delete Vertex shader  Error 
-
-
+- [ ] 第一次Draw Albedo信息丢失
+- [ ] deferredRender 1080P 窗口顶部有黑框
 
 ### Tips
 

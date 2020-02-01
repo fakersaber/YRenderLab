@@ -73,7 +73,7 @@ public:
 
 	std::shared_ptr<GlfwWindow> pGLWindow;
 	static const YGM::Transform captureViews[6];
-	static const GLFBO::TexRenderTarget mapper[6];
+	static const GLFBO::RenderTargetType mapper[6];
 };
 
 

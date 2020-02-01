@@ -47,13 +47,10 @@ bool GlfwWindow::Initial(const int width, const int height)
 
 
 	auto scene = New<Scene>(Root, MainCamera, New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
-	RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
-	//RenderRaster = New<DeferredRaster>(scene, shared_this<GlfwWindow>());
+	//RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
+	RenderRaster = New<DeferredRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster->Initial();
 
-	#ifdef ForwardRaster
-		RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
-	#endif
 
 	MainCamera->Initial(width, height);
 	return true;
@@ -161,6 +158,7 @@ void GlfwWindow::framebuffer_size_callback(GLFWwindow* window, int width, int he
 	auto GLWindowPtr = YCore::GetCore()->GetGLWindow();
 	GLWindowPtr->GetCamera()->SetWH(width, height);
 	GLWindowPtr->UpdateViewPort(width, height);
+	GLWindowPtr->RenderRaster->Resize(width, height);
 }
 
 void GlfwWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos) {

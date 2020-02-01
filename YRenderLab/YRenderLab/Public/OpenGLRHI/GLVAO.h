@@ -6,7 +6,7 @@
 
 class GLShader;
 
-//现在的shader,VAO,VBO,EBO,FBO,Texture等所有资源都没有释放，后续需要资源管理
+//#TODO: 现在的shader,VAO,VBO,EBO,FBO,Texture等所有资源都没有释放，后续需要资源管理
 class VAO {
 public:
 	struct VBO_DataPatch {

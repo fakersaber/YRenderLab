@@ -23,13 +23,6 @@ layout (std140) uniform Camera{
 	float ar;			// 4	152
 };
 
-layout (std140) uniform Environment{
-	vec3 colorFactor;     // 12     0
-	float intensity;      //  4    12
-	bool haveSkybox;      //  4    16
-	bool haveEnvironment; //  4    20
-};
-
 
 
 layout (std140) uniform DirectionalLights{
