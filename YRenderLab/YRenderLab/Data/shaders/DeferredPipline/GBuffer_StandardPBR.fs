@@ -14,14 +14,12 @@ in VS_OUT {
 
 struct BSDF_StandardPBR {
 	vec3 colorFactor;
+    float metallicFactor;
+    float roughnessFactor;
+    
     sampler2D albedoTexture;
-
-	float metallicFactor;
     sampler2D metallicTexture;
-
-	float roughnessFactor;
     sampler2D roughnessTexture;
-
     sampler2D aoTexture;
 	sampler2D normalTexture;
 };
@@ -39,14 +37,14 @@ vec3 CalcBumpedNormal(vec3 normal, vec3 tangent, sampler2D normalTexture, vec2 t
 }
 
 void main(){
+
     
-    vec3 albedo = texture(Material.albedoTexture, fs_in.TexCoords).xyz * Material.colorFactor;
     float metallic = texture(Material.metallicTexture,fs_in.TexCoords).x * Material.metallicFactor;
     float roughness = texture(Material.roughnessTexture,fs_in.TexCoords).x * Material.roughnessFactor;
     float ao = texture(Material.aoTexture,fs_in.TexCoords).x;
     //vec3 normal = texture(Material.normalTexture,fs_in.TexCoords).xyz;
     vec3 normal = CalcBumpedNormal(normalize(fs_in.Normal), normalize(fs_in.Tangent), Material.normalTexture, fs_in.TexCoords);
-
+    vec3 albedo = texture(Material.albedoTexture, fs_in.TexCoords).xyz * Material.colorFactor;
     //GBuffer0 = vec4(albedo,ao);
 
     GBuffer0 = vec4(fs_in.FragPos,roughness);

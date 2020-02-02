@@ -49,7 +49,7 @@ GLFBO::GLFBO(unsigned int width, unsigned int height, const std::vector<GLTextur
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, texID, 0);
 
 		attachments.push_back(GL_COLOR_ATTACHMENT0 + i);
-		colorTextures.emplace_back(texID, GLTexture::ENUM_TYPE_2D);
+		colorTextures.emplace_back(texID, GLTexture::ENUM_TYPE_2D_DYNAMIC);
 	}
 
 	//Specifies a list of color buffers to be drawn into
@@ -139,6 +139,7 @@ bool GLFBO::IsComplete() const
 	glBindFramebuffer(GL_FRAMEBUFFER, ID);
 	auto rst = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//std::cout<<glGetError()<<std::endl;
 	if (rst != GL_FRAMEBUFFER_COMPLETE) {
 		printf("FrameBuffer is not complete!\n");
 		return false;
@@ -194,7 +195,7 @@ bool GLFBO::GenFBO_RGB16FColor(unsigned int width, unsigned int height)
 		return false;
 	}
 
-	colorTextures.emplace_back(colorBufferID, GLTexture::ENUM_TYPE_2D);
+	colorTextures.emplace_back(colorBufferID, GLTexture::ENUM_TYPE_2D_DYNAMIC);
 	return true;
 }
 
@@ -219,9 +220,9 @@ void GLFBO::UseDefault() {
 
 void GLFBO::DebugOutPutFrameBuffer(const GLFBO& DebugFBO) {
 	DebugFBO.Use();
+	auto TestMap = New<Image>(DebugFBO.width, DebugFBO.height, 3);
 	for (int i = 0; i < DebugFBO.colorTextures.size(); ++i) {
 		DebugFBO.GetColorTexture(i).Bind();
-		auto TestMap = New<Image>(DebugFBO.width, DebugFBO.height, 3);
 		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
 		TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/") + std::to_string(i) + std::string(".png"), true);
 	}
@@ -235,14 +236,22 @@ void GLFBO::Resize(unsigned int width, unsigned int height) {
 	if (this->width == width && this->height == height)
 		return;
 
+	if (width == 0 || height == 0)
+		return;
+
 	this->width = width;
 	this->height = height;
 
-	// Free all textures
-	for (auto colorTex : colorTextures)
-		colorTex.Free();
-	colorTextures.clear();
-	//depthTexture.Free();
+	//FBO Free 还是资源管理的问题
+	{
+		for (auto colorTex : colorTextures)
+			colorTex.Free();
+		colorTextures.clear();
+		//depthTexture.Free();
+		glDeleteFramebuffers(1, &ID);
+	}
+
+
 
 	glGenFramebuffers(1, &ID);
 	glBindFramebuffer(GL_FRAMEBUFFER, ID);
@@ -265,7 +274,7 @@ void GLFBO::Resize(unsigned int width, unsigned int height) {
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, texID, 0);
 
 		attachments.push_back(GL_COLOR_ATTACHMENT0 + i);
-		colorTextures.emplace_back(texID, GLTexture::ENUM_TYPE_2D);
+		colorTextures.emplace_back(texID, GLTexture::ENUM_TYPE_2D_DYNAMIC);
 	}
 
 	//Specifies a list of color buffers to be drawn into

@@ -120,7 +120,7 @@ bool GLTexture::SetImg(const Image& img) {
 
 	glBindTexture(GL_TEXTURE_2D, ID);
 	glTexImage2D(GL_TEXTURE_2D, 0, innerFormat, img.GetWidth(), img.GetHeight(), 0, outerFormat, GL_FLOAT, img.GetData());
-	glGenerateMipmap(GL_TEXTURE_2D); //内存多1/3
+	//glGenerateMipmap(GL_TEXTURE_2D); //内存多1/3
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //GL_LINEAR
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); //GL_CLAMP_TO_EDGE 默认先都repeat
@@ -168,7 +168,7 @@ unsigned int GLTexture::Type2GL(ENUM_TYPE type) const {
 	{
 	case ENUM_TYPE_NOT_VALID:
 		return 0;
-	case ENUM_TYPE_2D:
+	//case ENUM_TYPE_2D:
 	case ENUM_TYPE_2D_DYNAMIC:
 		return GL_TEXTURE_2D;
 	case ENUM_TYPE_CUBE_MAP:
@@ -190,6 +190,7 @@ bool GLTexture::Use(unsigned int id) {
 		return false;
 	}
 
+	//Active后的bind一定要保证原子性，因为后面再调用一下BindTexture index就错乱掉
 	glActiveTexture(GL_TEXTURE0 + id);
 	glBindTexture(Type2GL(type), ID);
 	return true;

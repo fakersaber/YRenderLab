@@ -1,4 +1,5 @@
 # YRenderLab
+
 **Personal rendering pipline**
 
 ![1578831093943](asset/1578831093943.png)
@@ -24,6 +25,8 @@
 - [ ] Shadow
   - [ ]  CSM/PCSS
   - [ ]  距离场阴影
+- [ ] Antialiasing
+  - [ ] TAA
 - [ ] Matrix-MainCol
 
 ### SoftRHI
@@ -48,10 +51,14 @@ Cpu implement
 
 ### Fix
 
-- [ ] VAO-Mesh容器，Texture-Image容器清理
 - [x] delete Vertex shader  Error 
-- [ ] 第一次Draw Albedo信息丢失
-- [ ] deferredRender 1080P 窗口顶部有黑框
+- [x] 第一次Draw Albedo信息丢失 //Texture bind and active error
+- [x] deferredRender 1080P 窗口顶部有黑框 // init size error
+
+#### Optimization
+
+- [ ] VAO-Mesh容器，Texture-Image容器清理
+- [ ] Render Resource Manager
 
 ### Tips
 

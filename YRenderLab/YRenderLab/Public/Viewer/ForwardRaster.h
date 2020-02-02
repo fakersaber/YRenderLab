@@ -25,6 +25,7 @@ public:
 	virtual void Draw() override;
 	//virtual void Update() override; //update uniform etc...
 	virtual void Initial() override;
+	void Resize(unsigned int width, unsigned int height) override {};
 	void SetCurShader(const GLShader& shader) { curShader = shader; };
 protected:
 	virtual ~ForwardRaster() = default;

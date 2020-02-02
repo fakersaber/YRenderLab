@@ -106,39 +106,24 @@ void ForwardRaster::Visit(std::shared_ptr<BSDF_StandardPBR> bsdf) {
 
 	const int texNum = 5;
 	std::shared_ptr<Image> imgs[texNum] = { bsdf->albedoTexture, bsdf->metallicTexture, bsdf->roughnessTexture, bsdf->aoTexture, bsdf->normalTexture };
-	//std::string names[texNum] = { "bsdf.haveAlbedoTexture","bsdf.haveNormalTexture","bsdf.haveSpecularTexture" };
-	for (int i = 0; i < texNum; ++i) {
-		if (imgs[i] && imgs[i]->IsValid()) {
-			//StandardPBRShader.SetBool(names[i], true);
-			pGLWindow->GetTexture(imgs[i]).Use(i);
-		}
-		//else {
-		//	StandardPBRShader.SetBool(names[i], false);
-		//}
-	}
 
-	UseLightTexureResource(StandardPBRShader,5);
+	auto _Texture0 = pGLWindow->GetTexture(imgs[0]);
+	auto _Texture1 = pGLWindow->GetTexture(imgs[1]);
+	auto _Texture2 = pGLWindow->GetTexture(imgs[2]);
+	auto _Texture3 = pGLWindow->GetTexture(imgs[3]);
+	auto _Texture4 = pGLWindow->GetTexture(imgs[4]);
+
+	_Texture0.Use(0);
+	_Texture1.Use(1);
+	_Texture2.Use(2);
+	_Texture3.Use(3);
+	_Texture4.Use(4);
+
+	UseLightTexureResource(StandardPBRShader, 5);
 }
 
 
 void ForwardRaster::Visit(std::shared_ptr<BSDF_blinnPhong> bsdf) {
-	//SetCurShader(BlinnPhongShader);
-	//std::string PreFix = "bsdf.";
-	//BlinnPhongShader.SetVec3f(PreFix + "colorFactor", bsdf->colorFactor);
-	//BlinnPhongShader.SetFloat(PreFix + "gloss", bsdf->gloss);
-
-	//const int texNum = 3;
-	//std::shared_ptr<Image> imgs[texNum] = { bsdf->albedoTexture, bsdf->normalTexture,bsdf->specularTexture};
-	//std::string names[texNum] = { "bsdf.haveAlbedoTexture","bsdf.haveNormalTexture","bsdf.haveSpecularTexture" };
-	//for (int i = 0; i < texNum; ++i) {
-	//	if (imgs[i] && imgs[i]->IsValid()) {
-	//		BlinnPhongShader.SetBool(names[i], true);
-	//		pGLWindow->GetTexture(imgs[i]).Use(i);
-	//	}
-	//	else {
-	//		BlinnPhongShader.SetBool(names[i],false);
-	//	}
-	//}
 }
 
 
@@ -230,15 +215,13 @@ void ForwardRaster::UseLightTexureResource(const GLShader & shader,int StartInde
 	auto environment = scene->GetEnviromentImg();
 	if (environment) {
 		auto skybox = enviromentGen->GetSkyBox();
-		skybox.Use(StartIndex);
-
 		auto irradianceMap = enviromentGen->GetIrradianceMap();
-		irradianceMap.Use(StartIndex + 1);
-
 		auto prefilterMap = enviromentGen->GetPrefilterMap();
-		prefilterMap.Use(StartIndex + 2);
-
 		auto brdfLUT = enviromentGen->GetBRDF_LUT();
+
+		skybox.Use(StartIndex);
+		irradianceMap.Use(StartIndex + 1);
+		prefilterMap.Use(StartIndex + 2);
 		brdfLUT.Use(StartIndex + 3);
 
 	}

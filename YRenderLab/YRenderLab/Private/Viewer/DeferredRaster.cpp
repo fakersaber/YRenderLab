@@ -30,6 +30,7 @@ void DeferredRaster::Draw() {
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	//Update UBO
 	{
 		UpdateUBO_Camera();
@@ -42,16 +43,14 @@ void DeferredRaster::Draw() {
 		enviromentGen->Visit(scene);
 	}
 
+
 	{
 		Pass_GBuffer();
 		//GLFBO::DebugOutPutFrameBuffer(gbufferFBO);
 
 		glDisable(GL_DEPTH_TEST);
 		Pass_Lights();
-		//GLFBO::DebugOutPutFrameBuffer(windowFBO);
-
 		Pass_AmbientLight();
-		//GLFBO::DebugOutPutFrameBuffer(windowFBO);
 		glEnable(GL_DEPTH_TEST);
 
 		//渲染完opqueue后再渲染Transparent
@@ -171,8 +170,6 @@ void DeferredRaster::Pass_GBuffer() {
 }
 
 void DeferredRaster::Pass_Lights() {
-	
-	//glEnable(GL_DEPTH_TEST);
 	windowFBO.Use();
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -203,13 +200,12 @@ void DeferredRaster::Pass_AmbientLight() {
 
 	auto environment = scene->GetEnviromentImg();
 	if (environment) {
-		//auto skybox = enviromentGen->GetSkyBox();
-		//skybox.Use(environmentBase);
 		auto irradianceMap = enviromentGen->GetIrradianceMap();
-		irradianceMap.Use(environmentBase);
-		auto prefilterMap = enviromentGen->GetPrefilterMap();
-		prefilterMap.Use(environmentBase + 1);
+		auto prefilterMap = enviromentGen->GetPrefilterMap();	
 		auto brdfLUT = enviromentGen->GetBRDF_LUT();
+
+		irradianceMap.Use(environmentBase);
+		prefilterMap.Use(environmentBase + 1);
 		brdfLUT.Use(environmentBase + 2);
 	}
 
@@ -264,7 +260,6 @@ void DeferredRaster::Visit(std::shared_ptr<YObject> obj) {
 }
 
 
-
 void DeferredRaster::Visit(std::shared_ptr<BSDF_StandardPBR> material) {
 
 	SetCurShader(GBuffer_StandardPBRShader);
@@ -282,16 +277,22 @@ void DeferredRaster::Visit(std::shared_ptr<BSDF_StandardPBR> material) {
 	};
 
 
-	for (int i = 0; i < texNum; ++i) {
-		if (imgs[i] && imgs[i]->IsValid()) {
-			pGLWindow->GetTexture(imgs[i]).Use(i);
-		}
-	}
+	//因为在这里Bind只有初始化创建Texture才调用，所以只有第一帧才有Texture的问题
+	//在连续Use时中间不要使用其他操作
+	auto _Texture0 = pGLWindow->GetTexture(imgs[0]);
+	auto _Texture1 = pGLWindow->GetTexture(imgs[1]);
+	auto _Texture2 = pGLWindow->GetTexture(imgs[2]);
+	auto _Texture3 = pGLWindow->GetTexture(imgs[3]);
+	auto _Texture4 = pGLWindow->GetTexture(imgs[4]);
+
+	_Texture0.Use(0);
+	_Texture1.Use(1);
+	_Texture2.Use(2);
+	_Texture3.Use(3);
+	_Texture4.Use(4);
 }
 
 
 void DeferredRaster::Visit(std::shared_ptr<TriMesh> mesh) {
-	//test.Use(0);
-
 	pGLWindow->GetVAO(mesh).Draw(GBuffer_StandardPBRShader);
 }

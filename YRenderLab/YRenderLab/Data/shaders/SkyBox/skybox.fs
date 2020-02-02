@@ -18,7 +18,7 @@ vec3 GetEnvironment(vec3 texcoord);
 
 void main()
 {    
-    vec3 ambient = GetEnvironment(TexCoords);
+    vec3 ambient = GetEnvironment(normalize(TexCoords));
 	
 	// gamma
 	if(needGamma)

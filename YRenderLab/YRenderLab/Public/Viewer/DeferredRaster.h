@@ -56,6 +56,7 @@ private:
 
 	GLFBO gbufferFBO;
 	GLFBO windowFBO;
+
 };
 
 #endif

@@ -8,11 +8,15 @@
 #include <Public/YGM/Math.hpp>
 
 
-	class Material : public YHeapObject {
-	protected:
-		Material() = default;
-		virtual ~Material() = default;
-	};
+class Material : public YHeapObject {
+//public:
+//	virtual void UseMaterialTexture() = 0;
+//
+//
+protected:
+	Material() = default;
+	virtual ~Material() = default;
+};
 
 
 

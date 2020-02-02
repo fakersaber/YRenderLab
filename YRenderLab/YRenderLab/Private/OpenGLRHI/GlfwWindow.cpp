@@ -9,6 +9,7 @@
 #include <Public/Basic/Image/Image.h>
 #include <Public/YCore.h>
 
+
 bool GlfwWindow::Initial(const int width, const int height) 
 {
 	glfwInit();
@@ -22,7 +23,6 @@ bool GlfwWindow::Initial(const int width, const int height)
 		glfwTerminate();
 		return false;
 	}
-
 	lastX = width * 0.5f;
 	lastY = height * 0.5f;
 	this->width = width;
@@ -63,11 +63,14 @@ void GlfwWindow::Run() {
 		beginTime = glfwGetTime();
 
 		RenderRaster->Draw();
-		
+
+
 		deltaTime = static_cast<float>(glfwGetTime() - beginTime);
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+	
 }
 
 VAO GlfwWindow::GetVAO(std::shared_ptr<TriMesh> mesh) {
@@ -154,6 +157,12 @@ auto GlfwWindow::GetViewPortH() -> decltype(height)
 void GlfwWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
+
+	//最小化窗口无视掉
+	if (width == 0 || height == 0)
+		return;
+
+	GLFBO::UseDefault();
 	glViewport(0, 0, width, height);
 	auto GLWindowPtr = YCore::GetCore()->GetGLWindow();
 	GLWindowPtr->GetCamera()->SetWH(width, height);
