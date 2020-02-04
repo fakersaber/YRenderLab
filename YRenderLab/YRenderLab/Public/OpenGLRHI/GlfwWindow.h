@@ -5,6 +5,7 @@
 #include <Public/OpenGLRHI/GLFW/glfw3.h>
 #include <Public/OpenGLRHI/GLVAO.h>
 #include <Public/OpenGLRHI/GLTexture.h>
+#include <unordered_map>
 #include <map>
 
 
@@ -64,6 +65,9 @@ private:
 	std::shared_ptr<Camera> MainCamera;
 	std::map<std::weak_ptr<TriMesh>, VAO, std::owner_less<std::weak_ptr<TriMesh>>> mesh2VAO;
 	std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;
+
+
+	std::unordered_map<VAOTYPE, VAO> StaticMeshContainer;
 
 public:
 	auto GetViewPortW() ->decltype(width);

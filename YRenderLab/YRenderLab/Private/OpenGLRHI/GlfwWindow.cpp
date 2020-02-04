@@ -42,17 +42,21 @@ bool GlfwWindow::Initial(const int width, const int height)
 
 	//camera可以从pipline中获得，可以不写在窗口类中
 	MainCamera = New<Camera>();
+	MainCamera->Initial(width, height);
 	//创建场景、管线、相机
-	auto Root = AssimpLoader::Load("F:/Render/YRenderLab/YRenderLab/YRenderLab/Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
-
-
+	auto Root = AssimpLoader::Load("Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
 	auto scene = New<Scene>(Root, MainCamera, New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
 	//RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster = New<DeferredRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster->Initial();
 
-
-	MainCamera->Initial(width, height);
+	StaticMeshContainer.insert(
+		std::make_pair(
+			VAOTYPE::Screen, 
+			VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 })
+		)
+	);
+	
 	return true;
 }
 
@@ -92,13 +96,22 @@ VAO GlfwWindow::GetVAO(std::shared_ptr<TriMesh> mesh) {
 
 VAO GlfwWindow::GetVAO(GlfwWindow::VAOTYPE CurType)
 {
-	switch (CurType) {
-	case VAOTYPE::Screen:
-		return VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 });
-	default:
-		printf("GetVAO Error! %d", CurType);
-		return VAO();
+	auto iter = StaticMeshContainer.find(CurType);
+	if (iter != StaticMeshContainer.end()) {
+		return iter->second;
 	}
+	printf("GetVAO Error! %d", CurType);
+	return VAO();
+
+	//switch (CurType) {
+	//case VAOTYPE::Screen: {
+	//	//if(VAO::ScreenVAO.IsValid())
+	//	return VAO::ScreenVAO;
+	//}
+	//default:
+	//	printf("GetVAO Error! %d", CurType);
+	//	return VAO();
+	//}
 }
 
 GLTexture GlfwWindow::GetTexture(std::shared_ptr<Image> img) {

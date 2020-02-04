@@ -1,8 +1,14 @@
+
 #include <Public/OpenGLRHI/GLVAO.h>
+#include <Public/YCore.h>
 #include <Public/OpenGLRHI/GLShader.h>
 #include <glad/glad.h>
 
+
+//VAO VAO::ScreenVAO = VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 });
+
 VAO::VAO() :isValid(false) { }
+
 
 //----------------------------------------Ωª¥Ì≈≈¡– 1∏ˆVBO----------------------------------//
 VAO::VAO(float const* data, uint32_t dataSize, const std::vector<uint32_t>& attrLen) {
@@ -115,4 +121,8 @@ bool VAO::Draw(const GLShader& shader) const {
 		glDrawArrays(GL_TRIANGLES, 0, VertexNum);
 
 	return true;
+}
+
+bool VAO::IsValid() const {
+	return isValid;
 }

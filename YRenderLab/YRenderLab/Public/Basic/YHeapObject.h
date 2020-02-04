@@ -94,8 +94,10 @@ private:
 	}
 
 	void* operator new(size_t size) {
-		if (void* mem = malloc(size))
+		if (void* mem = malloc(size)) {
+			//_CrtDbgBreak();
 			return mem;
+		}
 		throw std::bad_alloc();
 	}
 

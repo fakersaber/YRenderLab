@@ -27,9 +27,10 @@ public:
 
 	//uint32_t GetID() const;
 	//uint32_t GetAttrNum() const;
-	//bool IsValid() const;
+	bool IsValid() const;
 	bool Use() const;
 	bool Draw(const GLShader& shader) const;
+
 private:
 	bool GenBindEBO(uint32_t const* index, uint32_t indexSize);
 	//------------
@@ -43,6 +44,9 @@ private:
 
 	//public:
 	//	static const VAO inValid;
+
+public:
+	static VAO ScreenVAO;
 };
 
 
