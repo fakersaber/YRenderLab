@@ -24,7 +24,7 @@
   - [ ] Point light
 - [ ] Shadow
   - [ ]  CSM/PCSS
-  - [ ]  距离场阴影
+  - [ ]  Distance field Soft Shadow
 - [ ] Antialiasing
   - [ ] TAA
 - [ ] Matrix-MainCol
@@ -64,9 +64,9 @@ Cpu implement
 
 *Gbuffer layout*
 
-**GLTexture::TexTureformat::TEX_GL_RGBA32F, //pixpos + roughness
-GLTexture::TexTureformat::TEX_GL_RGBA32F, //normal + metallic
-GLTexture::TexTureformat::TEX_GL_RGBA32F  //albedo + ao**
+**GLTexture::TexTureformat::TEX_GL_RGBA32F, //pixpos + roughness**
+**GLTexture::TexTureformat::TEX_GL_RGBA32F, //normal + metallic**
+**GLTexture::TexTureformat::TEX_GL_RGBA32F  //albedo + ao**
 
 
 
