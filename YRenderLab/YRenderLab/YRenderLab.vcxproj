@@ -153,6 +153,7 @@
     <ClInclude Include="Public\Viewer\EnviromentGen.h" />
     <ClInclude Include="Public\Viewer\ForwardRaster.h" />
     <ClInclude Include="Public\Viewer\Raster.h" />
+    <ClInclude Include="Public\Viewer\ShadowGen.h" />
     <ClInclude Include="Public\YCore.h" />
     <ClInclude Include="Public\YGM\Base\Basic_Val.hpp" />
     <ClInclude Include="Public\YGM\Base\Basic_Val3.hpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="Private\Viewer\EnviromentGen.cpp" />
     <ClCompile Include="Private\Viewer\ForwardRaster.cpp" />
     <ClCompile Include="Private\Viewer\Raster.cpp" />
+    <ClCompile Include="Private\Viewer\ShadowGen.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
     <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp" />

@@ -12,7 +12,7 @@ namespace YGM {
 		Vector3 front = (target - pos).Normalize();
 		const Vector3 right = front.Cross(up).Normalize();
 		Vector3 camera_up = right.Cross(front);
-		Mat4f worldToCamera;
+		/*Mat4f worldToCamera;
 		worldToCamera(0, 0) = right.x;
 		worldToCamera(0, 1) = right.y;
 		worldToCamera(0, 2) = right.z;
@@ -27,7 +27,7 @@ namespace YGM {
 
 		worldToCamera(0, 3) = -right.Dot(pos);
 		worldToCamera(1, 3) = -camera_up.Dot(pos);
-		worldToCamera(2, 3) = front.Dot(pos);
+		worldToCamera(2, 3) = front.Dot(pos);*/
 
 		Mat4f CameraToWorld;
 		CameraToWorld(0, 0) = right.x;
@@ -46,10 +46,10 @@ namespace YGM {
 		CameraToWorld(1, 3) = pos.y;
 		CameraToWorld(2, 3) = pos.z;
 
-		return Transform(worldToCamera, CameraToWorld);
+		return Transform(/*worldToCamera, */CameraToWorld);
 	}
 
-	const Mat4f Transform::Perspective(const float fovy, const float aspect, const float zNear, const float zFar) {
+	const Transform Transform::Perspective(const float fovy, const float aspect, const float zNear, const float zFar) {
 		const float tanHalfFovy = tan(YGM::Math::Radians(fovy * 0.5f));
 		Mat4f PerspectiveMat(0.f);
 		PerspectiveMat(0, 0) = 1.f / (tanHalfFovy * aspect);
@@ -57,6 +57,39 @@ namespace YGM {
 		PerspectiveMat(2, 2) = -(zFar + zNear) / (zFar - zNear);
 		PerspectiveMat(2, 3) = -(2.f * zNear * zFar) / (zFar - zNear);
 		PerspectiveMat(3, 2) = -1.f;
-		return PerspectiveMat;
+		return Transform(PerspectiveMat);
+	}
+
+
+	Vector3 Transform::WorldToLocalTransVec(const Vector3& WorldVec) {
+
+
+
+		return Vector3();
+	}
+
+	Vector3 Transform::LocalToWorldTransVec(const Vector3& LocalVec) {
+
+
+		return Vector3();
+	}
+
+
+	Vector3 Transform::WorldToLocalTransPoint(const Vector3& WorldPos) {
+		//Matrix(0, 0)
+
+		return Vector3();
+	}
+
+	Vector3 Transform::LocalToWorldTransPoint(const Vector3& LocalPos) {
+		Vector3 RetPos;
+		RetPos.x = Matrix(0, 0) * LocalPos.x + Matrix(0, 1) * LocalPos.y + Matrix(0, 2) * LocalPos.z + Matrix(0, 3);
+		RetPos.y = Matrix(1, 0) * LocalPos.x + Matrix(1, 1) * LocalPos.y + Matrix(1, 2) * LocalPos.z + Matrix(1, 3);
+		RetPos.z = Matrix(2, 0) * LocalPos.x + Matrix(2, 1) * LocalPos.y + Matrix(2, 2) * LocalPos.z + Matrix(2, 3);
+		auto w = Matrix(3, 0) * LocalPos.x + Matrix(3, 1) * LocalPos.y + Matrix(3, 2) * LocalPos.z + 1.f;
+		if (w == 1.f) {
+			return RetPos;
+		}
+		return RetPos / w;
 	}
 }

@@ -14,12 +14,20 @@ GLFBO::GLFBO(unsigned int width, unsigned int height, FrameBufferType type)
 {
 	switch (type) {
 	case FrameBufferType::ENUM_TYPE_DYNAMIC_COLOR:
-		if (!GenFBO_DynamicColor(width, height))  printf("GenFBO_DynamicColor fail!\n");
+		if (!GenFBO_DynamicColor(width, height)) 
+			printf("GenFBO_DynamicColor failed!\n");
 		break;
-
-		//#TODO: 可以将其与下面的构造函数统一
 	case FrameBufferType::ENUM_TYPE_COLOR_FLOAT:
-		if (!GenFBO_RGB16FColor(width, height))  printf("GenFBO_RGB16FColor fail!\n");
+		if (!GenFBO_RGB16FColor(width, height))  
+			printf("GenFBO_RGB16FColor failed!\n");
+		break;
+	case FrameBufferType::ENUM_TYPE_DEPTH:
+		if (!GenFBO_Depth(width, height))
+			printf("GenFBO_Depth failed!\n");
+			break;
+	default:
+		printf("ERROR: FBO type not know\n");
+		isValid = false;
 		break;
 	}
 }
@@ -169,7 +177,7 @@ bool GLFBO::GenFBO_DynamicColor(unsigned int width, unsigned int height) {
 }
 
 
-//
+
 bool GLFBO::GenFBO_RGB16FColor(unsigned int width, unsigned int height)
 {
 	glGenFramebuffers(1, &ID);
@@ -198,6 +206,38 @@ bool GLFBO::GenFBO_RGB16FColor(unsigned int width, unsigned int height)
 	colorTextures.emplace_back(colorBufferID, GLTexture::ENUM_TYPE_2D_DYNAMIC);
 	return true;
 }
+
+bool GLFBO::GenFBO_Depth(unsigned int width, unsigned int height) {
+	glGenFramebuffers(1, &ID);
+	glBindFramebuffer(GL_FRAMEBUFFER, ID);
+	// create depth texture
+	unsigned int depthTextureId;
+	glGenTextures(1, &depthTextureId);
+	glBindTexture(GL_TEXTURE_2D, depthTextureId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER); //clamp的颜色为border颜色
+	GLfloat borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	isValid = IsComplete();
+	if (!isValid) {
+		printf("Framebuffer is not complete!\n");
+		//显存上的资源并没有被释放
+		colorTextures.clear();
+		return false;
+	}
+	new (&depthTexture) GLTexture(depthTextureId, GLTexture::ENUM_TYPE_2D_DYNAMIC);
+	return true;
+}
+
+
 
 void GLFBO::CopyFrameBuffer(const GLFBO& DesFBO, const GLFBO& SrcFBO, RenderTargetCopyType type) {
 	if (!DesFBO.isValid || !SrcFBO.isValid)

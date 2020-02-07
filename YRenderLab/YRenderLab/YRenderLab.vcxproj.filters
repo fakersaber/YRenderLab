@@ -603,6 +603,9 @@
     <ClInclude Include="Test\FileTest.h">
       <Filter>Test</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Viewer\ShadowGen.h">
+      <Filter>Public\Viewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -749,6 +752,9 @@
     </ClCompile>
     <ClCompile Include="Test\FileTest.cpp">
       <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Viewer\ShadowGen.cpp">
+      <Filter>Private\Viewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -95,8 +95,6 @@ void ForwardRaster::Visit(std::shared_ptr<YObject> obj) {
 
 }
 
-
-
 void ForwardRaster::Visit(std::shared_ptr<BSDF_StandardPBR> bsdf) {
 	SetCurShader(StandardPBRShader);
 	std::string PreFix = "bsdf.";

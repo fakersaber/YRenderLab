@@ -194,3 +194,26 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset)
 	// Update Front, Right and Up Vectors using the updated Euler angles
 	updateCameraVectors();
 }
+
+std::vector<Vector3> Camera::Corners() const {
+	//之所以是NdcToWorld是因为Point的转换都会除w
+	YGM::Transform NdcToWorld((GetProjectMatrix() * GetViewMatrix()).Inverse()); 
+
+	const Vector3 nCorners[8] = {
+	{-1.f,-1.f,-1.f},
+	{-1.f,-1.f, 1.f},
+	{-1.f, 1.f,-1.f},
+	{-1.f, 1.f, 1.f},
+	{ 1.f,-1.f,-1.f},
+	{ 1.f,-1.f, 1.f},
+	{ 1.f, 1.f,-1.f},
+	{ 1.f, 1.f, 1.f},
+	};
+
+	std::vector<Vector3> CornersWorld;
+	for (int i = 0; i < 8; i++) {
+		CornersWorld.emplace_back(NdcToWorld.LocalToWorldTransPoint(nCorners[i]));
+	}
+
+	return CornersWorld;
+}

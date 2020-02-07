@@ -10,8 +10,9 @@
 class GLFBO {
 public:
 	enum class FrameBufferType : uint8_t {
-		ENUM_TYPE_DYNAMIC_COLOR,
-		ENUM_TYPE_COLOR_FLOAT,
+		ENUM_TYPE_DYNAMIC_COLOR,   //动态变换的Framebuffer，仅仅create depth
+		ENUM_TYPE_COLOR_FLOAT,     //16f精度的rgb，没有深度
+		ENUM_TYPE_DEPTH,           //只绑定深度的Framebuffer,设置gldrawbuffer为GL_NONE不会draw任何color
 	};
 
 	enum class RenderTargetType : uint8_t {
@@ -43,9 +44,11 @@ private:
 	bool IsComplete() const;
 	bool GenFBO_DynamicColor(unsigned int width, unsigned int height);
 	bool GenFBO_RGB16FColor(unsigned int width, unsigned int height);
+	bool GenFBO_Depth(unsigned int width, unsigned int height);
 private:
 	unsigned int ID;
 	std::vector<GLTexture> colorTextures;
+	GLTexture depthTexture;
 	bool isValid;
 	std::vector<GLTexture::TexTureformat> gbufferTypeVec;
 	unsigned int width;

@@ -4,6 +4,7 @@
 #include <Public/YGM/Transform.h>
 #include <Public/Basic/YHeapObject.h>
 
+#include  <vector>
 
 class Camera : public YHeapObject {
 public:
@@ -69,6 +70,8 @@ public:
 	void ProcessKeyboard(ENUM_Movement event, float deltaTime);
 
 	void ProcessMouseMovement(float xoffset, float yoffset);
+
+	std::vector<Vector3> Corners() const;
 
 	void updateCameraVectors();
 

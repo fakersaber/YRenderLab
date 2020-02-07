@@ -98,7 +98,7 @@ void EnviromentGen::InitGenShader_IBLSkybox() {
 	shader_genIBLSkybox = GLShader(vsPath, fsPath);
 	shader_genIBLSkybox.SetInt("equirectangularMap", 0);
 	auto captureProjection = YGM::Transform::Perspective(90.f, 1.0f, 0.1f, 10.0f);
-	shader_genIBLSkybox.SetMat4f("projection", captureProjection.Transpose());
+	shader_genIBLSkybox.SetMat4f("projection", captureProjection.GetMatrix().Transpose());
 }
 
 
@@ -109,7 +109,7 @@ void EnviromentGen::InitGenShader_Irradiance() {
 	shader_genIrradianceMap = GLShader(vsPath, fsPath);
 	shader_genIrradianceMap.SetInt("enviromentMap", 0);
 	auto captureProjection = YGM::Transform::Perspective(90.f, 1.0f, 0.1f, 10.0f);
-	shader_genIrradianceMap.SetMat4f("projection", captureProjection.Transpose());
+	shader_genIrradianceMap.SetMat4f("projection", captureProjection.GetMatrix().Transpose());
 }
 
 void EnviromentGen::InitGenShader_PreFilter() {
@@ -118,7 +118,7 @@ void EnviromentGen::InitGenShader_PreFilter() {
 	shader_genPrefilterMap = GLShader(vsPath, fsPath);
 	shader_genPrefilterMap.SetInt("environmentMap", 0);
 	auto captureProjection = YGM::Transform::Perspective(90.f, 1.0f, 0.1f, 10.0f);
-	shader_genPrefilterMap.SetMat4f("projection", captureProjection.Transpose());
+	shader_genPrefilterMap.SetMat4f("projection", captureProjection.GetMatrix().Transpose());
 }
 
 void EnviromentGen::InitGenShader_brdfLUT() {
