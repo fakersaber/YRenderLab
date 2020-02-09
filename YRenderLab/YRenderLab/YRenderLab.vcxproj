@@ -115,8 +115,9 @@
     <ClInclude Include="Public\Basic\Node.h" />
     <ClInclude Include="Public\Basic\StrApi.h" />
     <ClInclude Include="Public\Basic\Vertex\Vertex.h" />
+    <ClInclude Include="Public\Basic\weakPtr_hash.h" />
     <ClInclude Include="Public\Basic\YHeapObject.h" />
-    <ClInclude Include="Public\Lights\DirectionLight.h" />
+    <ClInclude Include="Public\Lights\DirectionalLight.h" />
     <ClInclude Include="Public\Lights\Light.h" />
     <ClInclude Include="Public\Lights\PointLight.h" />
     <ClInclude Include="Public\OpenGLRHI\GLAD\glad\glad.h" />
@@ -195,7 +196,7 @@
     <ClCompile Include="Private\Basic\Mesh\TriMesh.cpp" />
     <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp" />
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp" />
-    <ClCompile Include="Private\Lights\DirectionLight.cpp" />
+    <ClCompile Include="Private\Lights\DirectionalLight.cpp" />
     <ClCompile Include="Private\Lights\Light.cpp" />
     <ClCompile Include="Private\Lights\PointLight.cpp" />
     <ClCompile Include="Private\Material\BSDF.cpp" />

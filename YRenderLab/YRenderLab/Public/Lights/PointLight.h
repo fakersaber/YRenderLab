@@ -1,1 +1,6 @@
-#pragma once
+#ifndef _YRENDER_LIGHT_POINTLIGHT_H_
+#define _YRENDER_LIGHT_POINTLIGHT_H_
+
+
+
+#endif

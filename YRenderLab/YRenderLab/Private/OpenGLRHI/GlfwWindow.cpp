@@ -4,7 +4,11 @@
 #include <Public/Viewer/DeferredRaster.h>
 #include <Public/Viewer/Raster.h>
 #include <Public/Scene/AssimpLoader.h>
+#include <Public/Scene/Yobject.h>
 #include <Public/Scene/Scene.h>
+#include <Public/Lights/DirectionalLight.h>
+#include <Public/Scene/LightComponent.h>
+#include <Public/Scene/TransformComponent.h>
 #include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/Image/Image.h>
 #include <Public/YCore.h>
@@ -43,8 +47,15 @@ bool GlfwWindow::Initial(const int width, const int height)
 	//camera可以从pipline中获得，可以不写在窗口类中
 	MainCamera = New<Camera>();
 	MainCamera->Initial(width, height);
-	//创建场景、管线、相机
+	//加载模型
 	auto Root = AssimpLoader::Load("Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
+
+	//创建光源
+	auto TestLight = New<YObject>("light", Root);
+	New<TransformComponent>(TestLight);
+	New<LightComponent>(TestLight, New<DirectionalLight>(RGBf::White,1.f));
+
+	//创建场景，管线
 	auto scene = New<Scene>(Root, MainCamera, New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
 	//RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster = New<DeferredRaster>(scene, shared_this<GlfwWindow>());

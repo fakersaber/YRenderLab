@@ -6,16 +6,17 @@
 
 //#TODO Transform只需要储存一个矩阵，不需要单独存position与scale
 class TransformComponent : public Component {
-
+public:
+	const static Vector3 Forward ;
+	const static Vector3 Up;
+	const static Vector3 Right;
 public:
 	TransformComponent(
 		const std::shared_ptr<YObject> obj,
-		const Vector3& pos = Vector3(0.f, 0.f, 0.f),
-		const Vector3& scale = Vector3(1.f, 1.f, 1.f)
+		const YGM::Transform& transform =  YGM::Transform(1.f)
 	) :
 		Component(obj),
-		position(pos),
-		scale(scale)
+		transform(transform)
 	{
 
 	}
@@ -25,10 +26,11 @@ protected:
 
 public:
 	const YGM::Transform& GetTransform() const { return transform; }
+
 private:
-	Vector3 position;
-	Vector3 scale;
+	//应该也有componentToWorld 然后才是relative
 	mutable YGM::Transform transform;
+
 };
 
 

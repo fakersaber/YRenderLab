@@ -14,17 +14,17 @@ GLFBO::GLFBO(unsigned int width, unsigned int height, FrameBufferType type)
 {
 	switch (type) {
 	case FrameBufferType::ENUM_TYPE_DYNAMIC_COLOR:
-		if (!GenFBO_DynamicColor(width, height)) 
+		if (!GenFBO_DynamicColor(width, height))
 			printf("GenFBO_DynamicColor failed!\n");
 		break;
 	case FrameBufferType::ENUM_TYPE_COLOR_FLOAT:
-		if (!GenFBO_RGB16FColor(width, height))  
+		if (!GenFBO_RGB16FColor(width, height))
 			printf("GenFBO_RGB16FColor failed!\n");
 		break;
 	case FrameBufferType::ENUM_TYPE_DEPTH:
 		if (!GenFBO_Depth(width, height))
 			printf("GenFBO_Depth failed!\n");
-			break;
+		break;
 	default:
 		printf("ERROR: FBO type not know\n");
 		isValid = false;
@@ -34,7 +34,7 @@ GLFBO::GLFBO(unsigned int width, unsigned int height, FrameBufferType type)
 
 GLFBO::GLFBO(unsigned int width, unsigned int height, const std::vector<GLTexture::TexTureformat>& VecForGbuffer)
 	:
-	width(width), height(height),gbufferTypeVec(VecForGbuffer)
+	width(width), height(height), gbufferTypeVec(VecForGbuffer)
 {
 	glGenFramebuffers(1, &ID);
 	glBindFramebuffer(GL_FRAMEBUFFER, ID);
@@ -217,7 +217,7 @@ bool GLFBO::GenFBO_Depth(unsigned int width, unsigned int height) {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER); //clamp的颜色为border颜色
 	GLfloat borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
@@ -258,13 +258,25 @@ void GLFBO::UseDefault() {
 }
 
 
-void GLFBO::DebugOutPutFrameBuffer(const GLFBO& DebugFBO) {
+void GLFBO::DebugOutPutFrameBuffer(const GLFBO& DebugFBO, DebugType type) {
 	DebugFBO.Use();
-	auto TestMap = New<Image>(DebugFBO.width, DebugFBO.height, 3);
-	for (int i = 0; i < DebugFBO.colorTextures.size(); ++i) {
-		DebugFBO.GetColorTexture(i).Bind();
-		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
-		TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/") + std::to_string(i) + std::string(".png"), true);
+	switch (type) {
+	case DebugType::DebugType_Color: {
+		auto TestMap = New<Image>(DebugFBO.width, DebugFBO.height, 3);
+		for (int i = 0; i < DebugFBO.colorTextures.size(); ++i) {
+			DebugFBO.GetColorTexture(i).Bind();
+			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
+			TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/") + std::to_string(i) + std::string(".png"), true);
+		}
+		break;
+	}
+	case DebugType::DebugType_Depth: {
+		auto TestMap = New<Image>(DebugFBO.width, DebugFBO.height, 1);
+		DebugFBO.depthTexture.Bind();
+		glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, TestMap->GetData());
+		TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/depth.png"), true);
+		break;
+	}
 	}
 }
 

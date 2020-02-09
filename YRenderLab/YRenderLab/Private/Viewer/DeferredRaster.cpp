@@ -10,7 +10,7 @@
 #include <Public/Basic/MaterialComponent.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 #include <Public/Scene/LightComponent.h>
-#include <Public/Lights/DirectionLight.h>
+#include <Public/Lights/DirectionalLight.h>
 #include <Public/Lights/PointLight.h>
 
 DeferredRaster::DeferredRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwWindow> pGLWindow)
@@ -38,9 +38,9 @@ void DeferredRaster::Draw() {
 		UpdateUBO_Environment();
 	}
 
-	//Update data that like  lut etc...
+	//Update data that like  lut, shadow map, etc...
 	{
-		enviromentGen->Visit(scene);
+		enviromentGen->UpdateEnvironment(scene);
 	}
 
 
@@ -163,8 +163,8 @@ void DeferredRaster::Pass_GBuffer() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Reset transform
-	ObjectTransformVec.clear();
-	ObjectTransformVec.emplace_back(1.f);
+	//ObjectTransformVec.clear();
+	//ObjectTransformVec.emplace_back(1.f);
 
 	this->Visit(scene->GetRoot());
 }
@@ -242,11 +242,11 @@ void DeferredRaster::Visit(std::shared_ptr<YObject> obj) {
 	auto mesh = obj->GetComponent<MeshComponent>();
 	auto material = obj->GetComponent<MaterialComponent>();
 
-	auto transform = obj->GetComponent<TransformComponent>();
-	if (transform != nullptr) {
-		//这里没有以父节点的transform为基
-		ObjectTransformVec.push_back(/*modelVec.back() * */ transform->GetTransform());
-	}
+	//auto transform = obj->GetComponent<TransformComponent>();
+	//if (transform != nullptr) {
+	//	//这里没有以父节点的transform为基
+	//	ObjectTransformVec.push_back(/*modelVec.back() * */ transform->GetTransform());
+	//}
 
 	if (material && material->GetMaterial() && mesh && mesh->GetMesh()) {
 		this->Visit(Cast<BSDF_StandardPBR>(material->GetMaterial()));

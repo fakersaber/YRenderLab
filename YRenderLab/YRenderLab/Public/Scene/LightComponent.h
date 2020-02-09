@@ -5,6 +5,7 @@
 #include <Public/Scene/Component.h>
 
 class LightComponent : public Component {
+public:
 	LightComponent(const std::shared_ptr<YObject> obj, const std::shared_ptr<Light> LightInstance) :
 		Component(obj),
 		LightInstance(LightInstance)

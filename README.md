@@ -22,12 +22,17 @@
 - [x]  Light
   - [x] Direction Light
   - [ ] Point light
+  - [ ] Spot Light
 - [ ] Shadow
-  - [ ]  CSM/PCSS
+  - [ ] CSM/PCSS
+    - [ ] Directional Light
+    - [ ] Point Light
+    - [ ] Spot Light
   - [ ]  Distance field Soft Shadow
 - [ ] Antialiasing
   - [ ] TAA
 - [ ] Matrix-MainCol
+- [ ] Transform Parent
 
 ### SoftRHI
 - [x] Coordinate Transformation

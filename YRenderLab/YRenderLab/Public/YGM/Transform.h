@@ -16,16 +16,17 @@ namespace YGM {
 		Transform(const Mat4f& matrix) : Matrix(matrix) {} //InvMatrix(matrix.Inverse()) {}
 		Transform(const Mat4f& matrix, const Mat4f& invMatrix) :Matrix(matrix)/*, InvMatrix(invMatrix)*/ {};
 
-		Vector3 WorldToLocalTransVec(const Vector3& WorldVec);
-		Vector3 LocalToWorldTransVec(const Vector3& LocalVec);
-
-		Vector3 WorldToLocalTransPoint(const Vector3& WorldPos);
-		Vector3 LocalToWorldTransPoint(const Vector3& LocalPos);
+		Vector3 TrasformVec(const Vector3& LocalVec) const;
+		Vector3 InverseTrasformVec(const Vector3& WorldVec) const;
+		
+		Vector3 TrasformPoint(const Vector3& LocalPos) const;
+		Vector3 InverseTrasformPoint(const Vector3& WorldPos) const;
+		
 
 	public:
 		static const Transform LookAt(const Vector3& pos, const Vector3& target, const Vector3& up = Vector3(0, 1, 0));
 		static const Transform Perspective(const float fovy, const float aspect, const float zNear, const float zFar);
-
+		static const Transform Orthographic(const float width, const float height, const float zNear, const float zFar);
 	public:
 		const Mat4f& GetMatrix() const {
 			return Matrix;

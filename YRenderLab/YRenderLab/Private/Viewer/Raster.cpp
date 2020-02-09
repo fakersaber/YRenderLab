@@ -5,6 +5,9 @@
 #include <Public/Scene/Scene.h>
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/Viewer/EnviromentGen.h>
+#include <Public/Scene/LightComponent.h>
+#include <Public/Lights/DirectionalLight.h>
+#include <Public/Scene/Yobject.h>
 
 
 void Raster::Initial() {
@@ -34,12 +37,20 @@ void Raster::Initial() {
 
 
 void Raster::UpdateUBO_DirectionalLights() {
-	auto directionalLightIdx = 1;
-	Vector3 dir(1.f, 0.f, 0.f);
+
+
 	glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);
+	auto directionalLightIdx = 0;
+	//#TODO ¶à¹âÔ´
+	for (auto& LightComponent : scene->GetLightComponents()) {
+		if (auto directionalLight = Cast<DirectionalLight>(LightComponent->GetLight())) {
+			Vector3 dir = LightComponent->GetOwner()->GetObjectForward();
+			glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float) * 3, directionalLight->Color.Data());
+			glBufferSubData(GL_UNIFORM_BUFFER, 32, sizeof(float) * 3, dir.Data());
+			directionalLightIdx++;
+		}
+	}
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, 4, &directionalLightIdx);
-	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float) * 3, RGBf::White.Data());
-	glBufferSubData(GL_UNIFORM_BUFFER, 32, sizeof(float) * 3, dir.Data());
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 

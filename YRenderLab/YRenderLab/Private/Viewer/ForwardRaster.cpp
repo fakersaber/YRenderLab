@@ -35,8 +35,9 @@ void ForwardRaster::Draw() {
 	UpdateUBO_Camera();
 	UpdateUBO_DirectionalLights();
 	UpdateUBO_Environment();
-	
-	enviromentGen->Visit(scene);
+	enviromentGen->UpdateEnvironment(scene);
+
+
 	Visit(scene->GetRoot());
 	DrawEnvironment();
 }
@@ -60,12 +61,7 @@ void ForwardRaster::InitShaderStandardPBR() {
 
 
 void ForwardRaster::InitShaderPbrBlinnPhong() {
-	//BlinnPhongShader = GLShader("Data/shaders/P3N3T2T3.vs", "Data/shaders/materials/Pbr_Blinn_Phong.fs");
-	//BlinnPhongShader.SetInt("bsdf.albedoTexture", 0);
-	//BlinnPhongShader.SetInt("bsdf.normalTexture", 1);
-	//BlinnPhongShader.SetInt("bsdf.specularTexture", 2);
 
-	//RegisterShader(BlinnPhongShader, 3);
 }
 
 void ForwardRaster::InitShader_Skybox() {

@@ -29,10 +29,15 @@ public:
 		COPY_COLOR_BUFFER,
 		COPY_DEPTH_BUFFER,
 	};
+
+	enum class DebugType : uint8_t {
+		DebugType_Color,
+		DebugType_Depth
+	};
 	
 	static void UseDefault();
 	static void CopyFrameBuffer(const GLFBO& DesFBO, const GLFBO& SrcFBO, RenderTargetCopyType type);
-	static void DebugOutPutFrameBuffer(const GLFBO& DebugFBO);
+	static void DebugOutPutFrameBuffer(const GLFBO& DebugFBO, DebugType type);
 	GLFBO();
 	GLFBO(unsigned int width, unsigned int height, FrameBufferType type);
 	GLFBO(unsigned int width, unsigned int height, const std::vector<GLTexture::TexTureformat>& VecForGbuffer); //°ó¶¨¶à¸örendertarget
@@ -47,12 +52,12 @@ private:
 	bool GenFBO_Depth(unsigned int width, unsigned int height);
 private:
 	unsigned int ID;
-	std::vector<GLTexture> colorTextures;
-	GLTexture depthTexture;
-	bool isValid;
-	std::vector<GLTexture::TexTureformat> gbufferTypeVec;
 	unsigned int width;
 	unsigned int height;
+	std::vector<GLTexture> colorTextures;
+	std::vector<GLTexture::TexTureformat> gbufferTypeVec;
+	GLTexture depthTexture;
+	bool isValid;
 };
 
 

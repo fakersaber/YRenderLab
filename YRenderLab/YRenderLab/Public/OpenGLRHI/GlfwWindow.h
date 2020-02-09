@@ -66,7 +66,6 @@ private:
 	std::map<std::weak_ptr<TriMesh>, VAO, std::owner_less<std::weak_ptr<TriMesh>>> mesh2VAO;
 	std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;
 
-
 	std::unordered_map<VAOTYPE, VAO> StaticMeshContainer;
 
 public:

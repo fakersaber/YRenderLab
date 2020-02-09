@@ -7,7 +7,7 @@
 
 #include <Public/Basic/YHeapObject.h>
 #include <Public/Basic/Node.h>
-
+#include <Public/YGM/Vector3.hpp>
 
 class Component;
 class YObject : public Node<YObject> {
@@ -42,6 +42,8 @@ public:
 	void AttachComponent(const std::shared_ptr<Component> component);
 
 	void DetachComponent(const std::shared_ptr<Component> component);
+
+	Vector3 GetObjectForward();
 
 	const std::unordered_map<TypeInfoRef, std::shared_ptr<Component>, Hasher, EqualTo>& GetComponents() const { return components; };
 

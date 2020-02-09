@@ -212,7 +212,7 @@ std::vector<Vector3> Camera::Corners() const {
 
 	std::vector<Vector3> CornersWorld;
 	for (int i = 0; i < 8; i++) {
-		CornersWorld.emplace_back(NdcToWorld.LocalToWorldTransPoint(nCorners[i]));
+		CornersWorld.emplace_back(NdcToWorld.TrasformPoint(nCorners[i]));
 	}
 
 	return CornersWorld;

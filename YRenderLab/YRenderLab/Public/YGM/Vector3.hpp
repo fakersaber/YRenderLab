@@ -53,13 +53,18 @@ namespace YGM {
 			return *this;
 		}
 
-		const Vector operator*(value_type rhs) const
-		{
+		Vector& operator/=(value_type rhs) {
+			x /= rhs;
+			y /= rhs;
+			z /= rhs;
+			return *this;
+		}
+
+		const Vector operator*(value_type rhs) const{
 			return Vector(x * rhs, y * rhs, z * rhs);
 		}
 
-		const Vector operator/(value_type rhs) const
-		{
+		const Vector operator/(value_type rhs) const{
 			return Vector(x / rhs, y / rhs, z / rhs);
 		}
 
@@ -91,6 +96,20 @@ namespace YGM {
 			this->x /= InnerValue;
 			this->y /= InnerValue;
 			this->z /= InnerValue;
+		}
+
+		void AbsSelf() {
+			this->x = std::abs(this->x);
+			this->y = std::abs(this->y);
+			this->z = std::abs(this->z);
+		}
+
+		Vector AbsVal() {
+			return Vector(
+				std::abs(this->x),
+				std::abs(this->y),
+				std::abs(this->z)
+			);
 		}
 
 		const value_type Dot(const Vector& rhs) const {

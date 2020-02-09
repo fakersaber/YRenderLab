@@ -19,7 +19,7 @@ namespace LambdaHelper {
 	};
 
 	//Member Function type
-	//貌似默认的lambda都是const限定，不加const匹配不到对应模板
+	//默认的lambda都是const限定，不加const匹配不到对应模板
 	template<typename ClassType, typename ReturnType, typename ... Args>
 	struct FunctionTraits<ReturnType(ClassType::*)(Args...) const> {
 		enum { ArgsNum = sizeof...(Args) };

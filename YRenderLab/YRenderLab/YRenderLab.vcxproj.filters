@@ -576,9 +576,6 @@
     <ClInclude Include="Public\Viewer\DeferredRaster.h">
       <Filter>Public\Viewer</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Lights\DirectionLight.h">
-      <Filter>Public\Lights</Filter>
-    </ClInclude>
     <ClInclude Include="Public\Lights\Light.h">
       <Filter>Public\Lights</Filter>
     </ClInclude>
@@ -605,6 +602,12 @@
     </ClInclude>
     <ClInclude Include="Public\Viewer\ShadowGen.h">
       <Filter>Public\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\weakPtr_hash.h">
+      <Filter>Public\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Lights\DirectionalLight.h">
+      <Filter>Public\Lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -738,9 +741,6 @@
     <ClCompile Include="Private\SoftRHI\RenderWindow.cpp">
       <Filter>Private\SoftRHI</Filter>
     </ClCompile>
-    <ClCompile Include="Private\Lights\DirectionLight.cpp">
-      <Filter>Private\Lights</Filter>
-    </ClCompile>
     <ClCompile Include="Private\Lights\Light.cpp">
       <Filter>Private\Lights</Filter>
     </ClCompile>
@@ -755,6 +755,9 @@
     </ClCompile>
     <ClCompile Include="Private\Viewer\ShadowGen.cpp">
       <Filter>Private\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Lights\DirectionalLight.cpp">
+      <Filter>Private\Lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

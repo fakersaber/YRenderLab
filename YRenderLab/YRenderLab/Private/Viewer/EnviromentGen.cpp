@@ -39,7 +39,7 @@ void EnviromentGen::Init() {
 }
 
 
-void EnviromentGen::Visit(std::shared_ptr<Scene> scene) {
+void EnviromentGen::UpdateEnvironment(std::shared_ptr<Scene> scene) {
 
 	if (!scene || !scene->GetRoot()) {
 		printf("ERROR::EnviromentGen::Visit(std::shared_ptr<Scene> scene):\n"

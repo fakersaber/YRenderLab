@@ -19,7 +19,7 @@ protected:
 
 public:
 	void Init();
-	void Visit(std::shared_ptr<Scene> scene);
+	void UpdateEnvironment(std::shared_ptr<Scene> scene);
 	GLTexture GetSkyBox() const { return skyBox; }
 	GLTexture GetIrradianceMap() const { return irradianceMap; }
 	GLTexture GetPrefilterMap() const { return prefilterMap; }
