@@ -1,5 +1,6 @@
 #include <Public/Viewer/ForwardRaster.h>
 #include <Public/Viewer/EnviromentGen.h>
+#include <Public/Viewer/ShadowGen.h>
 
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
@@ -18,7 +19,10 @@
 
 ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwWindow> pGLWindow)
 	:
-	Raster(scene, New<EnviromentGen>(pGLWindow), pGLWindow)
+	Raster(scene, 
+		New<EnviromentGen>(pGLWindow), 
+		New<ShadowGen>(pGLWindow),
+		pGLWindow)
 {
 }
 
@@ -75,10 +79,10 @@ void ForwardRaster::Visit(std::shared_ptr<YObject> obj) {
 	auto material = obj->GetComponent<MaterialComponent>();
 
 	auto transform = obj->GetComponent<TransformComponent>();
-	if (transform != nullptr) {
-		//这里没有以父节点的transform为基
-		ObjectTransformVec.push_back(/*modelVec.back() * */ transform->GetTransform());
-	}
+	//if (transform != nullptr) {
+	//	//这里没有以父节点的transform为基
+	//	ObjectTransformVec.push_back(/*modelVec.back() * */ transform->GetTransform());
+	//}
 
 	if (material && material->GetMaterial() && mesh && mesh->GetMesh()) {
 		this->Visit(Cast<BSDF_StandardPBR>(material->GetMaterial()));

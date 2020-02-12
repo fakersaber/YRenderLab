@@ -13,11 +13,13 @@ class Image;
 namespace AssimpLoader {
 	const std::shared_ptr<YObject> Load(const std::string& path);
 
-	const std::shared_ptr<YObject> LoadNodes(
+	void LoadNodes(
 		std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
 		const std::string& dir,
 		aiNode* node,
-		const aiScene* scene);
+		const aiScene* scene,
+		std::shared_ptr<YObject> parent
+		);
 
 	void LoadMesh(
 		std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,

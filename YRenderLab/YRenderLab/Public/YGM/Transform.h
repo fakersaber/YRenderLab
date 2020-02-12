@@ -14,7 +14,8 @@ namespace YGM {
 		Transform(float d) :Matrix(d) {}//InvMatrix(1.f/d){};.
 		Transform() :Transform(1.f) { }
 		Transform(const Mat4f& matrix) : Matrix(matrix) {} //InvMatrix(matrix.Inverse()) {}
-		Transform(const Mat4f& matrix, const Mat4f& invMatrix) :Matrix(matrix)/*, InvMatrix(invMatrix)*/ {};
+		Transform(const Vector4& vec1, const Vector4& vec2, const Vector4& vec3, const Vector4& vec4) : Matrix(vec1, vec2, vec3, vec4) {}
+		//Transform(const Mat4f& matrix, const Mat4f& invMatrix) :Matrix(matrix)/*, InvMatrix(invMatrix)*/ {};
 
 		Vector3 TrasformVec(const Vector3& LocalVec) const;
 		Vector3 InverseTrasformVec(const Vector3& WorldVec) const;
@@ -22,6 +23,7 @@ namespace YGM {
 		Vector3 TrasformPoint(const Vector3& LocalPos) const;
 		Vector3 InverseTrasformPoint(const Vector3& WorldPos) const;
 		
+
 
 	public:
 		static const Transform LookAt(const Vector3& pos, const Vector3& target, const Vector3& up = Vector3(0, 1, 0));
@@ -32,9 +34,9 @@ namespace YGM {
 			return Matrix;
 		};
 
-		//const Mat4f& GetInvMatrix() const {
-		//	return InvMatrix;
-		//}
+		Mat4f& GetMatrix() {
+			return Matrix;
+		}
 
 	private:
 		Mat4f Matrix;

@@ -1,6 +1,7 @@
 #include <Public/Viewer/DeferredRaster.h>
 #include <Public/Scene/Scene.h>
 #include <Public/Viewer/EnviromentGen.h>
+#include <Public/Viewer/ShadowGen.h>
 #include <Public/OpenGLRHI/GLFBO.h>
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/Scene/MeshComponent.h>
@@ -15,7 +16,11 @@
 
 DeferredRaster::DeferredRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwWindow> pGLWindow)
 	:
-	Raster(scene, New<EnviromentGen>(pGLWindow), pGLWindow)
+	Raster(scene, 
+		New<EnviromentGen>(pGLWindow), 
+		New<ShadowGen>(pGLWindow),
+		pGLWindow
+	)
 {
 }
 
@@ -24,7 +29,6 @@ void DeferredRaster::Resize(unsigned int width, unsigned int height) {
 	windowFBO.Resize(width, height);
 }
 
-//#TODO：在deferred中改变分辨率时必须更新FBO
 void DeferredRaster::Draw() {
 	
 	glEnable(GL_DEPTH_TEST);
@@ -41,6 +45,7 @@ void DeferredRaster::Draw() {
 	//Update data that like  lut, shadow map, etc...
 	{
 		enviromentGen->UpdateEnvironment(scene);
+		//shadowGen->UpdateShadowMap(scene);
 	}
 
 
@@ -166,7 +171,7 @@ void DeferredRaster::Pass_GBuffer() {
 	//ObjectTransformVec.clear();
 	//ObjectTransformVec.emplace_back(1.f);
 
-	this->Visit(scene->GetRoot());
+	this->RenderScene(scene->GetRoot());
 }
 
 void DeferredRaster::Pass_Lights() {
@@ -238,29 +243,24 @@ void DeferredRaster::Pass_PostProcess(){
 
 
 
-void DeferredRaster::Visit(std::shared_ptr<YObject> obj) {
+void DeferredRaster::RenderScene(std::shared_ptr<YObject> obj) {
 	auto mesh = obj->GetComponent<MeshComponent>();
 	auto material = obj->GetComponent<MaterialComponent>();
+	auto transform = obj->GetComponent<TransformComponent>();
 
-	//auto transform = obj->GetComponent<TransformComponent>();
-	//if (transform != nullptr) {
-	//	//这里没有以父节点的transform为基
-	//	ObjectTransformVec.push_back(/*modelVec.back() * */ transform->GetTransform());
-	//}
-
-	if (material && material->GetMaterial() && mesh && mesh->GetMesh()) {
-		this->Visit(Cast<BSDF_StandardPBR>(material->GetMaterial()));
-		this->Visit(mesh->GetMesh());
+	if (material && material->GetMaterial() && mesh && mesh->GetMesh() && transform) {
+		this->SetMaterial(Cast<BSDF_StandardPBR>(material->GetMaterial()));
+		this->RenderMesh(mesh->GetMesh(),transform->GetWorldTransform());
 	}
 	
 	for (auto child : obj->GetChildrens()) {
-		this->Visit(child);
+		this->RenderScene(child);
 	}
 
 }
 
 
-void DeferredRaster::Visit(std::shared_ptr<BSDF_StandardPBR> material) {
+void DeferredRaster::SetMaterial(std::shared_ptr<BSDF_StandardPBR> material) {
 
 	SetCurShader(GBuffer_StandardPBRShader);
 	GBuffer_StandardPBRShader.SetVec3f("Material.colorFactor", material->colorFactor);
@@ -293,6 +293,7 @@ void DeferredRaster::Visit(std::shared_ptr<BSDF_StandardPBR> material) {
 }
 
 
-void DeferredRaster::Visit(std::shared_ptr<TriMesh> mesh) {
+void DeferredRaster::RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model) {
+	GBuffer_StandardPBRShader.SetMat4f("model", model.GetMatrix().Transpose());
 	pGLWindow->GetVAO(mesh).Draw(GBuffer_StandardPBRShader);
 }

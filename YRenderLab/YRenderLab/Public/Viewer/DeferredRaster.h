@@ -42,9 +42,9 @@ protected:
 	/*--------------------------------------------------------------------------------------------*/
 
 private:
-	void Visit(std::shared_ptr<YObject> obj);
-	void Visit(std::shared_ptr<BSDF_StandardPBR> material);
-	void Visit(std::shared_ptr<TriMesh> mesh);
+	void RenderScene(std::shared_ptr<YObject> obj);
+	void SetMaterial(std::shared_ptr<BSDF_StandardPBR> material);
+	void RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model);
 private:
 	GLShader curShader;
 	GLShader GBuffer_StandardPBRShader;

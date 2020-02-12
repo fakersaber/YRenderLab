@@ -32,7 +32,7 @@
 - [ ] Antialiasing
   - [ ] TAA
 - [ ] Matrix-MainCol
-- [ ] Transform Parent
+- [x] Transform Parent
 
 ### SoftRHI
 - [x] Coordinate Transformation

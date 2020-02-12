@@ -83,7 +83,13 @@ namespace YGM {
 
 
 	Vector3 Transform::InverseTrasformPoint(const Vector3& ParentPos) const {
-		//Matrix(0, 0)
+		//可以变为四元数的转换，转轴，但是貌似不能表示投影变换吗
+		//http://people.csail.mit.edu/bkph/articles/Quaternions.pdf
+		// V' = V + 2w(Q x V) + (2Q x (Q x V))
+		// T = 2(Q x V)
+		// V' = V + w * (T) + (Q x T)
+
+
 
 		return Vector3();
 	}

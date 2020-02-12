@@ -1,9 +1,13 @@
+#include <iostream>
 #include <Public/3rdPart/assimp/pbrmaterial.h>
+
+#include <Public/YCore.h>
+
 #include <Public/Scene/AssimpLoader.h>
 #include <Public/Scene/Yobject.h>
-
 #include <Public/Scene/TransformComponent.h>
 #include <Public/Scene/MeshComponent.h>
+
 #include <Public/Basic/MaterialComponent.h>
 
 //#include <Public/Basic/BSDF_blinnPhong.h>
@@ -15,7 +19,7 @@
 
 #include <Public/YGM/Vector2.hpp>
 
-#include <iostream>
+
 
 namespace AssimpLoader {
 
@@ -39,32 +43,36 @@ namespace AssimpLoader {
 		}
 		auto dir = path.substr(0, path.find_last_of('/'));
 		std::unordered_map<std::string, std::shared_ptr<Image>> image_table;
-		return LoadNodes(image_table, dir, scene->mRootNode, scene);
+
+		//把Root提取到这里
+		auto root = New<YObject>(scene->mRootNode->mName.C_Str());
+		const auto& Transform = New<TransformComponent>(root);
+		Transform->SetWorldScale(Vector3(0.2f, 0.2f, 0.2f));
+		LoadNodes(image_table, dir, scene->mRootNode, scene, root);
+		return root;
 	}
 
-	const std::shared_ptr<YObject> LoadNodes
+	void LoadNodes
 	(
 		std::unordered_map<std::string, std::shared_ptr<Image>>& image_table,
 		const std::string& dir,
 		aiNode* node,
-		const aiScene* scene
+		const aiScene* scene,
+		std::shared_ptr<YObject> parent
 	)
 	{
-		auto obj = New<YObject>(node->mName.C_Str());
-		New<TransformComponent>(obj);
 		for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
-			//std::cout << node->mNumMeshes << std::endl;
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-			auto meshObj = New<YObject>(node->mName.C_Str() + std::to_string(i), obj);
+			auto meshObj = New<YObject>(node->mName.C_Str() + std::to_string(i), parent);
 			New<TransformComponent>(meshObj);
 			LoadMesh(image_table, dir, mesh, scene, meshObj);
 		}
-		// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
+
 		for (unsigned int i = 0; i < node->mNumChildren; i++) {
-			auto child = LoadNodes(image_table, dir, node->mChildren[i], scene);
-			obj->AddChild(child);
+			auto Newparent = New<YObject>(node->mChildren[i]->mName.C_Str(),parent);
+			New<TransformComponent>(Newparent);
+			LoadNodes(image_table, dir, node->mChildren[i], scene, Newparent);
 		}
-		return obj;
 	}
 
 	void LoadMesh(
@@ -81,16 +89,19 @@ namespace AssimpLoader {
 		std::vector<unsigned int> indices;
 		std::vector<Vector3> tangents;
 		for (uint32_t i = 0; i < mesh->mNumVertices; ++i) {
-			poses.emplace_back(
-				mesh->mVertices[i].x,
-				mesh->mVertices[i].y,
-				mesh->mVertices[i].z
-			);
-			normals.emplace_back(
-				mesh->mNormals[i].x,
-				mesh->mNormals[i].y,
-				mesh->mNormals[i].z
-			);
+
+			Vector3 vertices(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+#ifdef YRENDER_REVERSE
+			vertices = CoreDefine::ModelReverse.TrasformPoint(vertices);
+#endif
+			poses.emplace_back(vertices);
+
+			//模型转换的逆转置矩阵与原矩阵相同，所以直接使用ModelReverse
+			Vector3 normal(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
+#ifdef YRENDER_REVERSE
+			normal = CoreDefine::ModelReverse.TrasformVec(normal);
+#endif
+			normals.emplace_back(normal);
 
 			if (mesh->mTextureCoords[0]) {
 				texcoords.emplace_back(
@@ -102,11 +113,11 @@ namespace AssimpLoader {
 				texcoords.emplace_back(0.f, 0.f);
 
 			if (mesh->mTangents) {
-				tangents.emplace_back(
-					mesh->mTangents[i].x,
-					mesh->mTangents[i].y,
-					mesh->mTangents[i].z
-				);
+				Vector3 Tangent(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
+#ifdef YRENDER_REVERSE
+				Tangent = CoreDefine::ModelReverse.TrasformVec(Tangent);
+#endif
+				tangents.emplace_back(Tangent);
 			}
 		}
 		for (uint32_t i = 0; i < mesh->mNumFaces; ++i) {

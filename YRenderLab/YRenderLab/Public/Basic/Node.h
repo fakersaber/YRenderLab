@@ -33,19 +33,21 @@ public:
 		}
 	}
 
-	const std::shared_ptr<T> GetParent() const { return parent.lock(); }
-	const std::unordered_set<std::shared_ptr<T>>& GetChildrens() const { return childrens; }
-
-
+	//前向遍历的深搜
 	template<typename LambdaExpr>
 	void ForEachNode(LambdaExpr lambdaFunc) {
 		//exec function
 		lambdaFunc(shared_this<T>());
-		 
+
 		for (auto Children : childrens) {
 			Children->ForEachNode(lambdaFunc);
 		}
 	}
+
+
+	const std::shared_ptr<T> GetParent() const { return parent.lock(); }
+	const std::unordered_set<std::shared_ptr<T>>& GetChildrens() const { return childrens; }
+
 
 protected:
 	virtual void InitAfterNew() override {
@@ -60,8 +62,6 @@ private:
 
 
 };
-
-
 
 
 #endif

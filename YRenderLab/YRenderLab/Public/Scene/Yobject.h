@@ -43,7 +43,16 @@ public:
 
 	void DetachComponent(const std::shared_ptr<Component> component);
 
-	Vector3 GetObjectForward();
+	Vector3 GetObjectWorldForward();
+
+	const std::string& GetYObjectName() { return name; }
+
+	void PrintNode(const std::string& PreSpace = std::string("")) {
+		std::cout << PreSpace + name << std::endl;
+		for (auto child : GetChildrens()) {
+			child->PrintNode(PreSpace + std::string("----"));
+		}
+	}
 
 	const std::unordered_map<TypeInfoRef, std::shared_ptr<Component>, Hasher, EqualTo>& GetComponents() const { return components; };
 

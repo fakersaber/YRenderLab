@@ -23,29 +23,19 @@ out VS_OUT {
     vec3 Tangent;
 } vs_out;
 
+uniform mat4 model;
+
 void main()
 {
-    //这是先转换左手的以z轴为上转换到y轴为上，然后再reverseZ换到右手系
-    vec3 x = vec3(1.f,0.f,0.f);
-    vec3 y = vec3(0.f,0.f,1.f);
-    vec3 z = vec3(0.f,1.f,0.f);
-
-    mat3 TempModule = mat3(x,y,z);
-    vec3 ScaleModule = iModelPos * vec3(0.2);
-    vs_out.FragPos = TempModule * ScaleModule;
+    vec4 worldPos = model * vec4(iModelPos,1.0);
+    vs_out.FragPos = worldPos.xyz/worldPos.w;
     vs_out.TexCoords = iTexCoords;
-
-
-    mat3 normalMatrix = transpose(inverse(TempModule));
+    mat3 normalMatrix = transpose(inverse(mat3(model)));
     vec3 N = normalize(normalMatrix * iModelNormal);
 	vs_out.Normal = N;
-
-    // vec3 T = normalize(normalMatrix * iModelTangent);
-    // vs_out.Tangent = normalize(T - dot(T, N) * N);
-
-    //法线计算都使用了模型的逆转置，那么切线变换矩阵一定是ModelToWorld
-    vs_out.Tangent = normalize(TempModule * iModelTangent);
-
-    gl_Position = projection * view * vec4(vs_out.FragPos,1.0f);
+    vec3 T = normalize(normalMatrix * iModelTangent);
+    vs_out.Tangent = normalize(T - dot(T, N) * N);
+    //vs_out.Tangent = normalize(model * iModelTangent);
+    gl_Position = projection * view * worldPos;
 
 }

@@ -18,9 +18,8 @@ class TriMesh;
 class ShadowGen : public YHeapObject {
 public:
 	ShadowGen(std::shared_ptr<GlfwWindow> pGLWindow);
-	void init();
-	
-	void Visit(std::shared_ptr<Scene> scene);
+	void Init();
+	void UpdateShadowMap(std::shared_ptr<Scene> scene);
 
 protected:
 	virtual ~ShadowGen() = default;

@@ -17,12 +17,12 @@ ShadowGen::ShadowGen(std::shared_ptr<GlfwWindow> pGLWindow)
 
 }
 
-void ShadowGen::init() {
+void ShadowGen::Init() {
 	new (&DirectionalLightShadow) GLShader("Data/shaders/MVP_P3.vs", "Data/shaders/Common/Empty.fs");
 }
 
 
-void ShadowGen::Visit(std::shared_ptr<Scene> scene) {
+void ShadowGen::UpdateShadowMap(std::shared_ptr<Scene> scene) {
 	if (!scene || !scene->GetRoot() || !scene->GetCamera()) {
 		printf("Error! ShadowGen::Visit\n scene or root or camera is nullptr!\n");
 		return;
@@ -39,10 +39,11 @@ void ShadowGen::Visit(std::shared_ptr<Scene> scene) {
 		if (iter != lightDepthFBOMap.end())
 			continue;
 
-		if (iter->first.expired()) {
-			lightDepthFBOMap.erase(iter);
-			continue;
-		}
+		//#TODO：不会再循环这个容器所以无法清理，可以修改为先填充容器然后循环，只是执行次数变多
+		//if (iter->first.expired()) {
+		//	lightDepthFBOMap.erase(iter);
+		//	continue;
+		//}
 
 		auto light = LightComponent->GetLight();
 
@@ -81,7 +82,7 @@ void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene,const
 	glClear(GL_DEPTH_BUFFER_BIT);
 
 	//scale不为1才需要normalize，这里先不normalize
-	Vector3 LightVec = lightComponent->GetOwner()->GetObjectForward();
+	Vector3 LightVec = lightComponent->GetOwner()->GetObjectWorldForward();
 
 	//求出中心到8个顶点在LightVec方向的投影确定在该方向上的最近与最远值
 	float minD = FLT_MAX;
@@ -111,8 +112,8 @@ void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene,const
 	}
 	auto proj = YGM::Transform::Orthographic(2 * maxX, 2 * maxY, 0, extent * (1 + backRatio));
 
-	DirectionalLightShadow.SetMat4f("view", WorldToViewTransform.GetMatrix().Data());
-	DirectionalLightShadow.SetMat4f("proj", proj.GetMatrix().Data());
+	DirectionalLightShadow.SetMat4f("view", WorldToViewTransform.GetMatrix().Transpose());
+	DirectionalLightShadow.SetMat4f("projection", proj.GetMatrix().Transpose());
 
 	//light2pv[lightComponent] = proj * view;
 	this->RenderDirectionalShadowMap(Scene->GetRoot());
@@ -123,7 +124,7 @@ void ShadowGen::RenderDirectionalShadowMap(std::shared_ptr<YObject> root){
 	auto transform = root->GetComponent<TransformComponent>();
 
 	if (mesh && transform &&  mesh->GetMesh()) {
-		DirectionalLightShadow.SetMat4f("model", transform->GetTransform().GetMatrix().Transpose());
+		DirectionalLightShadow.SetMat4f("model", transform->GetWorldTransform().GetMatrix().Transpose());
 		pGLWindow->GetVAO(mesh->GetMesh()).Draw(DirectionalLightShadow);
 	}
 

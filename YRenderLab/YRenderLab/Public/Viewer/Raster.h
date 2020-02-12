@@ -8,14 +8,20 @@
 class Scene;
 class Camera;
 class EnviromentGen;
+class ShadowGen;
 class GlfwWindow;
 
 class Raster : public YHeapObject {
 protected:
-	Raster(std::shared_ptr<Scene> scene, std::shared_ptr<EnviromentGen> enviromentGen, std::shared_ptr<GlfwWindow> pGLWindow)
+	Raster(std::shared_ptr<Scene> scene, 
+		std::shared_ptr<EnviromentGen> enviromentGen, 
+		std::shared_ptr<ShadowGen> shadowGen,
+		std::shared_ptr<GlfwWindow> pGLWindow
+	)
 		:
 		scene(scene),
 		enviromentGen(enviromentGen),
+		shadowGen(shadowGen),
 		pGLWindow(pGLWindow)
 	{
 
@@ -39,6 +45,7 @@ protected:
 	std::shared_ptr<Scene> scene;
 	std::shared_ptr<GlfwWindow> pGLWindow;
 	std::shared_ptr<EnviromentGen> enviromentGen;
+	std::shared_ptr<ShadowGen> shadowGen;
 	std::vector<YGM::Transform> ObjectTransformVec;
 private:
 	unsigned int directionalLightsUBO;

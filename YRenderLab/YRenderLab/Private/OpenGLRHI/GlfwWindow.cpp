@@ -55,6 +55,8 @@ bool GlfwWindow::Initial(const int width, const int height)
 	New<TransformComponent>(TestLight);
 	New<LightComponent>(TestLight, New<DirectionalLight>(RGBf::White,1.f));
 
+	Root->PrintNode();
+
 	//创建场景，管线
 	auto scene = New<Scene>(Root, MainCamera, New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
 	//RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
@@ -79,9 +81,7 @@ void GlfwWindow::Run() {
 
 		RenderRaster->Draw();
 
-
 		deltaTime = static_cast<float>(glfwGetTime() - beginTime);
-
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

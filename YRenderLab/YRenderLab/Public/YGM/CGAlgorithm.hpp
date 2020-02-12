@@ -5,7 +5,6 @@
 
 namespace YGM {
 
-	//#TODO: ToneMapping
 	//float3 ACESToneMapping(float3 color, float adapted_lum)
 	//{
 	//	const float A = 2.51f;
