@@ -45,13 +45,12 @@ void DeferredRaster::Draw() {
 	//Update data that like  lut, shadow map, etc...
 	{
 		enviromentGen->UpdateEnvironment(scene);
-		//shadowGen->UpdateShadowMap(scene);
+		shadowGen->UpdateShadowMap(scene);
 	}
 
 
 	{
 		Pass_GBuffer();
-		//GLFBO::DebugOutPutFrameBuffer(gbufferFBO);
 
 		glDisable(GL_DEPTH_TEST);
 		Pass_Lights();
@@ -62,7 +61,6 @@ void DeferredRaster::Draw() {
 		//Pass_Transparent();
 
 		Pass_SkyBox();
-		//GLFBO::DebugOutPutFrameBuffer(windowFBO);
 
 		//Pass_TAA();
 

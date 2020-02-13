@@ -33,7 +33,7 @@ public:
 		}
 	}
 
-	//前向遍历的深搜
+	//中序遍历的深搜
 	template<typename LambdaExpr>
 	void ForEachNode(LambdaExpr lambdaFunc) {
 		//exec function

@@ -36,7 +36,7 @@ private:
 	GLShader PointLightShadow;
 	GLShader SpotLightShadow;
 	std::shared_ptr<GlfwWindow> pGLWindow;
-	std::unordered_map<std::weak_ptr<LightComponent>, GLFBO, WeakHasher<LightComponent>,WeakEqualTo<LightComponent>> lightDepthFBOMap;
+	std::unordered_map<std::weak_ptr<LightComponent>, GLFBO, WeakHasher<LightComponent>,WeakEqualTo<LightComponent>> DirectionalDepthFBOMap;
 
 };
 

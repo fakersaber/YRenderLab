@@ -10,9 +10,9 @@
 #include <Public/Scene/TransformComponent.h>
 #include <Public/Basic/MaterialComponent.h>
 
-ShadowGen::ShadowGen(std::shared_ptr<GlfwWindow> pGLWindow) 
-	: 
-	pGLWindow(pGLWindow), DepthMapSize(1024) 
+ShadowGen::ShadowGen(std::shared_ptr<GlfwWindow> pGLWindow)
+	:
+	pGLWindow(pGLWindow), DepthMapSize(1024)
 {
 
 }
@@ -32,35 +32,25 @@ void ShadowGen::UpdateShadowMap(std::shared_ptr<Scene> scene) {
 	glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &origFBO);
 	GLint origViewport[4];
 	glGetIntegerv(GL_VIEWPORT, origViewport);
-
-	for (auto& LightComponent : scene->GetLightComponents()) {
-		auto iter = lightDepthFBOMap.find(LightComponent);
-
-		if (iter != lightDepthFBOMap.end())
-			continue;
-
-		//#TODO：不会再循环这个容器所以无法清理，可以修改为先填充容器然后循环，只是执行次数变多
-		//if (iter->first.expired()) {
-		//	lightDepthFBOMap.erase(iter);
-		//	continue;
-		//}
-
-		auto light = LightComponent->GetLight();
-
-		//---------------directional light------------------
-		if (auto directionalLight = Cast<DirectionalLight>(light)) {
+	for (auto& lightComponent : scene->GetLightComponents()) {
+		auto light = lightComponent->GetLight();
+		if (auto directionalLight = Cast<DirectionalLight>(light) && DirectionalDepthFBOMap.find(lightComponent) == DirectionalDepthFBOMap.end()) {
 			GLFBO DirectionLight_DepthMap(DepthMapSize, DepthMapSize, GLFBO::FrameBufferType::ENUM_TYPE_DEPTH);
-			lightDepthFBOMap.insert(std::make_pair(LightComponent, DirectionLight_DepthMap));
-			GenDirectionalDepthMap(scene, DirectionLight_DepthMap, LightComponent);
-
-
-			GLFBO::DebugOutPutFrameBuffer(DirectionLight_DepthMap,GLFBO::DebugType::DebugType_Depth);
+			DirectionalDepthFBOMap.emplace(lightComponent, DirectionLight_DepthMap);
 			continue;
 		}
+	}
 
+	for (auto iter = DirectionalDepthFBOMap.cbegin(); iter != DirectionalDepthFBOMap.cend();) {
+		auto CurIter = iter;
+		++iter;
+		if (CurIter->first.expired()) {
+			DirectionalDepthFBOMap.erase(CurIter);
+			continue;
+		}
+		GenDirectionalDepthMap(scene, CurIter->second, CurIter->first.lock());
 
-		//---------------point light------------------------
-		/*if(auto pointLight = Cast<PointLight>())*/
+		//GLFBO::DebugOutPutFrameBuffer(CurIter->second, GLFBO::DebugType::DebugType_Depth);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, origFBO);
@@ -68,7 +58,7 @@ void ShadowGen::UpdateShadowMap(std::shared_ptr<Scene> scene) {
 }
 
 
-void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene,const GLFBO& DepthFBO, const std::shared_ptr<LightComponent>& lightComponent){
+void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene, const GLFBO& DepthFBO, const std::shared_ptr<LightComponent>& lightComponent) {
 	const auto corners = Scene->GetCamera()->Corners();
 	Vector3 Center;
 	for (auto& Point : corners) {
@@ -119,7 +109,7 @@ void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene,const
 	this->RenderDirectionalShadowMap(Scene->GetRoot());
 }
 
-void ShadowGen::RenderDirectionalShadowMap(std::shared_ptr<YObject> root){
+void ShadowGen::RenderDirectionalShadowMap(std::shared_ptr<YObject> root) {
 	auto mesh = root->GetComponent<MeshComponent>();
 	auto transform = root->GetComponent<TransformComponent>();
 
