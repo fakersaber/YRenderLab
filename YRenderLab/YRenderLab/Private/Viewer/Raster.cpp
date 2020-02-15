@@ -39,16 +39,16 @@ void Raster::Initial() {
 
 
 void Raster::UpdateUBO_DirectionalLights() {
-
-
 	glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);
 	auto directionalLightIdx = 0;
-	//#TODO 多光源
+	//#TODO 可把所有解析光放在一个UBO中
 	for (auto& LightComponent : scene->GetLightComponents()) {
 		if (auto directionalLight = Cast<DirectionalLight>(LightComponent->GetLight())) {
 			Vector3 dir = LightComponent->GetOwner()->GetObjectWorldForward();
-			glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float) * 3, directionalLight->Color.Data());
-			glBufferSubData(GL_UNIFORM_BUFFER, 32, sizeof(float) * 3, dir.Data());
+			int base = 16 + 128 * directionalLightIdx;
+			glBufferSubData(GL_UNIFORM_BUFFER, base, sizeof(float) * 3, directionalLight->Color.Data());
+			glBufferSubData(GL_UNIFORM_BUFFER, base + 16, sizeof(float) * 3, dir.Data());
+			//glBufferSubData(GL_UNIFORM_BUFFER, base + 32, 64, shadowGen->GetDirectionalLightProjView(LightComponent).GetMatrix().Data()); //直接使用Transpose后的
 			directionalLightIdx++;
 		}
 	}

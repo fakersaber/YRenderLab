@@ -7,6 +7,7 @@
 #include <Public/Lights/PointLight.h>
 #include <Public/Scene/LightComponent.h>
 #include <Public/Scene/MeshComponent.h>
+#include <Public/Basic/Mesh/Primitive.h>
 #include <Public/Scene/TransformComponent.h>
 #include <Public/Basic/MaterialComponent.h>
 
@@ -18,7 +19,7 @@ ShadowGen::ShadowGen(std::shared_ptr<GlfwWindow> pGLWindow)
 }
 
 void ShadowGen::Init() {
-	new (&DirectionalLightShadow) GLShader("Data/shaders/MVP_P3.vs", "Data/shaders/Common/Empty.fs");
+	new (&DirectionalLightShadow_Shader) GLShader("Data/shaders/MVP_P3.vs", "Data/shaders/Common/Empty.fs");
 }
 
 
@@ -41,6 +42,8 @@ void ShadowGen::UpdateShadowMap(std::shared_ptr<Scene> scene) {
 		}
 	}
 
+
+	DirectionalLightProjView.clear();
 	for (auto iter = DirectionalDepthFBOMap.cbegin(); iter != DirectionalDepthFBOMap.cend();) {
 		auto CurIter = iter;
 		++iter;
@@ -102,10 +105,13 @@ void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene, cons
 	}
 	auto proj = YGM::Transform::Orthographic(2 * maxX, 2 * maxY, 0, extent * (1 + backRatio));
 
-	DirectionalLightShadow.SetMat4f("view", WorldToViewTransform.GetMatrix().Transpose());
-	DirectionalLightShadow.SetMat4f("projection", proj.GetMatrix().Transpose());
 
-	//light2pv[lightComponent] = proj * view;
+	DirectionalLightShadow_Shader.SetMat4f("view", WorldToViewTransform.GetMatrix().Transpose());
+	DirectionalLightShadow_Shader.SetMat4f("projection", proj.GetMatrix().Transpose());
+
+	//直接存储Transpose后的
+	DirectionalLightProjView[lightComponent] = YGM::Transform((proj.GetMatrix() * WorldToViewTransform.GetMatrix()).Transpose());
+
 	this->RenderDirectionalShadowMap(Scene->GetRoot());
 }
 
@@ -113,13 +119,37 @@ void ShadowGen::RenderDirectionalShadowMap(std::shared_ptr<YObject> root) {
 	auto mesh = root->GetComponent<MeshComponent>();
 	auto transform = root->GetComponent<TransformComponent>();
 
-	if (mesh && transform &&  mesh->GetMesh()) {
-		DirectionalLightShadow.SetMat4f("model", transform->GetWorldTransform().GetMatrix().Transpose());
-		pGLWindow->GetVAO(mesh->GetMesh()).Draw(DirectionalLightShadow);
+	if (mesh && transform &&  mesh->GetPrimitive()) {
+		mesh->GetPrimitive()->RenderShadowPrimitive(shared_this<ShadowGen>(), transform->GetWorldTransform());
 	}
 
 	for (auto child : root->GetChildrens()) {
 		this->RenderDirectionalShadowMap(child);
 	}
 }
+
+//#TODO：传入shader参数
+void ShadowGen::RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model) {
+	DirectionalLightShadow_Shader.SetMat4f("model", model.GetMatrix().Transpose());
+	pGLWindow->GetVAO(mesh).Draw(DirectionalLightShadow_Shader);
+}
+
+
+const YGM::Transform& ShadowGen::GetDirectionalLightProjView(const std::shared_ptr<LightComponent>& DirectionalLight) const{
+	auto iter = DirectionalLightProjView.find(DirectionalLight);
+	if (iter == DirectionalLightProjView.end()) {
+		assert(false);
+	}
+	return iter->second;
+}
+
+GLTexture ShadowGen::GetDirectionalLightShadowMap(const std::shared_ptr<LightComponent>& DirectionalLight) const{
+	auto iter = DirectionalDepthFBOMap.find(DirectionalLight);
+	if (iter == DirectionalDepthFBOMap.end()) {
+		assert(false);
+	}
+	return iter->second.GetDepthTexture();
+}
+
+
 

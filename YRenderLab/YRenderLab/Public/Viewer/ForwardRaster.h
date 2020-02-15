@@ -21,6 +21,10 @@ class ForwardRaster : public Raster {
 public:
 	ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwWindow> pGlwindow);
 
+	virtual void RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model) override;
+	virtual void RenderMesh(std::shared_ptr<Cube> mesh, const YGM::Transform& model) override;
+
+
 public:
 	virtual void Draw() override;
 	//virtual void Update() override; //update uniform etc...

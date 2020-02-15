@@ -20,6 +20,10 @@ public:
 	ShadowGen(std::shared_ptr<GlfwWindow> pGLWindow);
 	void Init();
 	void UpdateShadowMap(std::shared_ptr<Scene> scene);
+	const YGM::Transform& GetDirectionalLightProjView(const std::shared_ptr<LightComponent>& DirectionalLight) const;
+	GLTexture GetDirectionalLightShadowMap(const std::shared_ptr<LightComponent>& DirectionalLight) const;
+
+	virtual void RenderMesh(std::shared_ptr<TriMesh>, const YGM::Transform& model);
 
 protected:
 	virtual ~ShadowGen() = default;
@@ -28,16 +32,14 @@ private:
 	void GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene,const GLFBO& DepthFBO, const std::shared_ptr<LightComponent>& lightComponent);
 	void RenderDirectionalShadowMap(std::shared_ptr<YObject> root);
 
-
-
 private:
 	const int DepthMapSize;
-	GLShader DirectionalLightShadow;
-	GLShader PointLightShadow;
-	GLShader SpotLightShadow;
+	GLShader DirectionalLightShadow_Shader;
+	GLShader PointLightShadow_Shader;
+	GLShader SpotLightShadow_Shader;
 	std::shared_ptr<GlfwWindow> pGLWindow;
 	std::unordered_map<std::weak_ptr<LightComponent>, GLFBO, WeakHasher<LightComponent>,WeakEqualTo<LightComponent>> DirectionalDepthFBOMap;
-
+	std::unordered_map<std::weak_ptr<LightComponent>, YGM::Transform, WeakHasher<LightComponent>, WeakEqualTo<LightComponent>> DirectionalLightProjView;
 };
 
 #endif

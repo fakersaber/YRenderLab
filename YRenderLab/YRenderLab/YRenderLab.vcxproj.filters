@@ -609,6 +609,9 @@
     <ClInclude Include="Public\Lights\DirectionalLight.h">
       <Filter>Public\Lights</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\Mesh\Primitive.h">
+      <Filter>Public\Basic\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -758,6 +761,9 @@
     </ClCompile>
     <ClCompile Include="Private\Lights\DirectionalLight.cpp">
       <Filter>Private\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\Mesh\Primitive.cpp">
+      <Filter>Private\Basic\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

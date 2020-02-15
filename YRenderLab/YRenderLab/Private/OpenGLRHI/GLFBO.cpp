@@ -121,12 +121,15 @@ void GLFBO::SetRenderTargetToTexture(const GLTexture& tex, RenderTargetType type
 
 }
 
-GLTexture GLFBO::GetColorTexture(unsigned int index) const
-{
+GLTexture GLFBO::GetColorTexture(unsigned int index) const{
 	GLTexture texture;
 	if (isValid && index < colorTextures.size())
 		texture = colorTextures[index];
 	return texture;
+}
+
+GLTexture GLFBO::GetDepthTexture() const{
+	return depthTexture;
 }
 
 

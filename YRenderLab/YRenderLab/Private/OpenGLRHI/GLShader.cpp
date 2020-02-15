@@ -26,6 +26,7 @@ GLShader::GLShader(const std::string& vertexPath, const std::string& fragmentPat
 	if (!CheckCompileErrors(glvs, CompileType::VERTEX)) {
 		std::cout << vertexPath << " compiles error\n";
 		valid = false;
+		assert(false);
 		return;
 	}
 	uint32_t glfs = glCreateShader(GL_FRAGMENT_SHADER);
@@ -34,6 +35,7 @@ GLShader::GLShader(const std::string& vertexPath, const std::string& fragmentPat
 	if (!CheckCompileErrors(glvs, CompileType::FRAGMENT)) {
 		std::cout << vertexPath << " compiles error\n";
 		valid = false;
+		assert(false);
 		return;
 	}
 	// shader Program
@@ -44,6 +46,7 @@ GLShader::GLShader(const std::string& vertexPath, const std::string& fragmentPat
 	if (!CheckCompileErrors(ID, CompileType::PROGRAM)) {
 		std::cout << vertexPath << " and " << fragmentPath << " link failed.\n";
 		valid = false;
+		assert(false);
 		return;
 	}
 	// delete the shaders as they're linked into our program now and no longer necessary

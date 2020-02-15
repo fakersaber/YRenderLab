@@ -1,10 +1,16 @@
 #include <Public/Viewer/DeferredRaster.h>
 #include <Public/Scene/Scene.h>
+
 #include <Public/Viewer/EnviromentGen.h>
 #include <Public/Viewer/ShadowGen.h>
+
 #include <Public/OpenGLRHI/GLFBO.h>
 #include <Public/OpenGLRHI/GlfwWindow.h>
+
 #include <Public/Scene/MeshComponent.h>
+#include <Public/Basic/Mesh/Primitive.h>
+
+
 #include <Public/Scene/Yobject.h>
 #include <Public/Scene/TransformComponent.h>
 #include <Public/Basic/BSDF_StandardPBR.h>
@@ -35,6 +41,13 @@ void DeferredRaster::Draw() {
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//can't use UBO
+	{
+		enviromentGen->UpdateEnvironment(scene);
+		//shadowGen->UpdateShadowMap(scene);
+	}
+
+
 	//Update UBO
 	{
 		UpdateUBO_Camera();
@@ -42,11 +55,6 @@ void DeferredRaster::Draw() {
 		UpdateUBO_Environment();
 	}
 
-	//Update data that like  lut, shadow map, etc...
-	{
-		enviromentGen->UpdateEnvironment(scene);
-		shadowGen->UpdateShadowMap(scene);
-	}
 
 
 	{
@@ -122,6 +130,20 @@ void DeferredRaster::InitShader_Lights() {
 	DirectLight_Shader.SetInt("GBuffer1", 1);
 	DirectLight_Shader.SetInt("GBuffer2", 2);
 
+	//int LightStartIndex = 3;
+
+	//for (int i = 0; i < CoreDefine::maxDirectionalLights; ++i) {
+	//	DirectLight_Shader.SetInt("directionalLightDepthMap" + std::to_string(i), LightStartIndex++);
+	//}
+
+	for (int i = 0; i < CoreDefine::maxPointLights; ++i) {
+
+	}
+
+	for (int i = 0; i < CoreDefine::maxSpotLights; ++i) {
+
+	}
+
 	MapUBOToShader(DirectLight_Shader);
 }
 
@@ -182,7 +204,20 @@ void DeferredRaster::Pass_Lights() {
 	gbufferFBO.GetColorTexture(1).Use(1);
 	gbufferFBO.GetColorTexture(2).Use(2);
 
-	pGLWindow->GetVAO(GlfwWindow::VAOTYPE::Screen).Draw(DirectLight_Shader);
+	//int DirectinalLightIndex = 3;
+	//int PointLightIndex = 0;
+	//int SpotLightIndex = 0;
+
+	//for (auto& lightComponent : scene->GetLightComponents()) {
+	//	auto light = lightComponent->GetLight();
+	//	if (auto directinalLight = Cast<DirectionalLight>(light)) {
+	//		shadowGen->GetDirectionalLightShadowMap(lightComponent).Use(DirectinalLightIndex++);
+	//		continue;
+	//	}
+	//}
+
+
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Screen).Draw(DirectLight_Shader);
 }
 
 
@@ -212,7 +247,7 @@ void DeferredRaster::Pass_AmbientLight() {
 		brdfLUT.Use(environmentBase + 2);
 	}
 
-	pGLWindow->GetVAO(GlfwWindow::VAOTYPE::Screen).Draw(AmbientLight_Shader);
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Screen).Draw(AmbientLight_Shader);
 	glDisable(GL_BLEND);
 }
 
@@ -224,7 +259,7 @@ void DeferredRaster::Pass_SkyBox() {
 		enviromentGen->GetSkyBox().Use(0);
 	}
 	glDepthFunc(GL_LEQUAL);
-	pGLWindow->GetVAO(TriMesh::OriginCube).Draw(Skybox_Shader);
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Cube).Draw(Skybox_Shader);
 	glDepthFunc(GL_LESS);
 }
 
@@ -235,7 +270,7 @@ void DeferredRaster::Pass_TAA() {
 void DeferredRaster::Pass_PostProcess(){
 	GLFBO::UseDefault();
 	windowFBO.GetColorTexture(0).Use(0);
-	pGLWindow->GetVAO(GlfwWindow::VAOTYPE::Screen).Draw(postProcessShader);
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Screen).Draw(postProcessShader);
 
 }
 
@@ -246,9 +281,12 @@ void DeferredRaster::RenderScene(std::shared_ptr<YObject> obj) {
 	auto material = obj->GetComponent<MaterialComponent>();
 	auto transform = obj->GetComponent<TransformComponent>();
 
-	if (material && material->GetMaterial() && mesh && mesh->GetMesh() && transform) {
+	if (material && material->GetMaterial() && mesh && mesh->GetPrimitive() && transform) {
+
 		this->SetMaterial(Cast<BSDF_StandardPBR>(material->GetMaterial()));
-		this->RenderMesh(mesh->GetMesh(),transform->GetWorldTransform());
+
+		//#TODO：那还需要传入shader参数,这里shader可以就是curShader，但是其实材质也需要反射调用
+		mesh->GetPrimitive()->RenderPrimitive(shared_this<Raster>(), transform->GetWorldTransform());
 	}
 	
 	for (auto child : obj->GetChildrens()) {
@@ -276,7 +314,7 @@ void DeferredRaster::SetMaterial(std::shared_ptr<BSDF_StandardPBR> material) {
 
 
 	//因为在这里Bind只有初始化创建Texture才调用，所以只有第一帧才有Texture的问题
-	//在连续Use时中间不要使用其他操作
+	//在调用到下一个glActiveTexture前Bind到错误的texture
 	auto _Texture0 = pGLWindow->GetTexture(imgs[0]);
 	auto _Texture1 = pGLWindow->GetTexture(imgs[1]);
 	auto _Texture2 = pGLWindow->GetTexture(imgs[2]);
@@ -295,3 +333,16 @@ void DeferredRaster::RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transf
 	GBuffer_StandardPBRShader.SetMat4f("model", model.GetMatrix().Transpose());
 	pGLWindow->GetVAO(mesh).Draw(GBuffer_StandardPBRShader);
 }
+
+void DeferredRaster::RenderMesh(std::shared_ptr<Cube> cube, const YGM::Transform& model) {
+
+}
+
+//void DeferredRaster::RenderMesh(Ptr<Plane> plane) {
+//	if (!curMaterialShader.IsValid())
+//		return;
+//
+//	curMaterialShader.SetMat4f("model", modelVec.back());
+//	curMaterialShader.SetBool("isOffset", false);
+//	pGLWindow->GetVAO(ShapeType::Plane).Draw(curMaterialShader);
+//}

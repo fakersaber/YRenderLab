@@ -1,24 +1,18 @@
-#include <iostream>
-#include <Public/3rdPart/assimp/pbrmaterial.h>
-
 #include <Public/YCore.h>
 
+#include <Public/3rdPart/assimp/pbrmaterial.h>
 #include <Public/Scene/AssimpLoader.h>
 #include <Public/Scene/Yobject.h>
 #include <Public/Scene/TransformComponent.h>
 #include <Public/Scene/MeshComponent.h>
-
+#include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/MaterialComponent.h>
-
-//#include <Public/Basic/BSDF_blinnPhong.h>
 #include <Public/Basic/BSDF_StandardPBR.h>
-
-
 #include <Public/Basic/StrApi.h>
 #include <Public/Basic/Image/Image.h>
-
 #include <Public/YGM/Vector2.hpp>
 
+#include <iostream>
 
 
 namespace AssimpLoader {

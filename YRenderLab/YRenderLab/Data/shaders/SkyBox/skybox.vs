@@ -15,7 +15,7 @@ layout (location = 0) in vec3 iModelPos;
 
 out vec3 TexCoords;
 
-//NDC左手系 深度-1为最近
+//NDC左手系 Z轴朝屏幕里面所以-1为最近
 void main()
 {
     TexCoords = iModelPos;

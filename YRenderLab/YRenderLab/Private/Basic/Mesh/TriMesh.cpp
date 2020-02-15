@@ -1,8 +1,10 @@
 #include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/Mesh/Cube.h>
+#include <Public/Viewer/Raster.h>
+#include <Public/Viewer/ShadowGen.h>
 
 //Create static Cube
-std::shared_ptr<TriMesh> TriMesh::OriginCube = GenCube();
+//std::shared_ptr<TriMesh> TriMesh::OriginCube = GenCube();
 
 
 TriMesh::TriMesh(
@@ -85,12 +87,13 @@ TriMesh::TriMesh(
 
 
 void TriMesh::InitAfterNew() {
-	//auto triMesh = shared_this<TriMesh>();
-	//for(auto )
+
 }
-std::shared_ptr<TriMesh> TriMesh::GenCube()
-{
-	Cube cube;
-	auto cubeMesh = New<TriMesh>(std::move(cube.GetIndice()), std::move(cube.GetPositions()), std::move(cube.GetNormals()), std::move(cube.GetTexcoords()));
-	return cubeMesh;
+
+void TriMesh::RenderPrimitive(const std::shared_ptr<Raster>& raster, const YGM::Transform& model){
+	raster->RenderMesh(shared_this<TriMesh>(), model);
+}
+
+void TriMesh::RenderShadowPrimitive(const std::shared_ptr<ShadowGen>& shadowgen, const YGM::Transform& model) {
+	shadowgen->RenderMesh(shared_this<TriMesh>(), model);
 }

@@ -42,7 +42,7 @@ struct BSDF_StandardPBR {
 struct DirectionalLight{
 	vec3 L;         // 12   0
 	vec3 dir;       // 12   16
-	//mat4 ProjView;  // 64   32
+	mat4 ProjView;  // 64   32
 };
 
 // 160

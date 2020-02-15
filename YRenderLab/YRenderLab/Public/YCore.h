@@ -37,6 +37,13 @@ private:
 
 
 namespace CoreDefine {
+	enum class StaticVAOType : uint8_t {
+		Sphere,
+		Plane,
+		Screen,
+		Cube
+	};
+
 	static const float data_ScreenVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 		// positions   // texCoords
 		-1.0f,  1.0f,  0.0f, 1.0f,
@@ -73,6 +80,14 @@ namespace CoreDefine {
 	//	Vector4(0.f, 1.f, 0.f, 0.f),
 	//	Vector4(0.f, 0.f, 0.f, 1.f)
 	//);
+
+	static const int maxPointLights = 0;
+
+	static const int maxDirectionalLights = 1;
+
+	static const int maxSpotLights = 0;
+
+
 }
 
 

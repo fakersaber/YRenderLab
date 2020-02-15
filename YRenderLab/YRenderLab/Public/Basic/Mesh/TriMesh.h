@@ -1,13 +1,13 @@
 #ifndef _YRENDER_BASIC_MESH_TRIMESH_H_
 #define _YRENDER_BASIC_MESH_TRIMESH_H_
 
-#include <Public/Basic/YHeapObject.h>
+#include <Public/Basic/Mesh/Primitive.h>
 #include <Public/YGM/Vector3.hpp>
 #include <Public/YGM/Vector2.hpp>
 #include <vector>
 
 
-class TriMesh final : public YHeapObject {
+class TriMesh final : public Primitive {
 public:
 	TriMesh(
 		const std::vector<unsigned int>& indice,
@@ -39,6 +39,10 @@ protected:
 	virtual void InitAfterNew() override;
 	virtual ~TriMesh() = default;
 public:
+	virtual void RenderPrimitive(const std::shared_ptr<Raster>& raster, const YGM::Transform& model) override;
+
+	virtual void RenderShadowPrimitive(const std::shared_ptr<ShadowGen>& shadowgen, const YGM::Transform& model) override;
+
 	const std::vector<Vector3>& GetPositions() const { return position; }
 	const std::vector<Vector3>& GetNormals() const { return normal; }
 	const std::vector<Vector2>& GetTexcoords() const { return texcoords; }
@@ -53,9 +57,6 @@ private:
 
 	//BoundBox °ó¶¨ºÐ´ýÐø
 
-public:
-	static std::shared_ptr<TriMesh> GenCube();
-	static std::shared_ptr<TriMesh> OriginCube;
 };
 
 

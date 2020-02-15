@@ -7,20 +7,20 @@
 
 
 
-	class GeometryGenerator
+class GeometryGenerator
+{
+public:
+	struct _MeshData
 	{
-	public:
-		struct _MeshData
-		{
-			std::vector<Vertex>	vertices;
-			std::vector<uint32_t> indices;
-		};
-
-	public:
-		static void CreateBox(_MeshData &mesh);
+		std::vector<Vertex>	vertices;
+		std::vector<uint32_t> indices;
 	};
 
-	using MeshData = GeometryGenerator::_MeshData;
+public:
+	static void CreateBox(_MeshData &mesh);
+};
+
+using MeshData = GeometryGenerator::_MeshData;
 
 
 

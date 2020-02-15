@@ -14,7 +14,10 @@
 #include <Public/YCore.h>
 
 
-bool GlfwWindow::Initial(const int width, const int height) 
+#include <Public/Basic/Mesh/Cube.h>
+
+
+bool GlfwWindow::Initial(const int width, const int height)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -53,23 +56,34 @@ bool GlfwWindow::Initial(const int width, const int height)
 	//创建光源
 	auto TestLight = New<YObject>("light", Root);
 	New<TransformComponent>(TestLight);
-	New<LightComponent>(TestLight, New<DirectionalLight>(RGBf::White,1.f));
+	New<LightComponent>(TestLight, New<DirectionalLight>(RGBf::White, 1.f));
 
 	Root->PrintNode();
 
 	//创建场景，管线
-	auto scene = New<Scene>(Root, MainCamera, New<Image>("C:/Users/Administrator/Desktop/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
+	auto scene = New<Scene>(Root, MainCamera, New<Image>("Data/module/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
 	//RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster = New<DeferredRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster->Initial();
 
-	StaticMeshContainer.insert(
-		std::make_pair(
-			VAOTYPE::Screen, 
-			VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 })
-		)
-	);
-	
+	{
+		StaticMeshContainer.emplace(CoreDefine::StaticVAOType::Screen, VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 }));
+
+
+		auto StaticCube = New<Cube>();
+
+		StaticMeshContainer.emplace(
+			CoreDefine::StaticVAOType::Cube, 
+			VAO(
+				{{ StaticCube->GetPositions().data()->Data(), static_cast<unsigned int>(StaticCube->GetPositions().size() * 3 * sizeof(float)), 3 }},
+				StaticCube->GetIndice().data(),
+				static_cast<unsigned int>(StaticCube->GetIndice().size() * sizeof(unsigned int))
+			)
+		);
+
+	}
+
+
 	return true;
 }
 
@@ -85,7 +99,7 @@ void GlfwWindow::Run() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	
+
 }
 
 VAO GlfwWindow::GetVAO(std::shared_ptr<TriMesh> mesh) {
@@ -105,24 +119,16 @@ VAO GlfwWindow::GetVAO(std::shared_ptr<TriMesh> mesh) {
 	}
 }
 
-VAO GlfwWindow::GetVAO(GlfwWindow::VAOTYPE CurType)
+VAO GlfwWindow::GetVAO(CoreDefine::StaticVAOType CurType)
 {
 	auto iter = StaticMeshContainer.find(CurType);
 	if (iter != StaticMeshContainer.end()) {
 		return iter->second;
 	}
+	assert(false);
 	printf("GetVAO Error! %d", CurType);
 	return VAO();
 
-	//switch (CurType) {
-	//case VAOTYPE::Screen: {
-	//	//if(VAO::ScreenVAO.IsValid())
-	//	return VAO::ScreenVAO;
-	//}
-	//default:
-	//	printf("GetVAO Error! %d", CurType);
-	//	return VAO();
-	//}
 }
 
 GLTexture GlfwWindow::GetTexture(std::shared_ptr<Image> img) {
@@ -141,12 +147,14 @@ std::shared_ptr<Camera> GlfwWindow::GetCamera() const {
 	return MainCamera;
 }
 
-void GlfwWindow::UpdateViewPort(unsigned int width, unsigned int height){
+std::shared_ptr<Raster> GlfwWindow::GetRaster() const {
+	return RenderRaster;
+}
+
+void GlfwWindow::UpdateViewPort(unsigned int width, unsigned int height) {
 	this->width = width;
 	this->height = height;
 }
-
-
 
 GlfwWindow::GlfwWindow()
 	:firstFlag(true)

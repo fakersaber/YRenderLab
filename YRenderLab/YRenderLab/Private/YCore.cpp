@@ -6,12 +6,10 @@
 //#define SOFT_RENDER
 #define OPENGL_RENDER
 
-
 YCore* YCore::GetCore() {
 	static YCore instance;
 	return &instance;
 }
-
 
 
 YCore::YCore() {
@@ -26,10 +24,10 @@ YCore::~YCore() {
 
 }
 
+
 bool YCore::Initial(const int width, const int height) {
 
-	if (!pGLInstance->Initial(width, height))
-	{
+	if (!pGLInstance->Initial(width, height)){
 		std::cout << "Create Window Failed" << std::endl;
 		return false;
 	}

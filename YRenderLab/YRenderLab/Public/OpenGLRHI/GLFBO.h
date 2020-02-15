@@ -43,6 +43,7 @@ public:
 	GLFBO(unsigned int width, unsigned int height, const std::vector<GLTexture::TexTureformat>& VecForGbuffer); //°ó¶¨¶à¸örendertarget
 	void SetRenderTargetToTexture(const GLTexture& tex, RenderTargetType type, int mip = 0);
 	GLTexture GetColorTexture(unsigned int index) const;
+	GLTexture GetDepthTexture() const;
 	bool Use() const;
 	void Resize(unsigned int width, unsigned int height);
 private:

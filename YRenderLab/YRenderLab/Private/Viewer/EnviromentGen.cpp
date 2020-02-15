@@ -5,6 +5,7 @@
 #include <Public/YGM/Transform.h>
 #include <Public/Basic/Mesh/TriMesh.h>
 
+
 #include <string>
 
 const YGM::Transform EnviromentGen::captureViews[6] = {
@@ -140,7 +141,7 @@ void EnviromentGen::UpdateSkyBox() {
 		shader_genIBLSkybox.SetMat4f("view", captureViews[i].GetMatrix().Transpose());
 		genSkyboxFBO.SetRenderTargetToTexture(skyBox, mapper[i]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pGLWindow->GetVAO(TriMesh::OriginCube).Draw(shader_genIBLSkybox);
+		pGLWindow->GetVAO(CoreDefine::StaticVAOType::Cube).Draw(shader_genIBLSkybox);
 	}
 	//{
 	//	skyBox.Bind();
@@ -164,7 +165,7 @@ void EnviromentGen::UpdateIrradianceMap() {
 		shader_genIrradianceMap.SetMat4f("view", captureViews[i].GetMatrix().Transpose());
 		genIrradianceFBO.SetRenderTargetToTexture(irradianceMap, mapper[i]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pGLWindow->GetVAO(TriMesh::OriginCube).Draw(shader_genIrradianceMap);
+		pGLWindow->GetVAO(CoreDefine::StaticVAOType::Cube).Draw(shader_genIrradianceMap);
 	}
 
 	//{
@@ -198,7 +199,7 @@ void EnviromentGen::UpdatePreFilterMap() {
 			shader_genPrefilterMap.SetMat4f("view", captureViews[i].GetMatrix().Transpose());
 			prefilterFBOs[mip].SetRenderTargetToTexture(prefilterMap, mapper[i], mip);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			pGLWindow->GetVAO(TriMesh::OriginCube).Draw(shader_genPrefilterMap);
+			pGLWindow->GetVAO(CoreDefine::StaticVAOType::Cube).Draw(shader_genPrefilterMap);
 		}
 
 		//{
@@ -222,7 +223,7 @@ void EnviromentGen::UpdateBRDFLut() {
 	genBrdfLutFBO.Use();
 	glViewport(0, 0, brdfSize, brdfSize);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	pGLWindow->GetVAO(GlfwWindow::VAOTYPE::Screen).Draw(shader_genBRDFLUT);
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Screen).Draw(shader_genBRDFLUT);
 	isInitBRDFFBO = true;
 
 	//{

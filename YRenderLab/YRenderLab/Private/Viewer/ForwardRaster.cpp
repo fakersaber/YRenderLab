@@ -27,6 +27,7 @@ ForwardRaster::ForwardRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwW
 }
 
 
+
 void ForwardRaster::Draw() {
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0, 1);
@@ -77,16 +78,12 @@ void ForwardRaster::InitShader_Skybox() {
 void ForwardRaster::Visit(std::shared_ptr<YObject> obj) {
 	auto mesh = obj->GetComponent<MeshComponent>();
 	auto material = obj->GetComponent<MaterialComponent>();
-
 	auto transform = obj->GetComponent<TransformComponent>();
-	//if (transform != nullptr) {
-	//	//这里没有以父节点的transform为基
-	//	ObjectTransformVec.push_back(/*modelVec.back() * */ transform->GetTransform());
-	//}
 
-	if (material && material->GetMaterial() && mesh && mesh->GetMesh()) {
+
+	if (material && material->GetMaterial() && mesh && mesh->GetPrimitive()) {
 		this->Visit(Cast<BSDF_StandardPBR>(material->GetMaterial()));
-		this->Visit(mesh->GetMesh());
+		mesh->GetPrimitive()->RenderPrimitive(shared_this<ForwardRaster>(), transform->GetWorldTransform());
 	}
 
 	for (auto child : obj->GetChildrens()) {
@@ -235,7 +232,14 @@ void ForwardRaster::DrawEnvironment() {
 	glDepthFunc(GL_LEQUAL);
 	UseLightTexureResource(shader_skybox,0);
 	shader_skybox.SetBool("needGamma", true);
-	pGLWindow->GetVAO(TriMesh::OriginCube).Draw(shader_skybox);
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Cube).Draw(shader_skybox);
 	glDepthFunc(GL_LESS);
 }
 
+void ForwardRaster::RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform & model){
+
+}
+
+void ForwardRaster::RenderMesh(std::shared_ptr<Cube> mesh, const YGM::Transform& model) {
+
+}

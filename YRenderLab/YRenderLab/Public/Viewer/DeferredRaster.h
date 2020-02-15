@@ -10,12 +10,16 @@
 class YObject;
 class BSDF_StandardPBR;
 class TriMesh;
+class Cube;
+class Plane;
 
 class DeferredRaster : public Raster {
 public:
 	DeferredRaster(std::shared_ptr<Scene> scene, std::shared_ptr<GlfwWindow> pGlwindow);
 	void SetCurShader(const GLShader& shader) { curShader = shader; };
 
+	virtual void RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model) override;
+	virtual void RenderMesh(std::shared_ptr<Cube> cube, const YGM::Transform& model) override;
 
 protected:
 	virtual void Draw() override;
@@ -41,10 +45,10 @@ protected:
 	void Pass_PostProcess();
 	/*--------------------------------------------------------------------------------------------*/
 
-private:
 	void RenderScene(std::shared_ptr<YObject> obj);
 	void SetMaterial(std::shared_ptr<BSDF_StandardPBR> material);
-	void RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model);
+
+
 private:
 	GLShader curShader;
 	GLShader GBuffer_StandardPBRShader;
