@@ -74,7 +74,6 @@ void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene, cons
 	glViewport(0, 0, DepthMapSize, DepthMapSize);
 	glClear(GL_DEPTH_BUFFER_BIT);
 
-	//scale不为1才需要normalize，这里先不normalize
 	Vector3 LightVec = lightComponent->GetOwner()->GetObjectWorldForward();
 
 	//求出中心到8个顶点在LightVec方向的投影确定在该方向上的最近与最远值
@@ -120,6 +119,7 @@ void ShadowGen::RenderDirectionalShadowMap(std::shared_ptr<YObject> root) {
 	auto transform = root->GetComponent<TransformComponent>();
 
 	if (mesh && transform &&  mesh->GetPrimitive()) {
+		SetCurShader(DirectionalLightShadow_Shader);
 		mesh->GetPrimitive()->RenderShadowPrimitive(shared_this<ShadowGen>(), transform->GetWorldTransform());
 	}
 
@@ -128,10 +128,8 @@ void ShadowGen::RenderDirectionalShadowMap(std::shared_ptr<YObject> root) {
 	}
 }
 
-//#TODO：传入shader参数
-void ShadowGen::RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model) {
-	DirectionalLightShadow_Shader.SetMat4f("model", model.GetMatrix().Transpose());
-	pGLWindow->GetVAO(mesh).Draw(DirectionalLightShadow_Shader);
+void ShadowGen::SetCurShader(const GLShader& shader){
+	CurShader = shader;
 }
 
 
@@ -151,5 +149,15 @@ GLTexture ShadowGen::GetDirectionalLightShadowMap(const std::shared_ptr<LightCom
 	return iter->second.GetDepthTexture();
 }
 
+
+void ShadowGen::RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model) {
+	CurShader.SetMat4f("model", model.GetMatrix().Transpose());
+	pGLWindow->GetVAO(mesh).Draw(CurShader);
+}
+
+void ShadowGen::RenderMesh(std::shared_ptr<Plane> plane, const YGM::Transform& model) {
+	CurShader.SetMat4f("model", model.GetMatrix().Transpose());
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Plane).Draw(CurShader);
+}
 
 

@@ -558,9 +558,6 @@
     <ClInclude Include="Public\Viewer\ForwardRaster.h">
       <Filter>Public\Viewer</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Basic\BSDF_blinnPhong.h">
-      <Filter>Public\Basic</Filter>
-    </ClInclude>
     <ClInclude Include="Public\Viewer\EnviromentGen.h">
       <Filter>Public\Viewer</Filter>
     </ClInclude>
@@ -611,6 +608,12 @@
     </ClInclude>
     <ClInclude Include="Public\Basic\Mesh\Primitive.h">
       <Filter>Public\Basic\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\Mesh\Plane.h">
+      <Filter>Public\Basic\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Basic\BSDF_Emission.h">
+      <Filter>Public\Basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -717,9 +720,6 @@
     <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp">
       <Filter>Private\OpenGLRHI</Filter>
     </ClCompile>
-    <ClCompile Include="Private\Material\BSDF_blinnPhong.cpp">
-      <Filter>Private\Material</Filter>
-    </ClCompile>
     <ClCompile Include="Private\Viewer\EnviromentGen.cpp">
       <Filter>Private\Viewer</Filter>
     </ClCompile>
@@ -764,6 +764,12 @@
     </ClCompile>
     <ClCompile Include="Private\Basic\Mesh\Primitive.cpp">
       <Filter>Private\Basic\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\Mesh\Plane.cpp">
+      <Filter>Private\Basic\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Material\BSDF_Emission.cpp">
+      <Filter>Private\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

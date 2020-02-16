@@ -20,6 +20,13 @@ protected:
 public:
 	void SetWorldScale(const Vector3& scale);
 	void SetRelativeScale(const Vector3& scale);
+	void SetWorldTranslate(const Vector3& Pos);
+
+
+	void RotateX(const float theta);
+
+
+
 
 	const YGM::Transform& GetRelativeTransform() const { return RelativeTransform; }
 	const YGM::Transform& GetWorldTransform() const { return WorldTransform; }

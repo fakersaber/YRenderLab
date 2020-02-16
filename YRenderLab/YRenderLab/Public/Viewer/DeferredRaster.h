@@ -20,7 +20,9 @@ public:
 
 	virtual void RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model) override;
 	virtual void RenderMesh(std::shared_ptr<Cube> cube, const YGM::Transform& model) override;
-
+	virtual void RenderMesh(std::shared_ptr<Plane> cube, const YGM::Transform& model) override;
+	virtual void SetMaterial(std::shared_ptr<BSDF_StandardPBR> StandardMateri) override;
+	virtual void SetMaterial(std::shared_ptr<BSDF_Emission> EmissionMaterial) override;
 protected:
 	virtual void Draw() override;
 	virtual void Initial() override;
@@ -46,12 +48,16 @@ protected:
 	/*--------------------------------------------------------------------------------------------*/
 
 	void RenderScene(std::shared_ptr<YObject> obj);
-	void SetMaterial(std::shared_ptr<BSDF_StandardPBR> material);
 
 
 private:
 	GLShader curShader;
+
+	//GBuffer shader
 	GLShader GBuffer_StandardPBRShader;
+	GLShader GBuffer_EmissionShader;
+
+
 	GLShader Skybox_Shader;
 	GLShader DirectLight_Shader;
 	GLShader AmbientLight_Shader;

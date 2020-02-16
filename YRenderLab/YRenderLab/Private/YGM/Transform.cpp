@@ -65,6 +65,7 @@ namespace YGM {
 		OrthoGraphicMat(0, 0) = 2.f / width;
 		OrthoGraphicMat(1, 1) = 2.f / height;
 		OrthoGraphicMat(2, 2) = -2.f / (zFar - zNear);
+		OrthoGraphicMat(2, 3) = -(zFar + zNear) / (zFar - zNear);
 		return Transform(OrthoGraphicMat);
 	}
 
@@ -99,7 +100,7 @@ namespace YGM {
 		RetPos.x = Matrix(0, 0) * LocalPos.x + Matrix(0, 1) * LocalPos.y + Matrix(0, 2) * LocalPos.z + Matrix(0, 3);
 		RetPos.y = Matrix(1, 0) * LocalPos.x + Matrix(1, 1) * LocalPos.y + Matrix(1, 2) * LocalPos.z + Matrix(1, 3);
 		RetPos.z = Matrix(2, 0) * LocalPos.x + Matrix(2, 1) * LocalPos.y + Matrix(2, 2) * LocalPos.z + Matrix(2, 3);
-		auto w = Matrix(3, 0) * LocalPos.x + Matrix(3, 1) * LocalPos.y + Matrix(3, 2) * LocalPos.z + Matrix(3,3);
+		auto w = Matrix(3, 0) * LocalPos.x + Matrix(3, 1) * LocalPos.y + Matrix(3, 2) * LocalPos.z + Matrix(3, 3);
 		if (w == 1.f) {
 			return RetPos;
 		}

@@ -3,6 +3,7 @@
 layout (location = 0) out vec4 GBuffer0;
 layout (location = 1) out vec4 GBuffer1;
 layout (location = 2) out vec4 GBuffer2;
+layout (location = 3) out vec4 GBuffer3;
 
 in VS_OUT {
     vec3 FragPos;
@@ -25,6 +26,8 @@ struct BSDF_StandardPBR {
 };
 
 uniform BSDF_StandardPBR Material;
+uniform int ID;
+
 
 vec3 CalcBumpedNormal(vec3 normal, vec3 tangent, sampler2D normalTexture, vec2 texcoord){
     //tangent = normalize(tangent - normal * dot(tangent,normal));
@@ -42,12 +45,11 @@ void main(){
     float metallic = texture(Material.metallicTexture,fs_in.TexCoords).x * Material.metallicFactor;
     float roughness = texture(Material.roughnessTexture,fs_in.TexCoords).x * Material.roughnessFactor;
     float ao = texture(Material.aoTexture,fs_in.TexCoords).x;
-    //vec3 normal = texture(Material.normalTexture,fs_in.TexCoords).xyz;
     vec3 normal = CalcBumpedNormal(normalize(fs_in.Normal), normalize(fs_in.Tangent), Material.normalTexture, fs_in.TexCoords);
     vec3 albedo = texture(Material.albedoTexture, fs_in.TexCoords).xyz * Material.colorFactor;
-    //GBuffer0 = vec4(albedo,ao);
 
     GBuffer0 = vec4(fs_in.FragPos,roughness);
     GBuffer1 = vec4(normal,metallic);
     GBuffer2 = vec4(albedo,ao);
+    GBuffer3 = vec4(0,0,0,ID);
 }

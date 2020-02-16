@@ -26,6 +26,6 @@ void YObject::DetachComponent(const std::shared_ptr<Component> component) {
 Vector3 YObject::GetObjectWorldForward(){
 	const auto& ObjectTransform = GetComponent<TransformComponent>()->GetWorldTransform();
 	Vector3 RetVal = ObjectTransform.TrasformVec(TransformComponent::Forward);
-	return RetVal;
+	return RetVal.Normalize();
 }
 

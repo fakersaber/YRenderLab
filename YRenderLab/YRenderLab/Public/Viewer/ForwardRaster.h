@@ -13,7 +13,6 @@
 
 class YObject;
 class TriMesh;
-class BSDF_blinnPhong;
 class BSDF_StandardPBR;
 class GlfwWindow;
 
@@ -34,7 +33,6 @@ public:
 protected:
 	virtual ~ForwardRaster() = default;
 	virtual void Visit(std::shared_ptr<YObject> obj);
-	virtual void Visit(std::shared_ptr<BSDF_blinnPhong> bsdf);
 	virtual void Visit(std::shared_ptr<BSDF_StandardPBR> bsdf);
 	void Visit(std::shared_ptr<TriMesh> mesh);
 	void InitShaderPbrBlinnPhong();

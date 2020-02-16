@@ -13,8 +13,12 @@
 
 #include <Public/Scene/Yobject.h>
 #include <Public/Scene/TransformComponent.h>
+
+#include <Public/Basic/BSDF_Emission.h>
 #include <Public/Basic/BSDF_StandardPBR.h>
 #include <Public/Basic/MaterialComponent.h>
+
+
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 #include <Public/Scene/LightComponent.h>
 #include <Public/Lights/DirectionalLight.h>
@@ -44,7 +48,7 @@ void DeferredRaster::Draw() {
 	//can't use UBO
 	{
 		enviromentGen->UpdateEnvironment(scene);
-		//shadowGen->UpdateShadowMap(scene);
+		shadowGen->UpdateShadowMap(scene);
 	}
 
 
@@ -54,7 +58,6 @@ void DeferredRaster::Draw() {
 		UpdateUBO_DirectionalLights();
 		UpdateUBO_Environment();
 	}
-
 
 
 	{
@@ -94,7 +97,8 @@ void DeferredRaster::Initial() {
 			{
 				GLTexture::TexTureformat::TEX_GL_RGBA32F, //pixpos + roughness
 				GLTexture::TexTureformat::TEX_GL_RGBA32F, //normal + metallic
-				GLTexture::TexTureformat::TEX_GL_RGBA32F  //albedo + ao
+				GLTexture::TexTureformat::TEX_GL_RGBA32F,  //albedo + ao
+				GLTexture::TexTureformat::TEX_GL_RGBA32F // ID
 			}
 	);
 
@@ -119,7 +123,20 @@ void DeferredRaster::InitShader_GBuffer() {
 		GBuffer_StandardPBRShader.SetInt("Material.roughnessTexture", 2);
 		GBuffer_StandardPBRShader.SetInt("Material.aoTexture", 3);
 		GBuffer_StandardPBRShader.SetInt("Material.normalTexture", 4);
+
+		GBuffer_StandardPBRShader.SetInt("ID", static_cast<int>(CoreDefine::MaterialID::BSDF_StandardPBR));
+
 		MapUBOToShader(GBuffer_StandardPBRShader);
+	}
+
+
+	//Eimission Material Gbuffer
+	{
+		new (&GBuffer_EmissionShader) GLShader("Data/shaders/P3N3T2.vs", "Data/shaders/DeferredPipline/GBuffer_Emission.fs");
+
+		GBuffer_EmissionShader.SetInt("ID", static_cast<int>(CoreDefine::MaterialID::BSDF_Emission));
+
+		MapUBOToShader(GBuffer_EmissionShader);
 	}
 }
 
@@ -129,12 +146,14 @@ void DeferredRaster::InitShader_Lights() {
 	DirectLight_Shader.SetInt("GBuffer0", 0);
 	DirectLight_Shader.SetInt("GBuffer1", 1);
 	DirectLight_Shader.SetInt("GBuffer2", 2);
+	DirectLight_Shader.SetInt("GBuffer3", 3);
 
-	//int LightStartIndex = 3;
 
-	//for (int i = 0; i < CoreDefine::maxDirectionalLights; ++i) {
-	//	DirectLight_Shader.SetInt("directionalLightDepthMap" + std::to_string(i), LightStartIndex++);
-	//}
+	int LightStartIndex = 4;
+
+	for (int i = 0; i < CoreDefine::maxDirectionalLights; ++i) {
+		DirectLight_Shader.SetInt("directionalLightDepthMap0", LightStartIndex++);
+	}
 
 	for (int i = 0; i < CoreDefine::maxPointLights; ++i) {
 
@@ -149,14 +168,16 @@ void DeferredRaster::InitShader_Lights() {
 
 void DeferredRaster::InitShader_AmbientLight() {
 	new (&AmbientLight_Shader) GLShader("Data/shaders/P2T2.vs", "Data/shaders/DeferredPipline/AmbientLight.fs");
-	AmbientLight_Shader.SetInt("GBuffer0", 0);
-	AmbientLight_Shader.SetInt("GBuffer1", 1);
-	AmbientLight_Shader.SetInt("GBuffer2", 2);
+	
+	int startIndex = 0;
+	AmbientLight_Shader.SetInt("GBuffer0", startIndex++);
+	AmbientLight_Shader.SetInt("GBuffer1", startIndex++);
+	AmbientLight_Shader.SetInt("GBuffer2", startIndex++);
+	AmbientLight_Shader.SetInt("GBuffer3", startIndex++);
 
-	//
-	AmbientLight_Shader.SetInt("irradianceMap", 3);
-	AmbientLight_Shader.SetInt("prefilterMap", 4);
-	AmbientLight_Shader.SetInt("brdfLUT", 5);
+	AmbientLight_Shader.SetInt("irradianceMap", startIndex++);
+	AmbientLight_Shader.SetInt("prefilterMap", startIndex++);
+	AmbientLight_Shader.SetInt("brdfLUT", startIndex++);
 
 
 	MapUBOToShader(AmbientLight_Shader);
@@ -187,9 +208,6 @@ void DeferredRaster::Pass_GBuffer() {
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//Reset transform
-	//ObjectTransformVec.clear();
-	//ObjectTransformVec.emplace_back(1.f);
 
 	this->RenderScene(scene->GetRoot());
 }
@@ -203,18 +221,19 @@ void DeferredRaster::Pass_Lights() {
 	gbufferFBO.GetColorTexture(0).Use(0);
 	gbufferFBO.GetColorTexture(1).Use(1);
 	gbufferFBO.GetColorTexture(2).Use(2);
+	gbufferFBO.GetColorTexture(3).Use(3);
 
-	//int DirectinalLightIndex = 3;
-	//int PointLightIndex = 0;
-	//int SpotLightIndex = 0;
+	int DirectinalLightIndex = 4;
+	int PointLightIndex = 0;
+	int SpotLightIndex = 0;
 
-	//for (auto& lightComponent : scene->GetLightComponents()) {
-	//	auto light = lightComponent->GetLight();
-	//	if (auto directinalLight = Cast<DirectionalLight>(light)) {
-	//		shadowGen->GetDirectionalLightShadowMap(lightComponent).Use(DirectinalLightIndex++);
-	//		continue;
-	//	}
-	//}
+	for (auto& lightComponent : scene->GetLightComponents()) {
+		auto light = lightComponent->GetLight();
+		if (auto directinalLight = Cast<DirectionalLight>(light)) {
+			shadowGen->GetDirectionalLightShadowMap(lightComponent).Use(DirectinalLightIndex++);
+			continue;
+		}
+	}
 
 
 	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Screen).Draw(DirectLight_Shader);
@@ -230,11 +249,13 @@ void DeferredRaster::Pass_AmbientLight() {
 
 	windowFBO.Use();
 
+
 	gbufferFBO.GetColorTexture(0).Use(0);
 	gbufferFBO.GetColorTexture(1).Use(1);
 	gbufferFBO.GetColorTexture(2).Use(2);
+	gbufferFBO.GetColorTexture(3).Use(3);
 
-	const int environmentBase = 3;
+	const int environmentBase = 4;
 
 	auto environment = scene->GetEnviromentImg();
 	if (environment) {
@@ -283,9 +304,8 @@ void DeferredRaster::RenderScene(std::shared_ptr<YObject> obj) {
 
 	if (material && material->GetMaterial() && mesh && mesh->GetPrimitive() && transform) {
 
-		this->SetMaterial(Cast<BSDF_StandardPBR>(material->GetMaterial()));
+		material->GetMaterial()->SetCurMaterial(shared_this<Raster>());
 
-		//#TODO：那还需要传入shader参数,这里shader可以就是curShader，但是其实材质也需要反射调用
 		mesh->GetPrimitive()->RenderPrimitive(shared_this<Raster>(), transform->GetWorldTransform());
 	}
 	
@@ -329,20 +349,26 @@ void DeferredRaster::SetMaterial(std::shared_ptr<BSDF_StandardPBR> material) {
 }
 
 
+void DeferredRaster::SetMaterial(std::shared_ptr<BSDF_Emission> EmissionMaterial) {
+
+	SetCurShader(GBuffer_EmissionShader);
+
+	GBuffer_EmissionShader.SetVec3f("emission.L", EmissionMaterial->color * EmissionMaterial->intensity);
+}
+
+
+
 void DeferredRaster::RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model) {
-	GBuffer_StandardPBRShader.SetMat4f("model", model.GetMatrix().Transpose());
-	pGLWindow->GetVAO(mesh).Draw(GBuffer_StandardPBRShader);
+	curShader.SetMat4f("model", model.GetMatrix().Transpose());
+	pGLWindow->GetVAO(mesh).Draw(curShader);
 }
 
 void DeferredRaster::RenderMesh(std::shared_ptr<Cube> cube, const YGM::Transform& model) {
-
+	curShader.SetMat4f("model", model.GetMatrix().Transpose());
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Cube).Draw(curShader);
 }
 
-//void DeferredRaster::RenderMesh(Ptr<Plane> plane) {
-//	if (!curMaterialShader.IsValid())
-//		return;
-//
-//	curMaterialShader.SetMat4f("model", modelVec.back());
-//	curMaterialShader.SetBool("isOffset", false);
-//	pGLWindow->GetVAO(ShapeType::Plane).Draw(curMaterialShader);
-//}
+void DeferredRaster::RenderMesh(std::shared_ptr<Plane> plane, const YGM::Transform& model) {
+	curShader.SetMat4f("model", model.GetMatrix().Transpose());
+	pGLWindow->GetVAO(CoreDefine::StaticVAOType::Plane).Draw(curShader);
+}

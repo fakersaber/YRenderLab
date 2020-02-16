@@ -79,6 +79,8 @@ const std::shared_ptr<ComponentType> YObject::GetComponent() const {
 	auto iter = components.find(typeid(ComponentType));
 	if (iter == components.end())
 		return nullptr;
+
+	//#TODO：可以直接使用强制类型转换，这里Cast做了上行转换很贵
 	return Cast<ComponentType>(iter->second);
 }
 

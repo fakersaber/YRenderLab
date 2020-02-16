@@ -8,6 +8,7 @@
 template<typename FromType, typename ToType, bool isUp, bool isDown>
 struct CastWrapper;
 
+//#TODO：去掉dynamic_Cast,性能消耗太大
 template<typename FromType, typename ToType>
 struct CastWrapper<FromType, ToType, true, false> {
 	static std::shared_ptr<ToType> Cast(const std::shared_ptr<FromType>& ptr) {
@@ -72,12 +73,12 @@ private:
 protected:
 	template<typename T = YHeapObject>
 	std::shared_ptr<T> shared_this() {
-		return Cast<T>(shared_from_this());
+		return std::static_pointer_cast<T>(shared_from_this());
 	}
 
 	template<typename T = YHeapObject>
 	std::weak_ptr<T> weak_this() {
-		return Cast<T>(weak_from_this());
+		return std::static_pointer_cast<T>(shared_from_this());
 	}
 
 protected:
@@ -105,9 +106,9 @@ private:
 		free(mem);
 	}
 
-private:
-	using std::enable_shared_from_this<YHeapObject>::shared_from_this;
-	using std::enable_shared_from_this<YHeapObject>::weak_from_this;
+//private:
+//	using std::enable_shared_from_this<YHeapObject>::shared_from_this;
+//	using std::enable_shared_from_this<YHeapObject>::weak_from_this;
 };
 
 template<typename Type, typename ...Args>

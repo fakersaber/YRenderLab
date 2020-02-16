@@ -146,6 +146,7 @@ bool GLTexture::GenMipmap() {
 	auto glType = Type2GL(type);
 	glTexParameteri(glType, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glGenerateMipmap(glType);
+	UnBind();
 	return true;
 }
 

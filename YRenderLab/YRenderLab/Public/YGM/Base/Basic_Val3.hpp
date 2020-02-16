@@ -9,19 +9,19 @@
 #include <vector>
 
 
-	namespace YGM {
-		template <typename T, typename ImplT>
-		class Basic_Val<3, T, ImplT> : public Val<3, T> {
-		public:
-			using Val<3, T>::Val;
+namespace YGM {
+	template <typename T, typename ImplT>
+	class Basic_Val<3, T, ImplT> : public Val<3, T> {
+	public:
+		using Val<3, T>::Val;
 
 
 
-			//static const ImplT Lerp(const ImplT& s0, const ImplT& s1, T t) {
-			//	//return 
-			//}
-		};
-	}
+		//static const ImplT Lerp(const ImplT& s0, const ImplT& s1, T t) {
+		//	//return 
+		//}
+	};
+}
 
 
 #endif 

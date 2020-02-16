@@ -5,6 +5,7 @@
 
 
 class Image;
+
 class BSDF : public Material {
 protected:
 	BSDF() = default;
@@ -23,6 +24,8 @@ public:
 	virtual float PDF(const Vector3& Wo, const Vector3& Wi, const Vector2& texcoord) = 0;
 
 	virtual const RGBf GetEmission() const { return RGBf(0.f); }
+
+	virtual void SetCurMaterial(const std::shared_ptr<Raster>& Raster) override;
 
 public:
 	//还是右手系y轴朝上

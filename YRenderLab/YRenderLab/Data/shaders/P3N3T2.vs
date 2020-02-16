@@ -21,12 +21,16 @@ out VS_OUT {
     vec2 TexCoords;
 } vs_out;
 
+uniform mat4 model;
+
 void main()
 {
-    //model matrix set identity temply
-    vs_out.FragPos = iModelPos;
-    vs_out.Normal = iModelNormal;
+    vec4 worldPos = model * vec4(iModelPos,1.0);
+    vs_out.FragPos = worldPos.xyz/worldPos.w;
     vs_out.TexCoords = iTexCoords;
-    gl_Position = projection * view * vec4(vs_out.FragPos,1.0f);
+    mat3 normalMatrix = transpose(inverse(mat3(model)));
+    vec3 N = normalize(normalMatrix * iModelNormal);
+	vs_out.Normal = N;
+    gl_Position = projection * view * worldPos;
 
 }

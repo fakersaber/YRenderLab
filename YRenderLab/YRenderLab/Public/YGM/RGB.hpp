@@ -11,24 +11,6 @@ namespace YGM {
 	public:
 		using Basic_Val<3, T, RGB<T>>::Basic_Val;
 
-
-		//public:
-		//	RGB& operator=(const Vector<3,T>& rhs) {
-		//		this->x = rhs.x;
-		//		this->y = rhs.y;
-		//		this->z = rhs.z;
-		//		return *this;
-		//	}
-
-			//RGB& operator+=(const Vector<3, T>& rhs) {
-			//	this->x += rhs.x;
-			//	this->y += rhs.y;
-			//	this->z += rhs.z;
-			//	return *this;
-			//}
-
-
-
 	public:
 		static RGB<T> Red;
 		static RGB<T> White;

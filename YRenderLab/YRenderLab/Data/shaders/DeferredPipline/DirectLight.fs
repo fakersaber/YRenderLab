@@ -9,10 +9,9 @@ in vec2 TexCoords;
 struct DirectionalLight{
 	vec3 L;         // 12   0
 	vec3 dir;       // 12   16
-	//mat4 ProjView;  // 64   32
+	mat4 ProjView;  // 64   32
 };
 
-// 160
 layout (std140) uniform Camera{
 	mat4 view;			// 64	0	
 	mat4 projection;	// 64	64	
@@ -24,7 +23,7 @@ layout (std140) uniform Camera{
 };
 
 
-//f the member is a structure, the base alignment of the structure is N
+//if the member is a structure, the base alignment of the structure is N
 //where N is the largest base alignment value of any of its members, and rounded up to the base alignment of a vec4.
 layout (std140) uniform DirectionalLights{
 	int numDirectionalLight;// 16
@@ -36,16 +35,15 @@ layout (std140) uniform DirectionalLights{
 uniform sampler2D GBuffer0;
 uniform sampler2D GBuffer1;
 uniform sampler2D GBuffer2;
-//uniform sampler2D GBuffer3;
+uniform sampler2D GBuffer3;
 
 uniform sampler2D directionalLightDepthMap0; // 3
-//uniform sampler2D directionalLightDepthMap1; // 4
-
 
 
 //function declare
 float DirectionalLightVisibility(vec3 normPos, float cosTheta, sampler2D depthMap);
 
+vec3 BRDF(int ID, vec3 norm, vec3 wo, vec3 wi, vec3 albedo, float metallic, float roughness);
 
 
 
@@ -53,6 +51,7 @@ void main(){
     vec4 data0 = texture(GBuffer0,TexCoords);
     vec4 data1 = texture(GBuffer1,TexCoords);
     vec4 data2 = texture(GBuffer2,TexCoords);
+	vec4 data3 = texture(GBuffer3,TexCoords);
 
     vec3 FragPos = data0.xyz;
     float roughness = data0.w;
@@ -60,30 +59,25 @@ void main(){
     float metallic = data1.w;
     vec3 albedo = data2.xyz;
     float ao = data2.w;
+	int ID = int(data3.w);
+
 
     vec3 result = vec3(0);
-
     vec3 wo = normalize(viewPos - FragPos);
-
-    //point light
-
 
     //directional Light
 	for(int i=0; i < numDirectionalLight; i++){
 		vec3 wi = -normalize(directionaLights[i].dir);
-		vec3 f = Standard_BRDF(normal, wo, wi, albedo, metallic, roughness);
+		vec3 f = BRDF(ID,normal, wo, wi, albedo, metallic, roughness);
 		float cosTheta = max(dot(wi, normal), 0);
-		//vec4 pos4 = directionaLights[i].ProjView * vec4(FragPos, 1);
+		vec4 pos4 = directionaLights[i].ProjView * vec4(FragPos, 1);
+
 		//注意ShadowMap都是压缩到了0~1,所以在NDC下的也要映射到0~1
-		//vec3 normPos = ((pos4.xyz / pos4.w) + 1.0) / 2.0;
-
-		//float visibility = DirectionalLightVisibility(normPos, cosTheta, directionalLightDepthMap0);
-
-		result += cosTheta * f * directionaLights[i].L;
-		//result += visibility * cosTheta * f * directionaLights[i].L;
+		vec3 normPos = ((pos4.xyz / pos4.w) + 1.0) / 2.0;
+		float visibility = DirectionalLightVisibility(normPos, cosTheta, directionalLightDepthMap0);
+		result +=  visibility * cosTheta * f * directionaLights[i].L;
 	}
-
-    FragColor = result;
+    FragColor = vec3(result);
 }
 
 
@@ -111,4 +105,13 @@ float DirectionalLightVisibility(vec3 normPos, float cosTheta, sampler2D depthMa
 	}
 	visibility /= 9.0;
 	return visibility;
+}
+
+
+vec3 BRDF(int ID, vec3 norm, vec3 wo, vec3 wi, vec3 albedo, float metallic, float roughness){
+	if(ID == 0){
+		return Standard_BRDF(norm, wo, wi,albedo,metallic,roughness);
+	}else if(ID == 1){
+		return vec3(1);  //emission 不计算BRDF
+	}
 }

@@ -26,12 +26,15 @@ layout (std140) uniform Environment{
 uniform sampler2D GBuffer0;
 uniform sampler2D GBuffer1;
 uniform sampler2D GBuffer2;
+uniform sampler2D GBuffer3;
 
 uniform samplerCube irradianceMap; 
 uniform samplerCube prefilterMap; 
 uniform sampler2D   brdfLUT; 
 
 //除球协和quat处理irradianceMap外specular部分来自unreal
+vec3 CalcAmbient(int ID, vec3 wo, vec3 norm, vec3 albedo, float roughness, float metallic, float ao);
+
 vec3 CalcAmbient_Standard(vec3 wo, vec3 norm, vec3 albedo, float roughness, float metallic, float ao);
 
 void main(){
@@ -39,6 +42,7 @@ void main(){
     vec4 data0 = texture(GBuffer0,TexCoords);
     vec4 data1 = texture(GBuffer1,TexCoords);
     vec4 data2 = texture(GBuffer2,TexCoords);
+	vec4 data3 = texture(GBuffer3,TexCoords);
 
     vec3 FragPos = data0.xyz;
     float roughness = data0.w;
@@ -46,12 +50,23 @@ void main(){
     float metallic = data1.w;
     vec3 albedo = data2.xyz;
     float ao = data2.w;
+	int ID = int(data3.w);
+
 
     vec3 wo = normalize(viewPos - FragPos);
 
-    vec3 ambient = CalcAmbient_Standard(wo,normal,albedo,roughness,metallic,ao);
+    vec3 ambient = CalcAmbient(ID,wo,normal,albedo,roughness,metallic,ao);
 
     FragColor = ambient;
+}
+
+
+vec3 CalcAmbient(int ID, vec3 wo, vec3 norm, vec3 albedo, float roughness, float metallic, float ao){
+	if(ID == 0){
+		return CalcAmbient_Standard(wo, norm, albedo, roughness, metallic, ao);
+	}else if(ID == 1){
+		return vec3(0);
+	}
 }
 
 

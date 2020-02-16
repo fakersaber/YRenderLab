@@ -277,7 +277,7 @@ void GLFBO::DebugOutPutFrameBuffer(const GLFBO& DebugFBO, DebugType type) {
 		auto TestMap = New<Image>(DebugFBO.width, DebugFBO.height, 1);
 		DebugFBO.depthTexture.Bind();
 		glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, TestMap->GetData());
-		TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/depth.png"), true);
+		TestMap->SaveToPNG(std::string("depth.png"), true);
 		break;
 	}
 	}

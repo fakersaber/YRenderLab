@@ -10,8 +10,14 @@ class Camera;
 class EnviromentGen;
 class ShadowGen;
 class GlfwWindow;
+
+
 class TriMesh;
 class Cube;
+class Plane;
+
+class BSDF_StandardPBR;
+class BSDF_Emission;
 
 class Raster : public YHeapObject {
 protected:
@@ -36,7 +42,9 @@ public:
 	virtual void Resize(unsigned int width, unsigned int height) = 0;
 	virtual void RenderMesh(std::shared_ptr<TriMesh> Primitive, const YGM::Transform& model) = 0;
 	virtual void RenderMesh(std::shared_ptr<Cube> Primitive, const YGM::Transform& model) = 0;
-
+	virtual void RenderMesh(std::shared_ptr<Plane> Primitive, const YGM::Transform& model) = 0;
+	virtual void SetMaterial(std::shared_ptr<BSDF_StandardPBR> StandardMateril) = 0;
+	virtual void SetMaterial(std::shared_ptr<BSDF_Emission> EmissionMaterial) = 0;
 protected:
 	void MapUBOToShader(const GLShader& shader);
 	void UpdateUBO_Camera();

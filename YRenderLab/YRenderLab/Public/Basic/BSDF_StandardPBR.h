@@ -3,7 +3,7 @@
 
 #include <Public/Basic/BSDF.h>
 
-
+class Raster;
 
 class BSDF_StandardPBR final : public BSDF {
 public:
@@ -19,6 +19,8 @@ public:
 	virtual const RGBf F(const Vector3& Wo, const Vector3& Wi, const Vector2& texcood) override;
 
 	virtual float PDF(const Vector3& Wo, const Vector3& Wi, const Vector2& texcoord) override;
+
+	virtual void SetCurMaterial(const std::shared_ptr<Raster>& Raster) override;
 
 private:
 	const RGBf GetAlbedo(const Vector2& texcoord) const;

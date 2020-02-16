@@ -13,7 +13,6 @@
 
 #include <Public/Basic/Mesh/TriMesh.h>
 #include <Public/Basic/Image/Image.h>
-#include <Public/Basic/BSDF_blinnPhong.h>
 #include <Public/Basic/BSDF_StandardPBR.h>
 
 
@@ -117,9 +116,6 @@ void ForwardRaster::Visit(std::shared_ptr<BSDF_StandardPBR> bsdf) {
 	UseLightTexureResource(StandardPBRShader, 5);
 }
 
-
-void ForwardRaster::Visit(std::shared_ptr<BSDF_blinnPhong> bsdf) {
-}
 
 
 void ForwardRaster::Visit(std::shared_ptr<TriMesh> mesh) {

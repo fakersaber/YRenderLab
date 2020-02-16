@@ -124,18 +124,14 @@ namespace AssimpLoader {
 		New<MeshComponent>(meshobj, TriMeshPtr);
 
 		auto bsdf = New<BSDF_StandardPBR>();
-
 		New<MaterialComponent>(meshobj, bsdf);
 
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-		for (int i = 0; i <= 12; i++) {
-			auto n = material->GetTextureCount(static_cast<aiTextureType>(i));
-			//printf("%d : %d\n", i, n);
-		}
 
-		//bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);
-		//bsdf->normalTexture = LoadTexture(image_table, dir, material, aiTextureType_HEIGHT);
-		//bsdf->specularTexture = LoadTexture(image_table,dir,material, aiTextureType_SPECULAR);
+		/*for (int i = 0; i <= 12; i++) {
+			auto n = material->GetTextureCount(static_cast<aiTextureType>(i));
+			printf("%d : %d\n", i, n);
+		}*/
 
 		//1024 * 1024 Ò»ÕÅÌùÍ¼16M
 		bsdf->albedoTexture = LoadTexture(image_table, dir, material, aiTextureType_DIFFUSE);

@@ -13,7 +13,9 @@ class GlfwWindow;
 class Scene;
 class LightComponent;
 class YObject;
+
 class TriMesh;
+class Plane;
 
 class ShadowGen : public YHeapObject {
 public:
@@ -23,7 +25,8 @@ public:
 	const YGM::Transform& GetDirectionalLightProjView(const std::shared_ptr<LightComponent>& DirectionalLight) const;
 	GLTexture GetDirectionalLightShadowMap(const std::shared_ptr<LightComponent>& DirectionalLight) const;
 
-	virtual void RenderMesh(std::shared_ptr<TriMesh>, const YGM::Transform& model);
+	void RenderMesh(std::shared_ptr<TriMesh> mesh, const YGM::Transform& model);
+	void RenderMesh(std::shared_ptr<Plane> plane, const YGM::Transform& model);
 
 protected:
 	virtual ~ShadowGen() = default;
@@ -31,9 +34,12 @@ protected:
 private:
 	void GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene,const GLFBO& DepthFBO, const std::shared_ptr<LightComponent>& lightComponent);
 	void RenderDirectionalShadowMap(std::shared_ptr<YObject> root);
+	void SetCurShader(const GLShader& shader);
 
 private:
 	const int DepthMapSize;
+
+	GLShader CurShader;
 	GLShader DirectionalLightShadow_Shader;
 	GLShader PointLightShadow_Shader;
 	GLShader SpotLightShadow_Shader;

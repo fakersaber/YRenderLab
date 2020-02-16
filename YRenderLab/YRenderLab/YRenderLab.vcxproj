@@ -99,7 +99,7 @@
     <ClInclude Include="Public\3rdPart\enum.h" />
     <ClInclude Include="Public\Basic\BasicCore.h" />
     <ClInclude Include="Public\Basic\BSDF.h" />
-    <ClInclude Include="Public\Basic\BSDF_blinnPhong.h" />
+    <ClInclude Include="Public\Basic\BSDF_Emission.h" />
     <ClInclude Include="Public\Basic\BSDF_StandardPBR.h" />
     <ClInclude Include="Public\Basic\Camera\Camera.h" />
     <ClInclude Include="Public\Basic\File\File.h" />
@@ -111,6 +111,7 @@
     <ClInclude Include="Public\Basic\MaterialComponent.h" />
     <ClInclude Include="Public\Basic\Mesh\Cube.h" />
     <ClInclude Include="Public\Basic\Mesh\GeometryGenerator.h" />
+    <ClInclude Include="Public\Basic\Mesh\Plane.h" />
     <ClInclude Include="Public\Basic\Mesh\Primitive.h" />
     <ClInclude Include="Public\Basic\Mesh\TriMesh.h" />
     <ClInclude Include="Public\Basic\Node.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Private\Basic\Image\Image.cpp" />
     <ClCompile Include="Private\Basic\Mesh\Cube.cpp" />
     <ClCompile Include="Private\Basic\Mesh\GeometryGenerator.cpp" />
+    <ClCompile Include="Private\Basic\Mesh\Plane.cpp" />
     <ClCompile Include="Private\Basic\Mesh\Primitive.cpp" />
     <ClCompile Include="Private\Basic\Mesh\TriMesh.cpp" />
     <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp" />
@@ -202,7 +204,7 @@
     <ClCompile Include="Private\Lights\Light.cpp" />
     <ClCompile Include="Private\Lights\PointLight.cpp" />
     <ClCompile Include="Private\Material\BSDF.cpp" />
-    <ClCompile Include="Private\Material\BSDF_blinnPhong.cpp" />
+    <ClCompile Include="Private\Material\BSDF_Emission.cpp" />
     <ClCompile Include="Private\Material\BSDF_StandardPBR.cpp" />
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c" />
     <ClCompile Include="Private\OpenGLRHI\GLFBO.cpp" />

@@ -1,5 +1,10 @@
 #include <Public/Basic/BSDF.h>
 #include <Public/YGM/Matrix3.hpp>
+#include <Public/Viewer/Raster.h>
+
+void BSDF::SetCurMaterial(const std::shared_ptr<Raster>& Raster){
+
+}
 
 //注意是tangent cross nromal，因为假设原模型法线坐标系为左手系，z为nromal，up为bitangent
 Vector3 BSDF::TangentSpaceToWorld(const Vector3& worldTangent, const Vector3& worldNormal, const Vector3& TangentSpaceNormal)

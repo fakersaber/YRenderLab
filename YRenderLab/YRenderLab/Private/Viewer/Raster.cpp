@@ -24,7 +24,7 @@ void Raster::Initial() {
 
 	glGenBuffers(1, &directionalLightsUBO);
 	glBindBuffer(GL_UNIFORM_BUFFER, directionalLightsUBO);
-	glBufferData(GL_UNIFORM_BUFFER, 48, NULL, GL_DYNAMIC_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER, 784, NULL, GL_DYNAMIC_DRAW);  //#TODO：测试Struct在glsl中内存排列方式
 	glBindBufferBase(GL_UNIFORM_BUFFER, 2, directionalLightsUBO);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
@@ -45,10 +45,10 @@ void Raster::UpdateUBO_DirectionalLights() {
 	for (auto& LightComponent : scene->GetLightComponents()) {
 		if (auto directionalLight = Cast<DirectionalLight>(LightComponent->GetLight())) {
 			Vector3 dir = LightComponent->GetOwner()->GetObjectWorldForward();
-			int base = 16 + 128 * directionalLightIdx;
+			int base = 16 + 96 * directionalLightIdx; 
 			glBufferSubData(GL_UNIFORM_BUFFER, base, sizeof(float) * 3, directionalLight->Color.Data());
 			glBufferSubData(GL_UNIFORM_BUFFER, base + 16, sizeof(float) * 3, dir.Data());
-			//glBufferSubData(GL_UNIFORM_BUFFER, base + 32, 64, shadowGen->GetDirectionalLightProjView(LightComponent).GetMatrix().Data()); //直接使用Transpose后的
+			glBufferSubData(GL_UNIFORM_BUFFER, base + 32, 64, shadowGen->GetDirectionalLightProjView(LightComponent).GetMatrix().Data()); //直接使用Transpose后的
 			directionalLightIdx++;
 		}
 	}

@@ -44,6 +44,12 @@ namespace CoreDefine {
 		Cube
 	};
 
+
+	enum class MaterialID : uint8_t {
+		BSDF_StandardPBR = 0,
+		BSDF_Emission = 1
+	};
+
 	static const float data_ScreenVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 		// positions   // texCoords
 		-1.0f,  1.0f,  0.0f, 1.0f,

@@ -2,23 +2,27 @@
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 #include <Public/Viewer/ForwardRaster.h>
 #include <Public/Viewer/DeferredRaster.h>
-#include <Public/Viewer/Raster.h>
+
 #include <Public/Scene/AssimpLoader.h>
 #include <Public/Scene/Yobject.h>
 #include <Public/Scene/Scene.h>
 #include <Public/Lights/DirectionalLight.h>
 #include <Public/Scene/LightComponent.h>
 #include <Public/Scene/TransformComponent.h>
-#include <Public/Basic/Mesh/TriMesh.h>
+
 #include <Public/Basic/Image/Image.h>
 #include <Public/YCore.h>
 
-
+#include <Public/Scene/MeshComponent.h>
 #include <Public/Basic/Mesh/Cube.h>
+#include <Public/Basic/Mesh/Plane.h>
+#include <Public/Basic/Mesh/TriMesh.h>
 
 
-bool GlfwWindow::Initial(const int width, const int height)
-{
+#include <Public/Basic/BSDF_Emission.h>
+#include <Public/Basic/MaterialComponent.h>
+
+bool GlfwWindow::Initial(const int width, const int height){
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
@@ -40,23 +44,70 @@ bool GlfwWindow::Initial(const int width, const int height)
 	//glfwSetScrollCallback(window, GlfwWindow::scroll_callback);
 
 	//初始化glad
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return false;
 	}
 
+	//initial StaticMeshContainer
+	{
+		StaticMeshContainer.emplace(CoreDefine::StaticVAOType::Screen, VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 }));
 
-	//camera可以从pipline中获得，可以不写在窗口类中
+		auto StaticCube = New<Cube>();
+		StaticMeshContainer.emplace(
+			CoreDefine::StaticVAOType::Cube,
+			VAO(
+				{
+					{ StaticCube->GetPositions().data()->Data(), static_cast<unsigned int>(StaticCube->GetPositions().size() * 3 * sizeof(float)), 3 } ,
+					{ StaticCube->GetNormals().data()->Data(), static_cast<unsigned int>(StaticCube->GetNormals().size() * 3 * sizeof(float)), 3 },
+					{ StaticCube->GetTexcoords().data()->Data(), static_cast<unsigned int>(StaticCube->GetTexcoords().size() * 2 * sizeof(float)), 2 }
+				},
+				StaticCube->GetIndice().data(),
+				static_cast<unsigned int>(StaticCube->GetIndice().size() * sizeof(unsigned int))
+			)
+		);
+
+		//
+		auto StaicPlane = New<Plane>();
+		StaticMeshContainer.emplace(
+			CoreDefine::StaticVAOType::Plane,
+			VAO(
+				{
+					{ StaicPlane->GetPositions().data()->Data(), static_cast<unsigned int>(StaicPlane->GetPositions().size() * 3 * sizeof(float)), 3 } ,
+					{ StaicPlane->GetNormals().data()->Data(), static_cast<unsigned int>(StaicPlane->GetNormals().size() * 3 * sizeof(float)), 3 },
+					{ StaicPlane->GetTexcoords().data()->Data(), static_cast<unsigned int>(StaicPlane->GetTexcoords().size() * 2 * sizeof(float)), 2 }
+				},
+				StaicPlane->GetIndice().data(),
+				static_cast<unsigned int>(StaicPlane->GetIndice().size() * sizeof(unsigned int))
+			)
+		);
+	}
+
+	//#TODO：camera可以从pipline中获得，可以不写在窗口类中
 	MainCamera = New<Camera>();
 	MainCamera->Initial(width, height);
-	//加载模型
+
 	auto Root = AssimpLoader::Load("Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
 
 	//创建光源
-	auto TestLight = New<YObject>("light", Root);
-	New<TransformComponent>(TestLight);
-	New<LightComponent>(TestLight, New<DirectionalLight>(RGBf::White, 1.f));
+	{
+		auto light_0 = New<YObject>("light_0", Root);
+		New<TransformComponent>(light_0);
+		New<LightComponent>(light_0, New<DirectionalLight>(RGBf::White, 1.f));
+	}
+
+	//创建Plane
+	{
+		auto Plane_0 = New<YObject>("Plane_0", Root);
+		New<MeshComponent>(Plane_0, New<Plane>());
+		auto PlaneTransform = New<TransformComponent>(Plane_0);
+		//顺序必须是缩放，旋转，平移
+		PlaneTransform->SetWorldScale(Vector3(20.f, 20.f, 20.f));
+		PlaneTransform->RotateX(90.f);
+		PlaneTransform->SetWorldTranslate(Vector3(0.f, 0.f, -60.f));
+		
+		New<MaterialComponent>(Plane_0, New<BSDF_Emission>());
+	}
 
 	Root->PrintNode();
 
@@ -66,23 +117,7 @@ bool GlfwWindow::Initial(const int width, const int height)
 	RenderRaster = New<DeferredRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster->Initial();
 
-	{
-		StaticMeshContainer.emplace(CoreDefine::StaticVAOType::Screen, VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 }));
-
-
-		auto StaticCube = New<Cube>();
-
-		StaticMeshContainer.emplace(
-			CoreDefine::StaticVAOType::Cube, 
-			VAO(
-				{{ StaticCube->GetPositions().data()->Data(), static_cast<unsigned int>(StaticCube->GetPositions().size() * 3 * sizeof(float)), 3 }},
-				StaticCube->GetIndice().data(),
-				static_cast<unsigned int>(StaticCube->GetIndice().size() * sizeof(unsigned int))
-			)
-		);
-
-	}
-
+	
 
 	return true;
 }

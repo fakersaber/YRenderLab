@@ -8,11 +8,14 @@
 #include <Public/YGM/Math.hpp>
 
 
+class Raster;
+
 class Material : public YHeapObject {
-//public:
-//	virtual void UseMaterialTexture() = 0;
-//
-//
+public:
+	virtual void SetCurMaterial(const std::shared_ptr<Raster>& Raster) = 0;
+
+
+
 protected:
 	Material() = default;
 	virtual ~Material() = default;

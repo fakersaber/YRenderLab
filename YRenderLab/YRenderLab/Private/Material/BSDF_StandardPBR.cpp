@@ -1,5 +1,5 @@
 #include <Public/Basic/BSDF_StandardPBR.h>
-
+#include <Public/Viewer/Raster.h>
 
 const RGBf BSDF_StandardPBR::F(const Vector3& Wi, const Vector3& Wo, const Vector2& texcoord) {
 	//vec3 albedo = texture(bsdf.albedoTexture, fs_in.TexCoords).xyz;
@@ -17,5 +17,9 @@ const RGBf BSDF_StandardPBR::GetAlbedo(const Vector2& texcoord) const {
 
 float BSDF_StandardPBR::PDF(const Vector3& Wo, const Vector3& Wi, const Vector2& texcoord) {
 	return 0.f;
+}
+
+void BSDF_StandardPBR::SetCurMaterial(const std::shared_ptr<Raster>& Raster){
+	Raster->SetMaterial(shared_this<BSDF_StandardPBR>());
 }
 
