@@ -64,6 +64,7 @@ void ShadowGen::UpdateShadowMap(std::shared_ptr<Scene> scene) {
 void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene, const GLFBO& DepthFBO, const std::shared_ptr<LightComponent>& lightComponent) {
 	const auto corners = Scene->GetCamera()->Corners();
 	Vector3 Center;
+
 	for (auto& Point : corners) {
 		Center += Point;
 	}

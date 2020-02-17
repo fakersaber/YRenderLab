@@ -40,7 +40,7 @@ void Camera::Initial(int w, int h) {
 	aspect_wh = static_cast<float>(w) / static_cast<float>(h);
 }
 
-Mat4f Camera::GetViewMatrix() const{
+Mat4f Camera::GetViewMatrix() const {
 
 	Mat4f worldToCamera;
 	worldToCamera(0, 0) = right.x;
@@ -62,7 +62,7 @@ Mat4f Camera::GetViewMatrix() const{
 	return worldToCamera;
 }
 
-Mat4f Camera::GetInvViewMatrix() const{
+Mat4f Camera::GetInvViewMatrix() const {
 
 	Mat4f CameraToWorld;
 	CameraToWorld(0, 0) = right.x;
@@ -85,7 +85,7 @@ Mat4f Camera::GetInvViewMatrix() const{
 }
 
 
-Mat4f Camera::GetProjectMatrix() const{
+Mat4f Camera::GetProjectMatrix() const {
 
 	const float tanHalfFovy = tan(YGM::Math::Radians(fov * 0.5f));
 	Mat4f PerspectiveMat(0.f);
@@ -196,8 +196,8 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset)
 }
 
 std::vector<Vector3> Camera::Corners() const {
-	//之所以是NdcToWorld是因为Point的转换都会除w
-	YGM::Transform NdcToWorld((GetProjectMatrix() * GetViewMatrix()).Inverse()); 
+
+	YGM::Transform NdcToWorld((GetProjectMatrix() * GetViewMatrix()).Inverse());
 
 	const Vector3 nCorners[8] = {
 	{-1.f,-1.f,-1.f},
@@ -209,6 +209,7 @@ std::vector<Vector3> Camera::Corners() const {
 	{ 1.f, 1.f,-1.f},
 	{ 1.f, 1.f, 1.f},
 	};
+
 
 	std::vector<Vector3> CornersWorld;
 	for (int i = 0; i < 8; i++) {

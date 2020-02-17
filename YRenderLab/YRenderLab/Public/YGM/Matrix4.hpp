@@ -85,79 +85,139 @@ namespace YGM {
 		Mat4x4 Inverse() const {
 			int indxc[4], indxr[4];
 			int ipiv[4] = { 0, 0, 0, 0 };
-			T minv[4][4];
-			memcpy(minv, m, 4 * 4 * sizeof(T));
+			float minv[4][4];
+			memcpy(minv, m, 4 * 4 * sizeof(float));
 			for (int i = 0; i < 4; i++) {
-				int irow = 0, icol = 0;
-				T big = static_cast<T>(0);
+				int irow = -1, icol = -1;
+				float big = 0.;
 				// Choose pivot
-				//记录最大值的行列，在后面会检查对应列的主对角元值是否为0，
 				for (int j = 0; j < 4; j++) {
 					if (ipiv[j] != 1) {
 						for (int k = 0; k < 4; k++) {
 							if (ipiv[k] == 0) {
-								if (std::abs(minv[j][k]) >= big) {
-									big = static_cast<T>(std::abs(minv[j][k]));
+								if (fabsf(minv[j][k]) >= big) {
+									big = float(fabsf(minv[j][k]));
 									irow = j;
 									icol = k;
 								}
 							}
-							//在这种情况下不会出现某个对角元对应值大于1
-							//else if (ipiv[k] > 1)
-							//	return Mat4x4(static_cast<T>(0));
+							else if (ipiv[k] > 1)
+								std::cerr << "Singular matrix in MatrixInvert" << std::endl;
 						}
 					}
 				}
-				//设置当前列的主对角元值为1，之后在选取主元时，会忽略该行该列
 				++ipiv[icol];
-				//替换pivot到[icol][icol]位置，该位置为当前列的主对角线处，这里并没有替换到左上角
+				// Swap rows _irow_ and _icol_ for pivot
 				if (irow != icol) {
 					for (int k = 0; k < 4; ++k)
 						std::swap(minv[irow][k], minv[icol][k]);
 				}
-				//用于记录交换位置的两个数组，数组最后的结果为交换的后行列
 				indxr[i] = irow;
 				indxc[i] = icol;
-				if (minv[icol][icol] == static_cast<T>(0))
-					return Mat4x4(static_cast<T>(0));
-
-				// Set $m[icol][icol]$ to one by scaling row _icol_ appropriately
-				//将对应主对角元的列除以原值
-				T pivinv = static_cast<T>(1) / minv[icol][icol];
-				minv[icol][icol] = 1.;
+				if (minv[icol][icol] == 0.)
+				{
+					std::cerr << "Singular matrix in MatrixInvert" << std::endl;
+				}
+				// Set m[icol][icol] to one by scaling row _icol_ appropriately
+				float pivinv = 1.f / minv[icol][icol];
+				minv[icol][icol] = 1.f;
 				for (int j = 0; j < 4; j++)
-					minv[j][icol] *= pivinv;
+					minv[icol][j] *= pivinv;
 
 				// Subtract this row from others to zero out their columns
-				//从其他行中减去此行将其列清零，例如第一个轴值在第四行第四列，除第四行外所有行都要减去其对应列的值乘上第四行对应数来让第四列的值为零（普通的高斯消元）
-				//表达为矩阵如下：
-				//[a1 b1 c1 d1] = v1        v1 - d1*(v4) = [a1-a4*d1,b1-b4*d1,c1-c4*d1,0]
-				//[a2 b2 c2 d2] = v2        v2 - d2*(v4)
-				//[a3 b3 c3 d3] = v3  ==>   v3 - d3*(v4)
-				//[a4 b4 c4 1] = v4         v4
-
-				//但下面的处理巧妙的地方在于minv[icol][j] = 0; 
-				//轴点对应列的值变得与单位矩阵中相同，然后再经过相同的减法运算变得与最后单位矩阵变换后的结果相同
-				//非轴点对应列与正常的消元值相同，这样保证了后续处理时运算依然正确但是单位矩阵的变换结果也存放在其中
 				for (int j = 0; j < 4; j++) {
 					if (j != icol) {
-						T save = minv[icol][j];
-						minv[icol][j] = 0;
+						float save = minv[j][icol];
+						minv[j][icol] = 0;
 						for (int k = 0; k < 4; k++)
-							minv[k][j] -= minv[k][icol] * save;
+							minv[j][k] -= minv[icol][k] * save;
 					}
 				}
 			}
-
-			//最后将交换前的顺序还原，经过上述运算是经过行交换矩阵的逆矩阵，所以相当于乘上原始行变换矩阵还原顺序
 			// Swap columns to reflect permutation
 			for (int j = 3; j >= 0; j--) {
 				if (indxr[j] != indxc[j]) {
 					for (int k = 0; k < 4; k++)
-						std::swap(minv[indxr[j]][k], minv[indxc[j]][k]);
+						std::swap(minv[k][indxr[j]], minv[k][indxc[j]]);
 				}
 			}
 			return Mat4x4(minv);
+
+			//int indxc[4], indxr[4];
+			//int ipiv[4] = { 0, 0, 0, 0 };
+			//T minv[4][4];
+			//memcpy(minv, m, 4 * 4 * sizeof(T));
+			//for (int i = 0; i < 4; i++) {
+			//	int irow = 0, icol = 0;
+			//	T big = static_cast<T>(0);
+			//	// Choose pivot
+			//	//记录最大值的行列，在后面会检查对应列的主对角元值是否为0，
+			//	for (int j = 0; j < 4; j++) {
+			//		if (ipiv[j] != 1) {
+			//			for (int k = 0; k < 4; k++) {
+			//				if (ipiv[k] == 0) {
+			//					if (std::abs(minv[j][k]) >= big) {
+			//						big = static_cast<T>(std::abs(minv[j][k]));
+			//						irow = j;
+			//						icol = k;
+			//					}
+			//				}
+			//				//在这种情况下不会出现某个对角元对应值大于1
+			//				//else if (ipiv[k] > 1)
+			//				//	return Mat4x4(static_cast<T>(0));
+			//			}
+			//		}
+			//	}
+			//	//设置当前列的主对角元值为1，之后在选取主元时，会忽略该行该列
+			//	++ipiv[icol];
+			//	//替换pivot到[icol][icol]位置，该位置为当前列的主对角线处，这里并没有替换到左上角
+			//	if (irow != icol) {
+			//		for (int k = 0; k < 4; ++k)
+			//			std::swap(minv[irow][k], minv[icol][k]);
+			//	}
+			//	//用于记录交换位置的两个数组，数组最后的结果为交换的后行列
+			//	indxr[i] = irow;
+			//	indxc[i] = icol;
+			//	if (minv[icol][icol] == static_cast<T>(0))
+			//		return Mat4x4(static_cast<T>(0));
+
+			//	// Set $m[icol][icol]$ to one by scaling row _icol_ appropriately
+			//	//将对应主对角元的列除以原值
+			//	T pivinv = static_cast<T>(1) / minv[icol][icol];
+			//	minv[icol][icol] = 1.;
+			//	for (int j = 0; j < 4; j++)
+			//		minv[j][icol] *= pivinv;
+
+			//	// Subtract this row from others to zero out their columns
+			//	//从其他行中减去此行将其列清零，例如第一个轴值在第四行第四列，除第四行外所有行都要减去其对应列的值乘上第四行对应数来让第四列的值为零（普通的高斯消元）
+			//	//表达为矩阵如下：
+			//	//[a1 b1 c1 d1] = v1        v1 - d1*(v4) = [a1-a4*d1,b1-b4*d1,c1-c4*d1,0]
+			//	//[a2 b2 c2 d2] = v2        v2 - d2*(v4)
+			//	//[a3 b3 c3 d3] = v3  ==>   v3 - d3*(v4)
+			//	//[a4 b4 c4 1] = v4         v4
+
+			//	//但下面的处理巧妙的地方在于minv[icol][j] = 0; 
+			//	//轴点对应列的值变得与单位矩阵中相同，然后再经过相同的减法运算变得与最后单位矩阵变换后的结果相同
+			//	//非轴点对应列与正常的消元值相同，这样保证了后续处理时运算依然正确但是单位矩阵的变换结果也存放在其中
+			//	for (int j = 0; j < 4; j++) {
+			//		if (j != icol) {
+			//			T save = minv[icol][j];
+			//			minv[icol][j] = 0;
+			//			for (int k = 0; k < 4; k++)
+			//				minv[k][j] -= minv[k][icol] * save;
+			//		}
+			//	}
+			//}
+
+			////最后将交换前的顺序还原，经过上述运算是经过行交换矩阵的逆矩阵，所以相当于乘上原始行变换矩阵还原顺序
+			//// Swap columns to reflect permutation
+			//for (int j = 3; j >= 0; j--) {
+			//	if (indxr[j] != indxc[j]) {
+			//		for (int k = 0; k < 4; k++)
+			//			std::swap(minv[indxr[j]][k], minv[indxc[j]][k]);
+			//	}
+			//}
+			//return Mat4x4(minv);
 		}
 
 	public:

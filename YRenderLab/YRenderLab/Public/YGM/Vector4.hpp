@@ -34,11 +34,13 @@ namespace YGM {
 			return *this;
 		}
 
-		//Vector& operator=(Vector&& rhs) {
-		//	std::move(rhs.x)
-		//	return *this;
-		//}
-
+		Vector& operator/=(value_type rhs) {
+			x /= rhs;
+			y /= rhs;
+			z /= rhs;
+			w /= rhs;
+			return *this;
+		}
 		const value_type Dot(const Vector& rhs) const {
 			return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
 		}

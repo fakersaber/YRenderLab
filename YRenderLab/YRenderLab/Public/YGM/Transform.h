@@ -21,6 +21,7 @@ namespace YGM {
 		Vector3 InverseTrasformVec(const Vector3& WorldVec) const;
 		
 		Vector3 TrasformPoint(const Vector3& LocalPos) const;
+		Vector3 TrasformPoint(const Vector4& LocalPos) const;
 		Vector3 InverseTrasformPoint(const Vector3& WorldPos) const;
 		
 
