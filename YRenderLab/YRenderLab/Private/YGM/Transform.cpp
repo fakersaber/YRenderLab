@@ -2,15 +2,16 @@
 
 namespace YGM {
 	const Transform Transform::LookAt(const Vector3& pos, const Vector3& target, const Vector3& up) {
-		//Vec3 right = front.Cross(up);
+
+		Vector3 front = (target - pos).Normalize();
+		Vector3 right = front.Cross(up).Normalize();
+
+		//上限值为89.f不会出现这种情况，而且出现万向节锁情况下直接NewUp为(0.f,0.f,1.f)会造成yaw角度的缺失
 		//if (right.IsZero()) {
-		//	Vec3 newUp = up.Normalize();
-		//	newUp.MinComponent() = 1;
+		//	Vector3 newUp(0.f, 0.f, 1.f);
 		//	right = front.Cross(newUp).Normalize();
 		//}
-		//const Vec3 camUp = right.Cross(front);
-		Vector3 front = (target - pos).Normalize();
-		const Vector3 right = front.Cross(up).Normalize();
+
 		Vector3 camera_up = right.Cross(front);
 		Mat4f worldToCamera;
 		worldToCamera(0, 0) = right.x;

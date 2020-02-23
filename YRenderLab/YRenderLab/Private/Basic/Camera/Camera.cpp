@@ -31,7 +31,7 @@ Camera::Camera(
 	fov(FOV)
 {
 
-	Camera::updateCameraVectors();
+	updateCameraVectors();
 }
 
 
@@ -143,6 +143,10 @@ void Camera::updateCameraVectors() {
 
 	front.SelfNormalize();
 	right = front.Cross(worldup).Normalize();  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+	//if (right.IsZero()) {
+	//	Vector3 newUp(0.f, 0.f, 1.f);
+	//	right = front.Cross(newUp).Normalize();
+	//}
 	up = right.Cross(front).Normalize();
 }
 
@@ -199,7 +203,7 @@ std::vector<Vector3> Camera::Corners() const {
 
 	YGM::Transform NdcToWorld((GetProjectMatrix() * GetViewMatrix()).Inverse());
 
-	const Vector3 nCorners[8] = {
+	const static Vector3 nCorners[8] = {
 	{-1.f,-1.f,-1.f},
 	{-1.f,-1.f, 1.f},
 	{-1.f, 1.f,-1.f},

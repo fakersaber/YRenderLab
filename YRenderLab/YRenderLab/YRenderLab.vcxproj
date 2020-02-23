@@ -113,6 +113,7 @@
     <ClInclude Include="Public\Basic\Mesh\GeometryGenerator.h" />
     <ClInclude Include="Public\Basic\Mesh\Plane.h" />
     <ClInclude Include="Public\Basic\Mesh\Primitive.h" />
+    <ClInclude Include="Public\Basic\Mesh\Terrain.h" />
     <ClInclude Include="Public\Basic\Mesh\TriMesh.h" />
     <ClInclude Include="Public\Basic\Node.h" />
     <ClInclude Include="Public\Basic\StrApi.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Private\Basic\Mesh\GeometryGenerator.cpp" />
     <ClCompile Include="Private\Basic\Mesh\Plane.cpp" />
     <ClCompile Include="Private\Basic\Mesh\Primitive.cpp" />
+    <ClCompile Include="Private\Basic\Mesh\Terrain.cpp" />
     <ClCompile Include="Private\Basic\Mesh\TriMesh.cpp" />
     <ClCompile Include="Private\Basic\StrAPI\StrAPI.cpp" />
     <ClCompile Include="Private\Basic\Vertex\Vertex.cpp" />

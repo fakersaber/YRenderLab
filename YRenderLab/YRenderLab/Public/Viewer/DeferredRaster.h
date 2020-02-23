@@ -27,6 +27,8 @@ protected:
 	virtual void Draw() override;
 	virtual void Initial() override;
 	virtual void Resize(unsigned int width, unsigned int height) override;
+
+	//#TODO：资源回收
 	virtual ~DeferredRaster() = default;
 
 	/*----------------------------All Shader initial----------------------------------------------*/

@@ -90,7 +90,15 @@ void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene, cons
 
 	const float backRatio = 0.05f;
 	float extent = maxD - minD;
-	auto pos = Center + LightVec * (minD - extent * backRatio);
+
+	//Center到Pos的距离
+	float LightStepDis = minD - extent * backRatio;
+
+	//不应该总是朝着光源的反方向，根据当前camera的forward方向动态改变，不然会在物体的背面渲染出阴影
+	if (LightVec.Dot(Scene->GetCamera()->GetForward()) < 0.f) {
+		LightStepDis = -LightStepDis;
+	}
+	auto pos = Center + LightVec * LightStepDis;
 	auto WorldToViewTransform = YGM::Transform::LookAt(pos, Center);
 
 	//确定投影体的x与y（宽高）

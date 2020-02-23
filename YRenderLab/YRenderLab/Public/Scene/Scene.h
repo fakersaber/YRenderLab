@@ -11,12 +11,7 @@ class LightComponent;
 
 class Scene : public YHeapObject {
 public:
-	Scene(std::shared_ptr<YObject> root, std::shared_ptr<Camera> camera, std::shared_ptr<Image> EnviromentImg) :
-		root(root),
-		camera(camera),
-		EnviromentImg(EnviromentImg)
-	{
-	}
+	Scene();
 
 protected:
 	virtual ~Scene() = default;
@@ -26,6 +21,11 @@ public:
 	std::shared_ptr<YObject> GetRoot() const { return root; }
 	std::shared_ptr<Camera> GetCamera() const { return camera; }
 	std::vector<std::shared_ptr<LightComponent>> GetLightComponents() const;
+
+
+private:
+	void GenerateLights();
+	void GenerateTerrain();
 
 
 private:

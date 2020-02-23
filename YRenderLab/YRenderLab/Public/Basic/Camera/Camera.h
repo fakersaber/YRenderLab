@@ -61,6 +61,8 @@ public:
 
 	inline float* GetAspectData() { return &aspect_wh; }
 
+	inline const Vector3& GetForward() const { return front; }
+
 	void SetCameraPose(const Vector3& pos, float yaw, float pitch);
 
 	ENUM_ProjectType GetCameraMode() { return project_mode; }
@@ -74,8 +76,6 @@ public:
 	std::vector<Vector3> Corners() const;
 
 	void updateCameraVectors();
-
-	//void UpdateCamera();
 
 	void SetWH(int w, int h);
 

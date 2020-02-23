@@ -27,7 +27,7 @@ namespace YGM {
 
 
 	public:
-		static const Transform LookAt(const Vector3& pos, const Vector3& target, const Vector3& up = Vector3(0, 1, 0));
+		static const Transform LookAt(const Vector3& pos, const Vector3& target, const Vector3& up = Vector3(0.f, 1.f, 0.f));
 		static const Transform Perspective(const float fovy, const float aspect, const float zNear, const float zFar);
 		static const Transform Orthographic(const float width, const float height, const float zNear, const float zFar);
 	public:

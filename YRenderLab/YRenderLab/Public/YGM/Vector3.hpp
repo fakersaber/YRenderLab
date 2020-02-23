@@ -86,6 +86,13 @@ namespace YGM {
 			return Vector(x / InnerValue, y / InnerValue, z / InnerValue);
 		}
 
+		bool IsZero() const{
+			value_type InnerValue = sqrt(x * x + y * y + z * z);
+			if (Math::Equal(InnerValue, 0.0f))
+				return true;
+			return false;
+		}
+
 		void SelfNormalize() {
 			value_type InnerValue = sqrt(x * x + y * y + z * z);
 			if (Math::Equal(InnerValue, 0.0f)) {

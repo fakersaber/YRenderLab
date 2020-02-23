@@ -84,7 +84,7 @@ VAO::VAO(const std::vector<VBO_DataPatch>& vec_VBO_DataPatch, uint32_t const * i
 
 bool VAO::GenBindEBO(uint32_t const* indexArray, uint32_t indexSize) {
 	glGenBuffers(1, &EBO_ID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_ID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_ID);;
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, indexArray, GL_STATIC_DRAW);
 	return true;
 }

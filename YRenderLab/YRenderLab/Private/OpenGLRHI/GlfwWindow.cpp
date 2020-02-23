@@ -3,24 +3,19 @@
 #include <Public/Viewer/ForwardRaster.h>
 #include <Public/Viewer/DeferredRaster.h>
 
-#include <Public/Scene/AssimpLoader.h>
-#include <Public/Scene/Yobject.h>
+
 #include <Public/Scene/Scene.h>
-#include <Public/Lights/DirectionalLight.h>
-#include <Public/Scene/LightComponent.h>
-#include <Public/Scene/TransformComponent.h>
+
 
 #include <Public/Basic/Image/Image.h>
 #include <Public/YCore.h>
 
-#include <Public/Scene/MeshComponent.h>
+
 #include <Public/Basic/Mesh/Cube.h>
 #include <Public/Basic/Mesh/Plane.h>
 #include <Public/Basic/Mesh/TriMesh.h>
 
 
-#include <Public/Basic/BSDF_Emission.h>
-#include <Public/Basic/MaterialComponent.h>
 
 bool GlfwWindow::Initial(const int width, const int height){
 	glfwInit();
@@ -49,7 +44,7 @@ bool GlfwWindow::Initial(const int width, const int height){
 		return false;
 	}
 
-	//initial StaticMeshContainer
+	//这个也应该改成viewport，
 	{
 		StaticMeshContainer.emplace(CoreDefine::StaticVAOType::Screen, VAO(CoreDefine::data_ScreenVertices, sizeof(CoreDefine::data_ScreenVertices), { 2,2 }));
 
@@ -82,42 +77,17 @@ bool GlfwWindow::Initial(const int width, const int height){
 			)
 		);
 	}
+	
 
-	//#TODO：camera可以从pipline中获得，可以不写在窗口类中
-	MainCamera = New<Camera>();
+
+	//应该是放到Core中来初始化场景以及glfw这个viewport 
+	auto scene = New<Scene>();
+	MainCamera = scene->GetCamera();
 	MainCamera->Initial(width, height);
 
-	auto Root = AssimpLoader::Load("Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
 
-	//创建光源
-	{
-		auto light_0 = New<YObject>("light_0", Root);
-		New<TransformComponent>(light_0);
-		New<LightComponent>(light_0, New<DirectionalLight>(RGBf::White, 1.f));
-	}
-
-	//创建Plane
-	{
-		auto Plane_0 = New<YObject>("Plane_0", Root);
-		New<MeshComponent>(Plane_0, New<Plane>());
-		auto PlaneTransform = New<TransformComponent>(Plane_0);
-		//顺序必须是缩放，旋转，平移
-		PlaneTransform->SetWorldScale(Vector3(20.f, 20.f, 20.f));
-		PlaneTransform->RotateX(90.f);
-		PlaneTransform->SetWorldTranslate(Vector3(0.f, 0.f, -60.f));
-		
-		New<MaterialComponent>(Plane_0, New<BSDF_Emission>());
-	}
-
-	Root->PrintNode();
-
-	//创建场景，管线
-	auto scene = New<Scene>(Root, MainCamera, New<Image>("Data/module/Arches_E_PineTree/Arches_E_PineTree_3k.hdr"));
-	//RenderRaster = New<ForwardRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster = New<DeferredRaster>(scene, shared_this<GlfwWindow>());
 	RenderRaster->Initial();
-
-	
 
 	return true;
 }
@@ -137,6 +107,7 @@ void GlfwWindow::Run() {
 
 }
 
+//#TODO：可以将mesh和cube,plane等合并，暂时先这样吧
 VAO GlfwWindow::GetVAO(std::shared_ptr<TriMesh> mesh) {
 	auto TargetVAO = mesh2VAO.find(mesh);
 	if (TargetVAO == mesh2VAO.end()) {

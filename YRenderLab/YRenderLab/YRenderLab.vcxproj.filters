@@ -615,6 +615,9 @@
     <ClInclude Include="Public\Basic\BSDF_Emission.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Basic\Mesh\Terrain.h">
+      <Filter>Public\Basic\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -770,6 +773,9 @@
     </ClCompile>
     <ClCompile Include="Private\Material\BSDF_Emission.cpp">
       <Filter>Private\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Basic\Mesh\Terrain.cpp">
+      <Filter>Private\Basic\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
