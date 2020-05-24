@@ -19,9 +19,6 @@
     <Filter Include="Public\OpenGLRHI\GLAD">
       <UniqueIdentifier>{fb118b98-eadb-409d-a744-c881da860d46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Public\OpenGLRHI\GLFW">
-      <UniqueIdentifier>{0c4f4e79-9f43-4bcb-8956-09ca54dcdd67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Public\OpenGLRHI\GLAD\glad">
       <UniqueIdentifier>{dd93befa-e3b1-4831-b942-89885330a2e1}</UniqueIdentifier>
     </Filter>
@@ -139,6 +136,18 @@
     <Filter Include="Test">
       <UniqueIdentifier>{03720db2-8f15-46ac-9469-a43271e15741}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public\3rdPart\GLFW">
+      <UniqueIdentifier>{0c4f4e79-9f43-4bcb-8956-09ca54dcdd67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\VulkanRHI">
+      <UniqueIdentifier>{69e33bbc-0792-4c46-85fb-3ec0eec080fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\RHI">
+      <UniqueIdentifier>{71e1292a-cb63-4354-98ce-1acfc76f4deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\VulkanRHI">
+      <UniqueIdentifier>{a5e79237-8dd8-4a53-a4b7-0ddd3038290a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\YCore.h">
@@ -182,12 +191,6 @@
     </ClInclude>
     <ClInclude Include="Public\OpenGLRHI\GLAD\KHR\khrplatform.h">
       <Filter>Public\OpenGLRHI\GLAD\KHR</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3.h">
-      <Filter>Public\OpenGLRHI\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h">
-      <Filter>Public\OpenGLRHI\GLFW</Filter>
     </ClInclude>
     <ClInclude Include="Public\Basic\Image\stb_image.h">
       <Filter>Public\Basic\Image</Filter>
@@ -618,6 +621,21 @@
     <ClInclude Include="Public\Basic\Mesh\Terrain.h">
       <Filter>Public\Basic\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanRHI.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\RHI\RHI.h">
+      <Filter>Public\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\GLFW\glfw3.h">
+      <Filter>Public\3rdPart\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\3rdPart\GLFW\glfw3native.h">
+      <Filter>Public\3rdPart\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanDevice.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -777,6 +795,9 @@
     <ClCompile Include="Private\Basic\Mesh\Terrain.cpp">
       <Filter>Private\Basic\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanRHI.cpp">
+      <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Public\3rdPart\assimp\.editorconfig">
@@ -808,6 +829,18 @@
     </None>
     <None Include="Public\3rdPart\assimp\vector3.inl">
       <Filter>Public\3rdPart\assimp</Filter>
+    </None>
+    <None Include="Data\shaders\MVP_P3.vs">
+      <Filter>Data\shaders</Filter>
+    </None>
+    <None Include="Data\shaders\P2T2.vs">
+      <Filter>Data\shaders</Filter>
+    </None>
+    <None Include="Data\shaders\P3N3T2.vs">
+      <Filter>Data\shaders</Filter>
+    </None>
+    <None Include="Data\shaders\P3N3T2T3.vs">
+      <Filter>Data\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

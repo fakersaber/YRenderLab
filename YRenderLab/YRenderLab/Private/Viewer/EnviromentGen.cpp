@@ -143,14 +143,16 @@ void EnviromentGen::UpdateSkyBox() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		pGLWindow->GetVAO(CoreDefine::StaticVAOType::Cube).Draw(shader_genIBLSkybox);
 	}
+
 	//{
 	//	skyBox.Bind();
-	//	auto TestMap = YRender::New<Image>(skyboxSize, skyboxSize, 3);
+	//	auto TestMap = New<Image>(skyboxSize, skyboxSize, 3);
 	//	for (int i = 0; i < 6; ++i) {
 	//		glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, GL_FLOAT, TestMap->GetData());
-	//		TestMap->SaveToPNG(std::string("C:/Users/Administrator/Desktop/YPipline/cubeMap") + std::to_string(i) + std::string(".png"));
+	//		TestMap->SaveToPNG(std::string("C:/YPipline/cubeMap") + std::to_string(i) + std::string(".png"));
 	//	}
 	//}
+
 	skyBox.GenMipmap();
 }
 

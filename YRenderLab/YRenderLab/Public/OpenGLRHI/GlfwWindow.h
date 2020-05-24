@@ -2,8 +2,8 @@
 #define _YRENDER_OPENGLRHI_GLFWWINDOW_H
 
 #include <Public/YCore.h>
+#include <Public/3rdPart/GLFW/glfw3.h>
 #include <Public/Basic/YHeapObject.h>
-#include <Public/OpenGLRHI/GLFW/glfw3.h>
 #include <Public/OpenGLRHI/GLVAO.h>
 #include <Public/OpenGLRHI/GLTexture.h>
 #include <unordered_map>

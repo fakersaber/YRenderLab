@@ -78,6 +78,8 @@ void ShadowGen::GenDirectionalDepthMap(const std::shared_ptr<Scene>& Scene, cons
 	Vector3 LightVec = lightComponent->GetOwner()->GetObjectWorldForward();
 
 	//求出中心到8个顶点在LightVec方向的投影确定在该方向上的最近与最远值
+
+	//最通用的解法应该是直接将光源放置到能覆盖全场景的位置。
 	float minD = FLT_MAX;
 	float maxD = -FLT_MAX;
 	for (auto& Point : corners) {

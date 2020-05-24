@@ -97,6 +97,8 @@
     <ClInclude Include="Public\3rdPart\assimp\XMLTools.h" />
     <ClInclude Include="Public\3rdPart\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="Public\3rdPart\enum.h" />
+    <ClInclude Include="Public\3rdPart\GLFW\glfw3.h" />
+    <ClInclude Include="Public\3rdPart\GLFW\glfw3native.h" />
     <ClInclude Include="Public\Basic\BasicCore.h" />
     <ClInclude Include="Public\Basic\BSDF.h" />
     <ClInclude Include="Public\Basic\BSDF_Emission.h" />
@@ -127,8 +129,6 @@
     <ClInclude Include="Public\OpenGLRHI\GLAD\KHR\khrplatform.h" />
     <ClInclude Include="Public\OpenGLRHI\GLFBO.h" />
     <ClInclude Include="Public\OpenGLRHI\GlfwWindow.h" />
-    <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3.h" />
-    <ClInclude Include="Public\OpenGLRHI\GLFW\glfw3native.h" />
     <ClInclude Include="Public\OpenGLRHI\GlRenderClass.h" />
     <ClInclude Include="Public\OpenGLRHI\GLShader.h" />
     <ClInclude Include="Public\OpenGLRHI\GLTexture.h" />
@@ -140,6 +140,7 @@
     <ClInclude Include="Public\Ray\Ray.h" />
     <ClInclude Include="Public\Ray\RayCamera.h" />
     <ClInclude Include="Public\Ray\Sphere.h" />
+    <ClInclude Include="Public\RHI\RHI.h" />
     <ClInclude Include="Public\Scene\AssimpLoader.h" />
     <ClInclude Include="Public\Scene\Component.h" />
     <ClInclude Include="Public\Scene\LightComponent.h" />
@@ -158,6 +159,8 @@
     <ClInclude Include="Public\Viewer\ForwardRaster.h" />
     <ClInclude Include="Public\Viewer\Raster.h" />
     <ClInclude Include="Public\Viewer\ShadowGen.h" />
+    <ClInclude Include="Public\VulkanRHI\VulkanDevice.h" />
+    <ClInclude Include="Public\VulkanRHI\VulkanRHI.h" />
     <ClInclude Include="Public\YCore.h" />
     <ClInclude Include="Public\YGM\Base\Basic_Val.hpp" />
     <ClInclude Include="Public\YGM\Base\Basic_Val3.hpp" />
@@ -178,6 +181,10 @@
     <ClInclude Include="Public\YGM\Vector3.hpp" />
     <ClInclude Include="Public\YGM\Vector4.hpp" />
     <ClInclude Include="Test\FileTest.h" />
+    <None Include="Data\shaders\MVP_P3.vs" />
+    <None Include="Data\shaders\P2T2.vs" />
+    <None Include="Data\shaders\P3N3T2.vs" />
+    <None Include="Data\shaders\P3N3T2T3.vs" />
     <None Include="Public\3rdPart\assimp\.editorconfig" />
     <None Include="Public\3rdPart\assimp\color4.inl" />
     <None Include="Public\3rdPart\assimp\config.h.in" />
@@ -239,6 +246,7 @@
     <ClCompile Include="Private\Viewer\ForwardRaster.cpp" />
     <ClCompile Include="Private\Viewer\Raster.cpp" />
     <ClCompile Include="Private\Viewer\ShadowGen.cpp" />
+    <ClCompile Include="Private\VulkanRHI\VulkanRHI.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
     <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp" />
@@ -249,34 +257,34 @@
     <ProjectGuid>{39E16715-2A97-4502-99EB-137EEC308B90}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>YRenderLab</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
     <ProjectName>YRenderLab</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
@@ -304,16 +312,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(ProjectDir)Public\3rdPart;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Public\3rdPart\Lib\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VULKAN_SDK)\Include;$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(ProjectDir)Public\3rdPart;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VULKAN_SDK)\Lib;$(ProjectDir)Public\3rdPart\Lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(ProjectDir)Public\3rdPart;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Public\3rdPart\Lib\Release;$(ProjectDir)Public\3rdPart\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VULKAN_SDK)\Include;$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(ProjectDir)Public\3rdPart;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VULKAN_SDK)\Lib;$(ProjectDir)Public\3rdPart\Lib\Release;$(ProjectDir)Public\3rdPart\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -339,11 +347,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>assimp.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -28,7 +28,7 @@ Scene::Scene(){
 		auto Plane_0 = New<YObject>("Plane_0", root);
 		New<MeshComponent>(Plane_0, New<Plane>());
 		auto PlaneTransform = New<TransformComponent>(Plane_0);
-		//顺序必须是缩放，旋转，平移
+		//顺序必须是缩放，旋转，平移---先平移再缩放会影响平移值
 		PlaneTransform->SetWorldScale(Vector3(20.f, 20.f, 20.f));
 		PlaneTransform->RotateX(90.f);
 		PlaneTransform->SetWorldTranslate(Vector3(0.f, 0.f, -60.f));

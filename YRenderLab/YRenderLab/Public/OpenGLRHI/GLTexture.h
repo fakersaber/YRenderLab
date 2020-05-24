@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <memory>
-
+#include <string>
 
 class Image;
 class GLTexture {
@@ -42,7 +42,7 @@ public:
 	void Free();
 private:
 	bool SetImg(const Image& img);
-	bool Load(const std::vector<std::string> & skybox);
+	bool Load(const std::vector<std::string>& skybox);
 
 private:
 	unsigned int ID;
