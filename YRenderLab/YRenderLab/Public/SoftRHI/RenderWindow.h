@@ -8,8 +8,6 @@ class RenderWindow {
 public:
 	RenderWindow(const RenderWindow& rhs) = delete;
 	RenderWindow& operator=(const RenderWindow& rhs) = delete;
-
-public:
 	virtual bool Initial(const int width, const int height) = 0;
 	virtual void Run() = 0;
 

@@ -14,8 +14,6 @@ class TriMesh;
 class Image;
 class Camera;
 class Raster;
-//class ForwardRaster;
-//class DeferredRaster;
 
 class GlfwWindow : public YHeapObject
 {

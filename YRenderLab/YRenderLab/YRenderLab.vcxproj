@@ -161,6 +161,8 @@
     <ClInclude Include="Public\Viewer\ShadowGen.h" />
     <ClInclude Include="Public\VulkanRHI\VulkanDevice.h" />
     <ClInclude Include="Public\VulkanRHI\VulkanRHI.h" />
+    <ClInclude Include="Public\Window\WindowInterface.h" />
+    <ClInclude Include="Public\Window\Window_GLFW.h" />
     <ClInclude Include="Public\YCore.h" />
     <ClInclude Include="Public\YGM\Base\Basic_Val.hpp" />
     <ClInclude Include="Public\YGM\Base\Basic_Val3.hpp" />
@@ -246,7 +248,9 @@
     <ClCompile Include="Private\Viewer\ForwardRaster.cpp" />
     <ClCompile Include="Private\Viewer\Raster.cpp" />
     <ClCompile Include="Private\Viewer\ShadowGen.cpp" />
+    <ClCompile Include="Private\VulkanRHI\VulkanDevice.cpp" />
     <ClCompile Include="Private\VulkanRHI\VulkanRHI.cpp" />
+    <ClCompile Include="Private\Window\Window_GLFW.cpp" />
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
     <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp" />

@@ -1,10 +1,16 @@
 ﻿#include <Public/YCore.h>
-#include <Public/Basic/BasicCore.h>
+#if USE_GLFWWINDOW
+#include <Public/Window/Window_GLFW.h>
+#endif
+
+#if OPENGL_RENDER
 #include <Public/OpenGLRHI/GlfwWindow.h>
+#endif
 
+#if VULKAN_RENDER
+#include <Public/VulkanRHI/VulkanRHI.h>
+#endif
 
-//#define SOFT_RENDER
-#define OPENGL_RENDER
 
 YCore* YCore::GetCore() {
 	static YCore instance;
@@ -13,37 +19,42 @@ YCore* YCore::GetCore() {
 
 
 YCore::YCore() {
-#ifdef SOFT_RENDER
+#if SOFT_RENDER
 	this->_RenderWindow = Win32Window::GetInstance();
-#elif defined(OPENGL_RENDER)
+#elif OPENGL_RENDER
 	this->pGLInstance = New<GlfwWindow>();
+#elif VULKAN_RENDER
+	SurfaceRenderWindow = new Window_GLFW();
+	RenderRHI = new VulkanRHI();
 #endif 
 }
 
 YCore::~YCore() {
-
+	delete SurfaceRenderWindow;
+	delete RenderRHI;
 }
 
 
 bool YCore::Initial(const int width, const int height) {
 
-	if (!pGLInstance->Initial(width, height)){
+	if (!SurfaceRenderWindow->Initial(width, height)){
 		std::cout << "Create Window Failed" << std::endl;
 		return false;
 	}
+
+	RenderRHI->Init();
 	return true;
 }
 
+void YCore::Shutdown(){
+	RenderRHI->Shutdown();
+	SurfaceRenderWindow->Shutdown();
+}
+
 void YCore::Run() {
-
-	//RayCamera::TestRayTracer();
-	pGLInstance->Run();
+	SurfaceRenderWindow->Run();
 }
 
-std::shared_ptr<GlfwWindow> YCore::GetGLWindow() const
-{
-	return pGLInstance;
-}
 
 
 

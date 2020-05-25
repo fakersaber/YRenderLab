@@ -3,14 +3,32 @@
 
 
 #define NOMINMAX
+
 #define YRENDER_REVERSE
 
-#include <memory>
+//Platform
+#define USE_WINDOWS 1
 
+//Window Define
+#define USE_GLFWWINDOW 1
+
+//RHI Define
+#define SOFT_RENDER 0
+#define OPENGL_RENDER 0
+
+//Vulkan configure
+#define VULKAN_RENDER 1
+#define VULKAN_HAS_DEBUGGING_ENABLED 1
+#define VULKAN_SUPPORTS_DEBUG_UTILS 1
+
+
+#include <memory>
 #include <Public/YGM/Transform.h>
 
 class GlfwWindow;
 class RenderWindow;
+class WindowInterface;
+class RHI;
 
 class YCore {
 public:
@@ -18,8 +36,13 @@ public:
 	YCore& operator=(const YCore& rhs) = delete;
 	static YCore* GetCore();
 	bool Initial(const int width, const int height);
+	void Shutdown();
 	void Run();
-	std::shared_ptr<GlfwWindow> GetGLWindow() const;
+
+
+	std::shared_ptr<GlfwWindow> GetGLWindow() const {
+		return pGLInstance;
+	} 
 
 
 private:
@@ -28,10 +51,12 @@ private:
 
 
 private:
-	std::shared_ptr<GlfwWindow> pGLInstance;
-
 	//#TODO remove
+	std::shared_ptr<GlfwWindow> pGLInstance;
 	RenderWindow* _RenderWindow;
+	
+	WindowInterface* SurfaceRenderWindow;
+	RHI* RenderRHI;
 };
 
 

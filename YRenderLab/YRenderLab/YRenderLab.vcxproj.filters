@@ -148,6 +148,12 @@
     <Filter Include="Private\VulkanRHI">
       <UniqueIdentifier>{a5e79237-8dd8-4a53-a4b7-0ddd3038290a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public\Window">
+      <UniqueIdentifier>{9fd6a76e-f770-49a7-9874-a32b69b6a92b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Window">
+      <UniqueIdentifier>{0cb77f0f-b5b5-4cd1-bc22-e5747fc4e60a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\YCore.h">
@@ -636,6 +642,12 @@
     <ClInclude Include="Public\VulkanRHI\VulkanDevice.h">
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Window\Window_GLFW.h">
+      <Filter>Public\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Window\WindowInterface.h">
+      <Filter>Public\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -796,6 +808,12 @@
       <Filter>Private\Basic\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanRHI.cpp">
+      <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Window\Window_GLFW.cpp">
+      <Filter>Private\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanDevice.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
   </ItemGroup>
