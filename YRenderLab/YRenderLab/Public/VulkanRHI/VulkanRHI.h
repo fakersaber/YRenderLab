@@ -6,17 +6,27 @@
 #include <Public/YCore.h>
 #include <vector>
 
-class YVulkanDevice;
+class VulkanDevice;
+
+enum class VenderID : uint32_t {
+	Nvidia = 0x10DE,
+	AMD = 0x1002
+};
+
 
 class VulkanRHI final : public RHI {
-
 public:
 	VulkanRHI();
 	virtual ~VulkanRHI();
 	virtual void Init() final override;
 	virtual void Shutdown() final override;
 
-	static void GetPlatformExtension(std::vector<const char*>& PlatformExtensions);
+	static void GetPlatformInstanceExtensions(std::vector<const char*>& OutExtensions);
+	static void GetPlatformInstanceLayers(std::vector<const char*>& OutLayers);
+	
+	static void GetPlatformDeviceExtensions(std::vector<const char*>& OutExtensions);
+	static void GetPlatformDeviceLayers(std::vector<const char*>& OutLayers);
+
 	static VkBool32 DebugUtilsCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT MsgSeverity, 
 		VkDebugUtilsMessageTypeFlagsEXT MsgType,
@@ -29,13 +39,13 @@ protected:
 	void SetupDebugLayerCallback();
 	void RemoveDebugLayerCallback();
 
-	static void GetInstanceExtensionsAndLayers(std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
+	static void GetInstanceLayersAndExtensions(std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
 
 
 protected:
 	VkInstance Instance;
 
-	std::shared_ptr<YVulkanDevice> Device;
+	std::shared_ptr<VulkanDevice> Device;
 
 
 

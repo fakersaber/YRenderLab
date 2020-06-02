@@ -816,6 +816,9 @@
     <ClCompile Include="Private\VulkanRHI\VulkanDevice.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanLayer.cpp">
+      <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Public\3rdPart\assimp\.editorconfig">

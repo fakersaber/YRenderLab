@@ -2,23 +2,27 @@
 #define _YRENDER_VKRHI_VKDevice_H_
 
 #include <vulkan/vulkan.h>
+#include <vector>
 
 class VulkanRHI;
 
-class YVulkanDevice {
-
-	enum class VenderID : uint32_t {
-		Nvidia = 0x10DE,
-		AMD = 0x1002
-	};
+class VulkanDevice {
 
 public:
-	YVulkanDevice(VulkanRHI* InRHI, VkPhysicalDevice InGpu);
+	VulkanDevice(VulkanRHI* InRHI, VkPhysicalDevice InGpu);
 
-	~YVulkanDevice();
+	~VulkanDevice();
 
 	// Returns true if this is a viable candidate for main GPU
 	bool QueryGPU();
+
+	void InitGPU();
+
+	void Destroy();
+
+	void CreateDevice();
+
+	static void GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
 
 private:
 	VulkanRHI* VkRHI;
@@ -26,6 +30,15 @@ private:
 	VkDevice Device;
 
 	VkPhysicalDevice Gpu;
+
+	VkPhysicalDeviceFeatures PhysicalFeatures;
+
+	std::vector<VkQueueFamilyProperties> QueueFamilyProps;
+
+	std::vector<const char*> DeviceExtensions;
+	std::vector<const char*> DeviceLayers;
+
+	
 };
 
 

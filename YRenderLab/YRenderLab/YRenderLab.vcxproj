@@ -249,6 +249,7 @@
     <ClCompile Include="Private\Viewer\Raster.cpp" />
     <ClCompile Include="Private\Viewer\ShadowGen.cpp" />
     <ClCompile Include="Private\VulkanRHI\VulkanDevice.cpp" />
+    <ClCompile Include="Private\VulkanRHI\VulkanLayer.cpp" />
     <ClCompile Include="Private\VulkanRHI\VulkanRHI.cpp" />
     <ClCompile Include="Private\Window\Window_GLFW.cpp" />
     <ClCompile Include="Private\YCore.cpp" />

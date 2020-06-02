@@ -7,7 +7,11 @@
 #endif
 
 
+//STANDARD_VALIDATION_LAYER_NAME是即将被抛弃的版本
+#if VULKAN_HAS_DEBUGGING_ENABLED
 #define KHRONOS_STANDARD_VALIDATION_LAYER_NAME	"VK_LAYER_KHRONOS_validation"
+#define RENDERDOC_LAYER_NAME				"VK_LAYER_RENDERDOC_Capture"
+#endif
 
 
 
@@ -33,13 +37,31 @@ void VulkanRHI::Shutdown() {
 	RemoveDebugLayerCallback();
 }
 
-void VulkanRHI::GetPlatformExtension(std::vector<const char*>& PlatformExtensions) {
+void VulkanRHI::GetPlatformInstanceExtensions(std::vector<const char*>& OutExtensions) {
 #if USE_WINDOWS
-	PlatformExtensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
-	PlatformExtensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+	OutExtensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME); //VK_KHR_surface
+	OutExtensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+#endif
+
+#if VULKAN_SUPPORTS_DEBUG_UTILS
+	OutExtensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 #endif
 }
 
+void VulkanRHI::GetPlatformInstanceLayers(std::vector<const char*>& OutLayers){
+#if VULKAN_HAS_DEBUGGING_ENABLED
+	OutLayers.emplace_back(KHRONOS_STANDARD_VALIDATION_LAYER_NAME);
+#endif
+}
+
+
+void VulkanRHI::GetPlatformDeviceExtensions(std::vector<const char*>& OutExtensions){
+	OutExtensions.emplace_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+}
+
+void VulkanRHI::GetPlatformDeviceLayers(std::vector<const char*>& OutLayers){
+
+}
 
 
 
@@ -56,7 +78,7 @@ void VulkanRHI::CreateInstance() {
 	InstInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	InstInfo.pApplicationInfo = &AppInfo;
 
-	GetInstanceExtensionsAndLayers(InstanceExtensions, InstanceLayers);
+	GetInstanceLayersAndExtensions(InstanceExtensions, InstanceLayers);
 
 	InstInfo.enabledExtensionCount = static_cast<uint32_t>(InstanceExtensions.size());
 	InstInfo.ppEnabledExtensionNames = InstInfo.enabledExtensionCount > 0 ? InstanceExtensions.data() : nullptr;
@@ -93,7 +115,7 @@ void VulkanRHI::SelectAndInitDevice(){
 	}
 
 	for (auto& CurGpu : PhysicalDevices){
-		auto NewDevice = std::make_shared<YVulkanDevice>(this, CurGpu);
+		auto NewDevice = std::make_shared<VulkanDevice>(this, CurGpu);
 		if (NewDevice->QueryGPU()) {
 			Device = NewDevice;
 			break;
@@ -104,50 +126,11 @@ void VulkanRHI::SelectAndInitDevice(){
 		std::cerr << "No devices found!" << std::endl;
 	}
 
-}
-
-void VulkanRHI::GetInstanceExtensionsAndLayers(std::vector<const char*>& Entensions, std::vector<const char*>& Layers) {
-
-	uint32_t GlobalExtensionCount = 0;
-	vkEnumerateInstanceExtensionProperties(nullptr, &GlobalExtensionCount, nullptr);
-	std::vector<VkExtensionProperties> GlobalExtensions(GlobalExtensionCount);
-	vkEnumerateInstanceExtensionProperties(nullptr, &GlobalExtensionCount, GlobalExtensions.data());
-
-	std::vector<const char*> PlatformExtensions;
-	VulkanRHI::GetPlatformExtension(PlatformExtensions);
-
-	for (auto PlatformPtr : PlatformExtensions) {
-		for (auto& GlobalStrPtr : GlobalExtensions) {
-			if (!std::strcmp(PlatformPtr, GlobalStrPtr.extensionName)) {
-				Entensions.emplace_back(PlatformPtr);
-			}
-		}
-	}
-
-#if VULKAN_HAS_DEBUGGING_ENABLED
-	uint32_t layerCount;
-	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-	std::vector<VkLayerProperties> availableLayers(layerCount);
-	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-	//Find Layer
-	for (auto& availableLayer : availableLayers) {
-		if (!std::strcmp(KHRONOS_STANDARD_VALIDATION_LAYER_NAME, availableLayer.layerName)) {
-			Layers.emplace_back(KHRONOS_STANDARD_VALIDATION_LAYER_NAME);
-		}
-	}
-#endif
-
-#if VULKAN_SUPPORTS_DEBUG_UTILS
-	for (auto& GlobalStrPtr : GlobalExtensions) {
-		if (!std::strcmp(VK_EXT_DEBUG_UTILS_EXTENSION_NAME, GlobalStrPtr.extensionName)) {
-			Entensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-		}
-	}
-#endif
-
+	Device->InitGPU();
 
 }
+
+
 
 void VulkanRHI::SetupDebugLayerCallback(){
 #if VULKAN_SUPPORTS_DEBUG_UTILS
