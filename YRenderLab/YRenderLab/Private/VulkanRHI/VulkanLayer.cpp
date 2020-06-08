@@ -4,12 +4,6 @@
 
 
 
-static const char* ValidationLayers[] =
-{
-	nullptr
-};
-
-
 void VulkanRHI::GetInstanceLayersAndExtensions(std::vector<const char*>& Extensions, std::vector<const char*>& Layers) {
 
 	//Extensions
@@ -18,7 +12,9 @@ void VulkanRHI::GetInstanceLayersAndExtensions(std::vector<const char*>& Extensi
 	std::vector<VkExtensionProperties> GlobalExtensions(GlobalExtensionCount);
 	vkEnumerateInstanceExtensionProperties(nullptr, &GlobalExtensionCount, GlobalExtensions.data());
 	std::vector<const char*> PlatformExtensions;
-	VulkanRHI::GetPlatformInstanceExtensions(PlatformExtensions);
+
+	VulkanPlatform::GetInstanceInstanceExtensions(PlatformExtensions);
+
 	for (auto PlatformPtr : PlatformExtensions) {
 		for (auto& GlobalStrPtr : GlobalExtensions) {
 			if (!std::strcmp(PlatformPtr, GlobalStrPtr.extensionName)) {
@@ -33,7 +29,9 @@ void VulkanRHI::GetInstanceLayersAndExtensions(std::vector<const char*>& Extensi
 	std::vector<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 	std::vector<const char*> PlatformLayers;
-	VulkanRHI::GetPlatformInstanceLayers(PlatformLayers);
+
+	VulkanPlatform::GetPlatformInstanceLayers(PlatformLayers);
+
 	for (auto PlatformPtr : PlatformLayers) {
 		for (auto& availableLayerPtr : availableLayers) {
 			if (!std::strcmp(PlatformPtr, availableLayerPtr.layerName)) {
@@ -55,7 +53,8 @@ void VulkanDevice::GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vecto
 	vkEnumerateDeviceExtensionProperties(Gpu, nullptr, &GlobalExtensionCount, GlobalExtensions.data());
 	std::vector<const char*> PlatformDeviceExtensions;
 
-	VulkanRHI::GetPlatformDeviceExtensions(PlatformDeviceExtensions);
+	VulkanPlatform::GetPlatformDeviceExtensions(PlatformDeviceExtensions);
+
 	for (auto PlatformDevicePtr : PlatformDeviceExtensions) {
 		for (auto& GlobalStrPtr : GlobalExtensions) {
 			if (!std::strcmp(PlatformDevicePtr, GlobalStrPtr.extensionName)) {
@@ -71,7 +70,9 @@ void VulkanDevice::GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vecto
 	std::vector<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateDeviceLayerProperties(Gpu, &layerCount, availableLayers.data());
 	std::vector<const char*> PlatformLayers;
-	VulkanRHI::GetPlatformInstanceLayers(PlatformLayers);
+
+	VulkanPlatform::GetPlatformInstanceLayers(PlatformLayers);
+
 	for (auto PlatformPtr : PlatformLayers) {
 		for (auto& availableLayerPtr : availableLayers) {
 			if (!std::strcmp(PlatformPtr, availableLayerPtr.layerName)) {

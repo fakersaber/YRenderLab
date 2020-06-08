@@ -38,7 +38,14 @@ private:
 	std::vector<const char*> DeviceExtensions;
 	std::vector<const char*> DeviceLayers;
 
-	
+	VkQueue GfxQueue;
+	VkQueue ComputeQueue;
+	VkQueue TransferQueue;
+
+
+	//SwapChain
+	VkSurfaceKHR Surface;
+
 };
 
 

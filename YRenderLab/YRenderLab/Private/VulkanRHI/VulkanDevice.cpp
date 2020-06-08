@@ -138,7 +138,24 @@ void VulkanDevice::CreateDevice() {
 		std::cerr << "Vulkan device creation failed" << std::endl;
 	}
 
-	//#TODO: Create Queue
+	//Gfx Queue
+	if (GfxQueueFamilyIndex == -1) {
+		std::cerr << "Queue has Error" << std::endl;
+	}
+	vkGetDeviceQueue(this->Device, GfxQueueFamilyIndex, 0, &GfxQueue);
+
+	//Compute Queue
+	if (ComputeQueueFamilyIndex == -1) {
+		std::cerr << "Queue has Error" << std::endl;
+	}
+	vkGetDeviceQueue(this->Device, ComputeQueueFamilyIndex, 0, &ComputeQueue);
+
+	//Transfer Queue
+	if (TransferQueueFamilyIndex == -1) {
+		std::cerr << "Queue has Error" << std::endl;
+	}
+	vkGetDeviceQueue(this->Device, TransferQueueFamilyIndex, 0, &TransferQueue);
+
 
 }
 

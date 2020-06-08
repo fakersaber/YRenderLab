@@ -2,6 +2,14 @@
 #define _YRENDER_VKRHI_VulkanRHI_H_
 
 #include <Public/RHI/RHI.h>
+
+#include <Public/VulkanRHI/VulkanConfig.h>
+
+#if USE_WINDOWS_PLATFORM
+#include <Public/VulkanRHI/VulkanWindowsPlatform.h>
+#endif
+
+
 #include <vulkan/vulkan.h>
 #include <Public/YCore.h>
 #include <vector>
@@ -20,12 +28,6 @@ public:
 	virtual ~VulkanRHI();
 	virtual void Init() final override;
 	virtual void Shutdown() final override;
-
-	static void GetPlatformInstanceExtensions(std::vector<const char*>& OutExtensions);
-	static void GetPlatformInstanceLayers(std::vector<const char*>& OutLayers);
-	
-	static void GetPlatformDeviceExtensions(std::vector<const char*>& OutExtensions);
-	static void GetPlatformDeviceLayers(std::vector<const char*>& OutLayers);
 
 	static VkBool32 DebugUtilsCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT MsgSeverity, 

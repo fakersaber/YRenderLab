@@ -6,20 +6,14 @@
 
 #define YRENDER_REVERSE
 
-//Platform
-#define USE_WINDOWS 1
-
 //Window Define
 #define USE_GLFWWINDOW 1
 
 //RHI Define
 #define SOFT_RENDER 0
 #define OPENGL_RENDER 0
-
-//Vulkan configure
 #define VULKAN_RENDER 1
-#define VULKAN_HAS_DEBUGGING_ENABLED 1
-#define VULKAN_SUPPORTS_DEBUG_UTILS 1
+
 
 
 #include <memory>

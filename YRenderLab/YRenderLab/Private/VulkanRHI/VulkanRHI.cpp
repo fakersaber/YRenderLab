@@ -1,18 +1,6 @@
 #include <Public/VulkanRHI/VulkanRHI.h>
 #include <Public/VulkanRHI/VulkanDevice.h>
 
-#if USE_WINDOWS
-#include <windows.h>
-#include <vulkan/vulkan_win32.h>
-#endif
-
-
-//STANDARD_VALIDATION_LAYER_NAME是即将被抛弃的版本
-#if VULKAN_HAS_DEBUGGING_ENABLED
-#define KHRONOS_STANDARD_VALIDATION_LAYER_NAME	"VK_LAYER_KHRONOS_validation"
-#define RENDERDOC_LAYER_NAME				"VK_LAYER_RENDERDOC_Capture"
-#endif
-
 
 
 VulkanRHI::VulkanRHI()
@@ -36,33 +24,6 @@ void VulkanRHI::Shutdown() {
 
 	RemoveDebugLayerCallback();
 }
-
-void VulkanRHI::GetPlatformInstanceExtensions(std::vector<const char*>& OutExtensions) {
-#if USE_WINDOWS
-	OutExtensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME); //VK_KHR_surface
-	OutExtensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
-#endif
-
-#if VULKAN_SUPPORTS_DEBUG_UTILS
-	OutExtensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-#endif
-}
-
-void VulkanRHI::GetPlatformInstanceLayers(std::vector<const char*>& OutLayers){
-#if VULKAN_HAS_DEBUGGING_ENABLED
-	OutLayers.emplace_back(KHRONOS_STANDARD_VALIDATION_LAYER_NAME);
-#endif
-}
-
-
-void VulkanRHI::GetPlatformDeviceExtensions(std::vector<const char*>& OutExtensions){
-	OutExtensions.emplace_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-}
-
-void VulkanRHI::GetPlatformDeviceLayers(std::vector<const char*>& OutLayers){
-
-}
-
 
 
 void VulkanRHI::CreateInstance() {

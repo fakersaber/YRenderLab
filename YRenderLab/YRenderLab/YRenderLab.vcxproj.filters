@@ -648,6 +648,12 @@
     <ClInclude Include="Public\Window\WindowInterface.h">
       <Filter>Public\Window</Filter>
     </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanWindowsPlatform.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanConfig.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -817,6 +823,9 @@
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanLayer.cpp">
+      <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanWindowsPlatform.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
   </ItemGroup>

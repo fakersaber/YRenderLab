@@ -1,0 +1,13 @@
+#ifndef _YRENDER_VKRHI_VKCONFIG_H_
+#define _YRENDER_VKRHI_VKCONFIG_H_
+
+
+//Vulkan configure
+#define VULKAN_HAS_DEBUGGING_ENABLED 1
+
+#define VULKAN_SUPPORTS_DEBUG_UTILS 1
+
+#define USE_WINDOWS_PLATFORM 1
+
+
+#endif
