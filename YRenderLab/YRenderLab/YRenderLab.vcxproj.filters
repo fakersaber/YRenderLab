@@ -654,6 +654,12 @@
     <ClInclude Include="Public\VulkanRHI\VulkanConfig.h">
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanViewport.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanSwapChain.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -826,6 +832,12 @@
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanWindowsPlatform.cpp">
+      <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanViewPort.cpp">
+      <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanSwapChain.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
   </ItemGroup>

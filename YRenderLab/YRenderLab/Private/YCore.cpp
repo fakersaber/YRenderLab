@@ -37,12 +37,12 @@ YCore::~YCore() {
 
 bool YCore::Initial(const int width, const int height) {
 
-	if (!SurfaceRenderWindow->Initial(width, height)){
-		std::cout << "Create Window Failed" << std::endl;
-		return false;
-	}
+	auto Result = SurfaceRenderWindow->Initial(width, height);
+
+	assert(Result);
 
 	RenderRHI->Init();
+
 	return true;
 }
 

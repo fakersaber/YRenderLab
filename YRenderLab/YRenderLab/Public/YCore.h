@@ -21,7 +21,7 @@
 
 class GlfwWindow;
 class RenderWindow;
-class WindowInterface;
+class IWindowInterface;
 class RHI;
 
 class YCore {
@@ -49,7 +49,7 @@ private:
 	std::shared_ptr<GlfwWindow> pGLInstance;
 	RenderWindow* _RenderWindow;
 	
-	WindowInterface* SurfaceRenderWindow;
+	IWindowInterface* SurfaceRenderWindow;
 	RHI* RenderRHI;
 };
 

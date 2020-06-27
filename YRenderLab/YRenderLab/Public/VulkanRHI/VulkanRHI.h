@@ -1,20 +1,19 @@
 #ifndef _YRENDER_VKRHI_VulkanRHI_H_
 #define _YRENDER_VKRHI_VulkanRHI_H_
 
+#include <Public/YCore.h>
 #include <Public/RHI/RHI.h>
 
+#include <vulkan/vulkan.h>
 #include <Public/VulkanRHI/VulkanConfig.h>
-
 #if USE_WINDOWS_PLATFORM
 #include <Public/VulkanRHI/VulkanWindowsPlatform.h>
 #endif
 
-
-#include <vulkan/vulkan.h>
-#include <Public/YCore.h>
 #include <vector>
 
 class VulkanDevice;
+class VulkanViewPort;
 
 enum class VenderID : uint32_t {
 	Nvidia = 0x10DE,
@@ -34,6 +33,11 @@ public:
 		VkDebugUtilsMessageTypeFlagsEXT MsgType,
 		const VkDebugUtilsMessengerCallbackDataEXT* CallbackData, 
 		void* UserData);
+
+	inline VkInstance GetInstance() const{
+		return Instance;
+	}
+
 protected:
 	void CreateInstance();
 	void SelectAndInitDevice();
@@ -44,12 +48,14 @@ protected:
 	static void GetInstanceLayersAndExtensions(std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
 
 
+
 protected:
 	VkInstance Instance;
 
 	std::shared_ptr<VulkanDevice> Device;
 
-
+	/** 当前Draw的ViewPort,由RHIBeginDrawingViewport初始化 */
+	std::shared_ptr<VulkanViewPort> DrawingViewport;
 
 #if VULKAN_SUPPORTS_DEBUG_UTILS
 	VkDebugUtilsMessengerEXT Messenger = VK_NULL_HANDLE;

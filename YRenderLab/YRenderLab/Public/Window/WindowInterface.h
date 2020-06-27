@@ -2,9 +2,9 @@
 #define _YRENDER_WINDOWINTERFACE_H_
 
 
-class WindowInterface {
+class IWindowInterface {
 public:
-	virtual ~WindowInterface() {}
+	virtual ~IWindowInterface() {}
 	virtual bool Initial(const int width, const int height) = 0;
 	virtual void Shutdown()= 0;
 	virtual void Run() = 0;

@@ -35,3 +35,14 @@ void VulkanWindowsPlatform::GetPlatformDeviceExtensions(std::vector<const char*>
 void VulkanWindowsPlatform::GetPlatformDeviceLayers(std::vector<const char*>& OutLayers){
 
 }
+
+void VulkanWindowsPlatform::CreateSurface(void* WindowHandle, VkInstance Instance, VkSurfaceKHR* OutSurface){
+	VkWin32SurfaceCreateInfoKHR SurfaceCreateInfo = {};
+	SurfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+	SurfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
+	SurfaceCreateInfo.hwnd = reinterpret_cast<HWND>(WindowHandle);
+	auto Result = vkCreateWin32SurfaceKHR(Instance, &SurfaceCreateInfo, nullptr, OutSurface);
+	if (Result != VK_SUCCESS) {
+		std::cerr << "Surface Create Failed !" << std::endl;
+	}
+}

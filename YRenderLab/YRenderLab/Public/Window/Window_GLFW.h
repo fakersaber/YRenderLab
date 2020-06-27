@@ -5,7 +5,7 @@
 
 struct GLFWwindow;
 
-class Window_GLFW : public WindowInterface {
+class Window_GLFW : public IWindowInterface {
 public:
 
 	Window_GLFW();

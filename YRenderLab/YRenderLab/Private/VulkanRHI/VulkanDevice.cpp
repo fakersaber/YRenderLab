@@ -97,7 +97,6 @@ void VulkanDevice::CreateDevice() {
 		CurrQueue.queueFamilyIndex = FamilyIndex;
 		CurrQueue.queueCount = CurrProps.queueCount; //一种类型的队列数量不固定
 		NumPriorities += CurrQueue.queueCount; //每一个队列都要有一个对应的float数据指定优先级,所以priorities的数量为Queue的总数
-		QueueFamilyInfos.emplace_back(CurrQueue);
 	}
 
 	std::vector<float> QueuePriorities;
@@ -115,15 +114,14 @@ void VulkanDevice::CreateDevice() {
 	}
 
 
-	//先不实现device层的extension与layer,使用与Instance相同
-	VkDeviceCreateInfo DeviceInfo{};
+	VkDeviceCreateInfo DeviceInfo = {};
 	DeviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	DeviceInfo.enabledExtensionCount = DeviceExtensions.size();
+	DeviceInfo.enabledExtensionCount = static_cast<uint32_t>(DeviceExtensions.size());
 	DeviceInfo.ppEnabledExtensionNames = DeviceExtensions.data();
-	DeviceInfo.enabledLayerCount = DeviceLayers.size();
+	DeviceInfo.enabledLayerCount = static_cast<uint32_t>(DeviceLayers.size());
 	DeviceInfo.ppEnabledLayerNames = (DeviceInfo.enabledLayerCount > 0) ? DeviceLayers.data() : nullptr;
 
-	DeviceInfo.queueCreateInfoCount = QueueFamilyInfos.size();
+	DeviceInfo.queueCreateInfoCount = static_cast<uint32_t>(QueueFamilyInfos.size());
 	DeviceInfo.pQueueCreateInfos = QueueFamilyInfos.data();
 
 	DeviceInfo.pEnabledFeatures = &PhysicalFeatures;

@@ -20,6 +20,7 @@ void VulkanRHI::Init() {
 }
 
 void VulkanRHI::Shutdown() {
+
 	vkDestroyInstance(Instance, nullptr);
 
 	RemoveDebugLayerCallback();
@@ -39,11 +40,11 @@ void VulkanRHI::CreateInstance() {
 	InstInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	InstInfo.pApplicationInfo = &AppInfo;
 
-	GetInstanceLayersAndExtensions(InstanceExtensions, InstanceLayers);
+	VulkanRHI::GetInstanceLayersAndExtensions(InstanceExtensions, InstanceLayers);
 
 	InstInfo.enabledExtensionCount = static_cast<uint32_t>(InstanceExtensions.size());
 	InstInfo.ppEnabledExtensionNames = InstInfo.enabledExtensionCount > 0 ? InstanceExtensions.data() : nullptr;
-	InstInfo.enabledLayerCount = InstanceLayers.size();
+	InstInfo.enabledLayerCount = static_cast<uint32_t>(InstanceLayers.size());
 	InstInfo.ppEnabledLayerNames = InstInfo.enabledLayerCount > 0 ? InstanceLayers.data() : nullptr;
 
 	//Allocator always nullptr
