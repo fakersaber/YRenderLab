@@ -15,11 +15,15 @@ VulkanRHI::~VulkanRHI() {
 }
 
 void VulkanRHI::Init() {
+
 	CreateInstance();
+
 	SelectAndInitDevice();
 }
 
 void VulkanRHI::Shutdown() {
+
+	Device.reset();
 
 	vkDestroyInstance(Instance, nullptr);
 

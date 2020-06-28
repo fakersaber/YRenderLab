@@ -8,9 +8,14 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance)
 	, Instance(InInstance)
 {
 	VulkanPlatform::CreateSurface(WindowHandle, Instance, &Surface);
+
+	//#TODO: Create SwapChain
 }
 
 VulkanSwapChain::~VulkanSwapChain()
 {
+
 	vkDestroySurfaceKHR(Instance, Surface, nullptr);
+
+	//#TODO: Destroy SwapChain
 }

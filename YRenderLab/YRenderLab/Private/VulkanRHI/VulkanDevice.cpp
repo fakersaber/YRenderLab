@@ -12,7 +12,7 @@ VulkanDevice::VulkanDevice(VulkanRHI* InRHI, VkPhysicalDevice InGpu)
 
 VulkanDevice::~VulkanDevice() {
 	if (Device != VK_NULL_HANDLE){
-		Destroy();
+		vkDestroyDevice(Device, nullptr);
 		Device = VK_NULL_HANDLE;
 	}
 }
@@ -43,10 +43,6 @@ void VulkanDevice::InitGPU() {
 	CreateDevice();
 }
 
-void VulkanDevice::Destroy(){
-	vkDestroyDevice(Device, nullptr);
-	Device = VK_NULL_HANDLE;
-}
 
 void VulkanDevice::CreateDevice() {
 	assert(Device == VK_NULL_HANDLE);

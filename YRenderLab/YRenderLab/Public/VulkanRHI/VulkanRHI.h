@@ -54,8 +54,6 @@ protected:
 
 	std::shared_ptr<VulkanDevice> Device;
 
-	/** 当前Draw的ViewPort,由RHIBeginDrawingViewport初始化 */
-	std::shared_ptr<VulkanViewPort> DrawingViewport;
 
 #if VULKAN_SUPPORTS_DEBUG_UTILS
 	VkDebugUtilsMessengerEXT Messenger = VK_NULL_HANDLE;

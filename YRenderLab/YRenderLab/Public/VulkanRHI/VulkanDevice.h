@@ -18,8 +18,6 @@ public:
 
 	void InitGPU();
 
-	void Destroy();
-
 	void CreateDevice();
 
 	static void GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
