@@ -154,6 +154,12 @@
     <Filter Include="Private\Window">
       <UniqueIdentifier>{0cb77f0f-b5b5-4cd1-bc22-e5747fc4e60a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\shaders\SkyBox">
+      <UniqueIdentifier>{f83c9034-3408-442b-9290-0040fc76ea27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\shaders\BRDF">
+      <UniqueIdentifier>{2b23a077-8111-47c2-8469-75f3dac8a0c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\YCore.h">
@@ -660,6 +666,12 @@
     <ClInclude Include="Public\VulkanRHI\VulkanSwapChain.h">
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
+    <ClInclude Include="Data\shaders\BRDF\FDG.h">
+      <Filter>Data\shaders\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\shaders\BRDF\StandardBRDF.h">
+      <Filter>Data\shaders\BRDF</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -883,6 +895,12 @@
     </None>
     <None Include="Data\shaders\P3N3T2T3.vs">
       <Filter>Data\shaders</Filter>
+    </None>
+    <None Include="Data\shaders\SkyBox\skybox.fs">
+      <Filter>Data\shaders\SkyBox</Filter>
+    </None>
+    <None Include="Data\shaders\SkyBox\skybox.vs">
+      <Filter>Data\shaders\SkyBox</Filter>
     </None>
   </ItemGroup>
 </Project>

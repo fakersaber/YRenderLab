@@ -27,6 +27,8 @@ public:
 	virtual ~VulkanRHI();
 	virtual void Init() final override;
 	virtual void Shutdown() final override;
+	virtual void SetupFormat() final override;
+
 
 	static VkBool32 DebugUtilsCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT MsgSeverity, 
@@ -36,6 +38,10 @@ public:
 
 	inline VkInstance GetInstance() const{
 		return Instance;
+	}
+
+	inline VulkanDevice* GetDevice() const {
+		return Device.get();
 	}
 
 protected:

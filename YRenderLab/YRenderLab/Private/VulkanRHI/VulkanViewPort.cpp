@@ -2,13 +2,14 @@
 #include <Public/VulkanRHI/VulkanRHI.h>
 #include <Public/VulkanRHI/VulkanSwapChain.h>
 
-VulkanViewPort::VulkanViewPort(void* InWindowHandle, VulkanRHI* InRHI, uint32_t InSizeX, uint32_t InSizeY)
+VulkanViewPort::VulkanViewPort(void* InWindowHandle, VulkanRHI* InRHI, uint32_t InSizeX, uint32_t InSizeY, EPixelFormat InPixelFormat)
 	: WindowHandle(InWindowHandle)
 	, RHI(InRHI)
 	, SizeX(InSizeX)
 	, SizeY(InSizeY)
+	, PixelFormat(InPixelFormat)
 {
-	SwapChain = new VulkanSwapChain(WindowHandle,RHI->GetInstance());
+	SwapChain = new VulkanSwapChain(InWindowHandle, InRHI->GetInstance(), *InRHI->GetDevice(), InPixelFormat);
 }
 
 VulkanViewPort::~VulkanViewPort()

@@ -16,6 +16,8 @@ VulkanRHI::~VulkanRHI() {
 
 void VulkanRHI::Init() {
 
+	SetupFormat();
+
 	CreateInstance();
 
 	SelectAndInitDevice();
@@ -28,6 +30,13 @@ void VulkanRHI::Shutdown() {
 	vkDestroyInstance(Instance, nullptr);
 
 	RemoveDebugLayerCallback();
+}
+
+void VulkanRHI::SetupFormat(){
+
+	PlatformFormats[PF_B8G8R8A8].PlatformFormat = VK_FORMAT_B8G8R8A8_UNORM;
+	PlatformFormats[PF_FloatRGB].PlatformFormat = VK_FORMAT_B10G11R11_UFLOAT_PACK32;
+	PlatformFormats[PF_FloatRGBA].PlatformFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
 }
 
 

@@ -41,6 +41,8 @@ void VulkanDevice::InitGPU() {
 	vkGetPhysicalDeviceFeatures(Gpu, &PhysicalFeatures);
 
 	CreateDevice();
+
+	//
 }
 
 

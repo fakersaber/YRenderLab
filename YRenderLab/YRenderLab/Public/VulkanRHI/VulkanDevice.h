@@ -22,6 +22,11 @@ public:
 
 	static void GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
 
+	inline VkPhysicalDevice GetPhysicalHandle() const
+	{
+		return Gpu;
+	}
+
 private:
 	VulkanRHI* VkRHI;
 

@@ -56,22 +56,3 @@ void YCore::Run() {
 }
 
 
-
-
-
-
-
-//static void ProcessInput(GLFWwindow* window) {
-//	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-//		glfwSetWindowShouldClose(window, true);
-//	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-//		YCore::GetCore()->GetGLWindow()->GetCamera()->ProcessKeyboard(Camera::ENUM_Movement::MOVE_FORWARD, GlfwWindow::GetInstance()->GetDeltaTime());
-//	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-//		YCore::GetCore()->GetGLWindow()->GetCamera()->ProcessKeyboard(Camera::ENUM_Movement::MOVE_BACKWARD, GlfwWindow::GetInstance()->GetDeltaTime());
-//	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-//		YCore::GetCore()->GetGLWindow()->GetCamera()->ProcessKeyboard(Camera::ENUM_Movement::MOVE_LEFT, GlfwWindow::GetInstance()->GetDeltaTime());
-//	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-//		YCore::GetCore()->GetGLWindow()->GetCamera()->ProcessKeyboard(Camera::ENUM_Movement::MOVE_RIGHT, GlfwWindow::GetInstance()->GetDeltaTime());
-//}
-
-
