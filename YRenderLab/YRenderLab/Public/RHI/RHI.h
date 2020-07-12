@@ -102,7 +102,6 @@ enum EPixelFormat
 struct PixelFormatInfo {
 	// Platform format  e.g. VK_FORMAT_B8G8R8A8_VK_FORMAT_B8G8R8A8_SRGB
 	uint32_t			PlatformFormat;
-
 	EPixelFormat YFormat;
 };
 
@@ -113,12 +112,18 @@ public:
 	virtual void Init() = 0;
 	virtual void Shutdown() = 0;
 	virtual void SetupFormat() = 0;
+	virtual RHIViewport* RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) = 0;
+	static unsigned int SRGBMapping(EPixelFormat UEFormat) { }
 
-
-protected:
-	PixelFormatInfo PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
+public:
+	static PixelFormatInfo PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 };
 
-
+class RHIViewport {
+public:
+	virtual ~RHIViewport() {};
+	virtual void Init() = 0;
+	virtual void Shutdown() = 0;
+};
 
 #endif

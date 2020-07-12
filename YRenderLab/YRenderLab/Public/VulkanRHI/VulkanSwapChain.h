@@ -11,7 +11,7 @@ class VulkanSwapChain
 public:
 	VulkanSwapChain() = delete;
 
-	VulkanSwapChain(void* WindowHandle, VkInstance InInstance, VulkanDevice& InDevice, EPixelFormat& InOutPixelFormat);
+	VulkanSwapChain(void* WindowHandle, VkInstance InInstance, VulkanDevice& InDevice, EPixelFormat& InOutPixelFormat, bool bIsSRGB);
 
 	~VulkanSwapChain();
 

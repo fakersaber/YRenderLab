@@ -1,11 +1,15 @@
-#include <Public/Window/Window_GLFW.h>
 #include <Public/YCore.h>
+#include <Public/Window/Window_GLFW.h>
 
 #if VULKAN_RENDER
 #define GLFW_INCLUDE_VULKAN
 #endif // 
 #include <Public/3rdPart/GLFW/glfw3.h>
 
+#if USE_WINDOWS_PLATFORM
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <Public/3rdPart/GLFW/glfw3native.h>
+#endif
 
 Window_GLFW::Window_GLFW(){
 
@@ -15,7 +19,7 @@ Window_GLFW::~Window_GLFW(){
 
 }
 
-bool Window_GLFW::Initial(const int width, const int height){
+void Window_GLFW::Init(const int width, const int height, const std::shared_ptr<RHI>& RHIResource){
 	glfwInit();
 
 #if OPENGL_RENDER
@@ -33,10 +37,8 @@ bool Window_GLFW::Initial(const int width, const int height){
 	if (window == NULL){
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-		return false;
 	}
-
-	return true;
+	//glfwGetWin32Window()
 }
 
 void Window_GLFW::Shutdown(){
@@ -44,7 +46,7 @@ void Window_GLFW::Shutdown(){
 	glfwTerminate();
 }
 
-void Window_GLFW::Run(){
+void Window_GLFW::Tick(){
 	while (!glfwWindowShouldClose(window)) {
 
 #if OPENGL_RENDER

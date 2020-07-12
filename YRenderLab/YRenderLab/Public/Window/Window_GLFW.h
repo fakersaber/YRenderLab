@@ -4,6 +4,7 @@
 #include <Public/Window/WindowInterface.h>
 
 struct GLFWwindow;
+class RHI;
 
 class Window_GLFW : public IWindowInterface {
 public:
@@ -12,9 +13,9 @@ public:
 
 	virtual ~Window_GLFW();
 
-	virtual bool Initial(const int width, const int height) final override;
+	virtual void Init(const int width, const int height, const std::shared_ptr<RHI>& RHIResource) final override;
 	virtual void Shutdown() final override;
-	virtual void Run() final override;
+	virtual void Tick() final override;
 
 private:
 	unsigned int width;

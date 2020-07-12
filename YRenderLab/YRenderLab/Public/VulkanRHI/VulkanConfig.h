@@ -7,7 +7,4 @@
 
 #define VULKAN_SUPPORTS_DEBUG_UTILS 1
 
-#define USE_WINDOWS_PLATFORM 1
-
-
 #endif

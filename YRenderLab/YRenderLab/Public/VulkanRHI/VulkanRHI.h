@@ -25,10 +25,26 @@ class VulkanRHI final : public RHI {
 public:
 	VulkanRHI();
 	virtual ~VulkanRHI();
+
+	//RHI Function
 	virtual void Init() final override;
 	virtual void Shutdown() final override;
 	virtual void SetupFormat() final override;
+	virtual RHIViewport* RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) final override;;
 
+
+
+
+	inline VkInstance GetInstance() const {
+		return Instance;
+	}
+
+	inline VulkanDevice* GetDevice() const {
+		return Device.get();
+	}
+
+
+	static unsigned int SRGBMapping(EPixelFormat UEFormat);
 
 	static VkBool32 DebugUtilsCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT MsgSeverity, 
@@ -36,13 +52,6 @@ public:
 		const VkDebugUtilsMessengerCallbackDataEXT* CallbackData, 
 		void* UserData);
 
-	inline VkInstance GetInstance() const{
-		return Instance;
-	}
-
-	inline VulkanDevice* GetDevice() const {
-		return Device.get();
-	}
 
 protected:
 	void CreateInstance();

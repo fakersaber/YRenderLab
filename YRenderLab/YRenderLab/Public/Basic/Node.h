@@ -10,7 +10,7 @@
 template<typename T>
 class Node : public YHeapObject {
 protected:
-	Node(std::shared_ptr<T> parent = nullptr) : parent(parent) {
+	Node(std::shared_ptr<T> InParent = nullptr) : parent(InParent) {
 
 	}
 	virtual ~Node() = default;

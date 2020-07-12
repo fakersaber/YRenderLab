@@ -14,6 +14,7 @@ class YObject : public Node<YObject> {
 public:
 	//当key值为引用类型时，使用reference_wrapper包装后接受右值类型
 	using TypeInfoRef = std::reference_wrapper<const std::type_info>;
+
 	struct Hasher {
 		std::size_t operator()(TypeInfoRef type) const {
 			return type.get().hash_code();

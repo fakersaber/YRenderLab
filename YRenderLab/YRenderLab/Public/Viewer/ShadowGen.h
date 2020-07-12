@@ -44,7 +44,7 @@ private:
 	GLShader PointLightShadow_Shader;
 	GLShader SpotLightShadow_Shader;
 	std::shared_ptr<GlfwWindow> pGLWindow;
-	std::unordered_map<std::weak_ptr<LightComponent>, GLFBO, WeakHasher<LightComponent>,WeakEqualTo<LightComponent>> DirectionalDepthFBOMap;
+	std::unordered_map<std::weak_ptr<LightComponent>, GLFBO, WeakHasher<LightComponent>, WeakEqualTo<LightComponent>> DirectionalDepthFBOMap;
 	std::unordered_map<std::weak_ptr<LightComponent>, YGM::Transform, WeakHasher<LightComponent>, WeakEqualTo<LightComponent>> DirectionalLightProjView;
 };
 

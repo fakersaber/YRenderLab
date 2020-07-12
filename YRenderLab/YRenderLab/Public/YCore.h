@@ -13,6 +13,9 @@
 #define OPENGL_RENDER 0
 #define VULKAN_RENDER 1
 
+//Platform Define
+#define USE_WINDOWS_PLATFORM 1
+
 #include <memory>
 #include <Public/YGM/Transform.h>
 
@@ -74,26 +77,24 @@ class GlfwWindow;
 class RenderWindow;
 class IWindowInterface;
 class RHI;
+class RHIViewport;
 
 class YCore {
 public:
 	YCore(const YCore& rhs) = delete;
 	YCore& operator=(const YCore& rhs) = delete;
 	static YCore* GetCore();
-	bool Initial(const int width, const int height);
+	void Init(const int width, const int height);
 	void Shutdown();
-	void Run();
-
+	void Tick();
 
 	std::shared_ptr<GlfwWindow> GetGLWindow() const {
 		return pGLInstance;
 	}
 
-
 private:
 	YCore();
 	~YCore();
-
 
 private:
 	//---------------------
@@ -102,8 +103,8 @@ private:
 	RenderWindow* _RenderWindow;
 	//-----------------------
 
-	IWindowInterface* SurfaceRenderWindow;
-	RHI* RenderRHI;
+	std::shared_ptr<IWindowInterface> SurfaceRenderWindow;
+	std::shared_ptr<RHI> RenderRHI;
 };
 
 

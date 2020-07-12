@@ -19,40 +19,37 @@ YCore* YCore::GetCore() {
 
 
 YCore::YCore() {
+//#TODO: 删除不同接口 统一RHI
 #if SOFT_RENDER
 	this->_RenderWindow = Win32Window::GetInstance();
 #elif OPENGL_RENDER
 	this->pGLInstance = New<GlfwWindow>();
 #elif VULKAN_RENDER
-	SurfaceRenderWindow = new Window_GLFW();
-	RenderRHI = new VulkanRHI();
+	RenderRHI = std::make_shared<VulkanRHI>();
+	SurfaceRenderWindow = std::make_shared<Window_GLFW>();
 #endif 
 }
 
-YCore::~YCore() {
-	delete SurfaceRenderWindow;
-	delete RenderRHI;
-}
 
-
-bool YCore::Initial(const int width, const int height) {
-
-	auto Result = SurfaceRenderWindow->Initial(width, height);
-
-	assert(Result);
-
+void YCore::Init(const int width, const int height) {
+	//1.初始化顺序固定
+	//2.尽可能的资源不耦合，各自管理创建的资源
+	//3.若引用其他模块，使用强引用
 	RenderRHI->Init();
-
-	return true;
+	SurfaceRenderWindow->Init(width, height, RenderRHI);
 }
 
 void YCore::Shutdown(){
-	RenderRHI->Shutdown();
+	//Shutdown用于释放引用其他模块的资源
+	RenderRHI->Shutdown(); 
 	SurfaceRenderWindow->Shutdown();
 }
 
-void YCore::Run() {
-	SurfaceRenderWindow->Run();
+void YCore::Tick() {
+	SurfaceRenderWindow->Tick();
 }
 
 
+YCore::~YCore() {
+
+}
