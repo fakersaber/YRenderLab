@@ -49,6 +49,7 @@ namespace LambdaHelper {
 	};
 }
 
+
 //例如i为3时就是一直递增到tuple_element<3, tuple<_This, _Rest...>>
 //再令type = _This从而得出类型
 
@@ -74,5 +75,52 @@ namespace LambdaHelper {
 //	: public tuple_element<_Index - 1, tuple<_Rest...>>
 //{	// recursive tuple_element definition
 //};
+
+
+//----------------------------------------------------------------------//
+//----------------------------------------------------------------------//
+
+//typename = void, class = void -------------SFINAE 
+//检查T中是否有成员member
+
+namespace CheckMember {
+	template<typename, typename = void>
+	struct has_member : std::false_type {
+
+	};
+
+
+	template<typename T>
+	struct has_member<T, std::void_t<decltype(T::member)>> : public std::true_type {
+
+	};
+}
+
+//----------------------------------------------------------------------//
+//----------------------------------------------------------------------//
+
+
+
+//----------------------------------------------------------------------//
+//----------------------------------------------------------------------//
+//检查T中是否有成员函数memberFunc
+
+namespace CheckMemberFunc {
+	template<typename, typename = void>
+	struct has_memberFunc : std::false_type {
+
+	};
+
+
+	//版本1 返回T的右值类型   _Add_reference<_Ty>::_Rvalue, 再检查是否有memberFunc函数
+	template<typename T>
+	struct has_memberFunc<T, std::void_t<decltype(std::declval<T>().memberFunc())>> : public std::true_type {
+
+	};
+}
+
+//----------------------------------------------------------------------//
+//----------------------------------------------------------------------//
+
 
 #endif

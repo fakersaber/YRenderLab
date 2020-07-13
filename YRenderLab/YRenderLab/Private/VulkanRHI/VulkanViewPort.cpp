@@ -15,10 +15,6 @@ VulkanViewPort::VulkanViewPort(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 }
 
 
-VulkanViewPort::VulkanViewPort()
-{
-
-}
 
 VulkanViewPort::~VulkanViewPort()
 {

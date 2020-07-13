@@ -105,6 +105,13 @@ struct PixelFormatInfo {
 	EPixelFormat YFormat;
 };
 
+class RHIViewport {
+public:
+	virtual ~RHIViewport() {};
+	virtual void Init() = 0;
+	virtual void Shutdown() = 0;
+};
+
 
 class RHI {
 public:
@@ -119,11 +126,6 @@ public:
 	static PixelFormatInfo PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 };
 
-class RHIViewport {
-public:
-	virtual ~RHIViewport() {};
-	virtual void Init() = 0;
-	virtual void Shutdown() = 0;
-};
+
 
 #endif

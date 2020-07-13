@@ -3,11 +3,13 @@
 
 
 int main() {
-
 	auto YEngine = YCore::GetCore();
-	if (YEngine->Initial(1600, 900)) {
-		YEngine->Run();
-		YEngine->Shutdown();
-	}
+
+	YEngine->Init(1600, 900);
+
+	YEngine->Tick();
+
+	YEngine->Shutdown();
+
 	return 0;
 }

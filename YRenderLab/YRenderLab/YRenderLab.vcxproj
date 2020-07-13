@@ -188,7 +188,6 @@
     <ClInclude Include="Public\YGM\Vector2.hpp" />
     <ClInclude Include="Public\YGM\Vector3.hpp" />
     <ClInclude Include="Public\YGM\Vector4.hpp" />
-    <ClInclude Include="Test\FileTest.h" />
     <None Include="Data\shaders\MVP_P3.vs" />
     <None Include="Data\shaders\P2T2.vs" />
     <None Include="Data\shaders\P3N3T2.vs" />
@@ -266,7 +265,7 @@
     <ClCompile Include="Private\YCore.cpp" />
     <ClCompile Include="Private\YGM\Transform.cpp" />
     <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp" />
-    <ClCompile Include="Test\FileTest.cpp" />
+    <ClCompile Include="Template_Test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

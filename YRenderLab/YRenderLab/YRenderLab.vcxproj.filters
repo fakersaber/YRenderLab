@@ -609,9 +609,6 @@
     <ClInclude Include="Public\Scene\LightComponent.h">
       <Filter>Public\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Test\FileTest.h">
-      <Filter>Test</Filter>
-    </ClInclude>
     <ClInclude Include="Public\Viewer\ShadowGen.h">
       <Filter>Public\Viewer</Filter>
     </ClInclude>
@@ -810,9 +807,6 @@
     <ClCompile Include="Private\Scene\LightComponent.cpp">
       <Filter>Private\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Test\FileTest.cpp">
-      <Filter>Test</Filter>
-    </ClCompile>
     <ClCompile Include="Private\Viewer\ShadowGen.cpp">
       <Filter>Private\Viewer</Filter>
     </ClCompile>
@@ -851,6 +845,9 @@
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanSwapChain.cpp">
       <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Template_Test.cpp">
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
