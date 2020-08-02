@@ -163,6 +163,7 @@
     <ClInclude Include="Public\Viewer\ShadowGen.h" />
     <ClInclude Include="Public\VulkanRHI\VulkanConfig.h" />
     <ClInclude Include="Public\VulkanRHI\VulkanDevice.h" />
+    <ClInclude Include="Public\VulkanRHI\VulkanQueue.h" />
     <ClInclude Include="Public\VulkanRHI\VulkanRHI.h" />
     <ClInclude Include="Public\VulkanRHI\VulkanSwapChain.h" />
     <ClInclude Include="Public\VulkanRHI\VulkanViewport.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="Private\Viewer\ShadowGen.cpp" />
     <ClCompile Include="Private\VulkanRHI\VulkanDevice.cpp" />
     <ClCompile Include="Private\VulkanRHI\VulkanLayer.cpp" />
+    <ClCompile Include="Private\VulkanRHI\VulkanQueue.cpp" />
     <ClCompile Include="Private\VulkanRHI\VulkanRHI.cpp" />
     <ClCompile Include="Private\VulkanRHI\VulkanSwapChain.cpp" />
     <ClCompile Include="Private\VulkanRHI\VulkanViewPort.cpp" />

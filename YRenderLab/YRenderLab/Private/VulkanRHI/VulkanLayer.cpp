@@ -43,7 +43,6 @@ void VulkanRHI::GetInstanceLayersAndExtensions(std::vector<const char*>& Extensi
 }
 
 
-
 void VulkanDevice::GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& DeviceEntensions, std::vector<const char*>& DeviceLayers) {
 
 	//Extensions

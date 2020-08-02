@@ -1,11 +1,16 @@
 #include <Public/VulkanRHI/VulkanDevice.h>
 #include <Public/VulkanRHI/VulkanRHI.h>
+#include <Public/VulkanRHI/VulkanQueue.h>
 
 
 VulkanDevice::VulkanDevice(VulkanRHI* InRHI, VkPhysicalDevice InGpu)
 	: Device(VK_NULL_HANDLE)
 	, Gpu(InGpu)
 	, VkRHI(InRHI)
+	, GfxQueue(nullptr)
+	, ComputeQueue(nullptr)
+	, TransferQueue(nullptr)
+	, PresentQueue(nullptr)
 {
 	std::memset(&PhysicalFeatures, 0, sizeof(VkPhysicalDeviceFeatures));
 }
@@ -14,6 +19,11 @@ VulkanDevice::~VulkanDevice() {
 	if (Device != VK_NULL_HANDLE){
 		vkDestroyDevice(Device, nullptr);
 		Device = VK_NULL_HANDLE;
+
+
+		delete TransferQueue;
+		delete ComputeQueue;
+		delete GfxQueue;
 	}
 }
 
@@ -138,20 +148,49 @@ void VulkanDevice::CreateDevice() {
 	if (GfxQueueFamilyIndex == -1) {
 		std::cerr << "Queue has Error" << std::endl;
 	}
-	vkGetDeviceQueue(this->Device, GfxQueueFamilyIndex, 0, &GfxQueue);
+	GfxQueue = new VulkanQueue(this, GfxQueueFamilyIndex);
 
 	//Compute Queue
 	if (ComputeQueueFamilyIndex == -1) {
 		std::cerr << "Queue has Error" << std::endl;
 	}
-	vkGetDeviceQueue(this->Device, ComputeQueueFamilyIndex, 0, &ComputeQueue);
+	ComputeQueue = new VulkanQueue(this, ComputeQueueFamilyIndex);
 
 	//Transfer Queue
 	if (TransferQueueFamilyIndex == -1) {
 		std::cerr << "Queue has Error" << std::endl;
 	}
-	vkGetDeviceQueue(this->Device, TransferQueueFamilyIndex, 0, &TransferQueue);
+	TransferQueue = new VulkanQueue(this, TransferQueueFamilyIndex);
 
 
 }
 
+
+
+
+void VulkanDevice::SetupPresentQueue(VkSurfaceKHR Surface)
+{
+	if (!PresentQueue)
+	{
+		const auto SupportsPresent = [Surface](VkPhysicalDevice PhysicalDevice, VulkanQueue* Queue)
+		{
+			VkBool32 bSupportsPresent = VK_FALSE;
+			const auto FamilyIndex = Queue->GetFamilyIndex();
+			vkGetPhysicalDeviceSurfaceSupportKHR(PhysicalDevice, FamilyIndex, Surface, &bSupportsPresent);
+			if (bSupportsPresent)
+			{
+				printf("Queue Family %d: Supports Present", FamilyIndex);
+			}
+			return (bSupportsPresent == VK_TRUE);
+		};
+
+		bool bGfx = SupportsPresent(Gpu, GfxQueue);
+		if (!bGfx) {
+			std::cerr << "Graphics Queue doesn't support present!" << std::endl;
+		}
+
+
+		//just gfxQueue
+		PresentQueue = GfxQueue;
+	}
+}

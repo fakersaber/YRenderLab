@@ -4,7 +4,7 @@
 
 ![1578831093943](asset/1578831093943.png)
 
-## PipLine WorkFlow
+## TODO LIST
 
 - [x] diffuse_bsdf material
 - [x] standardPbr material
@@ -45,6 +45,16 @@
 - [x] Camera controller
 
 
+
+## Vulkan RHI
+
+
+
+
+
+
+
+
 ### Path Tracer
 Cpu implement
 
@@ -70,7 +80,9 @@ Cpu implement
 *Gbuffer layout*
 
 **GLTexture::TexTureformat::TEX_GL_RGBA32F, //pixpos + roughness**
+
 **GLTexture::TexTureformat::TEX_GL_RGBA32F, //normal + metallic**
+
 **GLTexture::TexTureformat::TEX_GL_RGBA32F  //albedo + ao**
 
 

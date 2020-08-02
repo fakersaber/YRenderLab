@@ -63,16 +63,8 @@ namespace YGM {
 
 		template<typename T>
 		T Clamp(T value, T minV, T maxV) {
-			if (value < minV)
-				return minV;
-			else if (value > maxV)
-				return maxV;
-			else
-				return value;
+			return value < minV ? minV : value < maxV ? value : maxV;
 		}
-
-
-
 	}
 }
 

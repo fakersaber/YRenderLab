@@ -1,8 +1,10 @@
 #include <Public/VulkanRHI/VulkanWindowsPlatform.h>
 #include <Public/VulkanRHI/VulkanRHI.h>
+
+//#ifdef VK_USE_PLATFORM_WIN32_KHR
 #include <windows.h>
 #include <vulkan/vulkan_win32.h>
-
+//#endif
 
 //STANDARD_VALIDATION_LAYER_NAME是即将被抛弃的版本
 #if VULKAN_HAS_DEBUGGING_ENABLED

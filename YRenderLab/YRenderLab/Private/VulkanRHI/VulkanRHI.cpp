@@ -37,8 +37,7 @@ void VulkanRHI::SetupFormat(){
 	VulkanRHI::PlatformFormats[PF_FloatRGBA].PlatformFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
 }
 
-RHIViewport* VulkanRHI::RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat)
-{
+RHIViewport* VulkanRHI::RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat){
 	return new VulkanViewPort(WindowHandle, this, SizeX, SizeY,  PreferredPixelFormat, true);
 }
 

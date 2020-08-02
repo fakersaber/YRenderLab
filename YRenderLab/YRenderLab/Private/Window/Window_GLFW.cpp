@@ -49,6 +49,8 @@ void Window_GLFW::Shutdown(){
 void Window_GLFW::Tick(){
 	while (!glfwWindowShouldClose(window)) {
 
+		ViewportRHI->Draw();
+
 #if OPENGL_RENDER
 		double beginTime = glfwGetTime();
 		ProcessInput(window);

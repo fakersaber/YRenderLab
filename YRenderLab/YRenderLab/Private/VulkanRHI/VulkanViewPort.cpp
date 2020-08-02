@@ -11,7 +11,7 @@ VulkanViewPort::VulkanViewPort(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 	, SizeY(InSizeY)
 	, PixelFormat(InPixelFormat)
 {
-	SwapChain = new VulkanSwapChain(InWindowHandle, InRHI->GetInstance(), *InRHI->GetDevice(), InPixelFormat, bIsSRGB);
+	SwapChain = new VulkanSwapChain(InWindowHandle, InRHI->GetInstance(), *InRHI->GetDevice(), InPixelFormat, bIsSRGB, InSizeX, InSizeY);
 }
 
 

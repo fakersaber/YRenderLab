@@ -669,6 +669,9 @@
     <ClInclude Include="Data\shaders\BRDF\StandardBRDF.h">
       <Filter>Data\shaders\BRDF</Filter>
     </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanQueue.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -848,6 +851,9 @@
     </ClCompile>
     <ClCompile Include="Template_Test.cpp">
       <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanQueue.cpp">
+      <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

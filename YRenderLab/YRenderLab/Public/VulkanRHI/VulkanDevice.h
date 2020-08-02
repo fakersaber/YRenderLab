@@ -5,6 +5,7 @@
 #include <vector>
 
 class VulkanRHI;
+class VulkanQueue;
 
 class VulkanDevice {
 
@@ -20,11 +21,17 @@ public:
 
 	void CreateDevice();
 
+	//This function is used to bind presentQueue
+	void SetupPresentQueue(VkSurfaceKHR Surface);
+
 	static void GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
 
-	inline VkPhysicalDevice GetPhysicalHandle() const
-	{
+	inline VkPhysicalDevice GetPhysicalHandle() const{
 		return Gpu;
+	}
+
+	inline VkDevice GetInstanceDevice() const {
+		return Device;
 	}
 
 private:
@@ -41,10 +48,11 @@ private:
 	std::vector<const char*> DeviceExtensions;
 	std::vector<const char*> DeviceLayers;
 
-	VkQueue GfxQueue;
-	VkQueue ComputeQueue;
-	VkQueue TransferQueue;
+	VulkanQueue* GfxQueue;
+	VulkanQueue* ComputeQueue;
+	VulkanQueue* TransferQueue;
 
+	VulkanQueue* PresentQueue;
 
 	//SwapChain
 	VkSurfaceKHR Surface;

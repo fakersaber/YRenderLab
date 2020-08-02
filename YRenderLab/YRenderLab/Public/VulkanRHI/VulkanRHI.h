@@ -6,6 +6,7 @@
 
 #include <vulkan/vulkan.h>
 #include <Public/VulkanRHI/VulkanConfig.h>
+
 #if USE_WINDOWS_PLATFORM
 #include <Public/VulkanRHI/VulkanWindowsPlatform.h>
 #endif
