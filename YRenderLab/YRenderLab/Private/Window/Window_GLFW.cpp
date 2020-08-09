@@ -16,10 +16,10 @@ Window_GLFW::Window_GLFW(){
 }
 
 Window_GLFW::~Window_GLFW(){
-
+	delete ViewportRHI;
 }
 
-void Window_GLFW::Init(const int width, const int height, const std::shared_ptr<RHI>& RHIResource){
+void Window_GLFW::Init(const unsigned int width, const unsigned int height, const std::shared_ptr<RHI>& RHIResource){
 	glfwInit();
 
 #if OPENGL_RENDER
@@ -38,7 +38,10 @@ void Window_GLFW::Init(const int width, const int height, const std::shared_ptr<
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 	}
-	//glfwGetWin32Window()
+
+	//it¡¯s the Targa bitmap format (.tga). It stores the pixel data in BGRA format.
+	//so Use BGRA?
+	ViewportRHI = RHIResource->RHICreateViewport(glfwGetWin32Window(window), width, height, PF_B8G8R8A8);
 }
 
 void Window_GLFW::Shutdown(){

@@ -5,7 +5,7 @@
 int main() {
 	auto YEngine = YCore::GetCore();
 
-	YEngine->Init(1600, 900);
+	YEngine->Init(800, 600);
 
 	YEngine->Tick();
 

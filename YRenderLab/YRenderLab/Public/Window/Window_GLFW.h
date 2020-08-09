@@ -13,7 +13,7 @@ public:
 
 	virtual ~Window_GLFW();
 
-	virtual void Init(const int width, const int height, const std::shared_ptr<RHI>& RHIResource) final override;
+	virtual void Init(const unsigned int width, const unsigned int height, const std::shared_ptr<RHI>& RHIResource) final override;
 	virtual void Shutdown() final override;
 	virtual void Tick() final override;
 

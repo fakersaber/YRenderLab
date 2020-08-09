@@ -13,6 +13,7 @@ VulkanRHI::VulkanRHI()
 
 VulkanRHI::~VulkanRHI() {
 	Device.reset();
+
 	RemoveDebugLayerCallback();
 	vkDestroyInstance(Instance, nullptr);
 }
@@ -32,6 +33,7 @@ void VulkanRHI::Shutdown() {
 
 void VulkanRHI::SetupFormat(){
 
+	VulkanRHI::PlatformFormats[PF_R8G8B8A8].PlatformFormat = VK_FORMAT_R8G8B8A8_UNORM;
 	VulkanRHI::PlatformFormats[PF_B8G8R8A8].PlatformFormat = VK_FORMAT_B8G8R8A8_UNORM;
 	VulkanRHI::PlatformFormats[PF_FloatRGB].PlatformFormat = VK_FORMAT_B10G11R11_UFLOAT_PACK32;
 	VulkanRHI::PlatformFormats[PF_FloatRGBA].PlatformFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
@@ -103,7 +105,7 @@ void VulkanRHI::CreateInstance() {
 		std::cerr << "Instance Create Error" << std::endl;
 	}
 
-#if (VULKAN_HAS_DEBUGGING_ENABLED && VULKAN_SUPPORTS_DEBUG_UTILS)
+#if VULKAN_HAS_DEBUGGING_ENABLED
 	SetupDebugLayerCallback();
 #endif
 
@@ -145,7 +147,7 @@ void VulkanRHI::SelectAndInitDevice(){
 
 
 void VulkanRHI::SetupDebugLayerCallback(){
-#if VULKAN_SUPPORTS_DEBUG_UTILS
+#if VULKAN_HAS_DEBUGGING_ENABLED
 	PFN_vkCreateDebugUtilsMessengerEXT CreateDebugUtilsMessengerEXT = 
 		(PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(Instance, "vkCreateDebugUtilsMessengerEXT");
 	if (CreateDebugUtilsMessengerEXT)
@@ -185,7 +187,7 @@ VkBool32 VulkanRHI::DebugUtilsCallback(
 
 
 void VulkanRHI::RemoveDebugLayerCallback(){
-#if VULKAN_SUPPORTS_DEBUG_UTILS
+#if VULKAN_HAS_DEBUGGING_ENABLED
 	if (Messenger != VK_NULL_HANDLE)
 	{
 		PFN_vkDestroyDebugUtilsMessengerEXT DestroyDebugUtilsMessengerEXT = 

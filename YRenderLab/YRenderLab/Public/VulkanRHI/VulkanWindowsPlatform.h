@@ -6,7 +6,7 @@
 
 class VulkanWindowsPlatform {
 public:
-	static void GetInstanceInstanceExtensions(std::vector<const char*>& OutExtensions);
+	static void GetPlatformInstanceExtensions(std::vector<const char*>& OutExtensions);
 
 	static void GetPlatformInstanceLayers(std::vector<const char*>& OutLayers);
 

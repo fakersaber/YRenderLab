@@ -1,5 +1,5 @@
-﻿#ifndef _YRENDER_YCORE_H
-#define _YRENDER_YCORE_H
+﻿#ifndef _YRENDER_YCORE_H_
+#define _YRENDER_YCORE_H_
 
 #define NOMINMAX
 

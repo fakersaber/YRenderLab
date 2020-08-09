@@ -33,3 +33,8 @@ void VulkanViewPort::Shutdown()
 {
 	
 }
+
+void VulkanViewPort::Draw()
+{
+
+}

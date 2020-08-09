@@ -31,7 +31,7 @@ public:
 	virtual void Init() final override;
 	virtual void Shutdown() final override;
 	virtual void SetupFormat() final override;
-	virtual RHIViewport* RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) final override;;
+	virtual RHIViewport* RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) final override;
 
 
 
@@ -68,10 +68,11 @@ protected:
 protected:
 	VkInstance Instance;
 
+	//因为创建Devices时会创建多个，但是只会使用一个，要保证在函数作用域释放
 	std::shared_ptr<VulkanDevice> Device;
 
 
-#if VULKAN_SUPPORTS_DEBUG_UTILS
+#if VULKAN_HAS_DEBUGGING_ENABLED
 	VkDebugUtilsMessengerEXT Messenger = VK_NULL_HANDLE;
 #endif
 

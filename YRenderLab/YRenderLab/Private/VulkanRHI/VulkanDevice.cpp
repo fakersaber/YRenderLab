@@ -33,6 +33,8 @@ bool VulkanDevice::QueryGPU()
 
 	VkPhysicalDeviceProperties deviceProperties;
 	vkGetPhysicalDeviceProperties(Gpu, &deviceProperties);
+
+	//独立显卡
 	bool bIsDiscrete = deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
 	bool bIsNvida = deviceProperties.vendorID == static_cast<uint32_t>(VenderID::Nvidia);
 
@@ -63,7 +65,7 @@ void VulkanDevice::CreateDevice() {
 	int32_t GfxQueueFamilyIndex = -1;
 	int32_t ComputeQueueFamilyIndex = -1;
 	int32_t TransferQueueFamilyIndex = -1;
-	printf("Found %lld Queue Families", QueueFamilyProps.size());
+	printf("Found %lld Queue Families\n", QueueFamilyProps.size());
 
 	uint32_t NumPriorities = 0;
 
@@ -96,7 +98,7 @@ void VulkanDevice::CreateDevice() {
 		}
 
 		if (!bIsValidQueue) {
-			printf("Skipping unnecessary Queue Family %d: %d queues", FamilyIndex, CurrProps.queueCount);
+			printf("Skipping unnecessary Queue Family %d: %d queues\n", FamilyIndex, CurrProps.queueCount);
 			continue;
 		}
 
@@ -105,6 +107,8 @@ void VulkanDevice::CreateDevice() {
 		CurrQueue.queueFamilyIndex = FamilyIndex;
 		CurrQueue.queueCount = CurrProps.queueCount; //一种类型的队列数量不固定
 		NumPriorities += CurrQueue.queueCount; //每一个队列都要有一个对应的float数据指定优先级,所以priorities的数量为Queue的总数
+
+		QueueFamilyInfos.emplace_back(CurrQueue);
 	}
 
 	std::vector<float> QueuePriorities;
@@ -179,9 +183,9 @@ void VulkanDevice::SetupPresentQueue(VkSurfaceKHR Surface)
 			vkGetPhysicalDeviceSurfaceSupportKHR(PhysicalDevice, FamilyIndex, Surface, &bSupportsPresent);
 			if (bSupportsPresent)
 			{
-				printf("Queue Family %d: Supports Present", FamilyIndex);
+				printf("Queue Family %d: Supports Present\n", FamilyIndex);
 			}
-			return (bSupportsPresent == VK_TRUE);
+			return bSupportsPresent;
 		};
 
 		bool bGfx = SupportsPresent(Gpu, GfxQueue);

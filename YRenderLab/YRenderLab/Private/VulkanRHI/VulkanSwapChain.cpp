@@ -35,9 +35,6 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	}
 	assert(bFormatIsFound);
 
-	//#TODO 
-	//InDevice.SetupPresentQueue(Surface);
-
 	//------------------------Fetch present mode------------------------
 	VkPresentModeKHR PresentMode = VK_PRESENT_MODE_MAILBOX_KHR; //默认使用三缓冲
 	bool bPresentMode = false;
@@ -103,11 +100,30 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	//Alpha混合方式，混合由前面Pass决定，SwapChain显然只显示RGB
 	SwapChainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 
+	SwapChainInfo.oldSwapchain = VK_NULL_HANDLE;
+
+	//set Present
+	InDevice.SetupPresentQueue(Surface);
+
+	//Create SwapChain
+	VkResult Result = vkCreateSwapchainKHR(Device.GetInstanceDevice(), &SwapChainInfo, nullptr, &SwapChain);
+
+	if (Result != VK_SUCCESS) {
+		assert(Result == VK_SUCCESS);
+		std::cerr << "Vulkan Swapchain creation failed" << std::endl;
+	}
+
+	//Retrieving the swap chain images
+	uint32_t NumSwapChainImages;
+	vkGetSwapchainImagesKHR(Device.GetInstanceDevice(), SwapChain, &NumSwapChainImages, nullptr);
+	SwapChainImages.resize(NumSwapChainImages);
+	vkGetSwapchainImagesKHR(Device.GetInstanceDevice(), SwapChain, &NumSwapChainImages, SwapChainImages.data());
+
 }
 
 VulkanSwapChain::~VulkanSwapChain()
 {
 	vkDestroySurfaceKHR(Instance, Surface, nullptr);
 
-	//#TODO: Destroy SwapChain
+	vkDestroySwapchainKHR(Device.GetInstanceDevice(), SwapChain, nullptr);
 }

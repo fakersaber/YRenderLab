@@ -110,6 +110,7 @@ public:
 	virtual ~RHIViewport() {};
 	virtual void Init() = 0;
 	virtual void Shutdown() = 0;
+	virtual void Draw() = 0;
 };
 
 
@@ -120,7 +121,8 @@ public:
 	virtual void Shutdown() = 0;
 	virtual void SetupFormat() = 0;
 	virtual RHIViewport* RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) = 0;
-	static unsigned int SRGBMapping(EPixelFormat UEFormat) { }
+
+	//static unsigned int SRGBMapping(EPixelFormat UEFormat) { }
 
 public:
 	static PixelFormatInfo PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];

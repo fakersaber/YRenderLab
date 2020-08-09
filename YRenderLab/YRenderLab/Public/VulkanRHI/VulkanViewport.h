@@ -18,6 +18,8 @@ public:
 	VulkanViewPort() = delete;
 	virtual void Init() final override;
 	virtual void Shutdown() final override;
+	virtual void Draw() final override;
+
 	VulkanViewPort(void* InWindowHandle, VulkanRHI* InRHI, uint32_t InSizeX, uint32_t InSizeY, EPixelFormat InPixelFormat, bool bIsSRGB);
 
 	~VulkanViewPort();

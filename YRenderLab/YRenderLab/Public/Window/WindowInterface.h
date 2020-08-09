@@ -2,14 +2,12 @@
 #define _YRENDER_WINDOWINTERFACE_H_
 
 #include <memory>
-
-class RHI;
-class RHIViewport;
+#include <Public/RHI/RHI.h>
 
 class IWindowInterface {
 public:
 	virtual ~IWindowInterface() {}
-	virtual void Init(const int width, const int height, const std::shared_ptr<RHI>& RHIResource) = 0;
+	virtual void Init(const unsigned int width, const unsigned int height, const std::shared_ptr<RHI>& RHIResource) = 0;
 	virtual void Shutdown()= 0;
 	virtual void Tick() = 0;
 

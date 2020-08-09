@@ -13,14 +13,18 @@
 #endif
 
 
-void VulkanWindowsPlatform::GetInstanceInstanceExtensions(std::vector<const char*>& OutExtensions){
+void VulkanWindowsPlatform::GetPlatformInstanceExtensions(std::vector<const char*>& OutExtensions){
 
 	OutExtensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME); //VK_KHR_surface
 	OutExtensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
 
-#if VULKAN_SUPPORTS_DEBUG_UTILS
+#if VULKAN_HAS_DEBUGGING_ENABLED
 	OutExtensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 #endif
+
+//#if VULKAN_EXT_SWAPCHIAN_COLORSPACE
+//	OutExtensions.emplace_back(VK_EXT_SWAPCHAIN_COLOR_SPACE_EXTENSION_NAME);
+//#endif
 }
 
 

@@ -41,8 +41,8 @@ void YCore::Init(const int width, const int height) {
 
 void YCore::Shutdown(){
 	//Shutdown用于释放引用其他模块的资源
-	RenderRHI->Shutdown(); 
 	SurfaceRenderWindow->Shutdown();
+	RenderRHI->Shutdown(); 
 }
 
 void YCore::Tick() {
@@ -51,5 +51,7 @@ void YCore::Tick() {
 
 
 YCore::~YCore() {
-
+	//注意资源释放顺序
+	RenderRHI.reset();
+	SurfaceRenderWindow.reset();
 }

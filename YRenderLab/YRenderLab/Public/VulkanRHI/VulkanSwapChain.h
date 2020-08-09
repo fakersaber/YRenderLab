@@ -3,6 +3,7 @@
 
 #include <vulkan/vulkan.h>
 #include <Public/RHI/RHI.h>
+#include <vector>
 
 class VulkanDevice;
 
@@ -18,13 +19,17 @@ public:
 	~VulkanSwapChain();
 
 private:
+
+	VulkanDevice& Device;
+
+	//------------------------Native Vulkan Type------------------------
 	VkSwapchainKHR SwapChain;
 
 	VkSurfaceKHR Surface;
 
 	VkInstance Instance;
 
-	VulkanDevice& Device;
+	std::vector<VkImage> SwapChainImages;
 };
 
 #endif

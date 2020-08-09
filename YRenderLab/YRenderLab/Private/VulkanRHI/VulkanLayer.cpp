@@ -13,7 +13,7 @@ void VulkanRHI::GetInstanceLayersAndExtensions(std::vector<const char*>& Extensi
 	vkEnumerateInstanceExtensionProperties(nullptr, &GlobalExtensionCount, GlobalExtensions.data());
 	std::vector<const char*> PlatformExtensions;
 
-	VulkanPlatform::GetInstanceInstanceExtensions(PlatformExtensions);
+	VulkanPlatform::GetPlatformInstanceExtensions(PlatformExtensions);
 
 	for (auto PlatformPtr : PlatformExtensions) {
 		for (auto& GlobalStrPtr : GlobalExtensions) {
