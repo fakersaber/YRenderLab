@@ -14,7 +14,16 @@ public:
 
 	VulkanSwapChain() = delete;
 
-	VulkanSwapChain(void* WindowHandle, VkInstance InInstance, VulkanDevice& InDevice, EPixelFormat& InOutPixelFormat, bool bIsSRGB, uint32_t Size_X, uint32_t Size_Y);
+	VulkanSwapChain(
+		void* WindowHandle, 
+		VkInstance InInstance, 
+		VulkanDevice& InDevice, 
+		EPixelFormat& InOutPixelFormat, 
+		bool bIsSRGB, 
+		uint32_t Size_X, 
+		uint32_t Size_Y,
+		std::vector<VkImage>& BackBufferImages
+	);
 
 	~VulkanSwapChain();
 
@@ -28,8 +37,6 @@ private:
 	VkSurfaceKHR Surface;
 
 	VkInstance Instance;
-
-	std::vector<VkImage> SwapChainImages;
 };
 
 #endif

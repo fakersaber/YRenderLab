@@ -4,6 +4,7 @@
 
 PixelFormatInfo RHI::PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 
+
 VulkanRHI::VulkanRHI()
 	:Instance(VK_NULL_HANDLE)
 	, Device(nullptr)
@@ -33,13 +34,34 @@ void VulkanRHI::Shutdown() {
 
 void VulkanRHI::SetupFormat(){
 
-	VulkanRHI::PlatformFormats[PF_R8G8B8A8].PlatformFormat = VK_FORMAT_R8G8B8A8_UNORM;
 	VulkanRHI::PlatformFormats[PF_B8G8R8A8].PlatformFormat = VK_FORMAT_B8G8R8A8_UNORM;
+	SetComponentMapping(PF_B8G8R8A8, VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A);
+
+	VulkanRHI::PlatformFormats[PF_R8G8B8A8].PlatformFormat = VK_FORMAT_R8G8B8A8_UNORM;
+	SetComponentMapping(PF_R8G8B8A8, VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A);
+
 	VulkanRHI::PlatformFormats[PF_FloatRGB].PlatformFormat = VK_FORMAT_B10G11R11_UFLOAT_PACK32;
+	SetComponentMapping(PF_FloatRGB, VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_ONE);
+
 	VulkanRHI::PlatformFormats[PF_FloatRGBA].PlatformFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
+	SetComponentMapping(PF_FloatRGBA, VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A);
+
+}
+
+void VulkanRHI::SetComponentMapping(EPixelFormat UEFormat, VkComponentSwizzle r, VkComponentSwizzle g, VkComponentSwizzle b, VkComponentSwizzle a){
+	VkComponentMapping& ComponentMapping = PixelFormatComponentMapping[UEFormat];
+	ComponentMapping.r = r;
+	ComponentMapping.g = g;
+	ComponentMapping.b = b;
+	ComponentMapping.a = a;
+}
+
+VkComponentMapping VulkanRHI::GetComponentMapping(const EPixelFormat UEFormat) const{
+	return PixelFormatComponentMapping[UEFormat];
 }
 
 RHIViewport* VulkanRHI::RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat){
+	//SwapChain只支持FORMAT_B8G8R8A8，原因未知
 	return new VulkanViewPort(WindowHandle, this, SizeX, SizeY,  PreferredPixelFormat, true);
 }
 

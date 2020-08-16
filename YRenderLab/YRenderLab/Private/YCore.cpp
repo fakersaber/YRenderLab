@@ -32,9 +32,7 @@ YCore::YCore() {
 
 
 void YCore::Init(const int width, const int height) {
-	//1.初始化顺序固定
-	//2.尽可能的资源不耦合，各自管理创建的资源
-	//3.若引用其他模块，使用强引用
+	//尽可能地RAII
 	RenderRHI->Init();
 	SurfaceRenderWindow->Init(width, height, RenderRHI);
 }

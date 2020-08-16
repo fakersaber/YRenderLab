@@ -34,6 +34,10 @@ public:
 		return Device;
 	}
 
+	inline VulkanRHI* GetVulkanRHI() const {
+		return VkRHI;
+	}
+
 private:
 	VulkanRHI* VkRHI;
 
@@ -53,9 +57,6 @@ private:
 	VulkanQueue* TransferQueue;
 
 	VulkanQueue* PresentQueue;
-
-	//SwapChain
-	VkSurfaceKHR Surface;
 
 };
 

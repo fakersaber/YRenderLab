@@ -672,6 +672,9 @@
     <ClInclude Include="Public\VulkanRHI\VulkanQueue.h">
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanResources.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\YCore.cpp">
@@ -853,6 +856,9 @@
       <Filter>Test</Filter>
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanQueue.cpp">
+      <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanResources.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
   </ItemGroup>

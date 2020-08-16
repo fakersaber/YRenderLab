@@ -29,6 +29,7 @@ void TransformComponent::SetRelativeScale(const Vector3& scale){
 
 }
 
+
 void TransformComponent::SetWorldTranslate(const Vector3& Pos) {
 	auto& WorldMatrix = WorldTransform.GetMatrix();
 	WorldMatrix(0, 3) = Pos.x;

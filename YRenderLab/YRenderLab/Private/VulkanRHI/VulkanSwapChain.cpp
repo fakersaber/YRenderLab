@@ -3,7 +3,7 @@
 #include <Public/VulkanRHI/VulkanDevice.h>
 
 
-VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, VulkanDevice& InDevice, EPixelFormat& InOutPixelFormat, bool bIsSRGB, uint32_t Size_X, uint32_t Size_Y)
+VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, VulkanDevice& InDevice, EPixelFormat& InOutPixelFormat, bool bIsSRGB, uint32_t Size_X, uint32_t Size_Y, std::vector<VkImage>& BackBufferImages)
 	: SwapChain(VK_NULL_HANDLE)
 	, Surface(VK_NULL_HANDLE)
 	, Instance(InInstance)
@@ -107,17 +107,13 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 
 	//Create SwapChain
 	VkResult Result = vkCreateSwapchainKHR(Device.GetInstanceDevice(), &SwapChainInfo, nullptr, &SwapChain);
-
-	if (Result != VK_SUCCESS) {
-		assert(Result == VK_SUCCESS);
-		std::cerr << "Vulkan Swapchain creation failed" << std::endl;
-	}
+	assert(Result == VK_SUCCESS);
 
 	//Retrieving the swap chain images
 	uint32_t NumSwapChainImages;
 	vkGetSwapchainImagesKHR(Device.GetInstanceDevice(), SwapChain, &NumSwapChainImages, nullptr);
-	SwapChainImages.resize(NumSwapChainImages);
-	vkGetSwapchainImagesKHR(Device.GetInstanceDevice(), SwapChain, &NumSwapChainImages, SwapChainImages.data());
+	BackBufferImages.resize(NumSwapChainImages);
+	vkGetSwapchainImagesKHR(Device.GetInstanceDevice(), SwapChain, &NumSwapChainImages, BackBufferImages.data());
 
 }
 

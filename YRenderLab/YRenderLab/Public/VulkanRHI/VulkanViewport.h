@@ -1,13 +1,13 @@
 #ifndef _YRENDER_VKRHI_VKVIPORT_H_
 #define _YRENDER_VKRHI_VKVIPORT_H_
 
-#include <iostream>
-#include <Public/RHI/RHI.h>
+#include <vector>
+#include <Public/VulkanRHI/VulkanRHI.h>
 
 
 class VulkanSwapChain;
 class VulkanRHI;
-
+class VulkanTextureView;
 
 
 /*=============================================================================
@@ -30,13 +30,17 @@ private:
 
 	VulkanSwapChain* SwapChain;
 
-	EPixelFormat PixelFormat;
-
 	VulkanRHI* RHI;
+
+	EPixelFormat PixelFormat;
 
 	uint32_t SizeX;
 
 	uint32_t SizeY;
+
+	std::vector<VkImage> BackBufferImages;
+
+	std::vector<VulkanTextureView*> BackBufferTextureViews;
 };
 
 

@@ -33,20 +33,17 @@ public:
 	virtual void SetupFormat() final override;
 	virtual RHIViewport* RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) final override;
 
+	void SetComponentMapping(EPixelFormat UEFormat, VkComponentSwizzle r, VkComponentSwizzle g, VkComponentSwizzle b, VkComponentSwizzle a);
+	
+	VkComponentMapping GetComponentMapping(const EPixelFormat UEFormat) const;
+
+	inline VkInstance GetInstance() const { return Instance; }
+
+	inline VulkanDevice* GetDevice() const { return Device.get(); }
 
 
-
-	inline VkInstance GetInstance() const {
-		return Instance;
-	}
-
-	inline VulkanDevice* GetDevice() const {
-		return Device.get();
-	}
-
-
+	//--------------------------Static Func-----------------------------//
 	static unsigned int SRGBMapping(EPixelFormat UEFormat);
-
 	static VkBool32 DebugUtilsCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT MsgSeverity, 
 		VkDebugUtilsMessageTypeFlagsEXT MsgType,
@@ -78,6 +75,10 @@ protected:
 
 	std::vector<const char*> InstanceExtensions;
 	std::vector<const char*> InstanceLayers;
+
+	//只有Vulkan才会有，所以不与Platform的PixelData放在一起
+	//实际也可以通过重载PixelFormatInfo来达成
+	VkComponentMapping PixelFormatComponentMapping[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 };
 
 

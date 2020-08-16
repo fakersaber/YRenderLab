@@ -102,7 +102,6 @@ enum EPixelFormat
 struct PixelFormatInfo {
 	// Platform format  e.g. VK_FORMAT_B8G8R8A8_VK_FORMAT_B8G8R8A8_SRGB
 	uint32_t			PlatformFormat;
-	EPixelFormat YFormat;
 };
 
 class RHIViewport {
