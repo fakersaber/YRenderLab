@@ -148,12 +148,6 @@
     <Filter Include="Private\VulkanRHI">
       <UniqueIdentifier>{a5e79237-8dd8-4a53-a4b7-0ddd3038290a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Public\Window">
-      <UniqueIdentifier>{9fd6a76e-f770-49a7-9874-a32b69b6a92b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Private\Window">
-      <UniqueIdentifier>{0cb77f0f-b5b5-4cd1-bc22-e5747fc4e60a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Data\shaders\SkyBox">
       <UniqueIdentifier>{f83c9034-3408-442b-9290-0040fc76ea27}</UniqueIdentifier>
     </Filter>
@@ -162,9 +156,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Public\YCore.h">
-      <Filter>Public</Filter>
-    </ClInclude>
     <ClInclude Include="Public\YGM\CGAlgorithm.hpp">
       <Filter>Public\YGM</Filter>
     </ClInclude>
@@ -645,19 +636,10 @@
     <ClInclude Include="Public\VulkanRHI\VulkanDevice.h">
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Window\Window_GLFW.h">
-      <Filter>Public\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\Window\WindowInterface.h">
-      <Filter>Public\Window</Filter>
-    </ClInclude>
     <ClInclude Include="Public\VulkanRHI\VulkanWindowsPlatform.h">
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
     <ClInclude Include="Public\VulkanRHI\VulkanConfig.h">
-      <Filter>Public\VulkanRHI</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\VulkanRHI\VulkanViewport.h">
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
     <ClInclude Include="Public\VulkanRHI\VulkanSwapChain.h">
@@ -675,11 +657,23 @@
     <ClInclude Include="Public\VulkanRHI\VulkanResources.h">
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
+    <ClInclude Include="Public\RHI\IPipeline.h">
+      <Filter>Public\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YApplication.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\GlfwApplication.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\VulkanRHI\VulkanPipeline.h">
+      <Filter>Public\VulkanRHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\YRenderLabConfig.h">
+      <Filter>Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Private\YCore.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c">
       <Filter>Private\OpenGLRHI\GLAD</Filter>
     </ClCompile>
@@ -834,9 +828,6 @@
     <ClCompile Include="Private\VulkanRHI\VulkanRHI.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
-    <ClCompile Include="Private\Window\Window_GLFW.cpp">
-      <Filter>Private\Window</Filter>
-    </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanDevice.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
@@ -844,9 +835,6 @@
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanWindowsPlatform.cpp">
-      <Filter>Private\VulkanRHI</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\VulkanRHI\VulkanViewPort.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanSwapChain.cpp">
@@ -859,6 +847,12 @@
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanResources.cpp">
+      <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\GlfwApplication.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\VulkanRHI\VulkanPipeline.cpp">
       <Filter>Private\VulkanRHI</Filter>
     </ClCompile>
   </ItemGroup>

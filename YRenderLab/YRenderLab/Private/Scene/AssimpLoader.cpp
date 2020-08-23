@@ -1,4 +1,4 @@
-#include <Public/YCore.h>
+#include <Public/YRenderLabConfig.h>
 
 #include <Public/3rdPart/assimp/pbrmaterial.h>
 #include <Public/Scene/AssimpLoader.h>

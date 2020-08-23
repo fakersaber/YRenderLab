@@ -1,4 +1,4 @@
-#include <Public/YCore.h>
+#include <Public/YApplication.h>
 #include <Public/Window/Window_GLFW.h>
 
 #if VULKAN_RENDER
@@ -51,17 +51,10 @@ void Window_GLFW::Shutdown(){
 
 void Window_GLFW::Tick(){
 	while (!glfwWindowShouldClose(window)) {
-
 		ViewportRHI->Draw();
 
-#if OPENGL_RENDER
-		double beginTime = glfwGetTime();
-		ProcessInput(window);
-		beginTime = glfwGetTime();
-		RenderRaster->Draw();
-		deltaTime = static_cast<float>(glfwGetTime() - beginTime);
+
 		glfwSwapBuffers(window);
-#endif
 		glfwPollEvents();
 	}
 }

@@ -8,7 +8,7 @@
 
 
 #include <Public/Basic/Image/Image.h>
-#include <Public/YCore.h>
+
 
 
 #include <Public/Basic/Mesh/Cube.h>
@@ -202,14 +202,14 @@ void GlfwWindow::framebuffer_size_callback(GLFWwindow* window, int width, int he
 
 	GLFBO::UseDefault();
 	glViewport(0, 0, width, height);
-	auto GLWindowPtr = YCore::GetCore()->GetGLWindow();
+	GlfwWindow* GLWindowPtr = nullptr;
 	GLWindowPtr->GetCamera()->SetWH(width, height);
 	GLWindowPtr->UpdateViewPort(width, height);
 	GLWindowPtr->RenderRaster->Resize(width, height);
 }
 
 void GlfwWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos) {
-	auto GlWindow = YCore::GetCore()->GetGLWindow();
+	GlfwWindow* GlWindow = nullptr;
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
 		float xoffset = 0.f;
 		float yoffset = 0.f;

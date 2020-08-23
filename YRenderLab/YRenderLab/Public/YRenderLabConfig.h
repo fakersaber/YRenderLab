@@ -1,5 +1,7 @@
-ï»¿#ifndef _YRENDER_YCORE_H_
-#define _YRENDER_YCORE_H_
+#pragma once
+
+#include <memory>
+#include <Public/YGM/Transform.h>
 
 #define NOMINMAX
 
@@ -15,10 +17,6 @@
 
 //Platform Define
 #define USE_WINDOWS_PLATFORM 1
-
-#include <memory>
-#include <Public/YGM/Transform.h>
-
 
 namespace CoreDefine {
 	enum class StaticVAOType : uint8_t {
@@ -56,7 +54,7 @@ namespace CoreDefine {
 		 1.0f,  1.0f,  1.0f, 0.0f
 	};
 
-	//æ˜¾ç„¶æ˜¯æ­£äº¤çŸ©é˜µï¼Œé€†çŸ©é˜µä¸åŸçŸ©é˜µç›¸åŒ
+	//ÏÔÈ»ÊÇÕı½»¾ØÕó£¬Äæ¾ØÕóÓëÔ­¾ØÕóÏàÍ¬
 	static const YGM::Transform ModelReverse = YGM::Transform(
 		Vector4(1.f, 0.f, 0.f, 0.f),
 		Vector4(0.f, 0.f, 1.f, 0.f),
@@ -71,42 +69,3 @@ namespace CoreDefine {
 	static const int maxSpotLights = 0;
 
 }
-
-
-class GlfwWindow;
-class RenderWindow;
-class IWindowInterface;
-class RHI;
-class RHIViewport;
-
-class YCore {
-public:
-	YCore(const YCore& rhs) = delete;
-	YCore& operator=(const YCore& rhs) = delete;
-	static YCore* GetCore();
-	void Init(const int width, const int height);
-	void Shutdown();
-	void Tick();
-
-	std::shared_ptr<GlfwWindow> GetGLWindow() const {
-		return pGLInstance;
-	}
-
-private:
-	YCore();
-	~YCore();
-
-private:
-	//---------------------
-	//#TODO remove
-	std::shared_ptr<GlfwWindow> pGLInstance;
-	RenderWindow* _RenderWindow;
-	//-----------------------
-
-	std::shared_ptr<IWindowInterface> SurfaceRenderWindow;
-	std::shared_ptr<RHI> RenderRHI;
-};
-
-
-
-#endif

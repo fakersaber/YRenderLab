@@ -1,6 +1,6 @@
 #include <Public/VulkanRHI/VulkanRHI.h>
 #include <Public/VulkanRHI/VulkanDevice.h>
-#include <Public/VulkanRHI/VulkanViewport.h>
+#include <Public/VulkanRHI/VulkanPipeline.h>
 
 PixelFormatInfo RHI::PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 
@@ -48,6 +48,12 @@ void VulkanRHI::SetupFormat(){
 
 }
 
+IPipeline* VulkanRHI::RHICreateRenderPipeline(void * WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat)
+{
+	//SwapChain只支持FORMAT_B8G8R8A8，原因未知
+	return new VulkanPipeline(WindowHandle, this, SizeX, SizeY, PreferredPixelFormat, true);
+}
+
 void VulkanRHI::SetComponentMapping(EPixelFormat UEFormat, VkComponentSwizzle r, VkComponentSwizzle g, VkComponentSwizzle b, VkComponentSwizzle a){
 	VkComponentMapping& ComponentMapping = PixelFormatComponentMapping[UEFormat];
 	ComponentMapping.r = r;
@@ -60,10 +66,7 @@ VkComponentMapping VulkanRHI::GetComponentMapping(const EPixelFormat UEFormat) c
 	return PixelFormatComponentMapping[UEFormat];
 }
 
-RHIViewport* VulkanRHI::RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat){
-	//SwapChain只支持FORMAT_B8G8R8A8，原因未知
-	return new VulkanViewPort(WindowHandle, this, SizeX, SizeY,  PreferredPixelFormat, true);
-}
+
 
 unsigned int VulkanRHI::SRGBMapping(EPixelFormat UEFormat) {
 	VkFormat Format = static_cast<VkFormat>(VulkanRHI::PlatformFormats[UEFormat].PlatformFormat);

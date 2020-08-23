@@ -104,14 +104,8 @@ struct PixelFormatInfo {
 	uint32_t			PlatformFormat;
 };
 
-class RHIViewport {
-public:
-	virtual ~RHIViewport() {};
-	virtual void Init() = 0;
-	virtual void Shutdown() = 0;
-	virtual void Draw() = 0;
-};
 
+class IPipeline;
 
 class RHI {
 public:
@@ -119,14 +113,13 @@ public:
 	virtual void Init() = 0;
 	virtual void Shutdown() = 0;
 	virtual void SetupFormat() = 0;
-	virtual RHIViewport* RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) = 0;
 
-	//static unsigned int SRGBMapping(EPixelFormat UEFormat) { }
+	virtual IPipeline* RHICreateRenderPipeline (void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) = 0;
+
 
 public:
 	static PixelFormatInfo PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 };
-
 
 
 #endif

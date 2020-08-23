@@ -1,20 +1,20 @@
 #ifndef _YRENDER_VKRHI_VulkanRHI_H_
 #define _YRENDER_VKRHI_VulkanRHI_H_
 
-#include <Public/YCore.h>
+#include <Public/YRenderLabConfig.h>
 #include <Public/RHI/RHI.h>
-
+#include <Public/RHI/IPipeline.h>
 #include <vulkan/vulkan.h>
 #include <Public/VulkanRHI/VulkanConfig.h>
 
 #if USE_WINDOWS_PLATFORM
 #include <Public/VulkanRHI/VulkanWindowsPlatform.h>
 #endif
-
 #include <vector>
 
+
 class VulkanDevice;
-class VulkanViewPort;
+class VulkanPipeline;
 
 enum class VenderID : uint32_t {
 	Nvidia = 0x10DE,
@@ -31,7 +31,8 @@ public:
 	virtual void Init() final override;
 	virtual void Shutdown() final override;
 	virtual void SetupFormat() final override;
-	virtual RHIViewport* RHICreateViewport(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) final override;
+
+	virtual IPipeline* RHICreateRenderPipeline(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) final override;
 
 	void SetComponentMapping(EPixelFormat UEFormat, VkComponentSwizzle r, VkComponentSwizzle g, VkComponentSwizzle b, VkComponentSwizzle a);
 	

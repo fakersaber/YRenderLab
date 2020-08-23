@@ -1,15 +1,10 @@
-﻿#include <Public/YCore.h>
-#include <vector>
-
+﻿#include <Public/GlfwApplication.h>
+#include <memory>
 
 int main() {
-	auto YEngine = YCore::GetCore();
-
-	YEngine->Init(800, 600);
-
-	YEngine->Tick();
-
-	YEngine->Shutdown();
-
+	auto YApplication = std::make_unique<GlfwApplication>();
+	YApplication->Init(800, 600);
+	YApplication->Tick();
+	YApplication->Shutdown();
 	return 0;
 }

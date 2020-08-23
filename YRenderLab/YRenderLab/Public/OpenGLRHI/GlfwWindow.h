@@ -1,7 +1,7 @@
 #ifndef _YRENDER_OPENGLRHI_GLFWWINDOW_H
 #define _YRENDER_OPENGLRHI_GLFWWINDOW_H
 
-#include <Public/YCore.h>
+#include <Public/YRenderLabConfig.h>
 #include <Public/3rdPart/GLFW/glfw3.h>
 #include <Public/Basic/YHeapObject.h>
 #include <Public/OpenGLRHI/GLVAO.h>
@@ -56,6 +56,7 @@ private:
 	std::map<std::weak_ptr<Image>, GLTexture, std::owner_less<std::weak_ptr<Image>>> img2tex;
 
 	std::unordered_map<CoreDefine::StaticVAOType, VAO> StaticMeshContainer;
+
 
 public:
 	auto GetViewPortW() ->decltype(width);
