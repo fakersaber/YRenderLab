@@ -154,6 +154,9 @@
     <Filter Include="Data\shaders\BRDF">
       <UniqueIdentifier>{2b23a077-8111-47c2-8469-75f3dac8a0c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\VulkanShader">
+      <UniqueIdentifier>{ce9a4f69-64af-4e0f-9b59-762f87b75606}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\YGM\CGAlgorithm.hpp">
@@ -905,5 +908,13 @@
     <None Include="Data\shaders\SkyBox\skybox.vs">
       <Filter>Data\shaders\SkyBox</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Data\VulkanShader\TriangleFS.hlsl">
+      <Filter>Data\VulkanShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Data\VulkanShader\TriangleVS.hlsl">
+      <Filter>Data\VulkanShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

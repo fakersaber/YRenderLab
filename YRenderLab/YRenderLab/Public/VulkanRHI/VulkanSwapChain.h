@@ -21,8 +21,7 @@ public:
 		EPixelFormat& InOutPixelFormat, 
 		bool bIsSRGB, 
 		uint32_t Size_X, 
-		uint32_t Size_Y,
-		std::vector<VkImage>& BackBufferImages
+		uint32_t Size_Y
 	);
 
 	~VulkanSwapChain();
@@ -30,13 +29,11 @@ public:
 private:
 
 	VulkanDevice& Device;
-
-	//------------------------Native Vulkan Type------------------------
 	VkSwapchainKHR SwapChain;
-
 	VkSurfaceKHR Surface;
-
 	VkInstance Instance;
+	std::vector<VkImage> BackBufferImages;
+	std::vector<VulkanTextureView*> BackBufferTextureViews;
 };
 
 #endif

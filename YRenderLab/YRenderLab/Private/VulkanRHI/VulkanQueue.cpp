@@ -7,7 +7,7 @@ VulkanQueue::VulkanQueue(VulkanDevice * InDevice, uint32_t InFamilyIndex)
 	, QueueIndex(0)
 	, Device(InDevice)
 {
-	vkGetDeviceQueue(Device->GetInstanceDevice(), FamilyIndex, QueueIndex, &Queue);
+	vkGetDeviceQueue(Device->GetLogicDevice(), FamilyIndex, QueueIndex, &Queue);
 }
 
 

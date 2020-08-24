@@ -22,7 +22,7 @@ public:
 	virtual void Render() override;
 	virtual void EndFrame() override;
 
-	
+
 private:
 	void* WindowHandle;
 	VulkanSwapChain* SwapChain;
@@ -30,8 +30,21 @@ private:
 	EPixelFormat PixelFormat;
 	uint32_t SizeX;
 	uint32_t SizeY;
-	std::vector<VkImage> BackBufferImages;
-	std::vector<VulkanTextureView*> BackBufferTextureViews;
+
+
+
+	// Synchronization semaphores
+	struct {
+		// Swap chain image presentation
+		VkSemaphore presentComplete;
+		// Command buffer submission and execution
+		VkSemaphore renderComplete;
+	} semaphores;
+
+	/** @brief Pipeline stages used to wait at for graphics queue submissions */
+	VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	// Contains command buffers and semaphores to be presented to the queue
+	VkSubmitInfo submitInfo;
 };
 
 

@@ -26,12 +26,12 @@ public:
 
 	static void GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
 
-	inline VkPhysicalDevice GetPhysicalHandle() const{
-		return Gpu;
+	inline VkPhysicalDevice GetPhysicalDevice() const{
+		return PhysicalDevice;
 	}
 
-	inline VkDevice GetInstanceDevice() const {
-		return Device;
+	inline VkDevice GetLogicDevice() const {
+		return LogicalDevice;
 	}
 
 	inline VulkanRHI* GetVulkanRHI() const {
@@ -40,22 +40,17 @@ public:
 
 private:
 	VulkanRHI* VkRHI;
-
-	VkDevice Device;
-
-	VkPhysicalDevice Gpu;
-
+	VkDevice LogicalDevice;
+	VkPhysicalDevice PhysicalDevice;
 	VkPhysicalDeviceFeatures PhysicalFeatures;
 
 	std::vector<VkQueueFamilyProperties> QueueFamilyProps;
-
 	std::vector<const char*> DeviceExtensions;
 	std::vector<const char*> DeviceLayers;
 
 	VulkanQueue* GfxQueue;
 	VulkanQueue* ComputeQueue;
 	VulkanQueue* TransferQueue;
-
 	VulkanQueue* PresentQueue;
 
 };

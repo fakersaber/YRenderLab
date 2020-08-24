@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cassert>
 #include <vector>
 
 class File {
@@ -26,6 +27,18 @@ public:
 		file.close();
 		return AllLines;
 	}
+
+	static char* LoadBinaryFile(char* ShaderCode, const std::string& filepath) {
+		std::ifstream is(filepath, std::ios::binary | std::ios::in | std::ios::ate);
+		if (is.is_open()){
+			std::size_t shaderSize = is.tellg();
+			is.seekg(0, std::ios::beg);
+			is.read(ShaderCode, shaderSize);
+			is.close();
+			assert(shaderSize > 0);
+		}
+	}
+
 
 private:
 	File() = delete;

@@ -4,8 +4,8 @@
 
 
 VulkanDevice::VulkanDevice(VulkanRHI* InRHI, VkPhysicalDevice InGpu)
-	: Device(VK_NULL_HANDLE)
-	, Gpu(InGpu)
+	: LogicalDevice(VK_NULL_HANDLE)
+	, PhysicalDevice(InGpu)
 	, VkRHI(InRHI)
 	, GfxQueue(nullptr)
 	, ComputeQueue(nullptr)
@@ -16,9 +16,9 @@ VulkanDevice::VulkanDevice(VulkanRHI* InRHI, VkPhysicalDevice InGpu)
 }
 
 VulkanDevice::~VulkanDevice() {
-	if (Device != VK_NULL_HANDLE){
-		vkDestroyDevice(Device, nullptr);
-		Device = VK_NULL_HANDLE;
+	if (LogicalDevice != VK_NULL_HANDLE){
+		vkDestroyDevice(LogicalDevice, nullptr);
+		LogicalDevice = VK_NULL_HANDLE;
 
 
 		delete TransferQueue;
@@ -29,20 +29,20 @@ VulkanDevice::~VulkanDevice() {
 
 bool VulkanDevice::QueryGPU()
 {
-	VulkanDevice::GetDeviceExtensionsAndLayers(Gpu, DeviceExtensions, DeviceLayers);
+	VulkanDevice::GetDeviceExtensionsAndLayers(PhysicalDevice, DeviceExtensions, DeviceLayers);
 
 	VkPhysicalDeviceProperties deviceProperties;
-	vkGetPhysicalDeviceProperties(Gpu, &deviceProperties);
+	vkGetPhysicalDeviceProperties(PhysicalDevice, &deviceProperties);
 
 	//∂¿¡¢œ‘ø®
 	bool bIsDiscrete = deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
 	bool bIsNvida = deviceProperties.vendorID == static_cast<uint32_t>(VenderID::Nvidia);
 
 	uint32_t QueueCount = 0;
-	vkGetPhysicalDeviceQueueFamilyProperties(Gpu, &QueueCount, nullptr);
+	vkGetPhysicalDeviceQueueFamilyProperties(PhysicalDevice, &QueueCount, nullptr);
 	assert(QueueCount >= 1);
 	QueueFamilyProps.resize(QueueCount);
-	vkGetPhysicalDeviceQueueFamilyProperties(Gpu, &QueueCount, QueueFamilyProps.data());
+	vkGetPhysicalDeviceQueueFamilyProperties(PhysicalDevice, &QueueCount, QueueFamilyProps.data());
 
 	return bIsDiscrete && bIsNvida;
 }
@@ -50,7 +50,7 @@ bool VulkanDevice::QueryGPU()
 void VulkanDevice::InitGPU() {
 
 	// Query features
-	vkGetPhysicalDeviceFeatures(Gpu, &PhysicalFeatures);
+	vkGetPhysicalDeviceFeatures(PhysicalDevice, &PhysicalFeatures);
 
 	CreateDevice();
 
@@ -59,7 +59,7 @@ void VulkanDevice::InitGPU() {
 
 
 void VulkanDevice::CreateDevice() {
-	assert(Device == VK_NULL_HANDLE);
+	assert(LogicalDevice == VK_NULL_HANDLE);
 
 	std::vector<VkDeviceQueueCreateInfo> QueueFamilyInfos;
 	int32_t GfxQueueFamilyIndex = -1;
@@ -142,7 +142,7 @@ void VulkanDevice::CreateDevice() {
 	// Create the device
 
 	//the third param is allocation pointer to store the logical device handle in
-	VkResult Result = vkCreateDevice(Gpu, &DeviceInfo, nullptr, &Device);
+	VkResult Result = vkCreateDevice(PhysicalDevice, &DeviceInfo, nullptr, &LogicalDevice);
 
 	if (Result != VK_SUCCESS) {
 		std::cerr << "Vulkan device creation failed" << std::endl;
@@ -151,18 +151,21 @@ void VulkanDevice::CreateDevice() {
 	//Gfx Queue
 	if (GfxQueueFamilyIndex == -1) {
 		std::cerr << "Queue has Error" << std::endl;
+		assert(GfxQueueFamilyIndex == -1);
 	}
 	GfxQueue = new VulkanQueue(this, GfxQueueFamilyIndex);
 
 	//Compute Queue
 	if (ComputeQueueFamilyIndex == -1) {
 		std::cerr << "Queue has Error" << std::endl;
+		assert(ComputeQueueFamilyIndex == -1);
 	}
 	ComputeQueue = new VulkanQueue(this, ComputeQueueFamilyIndex);
 
 	//Transfer Queue
 	if (TransferQueueFamilyIndex == -1) {
 		std::cerr << "Queue has Error" << std::endl;
+		assert(TransferQueueFamilyIndex == -1);
 	}
 	TransferQueue = new VulkanQueue(this, TransferQueueFamilyIndex);
 
@@ -188,7 +191,7 @@ void VulkanDevice::SetupPresentQueue(VkSurfaceKHR Surface)
 			return bSupportsPresent;
 		};
 
-		bool bGfx = SupportsPresent(Gpu, GfxQueue);
+		bool bGfx = SupportsPresent(PhysicalDevice, GfxQueue);
 		if (!bGfx) {
 			std::cerr << "Graphics Queue doesn't support present!" << std::endl;
 		}

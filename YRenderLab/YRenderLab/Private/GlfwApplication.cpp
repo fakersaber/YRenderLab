@@ -56,21 +56,10 @@ void GlfwApplication::Update()
 {
 	//处理注册的回调函数
 	glfwPollEvents();
-
-	//OnKeyboardInput();
-	//UpdateCamera();
-
-	//world.Update();
-	//pipeline->UpdateRenderContext(world);
 }
 
 void GlfwApplication::Render()
 {
-	//RenderPipeline->BeginFrame(CurrentBackBuffer());
-	// Swap the back and front buffers
-	//ThrowIfFailed(mSwapChain->Present(0, 0));
-	//mCurrBackBuffer = (mCurrBackBuffer + 1) % SwapChainBufferCount;
-	//pipeline->EndFrame();
 
 	RenderPipeline->Render();
 	glfwSwapBuffers(window);

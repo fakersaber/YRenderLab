@@ -3,7 +3,7 @@
 #include <Public/VulkanRHI/VulkanDevice.h>
 
 
-VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, VulkanDevice& InDevice, EPixelFormat& InOutPixelFormat, bool bIsSRGB, uint32_t Size_X, uint32_t Size_Y, std::vector<VkImage>& BackBufferImages)
+VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, VulkanDevice& InDevice, EPixelFormat& InOutPixelFormat, bool bIsSRGB, uint32_t Size_X, uint32_t Size_Y)
 	: SwapChain(VK_NULL_HANDLE)
 	, Surface(VK_NULL_HANDLE)
 	, Instance(InInstance)
@@ -17,11 +17,11 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	VkSurfaceFormatKHR CurrFormat;
 	bool bFormatIsFound = false;
 	uint32_t NumFormats;
-	vkGetPhysicalDeviceSurfaceFormatsKHR(Device.GetPhysicalHandle(), Surface, &NumFormats, nullptr);
+	vkGetPhysicalDeviceSurfaceFormatsKHR(Device.GetPhysicalDevice(), Surface, &NumFormats, nullptr);
 	assert(NumFormats > 0);
 	std::vector<VkSurfaceFormatKHR> Formats;
 	Formats.resize(NumFormats);
-	vkGetPhysicalDeviceSurfaceFormatsKHR(Device.GetPhysicalHandle(), Surface, &NumFormats, Formats.data());
+	vkGetPhysicalDeviceSurfaceFormatsKHR(Device.GetPhysicalDevice(), Surface, &NumFormats, Formats.data());
 	for (uint32_t Index = 0; Index < NumFormats; ++Index) {
 		bFormatIsFound = bIsSRGB ? 
 			VulkanRHI::SRGBMapping(InOutPixelFormat) == Formats[Index].format : 
@@ -39,11 +39,11 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	VkPresentModeKHR PresentMode = VK_PRESENT_MODE_MAILBOX_KHR; //默认使用三缓冲
 	bool bPresentMode = false;
 	uint32_t NumFoundPresentModes = 0;
-	vkGetPhysicalDeviceSurfacePresentModesKHR(Device.GetPhysicalHandle(), Surface, &NumFoundPresentModes, nullptr);
+	vkGetPhysicalDeviceSurfacePresentModesKHR(Device.GetPhysicalDevice(), Surface, &NumFoundPresentModes, nullptr);
 	assert(NumFoundPresentModes > 0);
 	std::vector<VkPresentModeKHR> FoundPresentModes;
 	FoundPresentModes.resize(NumFoundPresentModes);
-	vkGetPhysicalDeviceSurfacePresentModesKHR(Device.GetPhysicalHandle(), Surface, &NumFoundPresentModes, FoundPresentModes.data());
+	vkGetPhysicalDeviceSurfacePresentModesKHR(Device.GetPhysicalDevice(), Surface, &NumFoundPresentModes, FoundPresentModes.data());
 	for (uint32_t i = 0; i < NumFoundPresentModes; ++i) {
 		switch (PresentMode) {
 		case VK_PRESENT_MODE_FIFO_KHR:
@@ -65,7 +65,7 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	//------------------------Check the surface properties and formats------------------------
 	//The swap extent is the resolution of the swap chain images
 	VkSurfaceCapabilitiesKHR SurfProperties;
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(Device.GetPhysicalHandle(),Surface, &SurfProperties);
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(Device.GetPhysicalDevice(),Surface, &SurfProperties);
 
 
 	//------------------------Create SwapChain------------------------
@@ -106,14 +106,31 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	InDevice.SetupPresentQueue(Surface);
 
 	//Create SwapChain
-	VkResult Result = vkCreateSwapchainKHR(Device.GetInstanceDevice(), &SwapChainInfo, nullptr, &SwapChain);
+	VkResult Result = vkCreateSwapchainKHR(Device.GetLogicDevice(), &SwapChainInfo, nullptr, &SwapChain);
 	assert(Result == VK_SUCCESS);
 
 	//Retrieving the swap chain images
 	uint32_t NumSwapChainImages;
-	vkGetSwapchainImagesKHR(Device.GetInstanceDevice(), SwapChain, &NumSwapChainImages, nullptr);
+	vkGetSwapchainImagesKHR(Device.GetLogicDevice(), SwapChain, &NumSwapChainImages, nullptr);
 	BackBufferImages.resize(NumSwapChainImages);
-	vkGetSwapchainImagesKHR(Device.GetInstanceDevice(), SwapChain, &NumSwapChainImages, BackBufferImages.data());
+	vkGetSwapchainImagesKHR(Device.GetLogicDevice(), SwapChain, &NumSwapChainImages, BackBufferImages.data());
+
+	//Create BackBufferImageView
+	for (auto i = 0; i < BackBufferImages.size(); ++i) {
+		VkFormat Format = static_cast<VkFormat>(bIsSRGB ? VulkanRHI::SRGBMapping(InPixelFormat) : VulkanRHI::PlatformFormats[InPixelFormat].PlatformFormat);
+		VkComponentMapping ComponentMapping = InRHI->GetComponentMapping(InPixelFormat);
+		BackBufferTextureViews.emplace_back(
+			new VulkanTextureView(
+				*InRHI->GetDevice(),
+				BackBufferImages[i],
+				VK_IMAGE_VIEW_TYPE_2D,
+				VK_IMAGE_ASPECT_COLOR_BIT,
+				ComponentMapping,
+				Format,
+				0, 1, 0, 1
+			)
+		);
+	}
 
 }
 
@@ -121,5 +138,5 @@ VulkanSwapChain::~VulkanSwapChain()
 {
 	vkDestroySurfaceKHR(Instance, Surface, nullptr);
 
-	vkDestroySwapchainKHR(Device.GetInstanceDevice(), SwapChain, nullptr);
+	vkDestroySwapchainKHR(Device.GetLogicDevice(), SwapChain, nullptr);
 }

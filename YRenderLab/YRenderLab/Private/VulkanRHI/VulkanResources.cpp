@@ -16,7 +16,7 @@ VulkanTextureView::VulkanTextureView(
 	uint32_t NumArraySlices)
 	:
 	TextureImage(InImage),
-	DeviceRef(Device.GetInstanceDevice())
+	DeviceRef(Device.GetLogicDevice())
 {
 	VkImageViewCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
