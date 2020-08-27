@@ -69,10 +69,14 @@ GLFBO::GLFBO(unsigned int width, unsigned int height, const std::vector<GLTextur
 	//You need to create a depth renderbuffer, and attach it to the FBO.
 
 	// create and attach depth buffer (renderbuffer)
+	//实际上一般直接可以glFramebufferTexture2D绑定，创建RenderBuffer还是比较少用
+	//这套代码就是瞎写..... 仅仅当初学习使用
+	//每帧动态CopyDepth这种操作我都写得出来......
 	unsigned int rboDepth;
 	glGenRenderbuffers(1, &rboDepth);
 	glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
 
 
