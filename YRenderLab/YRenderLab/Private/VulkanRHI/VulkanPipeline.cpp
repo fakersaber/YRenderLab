@@ -185,7 +185,7 @@ void VulkanPipeline::BuildRenderResource(){
 
 		VkSubpassDescription subpassDescription = {};
 		subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-		subpassDescription.colorAttachmentCount = 1;
+		subpassDescription.colorAttachmentCount = 1;			
 		subpassDescription.pColorAttachments = &colorReference;			// Reference to the color attachment in slot 0
 		subpassDescription.pDepthStencilAttachment = &depthReference;	// Reference to the depth attachment in slot 1
 		subpassDescription.inputAttachmentCount = 0;
@@ -198,20 +198,20 @@ void VulkanPipeline::BuildRenderResource(){
 		// Setup subpass dependencies
 		// These will add the implicit attachment layout transitions specified by the attachment descriptions
 		std::array<VkSubpassDependency, 2> dependencies;
-		dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL; //Vulkan天生有Dependencies,后面做RenderGraph很方便
-		dependencies[0].dstSubpass = 0;
-		dependencies[0].srcStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
-		dependencies[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		dependencies[0].srcAccessMask = VK_ACCESS_MEMORY_READ_BIT;
-		dependencies[0].dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+		dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;                             // Producer of the dependency
+		dependencies[0].dstSubpass = 0;                                               // 0为Subpass的Index？ 因为只有一个subpass所以这里表示当前这个subpass
+		dependencies[0].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // SubPass加载前PipelineStage阶段，一般要上一个pass执行结束的话用VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT														 
+		dependencies[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // SubPass加载后PipelineStage的阶段
+		dependencies[0].srcAccessMask = 0;                                            // 不做任何操作，没有对外部subpass资源有任何依赖
+		dependencies[0].dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;         // 对Framebuffer做Clear操作，需要写入
 		dependencies[0].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
 
-		dependencies[1].srcSubpass = 0;
-		dependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;
-		dependencies[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		dependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
-		dependencies[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-		dependencies[1].dstAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+		dependencies[1].srcSubpass = 0;                                               // 同上
+		dependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;                             // Consumer are all commands outside of the renderpass
+		dependencies[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // Subpass执行前PipelineStage
+		dependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;          // Subpass执行后PipelineStage
+		dependencies[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;         // 保存Subpass输出结果
+		dependencies[1].dstAccessMask = 0;											  // 外部也没有任何资源依赖当前subpass，直接就Present了
 		dependencies[1].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
 
 
