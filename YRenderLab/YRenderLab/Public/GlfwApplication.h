@@ -20,6 +20,8 @@ protected:
 private:
 	unsigned int width;
 	unsigned int height;
+
+	//[Resource management]
 	RHI* RenderRHI;
 	IPipeline* RenderPipeline;
 	GLFWwindow* window;

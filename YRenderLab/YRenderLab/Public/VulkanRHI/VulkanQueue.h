@@ -9,30 +9,26 @@ class VulkanDevice;
 
 class VulkanQueue {
 public:
-
 	VulkanQueue(VulkanDevice* InDevice, uint32_t InFamilyIndex);
 	~VulkanQueue();
 
-
-	inline VkQueue GetHandle() const
-	{
+	inline VkQueue GetHandle() const{
 		return Queue;
 	}
 
-	inline uint32_t GetFamilyIndex() const
-	{
+	inline uint32_t GetFamilyIndex() const{
 		return FamilyIndex;
 	}
 
 private:
-	VkQueue Queue;
+	//[Resource ref]
 	VulkanDevice* Device;
+
+	//[Resource management]
+	VkQueue Queue;
 	uint32_t FamilyIndex;
 	uint32_t QueueIndex;
 };
-
-
-
 
 
 #endif

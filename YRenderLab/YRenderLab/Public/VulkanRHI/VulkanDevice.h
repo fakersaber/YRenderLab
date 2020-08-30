@@ -16,14 +16,9 @@ public:
 
 	// Returns true if this is a viable candidate for main GPU
 	bool QueryGPU();
-
 	void InitGPU();
-
 	void CreateDevice();
-
-	//This function is used to bind presentQueue
-	void SetupPresentQueue(VkSurfaceKHR Surface);
-
+	VulkanQueue* SetupPresentQueue(VkSurfaceKHR Surface);
 	static void GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
 
 	inline VkPhysicalDevice GetPhysicalDevice() const{
@@ -38,21 +33,31 @@ public:
 		return VkRHI;
 	}
 
+	inline uint32_t GetMemoryTypeIndex(uint32_t typeBits, VkMemoryPropertyFlags properties) const {
+		for (uint32_t i = 0; i < MemoryProperties.memoryTypeCount; i++) {
+			if (typeBits & 0x1ul && (MemoryProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+				return i;
+			}
+			typeBits >>= 1ul;
+		}
+		throw std::runtime_error("Could not find a matching memory type");
+	}
+
 private:
+	//[Resource ref]
 	VulkanRHI* VkRHI;
+
+	//[Resource management]
 	VkDevice LogicalDevice;
 	VkPhysicalDevice PhysicalDevice;
 	VkPhysicalDeviceFeatures PhysicalFeatures;
-
 	std::vector<VkQueueFamilyProperties> QueueFamilyProps;
+	VkPhysicalDeviceMemoryProperties MemoryProperties;
 	std::vector<const char*> DeviceExtensions;
 	std::vector<const char*> DeviceLayers;
-
 	VulkanQueue* GfxQueue;
 	VulkanQueue* ComputeQueue;
 	VulkanQueue* TransferQueue;
-	VulkanQueue* PresentQueue;
-
 };
 
 

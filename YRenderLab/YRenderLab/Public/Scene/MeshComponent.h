@@ -15,9 +15,6 @@ protected:
 	MeshComponent() = delete;
 	virtual ~MeshComponent() = default; //#TODO: 被销毁时通知全局容器清除VAO
 
-//public:
-//	virtual void Accept() override;
-
 public:
 	const std::shared_ptr<Primitive> GetPrimitive() const { return primitive; };
 

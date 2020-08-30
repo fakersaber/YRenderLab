@@ -3,59 +3,40 @@
 
 
 
-VulkanTextureView::VulkanTextureView(
-	VulkanDevice& Device, 
-	VkImage InImage, 
-	VkImageViewType ViewType, 
-	VkImageAspectFlags AspectFlags, 
-	VkComponentMapping ComponentMapping,
-	VkFormat Format,
-	uint32_t FirstMip, 
-	uint32_t NumMips, 
-	uint32_t ArraySliceIndex,
-	uint32_t NumArraySlices)
-	:
-	TextureImage(InImage),
-	DeviceRef(Device.GetLogicDevice())
+VulkanTextureResource::VulkanTextureResource(VulkanDevice& Device, const VkImageCreateInfo& ImageCI, VkMemoryPropertyFlagBits MemoryType)
+	: DeviceRef(Device.GetLogicDevice())
+	, TextureImageView(nullptr)
 {
-	VkImageViewCreateInfo createInfo{};
-	createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-	createInfo.image = InImage;
-	createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-	createInfo.format = Format;
-	createInfo.components = ComponentMapping;
+	//Image
+	assert(vkCreateImage(DeviceRef, &ImageCI, nullptr, &TextureImage) == VK_SUCCESS);
 
-	createInfo.subresourceRange.aspectMask = AspectFlags;
-	createInfo.subresourceRange.baseMipLevel = FirstMip;
-	createInfo.subresourceRange.levelCount = NumMips;
-	createInfo.subresourceRange.baseArrayLayer = ArraySliceIndex;
+	//Memory Allocate and bind
+	VkMemoryRequirements memReqs{};
+	vkGetImageMemoryRequirements(DeviceRef, TextureImage, &memReqs);
+	VkMemoryAllocateInfo memAllloc{};
+	memAllloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+	memAllloc.allocationSize = memReqs.size;
+	memAllloc.memoryTypeIndex = Device.GetMemoryTypeIndex(memReqs.memoryTypeBits, MemoryType);
+	assert(vkAllocateMemory(DeviceRef, &memAllloc, nullptr, &TextureMemory) == VK_SUCCESS);
+	assert(vkBindImageMemory(DeviceRef, TextureImage, TextureMemory, 0) == VK_SUCCESS);
 
-	switch (ViewType)
-	{
-	case VK_IMAGE_VIEW_TYPE_3D:
-		createInfo.subresourceRange.layerCount = 1;
-		break;
-	case VK_IMAGE_VIEW_TYPE_CUBE:
-		assert(NumArraySlices == 1);
-		createInfo.subresourceRange.layerCount = 6;
-		break;
-	case VK_IMAGE_VIEW_TYPE_CUBE_ARRAY:
-		createInfo.subresourceRange.layerCount = 6 * NumArraySlices;
-		break;
-	case VK_IMAGE_VIEW_TYPE_1D_ARRAY:
-	case VK_IMAGE_VIEW_TYPE_2D_ARRAY:
-		createInfo.subresourceRange.layerCount = NumArraySlices;
-		break;
-	default:
-		createInfo.subresourceRange.layerCount = 1;
-		break;
+}
+
+
+VulkanTextureResource::~VulkanTextureResource(){
+	if (TextureImageView) {
+		vkDestroyImageView(DeviceRef, TextureImageView, nullptr);
 	}
-
-	auto Result = vkCreateImageView(DeviceRef, &createInfo, nullptr, &TextureImageView);
-	assert(VK_SUCCESS == Result);
+	vkDestroyImage(DeviceRef, TextureImage, nullptr);
+	vkFreeMemory(DeviceRef, TextureMemory, nullptr);
 }
 
-VulkanTextureView::~VulkanTextureView()
-{
-	vkDestroyImageView(DeviceRef, TextureImageView, nullptr);
+
+void VulkanTextureResource::BuildTextureView(const VkImageViewCreateInfo& ImageViewCI){
+	if (TextureImageView) {
+		vkDestroyImageView(DeviceRef, TextureImageView, nullptr);
+	}
+	assert(vkCreateImageView(DeviceRef, &ImageViewCI, nullptr, &TextureImageView) == VK_SUCCESS);
 }
+
+

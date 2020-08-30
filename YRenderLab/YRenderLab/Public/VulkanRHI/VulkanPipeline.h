@@ -7,44 +7,49 @@
 class IPipeline;
 class VulkanSwapChain;
 class VulkanRHI;
-class VulkanTextureView;
+class VulkanTextureResource;
 
 
 /*=============================================================================
  *	The following RHI functions must be called from the main thread.
  *=============================================================================*/
 class VulkanPipeline : public IPipeline {
+	struct VulkanFrameSemaphores {
+		VkSemaphore presentComplete;// Swap chain image presentation
+		VkSemaphore renderComplete;// Command buffer submission and execution
+	};
 public:
-	~VulkanPipeline();
+	virtual ~VulkanPipeline();
 	VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t InSizeX, uint32_t InSizeY, EPixelFormat InPixelFormat, bool bIsSRGB);
 
 	virtual void BeginFrame() override;
 	virtual void Render() override;
 	virtual void EndFrame() override;
 
+	void BuildRenderResource();
+	void ReleaseBuildRenderResource();
 
 private:
 	void* WindowHandle;
-	VulkanSwapChain* SwapChain;
+	//[Resource ref]
 	VulkanRHI* RHI;
-	EPixelFormat PixelFormat;
 	uint32_t SizeX;
 	uint32_t SizeY;
+	EPixelFormat PixelFormat;
 
-
-
+	//[Resource management]
+	VulkanSwapChain* SwapChain;
+	// Command buffer pool
+	VkCommandPool CommandlBufferPool;
+	std::vector<VkCommandBuffer> CommandBuffers;
 	// Synchronization semaphores
-	struct {
-		// Swap chain image presentation
-		VkSemaphore presentComplete;
-		// Command buffer submission and execution
-		VkSemaphore renderComplete;
-	} semaphores;
-
-	/** @brief Pipeline stages used to wait at for graphics queue submissions */
-	VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	VulkanFrameSemaphores semaphores;
 	// Contains command buffers and semaphores to be presented to the queue
 	VkSubmitInfo submitInfo;
+	std::vector<VkFence> WaitFences;
+
+	//[Resource Build]
+	VulkanTextureResource* DepthStencilResource;
 };
 
 

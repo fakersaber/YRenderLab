@@ -4,22 +4,21 @@
 
 
 VulkanDevice::VulkanDevice(VulkanRHI* InRHI, VkPhysicalDevice InGpu)
-	: LogicalDevice(VK_NULL_HANDLE)
+	: VkRHI(InRHI)
+	, LogicalDevice(VK_NULL_HANDLE)
 	, PhysicalDevice(InGpu)
-	, VkRHI(InRHI)
 	, GfxQueue(nullptr)
 	, ComputeQueue(nullptr)
 	, TransferQueue(nullptr)
-	, PresentQueue(nullptr)
 {
 	std::memset(&PhysicalFeatures, 0, sizeof(VkPhysicalDeviceFeatures));
 }
 
 VulkanDevice::~VulkanDevice() {
+
 	if (LogicalDevice != VK_NULL_HANDLE){
 		vkDestroyDevice(LogicalDevice, nullptr);
 		LogicalDevice = VK_NULL_HANDLE;
-
 
 		delete TransferQueue;
 		delete ComputeQueue;
@@ -27,10 +26,9 @@ VulkanDevice::~VulkanDevice() {
 	}
 }
 
-bool VulkanDevice::QueryGPU()
-{
-	VulkanDevice::GetDeviceExtensionsAndLayers(PhysicalDevice, DeviceExtensions, DeviceLayers);
+bool VulkanDevice::QueryGPU(){
 
+	VulkanDevice::GetDeviceExtensionsAndLayers(PhysicalDevice, DeviceExtensions, DeviceLayers);
 	VkPhysicalDeviceProperties deviceProperties;
 	vkGetPhysicalDeviceProperties(PhysicalDevice, &deviceProperties);
 
@@ -43,7 +41,6 @@ bool VulkanDevice::QueryGPU()
 	assert(QueueCount >= 1);
 	QueueFamilyProps.resize(QueueCount);
 	vkGetPhysicalDeviceQueueFamilyProperties(PhysicalDevice, &QueueCount, QueueFamilyProps.data());
-
 	return bIsDiscrete && bIsNvida;
 }
 
@@ -51,16 +48,13 @@ void VulkanDevice::InitGPU() {
 
 	// Query features
 	vkGetPhysicalDeviceFeatures(PhysicalDevice, &PhysicalFeatures);
-
+	vkGetPhysicalDeviceMemoryProperties(PhysicalDevice, &MemoryProperties);
 	CreateDevice();
-
-	//
 }
 
 
 void VulkanDevice::CreateDevice() {
 	assert(LogicalDevice == VK_NULL_HANDLE);
-
 	std::vector<VkDeviceQueueCreateInfo> QueueFamilyInfos;
 	int32_t GfxQueueFamilyIndex = -1;
 	int32_t ComputeQueueFamilyIndex = -1;
@@ -168,36 +162,15 @@ void VulkanDevice::CreateDevice() {
 		assert(TransferQueueFamilyIndex == -1);
 	}
 	TransferQueue = new VulkanQueue(this, TransferQueueFamilyIndex);
-
-
 }
 
 
 
-
-void VulkanDevice::SetupPresentQueue(VkSurfaceKHR Surface)
-{
-	if (!PresentQueue)
-	{
-		const auto SupportsPresent = [Surface](VkPhysicalDevice PhysicalDevice, VulkanQueue* Queue)
-		{
-			VkBool32 bSupportsPresent = VK_FALSE;
-			const auto FamilyIndex = Queue->GetFamilyIndex();
-			vkGetPhysicalDeviceSurfaceSupportKHR(PhysicalDevice, FamilyIndex, Surface, &bSupportsPresent);
-			if (bSupportsPresent)
-			{
-				printf("Queue Family %d: Supports Present\n", FamilyIndex);
-			}
-			return bSupportsPresent;
-		};
-
-		bool bGfx = SupportsPresent(PhysicalDevice, GfxQueue);
-		if (!bGfx) {
-			std::cerr << "Graphics Queue doesn't support present!" << std::endl;
-		}
-
-
-		//just gfxQueue
-		PresentQueue = GfxQueue;
-	}
+VulkanQueue* VulkanDevice::SetupPresentQueue(VkSurfaceKHR Surface){
+	VkBool32 bSupportsPresent = VK_FALSE;
+	const auto FamilyIndex = GfxQueue->GetFamilyIndex();
+	vkGetPhysicalDeviceSurfaceSupportKHR(PhysicalDevice, FamilyIndex, Surface, &bSupportsPresent);
+	assert(bSupportsPresent);
+	//just gfxQueue
+	return  GfxQueue;
 }

@@ -50,19 +50,18 @@ void GlfwApplication::Init(const int width, const int height) {
 void GlfwApplication::Shutdown() {
 	delete RenderPipeline;
 	delete RenderRHI;
+	glfwTerminate();
 }
 
-void GlfwApplication::Update()
-{
+void GlfwApplication::Update(){
 	//处理注册的回调函数
 	glfwPollEvents();
 }
 
-void GlfwApplication::Render()
-{
+void GlfwApplication::Render(){
 
 	RenderPipeline->Render();
-	glfwSwapBuffers(window);
+
 }
 
 void GlfwApplication::Tick() {
