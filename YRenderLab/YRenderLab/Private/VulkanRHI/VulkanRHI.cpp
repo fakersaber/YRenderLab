@@ -3,7 +3,7 @@
 #include <Public/VulkanRHI/VulkanPipeline.h>
 
 PixelFormatInfo RHI::PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
-
+VkComponentMapping VulkanRHI::PixelFormatComponentMapping[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 
 VulkanRHI::VulkanRHI()
 	:Instance(VK_NULL_HANDLE)
@@ -113,12 +113,15 @@ void VulkanRHI::SetComponentMapping(EPixelFormat UEFormat, VkComponentSwizzle r,
 	ComponentMapping.a = a;
 }
 
-VkComponentMapping VulkanRHI::GetComponentMapping(const EPixelFormat UEFormat) const{
+VkComponentMapping VulkanRHI::GetComponentMapping(const EPixelFormat UEFormat)
+{
 	return PixelFormatComponentMapping[UEFormat];
 }
 
-
-
+VkFormat VulkanRHI::GetPlatformFormat(const EPixelFormat UEFormat)
+{
+	return static_cast<VkFormat>(PlatformFormats[UEFormat].PlatformFormat);
+}
 
 
 

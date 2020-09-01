@@ -26,7 +26,7 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	for (uint32_t Index = 0; Index < NumFormats; ++Index) {
 		bFormatIsFound = bIsSRGB ? 
 			VulkanRHI::SRGBMapping(InOutPixelFormat) == Formats[Index].format : 
-			VulkanRHI::PlatformFormats[InOutPixelFormat].PlatformFormat == Formats[Index].format;
+			VulkanRHI::GetPlatformFormat(InOutPixelFormat) == Formats[Index].format;
 
 		if (bFormatIsFound) {
 			SwapChainFormat = Formats[Index];
@@ -82,6 +82,8 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 		static_cast<uint32_t>(BackBufferSize::NUM_BUFFERS) : 
 		YGM::Math::Clamp(static_cast<uint32_t>(BackBufferSize::NUM_BUFFERS), SurfProperties.minImageCount, SurfProperties.maxImageCount); 
 
+	assert(SwapChainInfo.minImageCount == static_cast<uint32_t>(BackBufferSize::NUM_BUFFERS));
+
 	SwapChainInfo.imageFormat = SwapChainFormat.format;
 	SwapChainInfo.imageColorSpace = SwapChainFormat.colorSpace;
 	SwapChainInfo.imageExtent.width = SurfProperties.currentExtent.width == 0xFFFFFFFFul ? Size_X : SurfProperties.currentExtent.width;
@@ -134,9 +136,9 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 }
 
 VulkanSwapChain::~VulkanSwapChain(){
-
+	//VkImage和VkDeviceMem由驱动释放
 	for (auto& BackBufferImageView : BackBufferTextureViews) {
-		delete BackBufferImageView;
+		vkDestroyImageView(Device.GetLogicDevice(), BackBufferImageView, nullptr);
 	}
 	vkDestroySurfaceKHR(Instance, Surface, nullptr);
 	vkDestroySwapchainKHR(Device.GetLogicDevice(), SwapChain, nullptr);

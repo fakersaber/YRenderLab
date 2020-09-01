@@ -26,6 +26,7 @@ public:
 
 	inline VulkanQueue* GetPresentQueue() const { return  PresentQueue; }
 	inline VkFormat GetSwapChainColorFormat() const { return SwapChainFormat.format; }
+	inline const std::vector<VkImageView>& GetBackBufferTextureView() const {return BackBufferTextureViews;}
 private:
 	//[Resource ref]
 	VulkanDevice& Device;

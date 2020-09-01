@@ -7,17 +7,21 @@
 class IPipeline;
 class VulkanSwapChain;
 class VulkanRHI;
-class VulkanTextureResource;
+
+//Resource
+struct VulkanTextureResource;
+struct VulkanIndexBufferResource;
 
 
-/*=============================================================================
- *	The following RHI functions must be called from the main thread.
- *=============================================================================*/
+
+
 class VulkanPipeline : public IPipeline {
 	struct VulkanFrameSemaphores {
 		VkSemaphore presentComplete;// Swap chain image presentation
 		VkSemaphore renderComplete;// Command buffer submission and execution
 	};
+
+
 public:
 	virtual ~VulkanPipeline();
 	VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t InSizeX, uint32_t InSizeY, EPixelFormat InPixelFormat, bool bIsSRGB);
@@ -25,9 +29,6 @@ public:
 	virtual void BeginFrame() override;
 	virtual void Render() override;
 	virtual void EndFrame() override;
-
-	void BuildRenderResource();
-	void ReleaseBuildRenderResource();
 
 private:
 	void* WindowHandle;
@@ -49,7 +50,16 @@ private:
 	std::vector<VkFence> WaitFences;
 
 	//[Resource Build]
-	VulkanTextureResource* DepthStencilResource;
+	VulkanTextureResource SwapChainDepthStencilResource;
+	// Global render pass for frame buffer writes
+	VkRenderPass BackBufferRenderPass;
+	// Pipeline cache object
+	VkPipelineCache pipelineCache;
+	// List of available frame buffers (same as number of swap chain images)
+	std::vector<VkFramebuffer> SwapChainFrameBuffers;
+
+	//IndexBuffer
+	VulkanIndexBufferResource TriangleIndexBuffer;
 };
 
 
