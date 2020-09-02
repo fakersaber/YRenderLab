@@ -207,6 +207,7 @@
     <None Include="Public\3rdPart\assimp\SmoothingGroups.inl" />
     <None Include="Public\3rdPart\assimp\vector2.inl" />
     <None Include="Public\3rdPart\assimp\vector3.inl" />
+    <None Include="Public\VulkanRHI\VulkanResources.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -342,6 +343,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VULKAN_SDK)\Include;$(ProjectDir);$(ProjectDir)Public\OpenGLRHI\GLAD;$(ProjectDir)Public\OpenGLRHI\GLFW;$(ProjectDir)Public\3rdPart;$(IncludePath)</IncludePath>
     <LibraryPath>$(VULKAN_SDK)\Lib;$(ProjectDir)Public\3rdPart\Lib\Debug;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

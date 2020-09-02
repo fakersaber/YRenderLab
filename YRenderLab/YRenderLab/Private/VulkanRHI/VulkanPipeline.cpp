@@ -3,29 +3,8 @@
 #include <Public/VulkanRHI/VulkanDevice.h>
 #include <Public/VulkanRHI/VulkanSwapChain.h>
 #include <Public/VulkanRHI/VulkanQueue.h>
-#include <Public/VulkanRHI/VulkanResources.h>
 
 #include <array>
-
-//Implement the VertexBufferResource
-struct TriangleVertexBufferResource : VulkanIndexBufferResource {
-	TriangleVertexBufferResource()
-		: VulkanIndexBufferResource()
-	{
-	}
-
-	void InitialVertexBufferResource() {
-
-	}
-
-	void ReleaseRenderResource(VulkanDevice* Device) {
-		VulkanIndexBufferResource::ReleaseRenderResource(Device);
-	}
-	
-	//不在CPU存储数据，写入后就释放
-	//std::vector<Vector3> VertexPos;
-	//std::vector<Vector3> VertexColor;
-};
 
 
 
@@ -41,25 +20,16 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 	SwapChain = new VulkanSwapChain(InWindowHandle, InRHI->GetInstance(), *Device, InPixelFormat, bIsSRGB, InSizeX, InSizeY);
 
 
-	//CreateCommandPool
-	{
-		VkCommandPoolCreateInfo cmdPoolInfo = {};
-		cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		cmdPoolInfo.queueFamilyIndex = SwapChain->GetPresentQueue()->GetFamilyIndex();
-		cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-		assert(vkCreateCommandPool(Device->GetLogicDevice(), &cmdPoolInfo, nullptr, &CommandlBufferPool) == VK_SUCCESS);
-	}
-
 	//CreateCommandBuffer from the CommandPool
 	{
 		// Create one command buffer for each swap chain image and reuse for rendering
-		CommandBuffers.resize(static_cast<uint32_t>(VulkanSwapChain::BackBufferSize::NUM_BUFFERS));
+		BackCommandBuffers.resize(static_cast<uint32_t>(VulkanSwapChain::BackBufferSize::NUM_BUFFERS));
 		VkCommandBufferAllocateInfo CommandBufferAllocateInfo{};
 		CommandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-		CommandBufferAllocateInfo.commandPool = CommandlBufferPool;
+		CommandBufferAllocateInfo.commandPool = Device->GetCommandBufferPool(CommandPoolType::GfxPool);
 		CommandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-		CommandBufferAllocateInfo.commandBufferCount = static_cast<uint32_t>(CommandBuffers.size());
-		assert(vkAllocateCommandBuffers(Device->GetLogicDevice(), &CommandBufferAllocateInfo, CommandBuffers.data()) == VK_SUCCESS);
+		CommandBufferAllocateInfo.commandBufferCount = static_cast<uint32_t>(BackCommandBuffers.size());
+		assert(vkAllocateCommandBuffers(Device->GetLogicDevice(), &CommandBufferAllocateInfo, BackCommandBuffers.data()) == VK_SUCCESS);
 	}
 
 
@@ -78,15 +48,15 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		// Set up submit info structure
 		// Semaphores will stay the same during application lifetime
 		// Command buffer submission info is set by each example
-		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		BackBufferSubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		//VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT 决定command buffer 什么时候发生等待
 		//pWaitDstStageMask指定了队列提交会进行等待的管道阶段
 		VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		submitInfo.pWaitDstStageMask = &submitPipelineStages;
-		submitInfo.waitSemaphoreCount = 1;
-		submitInfo.pWaitSemaphores = &semaphores.presentComplete; //决定起始地址的wait semaphore数组
-		submitInfo.signalSemaphoreCount = 1;
-		submitInfo.pSignalSemaphores = &semaphores.renderComplete; //决定起始地址的signal semaphore数组
+		BackBufferSubmitInfo.pWaitDstStageMask = &submitPipelineStages;
+		BackBufferSubmitInfo.waitSemaphoreCount = 1;
+		BackBufferSubmitInfo.pWaitSemaphores = &semaphores.presentComplete; //决定起始地址的wait semaphore数组
+		BackBufferSubmitInfo.signalSemaphoreCount = 1;
+		BackBufferSubmitInfo.pSignalSemaphores = &semaphores.renderComplete; //决定起始地址的signal semaphore数组
 	}
 
 	//Create Fence
@@ -94,11 +64,11 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		// Wait fences to sync command buffer access
 		VkFenceCreateInfo FenceCreateInfo{};
 		FenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-		FenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
-		WaitFences.resize(CommandBuffers.size());
-		for (auto& fence : WaitFences) {
+		FenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT; //初始化为sig状态
+		BackCommandWaitFences.resize(BackCommandBuffers.size());
+		for (auto& Fence : BackCommandWaitFences) {
 			//每个CommandBuffer创建一个Fence
-			assert(vkCreateFence(Device->GetLogicDevice(), &FenceCreateInfo, nullptr, &fence) == VK_SUCCESS);
+			assert(vkCreateFence(Device->GetLogicDevice(), &FenceCreateInfo, nullptr, &Fence) == VK_SUCCESS);
 		}
 	}
 
@@ -233,112 +203,127 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 
 	//Create StaginBuffer for VB IB
 	{
-		//Vertex Buffer
-		std::vector<Vertex> vertexBuffer =
-		{
-			{ {  1.0f,  1.0f, 0.0f }, { 1.0f, 0.0f, 0.0f } },
-			{ { -1.0f,  1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } },
-			{ {  0.0f, -1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } }
-		};
 
 		//Index Buffer
-		std::vector<uint32_t> indexBuffer = { 0, 1, 2 };
+		std::vector<uint32_t>IndexBuffer = { 0, 1, 2 };
+
+		//Vertex Buffer
+		std::vector<std::vector<Vector3>> VertexBuffers =
+		{
+			{
+				Vector3(1.0f,  1.0f, 0.0f),
+				Vector3(1.0f,  1.0f, 0.0f),
+				Vector3(1.0f,  1.0f, 0.0f)
+			},
+			{
+				Vector3(1.0f, 0.0f, 0.0f),
+				Vector3(0.0f, 1.0f, 0.0f),
+				Vector3(0.0f, 0.0f, 1.0f)
+			}
+		};
+
 
 		VulkanIndexBufferResource StagingIndexBuffer;
-		StagingIndexBuffer.InitialIndexBufferResource<true>(
-			Device, 
-			VK_BUFFER_USAGE_TRANSFER_SRC_BIT, 
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, 
-			static_cast<uint32_t>(indexBuffer.size()),indexBuffer);
+		std::vector<VulkanVertexBufferResource> StagingVertexBuffers(VertexBuffers.size());
+		TriangleVertexBuffer.resize(VertexBuffers.size());
 
-		TriangleIndexBuffer.InitialIndexBufferResource<false>(Device, 
-			VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT, 
+		StagingIndexBuffer.CreateBuffer<true>(
+			Device,
+			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+			static_cast<uint32_t>(IndexBuffer.size() * sizeof(uint32_t)),
+			IndexBuffer.data()
+		);
+
+		TriangleIndexBuffer.CreateBuffer<false>(
+			Device,
+			VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-			0, std::vector<uint32_t>())
+			static_cast<uint32_t>(IndexBuffer.size() * sizeof(uint32_t)),
+			nullptr
+		);
 
+		for (auto index = 0; index < VertexBuffers.size(); ++index) {
+			StagingVertexBuffers[index].CreateBuffer<true>(
+				Device,
+				VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+				static_cast<uint32_t>(VertexBuffers[index].size() * sizeof(Vector3)),
+				VertexBuffers[index].data()
+			);
 
-		
+			TriangleVertexBuffer[index].CreateBuffer<false>(
+				Device,
+				VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+				VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+				static_cast<uint32_t>(VertexBuffers[index].size() * sizeof(Vector3)),
+				nullptr
+			);
+		}
 
+		//Execute copy, can also use transfer queue
+		VkCommandPool GfxPool = Device->GetCommandBufferPool(CommandPoolType::GfxPool);
+		VkCommandBuffer CopyCmdBuffer = nullptr;
+		Device->AllocateCommandBuffer(CommandPoolType::GfxPool, 1, &CopyCmdBuffer);
+		VkCommandBufferBeginInfo cmdBufferBeginInfo{};
+		cmdBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		assert(vkBeginCommandBuffer(CopyCmdBuffer, &cmdBufferBeginInfo) == VK_SUCCESS);
+		{
+			//#TODO: use transfer queue
+			VkBufferCopy copyRegion = {};
+			for (auto index = 0; index < VertexBuffers.size(); ++index) {
+				copyRegion.size = static_cast<uint32_t>(VertexBuffers[index].size() * sizeof(Vector3));
+				vkCmdCopyBuffer(CopyCmdBuffer, StagingVertexBuffers[index].ResourceBuffer, TriangleVertexBuffer[index].ResourceBuffer, 1, &copyRegion);
+			}
+			copyRegion.size = static_cast<uint32_t>(IndexBuffer.size() * sizeof(uint32_t));
+			vkCmdCopyBuffer(CopyCmdBuffer, StagingIndexBuffer.ResourceBuffer, TriangleIndexBuffer.ResourceBuffer, 1, &copyRegion);
+		}
+		assert(vkEndCommandBuffer(CopyCmdBuffer) == VK_SUCCESS);
 
+		VkSubmitInfo submitInfo = {};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &CopyCmdBuffer;
 
-		// Vertex buffer
-		VkBufferCreateInfo vertexBufferInfo = {};
-		vertexBufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-		vertexBufferInfo.size = vertexBufferSize;
-		// Buffer is used as the copy source
-		vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-		// Create a host-visible buffer to copy the vertex data to (staging buffer)
-		VK_CHECK_RESULT(vkCreateBuffer(device, &vertexBufferInfo, nullptr, &stagingBuffers.vertices.buffer));
-		vkGetBufferMemoryRequirements(device, stagingBuffers.vertices.buffer, &memReqs);
-		memAlloc.allocationSize = memReqs.size;
-		// Request a host visible memory type that can be used to copy our data do
-		// Also request it to be coherent, so that writes are visible to the GPU right after unmapping the buffer
-		memAlloc.memoryTypeIndex = getMemoryTypeIndex(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-		VK_CHECK_RESULT(vkAllocateMemory(device, &memAlloc, nullptr, &stagingBuffers.vertices.memory));
-		// Map and copy
-		VK_CHECK_RESULT(vkMapMemory(device, stagingBuffers.vertices.memory, 0, memAlloc.allocationSize, 0, &data));
-		memcpy(data, vertexBuffer.data(), vertexBufferSize);
-		vkUnmapMemory(device, stagingBuffers.vertices.memory);
-		VK_CHECK_RESULT(vkBindBufferMemory(device, stagingBuffers.vertices.buffer, stagingBuffers.vertices.memory, 0));
+		//VkFenceCreateInfo fenceCreateInfo = {};
+		//fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+		//fenceCreateInfo.flags = 0;
+		//VkFence fence;
+		//VK_CHECK_RESULT(vkCreateFence(device, &fenceCreateInfo, nullptr, &fence));
 
-		// Create a device local buffer to which the (host local) vertex data will be copied and which will be used for rendering
-		vertexBufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-		VK_CHECK_RESULT(vkCreateBuffer(device, &vertexBufferInfo, nullptr, &vertices.buffer));
-		vkGetBufferMemoryRequirements(device, vertices.buffer, &memReqs);
-		memAlloc.allocationSize = memReqs.size;
-		memAlloc.memoryTypeIndex = getMemoryTypeIndex(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-		VK_CHECK_RESULT(vkAllocateMemory(device, &memAlloc, nullptr, &vertices.memory));
-		VK_CHECK_RESULT(vkBindBufferMemory(device, vertices.buffer, vertices.memory, 0));
+		assert(vkQueueSubmit(Device->GetGfxQueue()->GetQueue(), 1, &submitInfo, VK_NULL_HANDLE) == VK_SUCCESS);
+		assert(vkQueueWaitIdle(Device->GetGfxQueue()->GetQueue()) == VK_SUCCESS);
 
-
-
-
-
-		// Buffer copies have to be submitted to a queue, so we need a command buffer for them
-		// Note: Some devices offer a dedicated transfer queue (with only the transfer bit set) that may be faster when doing lots of copies
-		VkCommandBuffer copyCmd = getCommandBuffer(true);
-
-		// Put buffer region copies into command buffer
-		VkBufferCopy copyRegion = {};
-
-		// Vertex buffer
-		copyRegion.size = vertexBufferSize;
-		vkCmdCopyBuffer(copyCmd, stagingBuffers.vertices.buffer, vertices.buffer, 1, &copyRegion);
-		// Index buffer
-		copyRegion.size = indexBufferSize;
-		vkCmdCopyBuffer(copyCmd, stagingBuffers.indices.buffer, indices.buffer, 1, &copyRegion);
-
-		// Flushing the command buffer will also submit it to the queue and uses a fence to ensure that all commands have been executed before returning
-		flushCommandBuffer(copyCmd);
-
-		// Destroy staging buffers
-		// Note: Staging buffer must not be deleted before the copies have been submitted and executed
-		vkDestroyBuffer(device, stagingBuffers.vertices.buffer, nullptr);
-		vkFreeMemory(device, stagingBuffers.vertices.memory, nullptr);
-		vkDestroyBuffer(device, stagingBuffers.indices.buffer, nullptr);
-		vkFreeMemory(device, stagingBuffers.indices.memory, nullptr);
-
+		vkFreeCommandBuffers(Device->GetLogicDevice(), GfxPool, 1, &CopyCmdBuffer);
+		//Release staging Buffers
+		StagingIndexBuffer.ReleaseBuffer(Device->GetLogicDevice());
+		for (auto index = 0; index < VertexBuffers.size(); ++index) {
+			StagingVertexBuffers[index].ReleaseBuffer(Device->GetLogicDevice());
+		}
 	}
 }
 
 VulkanPipeline::~VulkanPipeline() {
 
-	auto LogicDevice = RHI->GetDevice()->GetLogicDevice();
-
+	VulkanDevice* Device = RHI->GetDevice();
+	VkDevice LogicDevice = Device->GetLogicDevice();
 	delete SwapChain;
+	SwapChainDepthStencilResource.ReleaseRenderResource(Device);
 
-	SwapChainDepthStencilResource.ReleaseRenderResource(RHI->GetDevice());
-	TriangleIndexBuffer.ReleaseRenderResource(RHI->GetDevice());
+	TriangleIndexBuffer.ReleaseBuffer(LogicDevice);
+	for (auto& VertexBufferData : TriangleVertexBuffer) {
+		VertexBufferData.ReleaseBuffer(LogicDevice);
+	}
 
 	vkDestroyRenderPass(LogicDevice, BackBufferRenderPass, nullptr);
 	for (uint32_t i = 0; i < SwapChainFrameBuffers.size(); i++) {
 		vkDestroyFramebuffer(LogicDevice, SwapChainFrameBuffers[i], nullptr);
 	}
-	vkFreeCommandBuffers(LogicDevice, CommandlBufferPool, static_cast<uint32_t>(CommandBuffers.size()), CommandBuffers.data());
-	vkDestroyCommandPool(LogicDevice, CommandlBufferPool, nullptr);
+	vkFreeCommandBuffers(LogicDevice, Device->GetCommandBufferPool(CommandPoolType::GfxPool), static_cast<uint32_t>(BackCommandBuffers.size()), BackCommandBuffers.data());
+
 	vkDestroySemaphore(LogicDevice, semaphores.presentComplete, nullptr);
 	vkDestroySemaphore(LogicDevice, semaphores.renderComplete, nullptr);
-	for (auto& fence : WaitFences) {
+	for (auto& fence : BackCommandWaitFences) {
 		vkDestroyFence(LogicDevice, fence, nullptr);
 	}
 }

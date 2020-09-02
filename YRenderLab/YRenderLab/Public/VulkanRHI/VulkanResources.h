@@ -2,12 +2,7 @@
 #define _YRENDER_VKRHI_VKRESOURCES_H_
 
 #include <Public/VulkanRHI/VulkanRHI.h>
-
-class VulkanDevice;
-
-struct RenderResource {
-
-};
+#include <Public/VulkanRHI/VulkanDevice.h>
 
 struct VulkanTextureResource{
 	VulkanTextureResource()
@@ -30,52 +25,66 @@ struct VulkanTextureResource{
 		VkImageAspectFlags AspectFlags
 	);
 	void ReleaseRenderResource(VulkanDevice* Device);
+
+
 	//[Resource management]
 	VkImage TextureImage;
 	VkImageView TextureImageView;
 	VkDeviceMemory TextureMemory;
 };
 
-struct VulkanIndexBufferResource {
+struct VulkanBufferResource {
+	VulkanBufferResource()
+		: ResourceBufferMemory(VK_NULL_HANDLE)
+		, ResourceBuffer(VK_NULL_HANDLE)
+	{
+	}
+
+	template<bool bWriteBuffer>
+	void CreateBuffer(
+		VulkanDevice* Device,
+		VkBufferUsageFlags BufferUsage,
+		VkMemoryPropertyFlags MemoryType,
+		uint32_t BufferSize,
+		void* WriteBuffer
+	);
+
+	void ReleaseBuffer(VkDevice DeviceRef);
+
+	//[Resource management]
+	VkDeviceMemory ResourceBufferMemory;
+	VkBuffer ResourceBuffer;
+};
+
+struct VulkanIndexBufferResource : VulkanBufferResource {
 	VulkanIndexBufferResource() 
-		: IndexBufferMemory(VK_NULL_HANDLE)
-		, IndexBuffer(VK_NULL_HANDLE)
+		: VulkanBufferResource()
 		, IndexCount(0)
 	{
 	}
 
-	template<bool bWriteData>
-	void InitialIndexBufferResource(
+	template<bool bWriteBuffer>
+	void CreateBuffer(
 		VulkanDevice* Device,
 		VkBufferUsageFlags BufferUsage,
-		VkMemoryPropertyFlags MemortType,
-		uint32_t InIndexSize,
-		const std::vector<uint32_t>& InIndexBufferData);
+		VkMemoryPropertyFlags MemoryType,
+		uint32_t BufferSize,
+		void* WriteBuffer
+	);
 
-
-
-	void ReleaseRenderResource(VulkanDevice* Device);
-
-	//[Resource management]
-	VkDeviceMemory IndexBufferMemory;
-	VkBuffer IndexBuffer;
 	uint32_t IndexCount;
 };
 
 
 //Use AOS
-struct VulkanVertexBufferResource {
+struct VulkanVertexBufferResource : VulkanBufferResource{
 	VulkanVertexBufferResource()
-		: VertexBufferMemory(VK_NULL_HANDLE)
-		, VertexBuffer(VK_NULL_HANDLE)
+		: VulkanBufferResource()
 	{
 	}
-
-	void ReleaseRenderResource(VulkanDevice* Device);
-
-	VkDeviceMemory VertexBufferMemory;
-	VkBuffer VertexBuffer;
 };
+
+#include <Public/VulkanRHI/VulkanResources.inl>
 
 
 #endif

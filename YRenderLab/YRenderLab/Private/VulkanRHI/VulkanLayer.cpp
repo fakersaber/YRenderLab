@@ -70,7 +70,7 @@ void VulkanDevice::GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vecto
 	vkEnumerateDeviceLayerProperties(Gpu, &layerCount, availableLayers.data());
 	std::vector<const char*> PlatformLayers;
 
-	VulkanPlatform::GetPlatformInstanceLayers(PlatformLayers);
+	VulkanPlatform::GetPlatformDeviceLayers(PlatformLayers);
 
 	for (auto PlatformPtr : PlatformLayers) {
 		for (auto& availableLayerPtr : availableLayers) {

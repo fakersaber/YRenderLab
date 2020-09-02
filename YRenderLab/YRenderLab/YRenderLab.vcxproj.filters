@@ -908,6 +908,9 @@
     <None Include="Data\shaders\SkyBox\skybox.vs">
       <Filter>Data\shaders\SkyBox</Filter>
     </None>
+    <None Include="Public\VulkanRHI\VulkanResources.inl">
+      <Filter>Public\VulkanRHI</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Data\VulkanShader\TriangleFS.hlsl">

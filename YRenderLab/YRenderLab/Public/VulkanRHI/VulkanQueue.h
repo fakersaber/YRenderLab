@@ -12,7 +12,7 @@ public:
 	VulkanQueue(VulkanDevice* InDevice, uint32_t InFamilyIndex);
 	~VulkanQueue();
 
-	inline VkQueue GetHandle() const{
+	inline VkQueue GetQueue() const{
 		return Queue;
 	}
 

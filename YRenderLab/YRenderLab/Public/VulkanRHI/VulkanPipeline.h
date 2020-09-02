@@ -3,16 +3,10 @@
 
 
 #include <Public/VulkanRHI/VulkanRHI.h>
+#include <Public/VulkanRHI/VulkanResources.h>
 
 class IPipeline;
 class VulkanSwapChain;
-class VulkanRHI;
-
-//Resource
-struct VulkanTextureResource;
-struct VulkanIndexBufferResource;
-
-
 
 
 class VulkanPipeline : public IPipeline {
@@ -40,14 +34,12 @@ private:
 
 	//[Resource management]
 	VulkanSwapChain* SwapChain;
-	// Command buffer pool
-	VkCommandPool CommandlBufferPool;
-	std::vector<VkCommandBuffer> CommandBuffers;
+	std::vector<VkCommandBuffer> BackCommandBuffers;
 	// Synchronization semaphores
 	VulkanFrameSemaphores semaphores;
 	// Contains command buffers and semaphores to be presented to the queue
-	VkSubmitInfo submitInfo;
-	std::vector<VkFence> WaitFences;
+	VkSubmitInfo BackBufferSubmitInfo;
+	std::vector<VkFence> BackCommandWaitFences;
 
 	//[Resource Build]
 	VulkanTextureResource SwapChainDepthStencilResource;
@@ -58,8 +50,9 @@ private:
 	// List of available frame buffers (same as number of swap chain images)
 	std::vector<VkFramebuffer> SwapChainFrameBuffers;
 
-	//IndexBuffer
+	//VertexBuffer and IndexBuffer
 	VulkanIndexBufferResource TriangleIndexBuffer;
+	std::vector<VulkanVertexBufferResource> TriangleVertexBuffer;
 };
 
 

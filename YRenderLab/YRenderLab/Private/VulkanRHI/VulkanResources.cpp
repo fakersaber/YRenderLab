@@ -1,5 +1,4 @@
 #include <Public/VulkanRHI/VulkanResources.h>
-#include <Public/VulkanRHI/VulkanDevice.h>
 #include <memory>
 
 
@@ -50,49 +49,10 @@ void VulkanTextureResource::ReleaseRenderResource(VulkanDevice* Device){
 }
 
 
-template<bool bWriteData>
-void VulkanIndexBufferResource::InitialIndexBufferResource(
-	VulkanDevice* Device,
-	VkBufferUsageFlags BufferUsage,
-	VkMemoryPropertyFlags MemortType,
-	uint32_t InIndexSize,
-	const std::vector<uint32_t>& InIndexBufferData
-){
-	auto DeviceRef = Device->GetLogicDevice();
-	IndexCount = InIndexSize;
-	VkDeviceSize IndexBufferSize = InIndexSize * sizeof(uint32_t);
-	VkMemoryAllocateInfo memAlloc = {};
-	memAlloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-	VkMemoryRequirements memReqs;
-	VkBufferCreateInfo indexbufferInfo = {};
-	indexbufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-	indexbufferInfo.size = IndexBufferSize;
-	indexbufferInfo.usage = BufferUsage;
 
-	//Create Memory
-	assert(vkCreateBuffer(DeviceRef, &indexbufferInfo, nullptr, &IndexBuffer) == VK_SUCCESS);
-	vkGetBufferMemoryRequirements(DeviceRef, IndexBuffer, &memReqs);
-	memAlloc.allocationSize = memReqs.size;
-	memAlloc.memoryTypeIndex = Device->GetMemoryTypeIndex(memReqs.memoryTypeBits, MemortType);
-	assert(vkAllocateMemory(DeviceRef, &memAlloc, nullptr, &IndexBufferMemory) == VK_SUCCESS);
 
-	//Write data and bind
-	if (bWriteData) {
-		void* MappingMemory = nullptr;
-		assert(vkMapMemory(DeviceRef, IndexBufferMemory, 0, IndexBufferSize, 0, &MappingMemory) == VK_SUCCESS);
-		std::memcpy(MappingMemory, InIndexBufferData.data(), IndexBufferSize);
-		vkUnmapMemory(DeviceRef, IndexBufferMemory);
-	}
-
-	assert(vkBindBufferMemory(DeviceRef, IndexBuffer, IndexBufferMemory, 0) == VK_SUCCESS);
-}
-
-void VulkanIndexBufferResource::ReleaseRenderResource(VulkanDevice* Device){
-	vkDestroyBuffer(Device->GetLogicDevice(), IndexBuffer, nullptr);
-	vkFreeMemory(Device->GetLogicDevice(), IndexBufferMemory, nullptr);
-}
-
-void VulkanVertexBufferResource::ReleaseRenderResource(VulkanDevice* Device){
-	vkDestroyBuffer(Device->GetLogicDevice(), VertexBuffer, nullptr);
-	vkFreeMemory(Device->GetLogicDevice(), VertexBufferMemory, nullptr);
+void VulkanBufferResource::ReleaseBuffer(VkDevice DeviceRef)
+{
+	vkDestroyBuffer(DeviceRef, ResourceBuffer, nullptr);
+	vkFreeMemory(DeviceRef, ResourceBufferMemory, nullptr);
 }

@@ -33,19 +33,21 @@ public:
 	virtual void SetupFormat() final override;
 	virtual IPipeline* RHICreateRenderPipeline(void* WindowHandle, uint32_t SizeX, uint32_t SizeY, EPixelFormat PreferredPixelFormat) final override;
 
-	static void SetComponentMapping(EPixelFormat UEFormat, VkComponentSwizzle r, VkComponentSwizzle g, VkComponentSwizzle b, VkComponentSwizzle a);
-	static VkComponentMapping GetComponentMapping(const EPixelFormat UEFormat);
-	static VkFormat GetPlatformFormat(const EPixelFormat UEFormat);
 	inline VkInstance GetInstance() const { return Instance; }
 	inline VulkanDevice* GetDevice() const { return Device.get(); }
 
 	//--------------------------Static Func-----------------------------//
+	static void SetComponentMapping(EPixelFormat UEFormat, VkComponentSwizzle r, VkComponentSwizzle g, VkComponentSwizzle b, VkComponentSwizzle a);
+	static VkComponentMapping GetComponentMapping(const EPixelFormat UEFormat);
+	static VkFormat GetPlatformFormat(const EPixelFormat UEFormat);
 	static unsigned int SRGBMapping(EPixelFormat UEFormat);
 	static VkBool32 DebugUtilsCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT MsgSeverity, 
 		VkDebugUtilsMessageTypeFlagsEXT MsgType,
 		const VkDebugUtilsMessengerCallbackDataEXT* CallbackData, 
 		void* UserData);
+
+
 
 
 protected:

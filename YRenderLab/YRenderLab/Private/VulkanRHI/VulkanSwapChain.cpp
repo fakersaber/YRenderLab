@@ -77,7 +77,6 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	SwapChainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 	SwapChainInfo.surface = Surface;
 
-	assert(SurfProperties.maxImageCount == 0);
 	SwapChainInfo.minImageCount = SurfProperties.maxImageCount == 0 ?  //为0表示buffer没有限制
 		static_cast<uint32_t>(BackBufferSize::NUM_BUFFERS) : 
 		YGM::Math::Clamp(static_cast<uint32_t>(BackBufferSize::NUM_BUFFERS), SurfProperties.minImageCount, SurfProperties.maxImageCount); 
@@ -116,6 +115,7 @@ VulkanSwapChain::VulkanSwapChain(void* WindowHandle, VkInstance InInstance, Vulk
 	vkGetSwapchainImagesKHR(Device.GetLogicDevice(), SwapChain, &NumSwapChainImages, BackBufferImages.data());
 
 	//Create BackBufferImageView
+	BackBufferTextureViews.resize(BackBufferImages.size());
 	VkComponentMapping ComponentMapping = Device.GetVulkanRHI()->GetComponentMapping(InOutPixelFormat);
 	for (auto i = 0; i < BackBufferImages.size(); ++i) {
 		//因为SwapChain的VkImage和VkDeviceMem是驱动创建的，所以这里不使用封装的VulkanTexture

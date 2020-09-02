@@ -7,6 +7,14 @@
 class VulkanRHI;
 class VulkanQueue;
 
+enum CommandPoolType {
+	GfxPool = 0,
+	ComputePool = 1,
+	TransferPool = 2,
+
+	Max = 3
+};
+
 class VulkanDevice {
 
 public:
@@ -17,21 +25,18 @@ public:
 	// Returns true if this is a viable candidate for main GPU
 	bool QueryGPU();
 	void InitGPU();
-	void CreateDevice();
+	void CreateLogicDevice();
+	void CreateAllCommandQueue();
 	VulkanQueue* SetupPresentQueue(VkSurfaceKHR Surface);
-	static void GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
+	void AllocateCommandBuffer(CommandPoolType PoolType, uint32_t CmdCount, VkCommandBuffer* CmdBuffer);
+	VkCommandPool GetCommandBufferPool(CommandPoolType PoolType);
 
-	inline VkPhysicalDevice GetPhysicalDevice() const{
-		return PhysicalDevice;
-	}
-
-	inline VkDevice GetLogicDevice() const {
-		return LogicalDevice;
-	}
-
-	inline VulkanRHI* GetVulkanRHI() const {
-		return VkRHI;
-	}
+	inline VkPhysicalDevice GetPhysicalDevice() const{ return PhysicalDevice;}
+	inline VkDevice GetLogicDevice() const { return LogicalDevice;}
+	inline VulkanRHI* GetVulkanRHI() const { return VkRHI;}
+	inline VulkanQueue* GetGfxQueue() const { return GfxQueue; }
+	inline VulkanQueue* GetComputeQueue() const { return ComputeQueue; }
+	inline VulkanQueue* GetTransferQueue() const { return TransferQueue; }
 
 	inline uint32_t GetMemoryTypeIndex(uint32_t typeBits, VkMemoryPropertyFlags properties) const {
 		for (uint32_t i = 0; i < MemoryProperties.memoryTypeCount; i++) {
@@ -42,6 +47,8 @@ public:
 		}
 		throw std::runtime_error("Could not find a matching memory type");
 	}
+
+	static void GetDeviceExtensionsAndLayers(VkPhysicalDevice Gpu, std::vector<const char*>& Entensions, std::vector<const char*>& Layers);
 
 private:
 	//[Resource ref]
@@ -58,6 +65,7 @@ private:
 	VulkanQueue* GfxQueue;
 	VulkanQueue* ComputeQueue;
 	VulkanQueue* TransferQueue;
+	VkCommandPool CommandlBufferPool[CommandPoolType::Max];
 };
 
 

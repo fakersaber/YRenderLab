@@ -17,12 +17,17 @@ VulkanDevice::VulkanDevice(VulkanRHI* InRHI, VkPhysicalDevice InGpu)
 VulkanDevice::~VulkanDevice() {
 
 	if (LogicalDevice != VK_NULL_HANDLE){
-		vkDestroyDevice(LogicalDevice, nullptr);
-		LogicalDevice = VK_NULL_HANDLE;
+
+		vkDestroyCommandPool(LogicalDevice, CommandlBufferPool[CommandPoolType::GfxPool], nullptr);
+		vkDestroyCommandPool(LogicalDevice, CommandlBufferPool[CommandPoolType::ComputePool], nullptr);
+		vkDestroyCommandPool(LogicalDevice, CommandlBufferPool[CommandPoolType::TransferPool], nullptr);
 
 		delete TransferQueue;
 		delete ComputeQueue;
 		delete GfxQueue;
+
+		vkDestroyDevice(LogicalDevice, nullptr);
+		LogicalDevice = VK_NULL_HANDLE;
 	}
 }
 
@@ -49,11 +54,13 @@ void VulkanDevice::InitGPU() {
 	// Query features
 	vkGetPhysicalDeviceFeatures(PhysicalDevice, &PhysicalFeatures);
 	vkGetPhysicalDeviceMemoryProperties(PhysicalDevice, &MemoryProperties);
-	CreateDevice();
+	CreateLogicDevice();
+
+	CreateAllCommandQueue();
 }
 
 
-void VulkanDevice::CreateDevice() {
+void VulkanDevice::CreateLogicDevice() {
 	assert(LogicalDevice == VK_NULL_HANDLE);
 	std::vector<VkDeviceQueueCreateInfo> QueueFamilyInfos;
 	int32_t GfxQueueFamilyIndex = -1;
@@ -164,7 +171,23 @@ void VulkanDevice::CreateDevice() {
 	TransferQueue = new VulkanQueue(this, TransferQueueFamilyIndex);
 }
 
+void VulkanDevice::CreateAllCommandQueue()
+{
+	//Gfx Command pool
+	VkCommandPoolCreateInfo cmdPoolInfo = {};
+	cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	cmdPoolInfo.queueFamilyIndex = GfxQueue->GetFamilyIndex();
+	cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+	assert(vkCreateCommandPool(LogicalDevice, &cmdPoolInfo, nullptr, &CommandlBufferPool[CommandPoolType::GfxPool]) == VK_SUCCESS);
 
+	//Compute Command pool
+	cmdPoolInfo.queueFamilyIndex = ComputeQueue->GetFamilyIndex();
+	assert(vkCreateCommandPool(LogicalDevice, &cmdPoolInfo, nullptr, &CommandlBufferPool[CommandPoolType::ComputePool]) == VK_SUCCESS);
+
+	//Transfer Command pool
+	cmdPoolInfo.queueFamilyIndex = TransferQueue->GetFamilyIndex();
+	assert(vkCreateCommandPool(LogicalDevice, &cmdPoolInfo, nullptr, &CommandlBufferPool[CommandPoolType::TransferPool]) == VK_SUCCESS);
+}
 
 VulkanQueue* VulkanDevice::SetupPresentQueue(VkSurfaceKHR Surface){
 	VkBool32 bSupportsPresent = VK_FALSE;
@@ -173,4 +196,18 @@ VulkanQueue* VulkanDevice::SetupPresentQueue(VkSurfaceKHR Surface){
 	assert(bSupportsPresent);
 	//just gfxQueue
 	return  GfxQueue;
+}
+
+void VulkanDevice::AllocateCommandBuffer(CommandPoolType PoolType, uint32_t CmdCount, VkCommandBuffer* CmdBuffer){
+
+	VkCommandBufferAllocateInfo cmdBufAllocateInfo = {};
+	cmdBufAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	cmdBufAllocateInfo.commandPool = CommandlBufferPool[PoolType];
+	cmdBufAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+	cmdBufAllocateInfo.commandBufferCount = 1;
+	assert(vkAllocateCommandBuffers(LogicalDevice, &cmdBufAllocateInfo, CmdBuffer) == VK_SUCCESS);
+}
+
+VkCommandPool VulkanDevice::GetCommandBufferPool(CommandPoolType PoolType){
+	return CommandlBufferPool[PoolType];
 }
