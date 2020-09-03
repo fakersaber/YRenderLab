@@ -49,10 +49,14 @@ void VulkanTextureResource::ReleaseRenderResource(VulkanDevice* Device){
 }
 
 
-
-
-void VulkanBufferResource::ReleaseBuffer(VkDevice DeviceRef)
-{
+void VulkanBufferResource::ReleaseBuffer(VkDevice DeviceRef){
 	vkDestroyBuffer(DeviceRef, ResourceBuffer, nullptr);
 	vkFreeMemory(DeviceRef, ResourceBufferMemory, nullptr);
+}
+
+void VulkanUniformBufferResource::UpdateBuffer(VkDevice DeviceRef, void* UpdateData){
+	void* UniformData = nullptr;
+	assert(vkMapMemory(DeviceRef, ResourceBufferMemory, 0, Descriptor.range, 0, &UniformData) == VK_SUCCESS);
+	std::memcpy(UpdateData, UniformData, Descriptor.range);
+	vkUnmapMemory(DeviceRef, ResourceBufferMemory);
 }

@@ -20,24 +20,12 @@
 
 void GlfwApplication::Init(const int width, const int height) {
 	//--------------Init RHI--------------//
-#if OPENGL_RENDER
-	this->pGLInstance = New<GlfwWindow>();
-#elif VULKAN_RENDER
 	RenderRHI = new VulkanRHI();
 	RenderRHI->Init();
-#endif 
-
 
 	//--------------Init Window--------------//
 	glfwInit();
-#if OPENGL_RENDER
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#elif VULKAN_RENDER
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-#endif 
-
 	window = glfwCreateWindow(width, height, "YRender", NULL, NULL);
 	if (!window) {
 		std::cout << "Failed to create GLFW window" << std::endl;

@@ -301,6 +301,10 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 			StagingVertexBuffers[index].ReleaseBuffer(Device->GetLogicDevice());
 		}
 	}
+
+	{
+		
+	}
 }
 
 VulkanPipeline::~VulkanPipeline() {

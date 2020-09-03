@@ -50,9 +50,10 @@ private:
 	// List of available frame buffers (same as number of swap chain images)
 	std::vector<VkFramebuffer> SwapChainFrameBuffers;
 
-	//VertexBuffer and IndexBuffer
+	//All buffers
 	VulkanIndexBufferResource TriangleIndexBuffer;
 	std::vector<VulkanVertexBufferResource> TriangleVertexBuffer;
+	VulkanUniformBufferResource TriangleTransformUB;
 };
 
 

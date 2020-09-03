@@ -50,3 +50,19 @@ void VulkanIndexBufferResource::CreateBuffer(
 }
 
 
+
+template<bool bWriteBuffer>
+void VulkanUniformBufferResource::CreateBuffer(
+	VulkanDevice* Device,
+	VkBufferUsageFlags BufferUsage,
+	VkMemoryPropertyFlags MemoryType,
+	uint32_t BufferSize,
+	uint32_t Offset,
+	void* WriteBuffer
+)
+{
+	VulkanBufferResource::CreateBuffer<bWriteBuffer>(Device, BufferUsage, MemoryType, BufferSize, WriteBuffer);
+	Descriptor.buffer = ResourceBuffer;
+	Descriptor.offset = Offset;
+	Descriptor.range = BufferSize;
+}

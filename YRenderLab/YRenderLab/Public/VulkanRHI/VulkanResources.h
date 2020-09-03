@@ -75,13 +75,35 @@ struct VulkanIndexBufferResource : VulkanBufferResource {
 	uint32_t IndexCount;
 };
 
-
 //Use AOS
 struct VulkanVertexBufferResource : VulkanBufferResource{
 	VulkanVertexBufferResource()
 		: VulkanBufferResource()
 	{
 	}
+};
+
+struct VulkanUniformBufferResource : VulkanBufferResource {
+	VulkanUniformBufferResource()
+		: VulkanBufferResource()
+	{
+
+	}
+
+	template<bool bWriteBuffer>
+	void CreateBuffer(
+		VulkanDevice* Device,
+		VkBufferUsageFlags BufferUsage,
+		VkMemoryPropertyFlags MemoryType,
+		uint32_t BufferSize,
+		uint32_t Offset,
+		void* WriteBuffer
+	);
+
+	void UpdateBuffer(VkDevice DeviceRef, void* UpdateData);
+
+	VkDescriptorBufferInfo Descriptor;
+	uint32_t UniformBufferSize;
 };
 
 #include <Public/VulkanRHI/VulkanResources.inl>
