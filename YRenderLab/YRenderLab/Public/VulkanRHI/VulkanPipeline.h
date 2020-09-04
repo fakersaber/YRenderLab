@@ -10,9 +10,15 @@ class VulkanSwapChain;
 
 
 class VulkanPipeline : public IPipeline {
+
 	struct VulkanFrameSemaphores {
 		VkSemaphore presentComplete;// Swap chain image presentation
 		VkSemaphore renderComplete;// Command buffer submission and execution
+	};
+
+	struct PassViewUniformBuffer {
+		YGM::Transform ViewMat;
+		YGM::Transform ProjMat;
 	};
 
 

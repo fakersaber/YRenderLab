@@ -32,7 +32,6 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		assert(vkAllocateCommandBuffers(Device->GetLogicDevice(), &CommandBufferAllocateInfo, BackCommandBuffers.data()) == VK_SUCCESS);
 	}
 
-
 	//Create synchronization objects
 	{
 		//用以同步不同的queue之间，或者同一个queue不同的submission之间的执行顺序。
@@ -97,7 +96,6 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 			VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT
 		);
 	}
-
 
 	//Create RenderPass
 	{
@@ -176,7 +174,6 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		assert(vkCreateRenderPass(Device->GetLogicDevice(), &renderPassInfo, nullptr, &BackBufferRenderPass) == VK_SUCCESS);
 	}
 
-
 	//Create FrameBuffer
 	{
 		SwapChainFrameBuffers.resize(static_cast<uint32_t>(VulkanSwapChain::BackBufferSize::NUM_BUFFERS));
@@ -205,7 +202,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 	{
 
 		//Index Buffer
-		std::vector<uint32_t>IndexBuffer = { 0, 1, 2 };
+		std::vector<uint32_t> IndexBuffer = { 0, 1, 2 };
 
 		//Vertex Buffer
 		std::vector<std::vector<Vector3>> VertexBuffers =
@@ -302,8 +299,16 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		}
 	}
 
+	//Create Uniform Buffer
 	{
-		
+		TriangleTransformUB.CreateBuffer<true>(
+			Device,
+			VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+			static_cast<uint32_t>(sizeof(PassViewUniformBuffer)),
+			0,
+			nullptr
+		);
 	}
 }
 
@@ -333,17 +338,15 @@ VulkanPipeline::~VulkanPipeline() {
 }
 
 
-void VulkanPipeline::BeginFrame()
-{
-}
-
-void VulkanPipeline::Render()
-{
+void VulkanPipeline::BeginFrame(){
 
 }
 
-void VulkanPipeline::EndFrame()
-{
+void VulkanPipeline::Render(){
+
+}
+
+void VulkanPipeline::EndFrame(){
 
 }
 

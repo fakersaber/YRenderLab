@@ -328,7 +328,6 @@ namespace YGM {
 		}
 
 	private:
-		//#TODO：外部在使用时还是行主序访问，但是内部内存排列需要改成列主序配合opengl
 		Vector<4, T> m[4];
 	};
 }

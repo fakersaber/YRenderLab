@@ -1,9 +1,6 @@
 #ifndef _YRENDER_SCENE_SCENE_H_
 #define _YRENDER_SCENE_SCENE_H_
 
-#include <Public/Basic/YHeapObject.h>
-#include <vector>
-
 class Camera;
 class YObject;
 class Image;
@@ -33,6 +30,11 @@ private:
 	std::shared_ptr<Camera> camera;
 	std::shared_ptr<Image> EnviromentImg;
 };
+
+class RenderScene {
+	public RenderScene();
+};
+
 
 
 #endif

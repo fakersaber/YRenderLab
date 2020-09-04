@@ -47,9 +47,9 @@ void GlfwApplication::Update(){
 }
 
 void GlfwApplication::Render(){
-
+	RenderPipeline->BeginFrame();
 	RenderPipeline->Render();
-
+	RenderPipeline->EndFrame();
 }
 
 void GlfwApplication::Tick() {

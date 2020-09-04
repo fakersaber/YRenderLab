@@ -13,13 +13,13 @@ void VulkanBufferResource::CreateBuffer(
 	VkMemoryAllocateInfo memAlloc = {};
 	memAlloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 	VkMemoryRequirements memReqs;
-	VkBufferCreateInfo indexbufferInfo = {};
-	indexbufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-	indexbufferInfo.size = BufferSize;
-	indexbufferInfo.usage = BufferUsage;
+	VkBufferCreateInfo CreateBufferInfo = {};
+	CreateBufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+	CreateBufferInfo.size = BufferSize;
+	CreateBufferInfo.usage = BufferUsage;
 
 	//Create Memory
-	assert(vkCreateBuffer(DeviceRef, &indexbufferInfo, nullptr, &ResourceBuffer) == VK_SUCCESS);
+	assert(vkCreateBuffer(DeviceRef, &CreateBufferInfo, nullptr, &ResourceBuffer) == VK_SUCCESS);
 	vkGetBufferMemoryRequirements(DeviceRef, ResourceBuffer, &memReqs);
 	memAlloc.allocationSize = memReqs.size;
 	memAlloc.memoryTypeIndex = Device->GetMemoryTypeIndex(memReqs.memoryTypeBits, MemoryType);
