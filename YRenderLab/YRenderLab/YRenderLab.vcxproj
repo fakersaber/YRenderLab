@@ -197,6 +197,8 @@
     <None Include="Data\shaders\P3N3T2T3.vs" />
     <None Include="Data\shaders\SkyBox\skybox.fs" />
     <None Include="Data\shaders\SkyBox\skybox.vs" />
+    <None Include="Data\VulkanShaders\Triangle\triangle.frag" />
+    <None Include="Data\VulkanShaders\Triangle\triangle.vert" />
     <None Include="Public\3rdPart\assimp\.editorconfig" />
     <None Include="Public\3rdPart\assimp\color4.inl" />
     <None Include="Public\3rdPart\assimp\config.h.in" />
@@ -271,15 +273,6 @@
     <ClCompile Include="Private\YGM\Transform.cpp" />
     <ClCompile Include="Public\OpenGLRHI\GLTexture.cpp" />
     <ClCompile Include="Template_Test.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Data\VulkanShader\TriangleFS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Data\VulkanShader\TriangleVS.hlsl">
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -97,9 +97,6 @@
     <Filter Include="Data">
       <UniqueIdentifier>{383ea9ba-7d9b-49f5-a5f8-fa1ef3986956}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\shaders">
-      <UniqueIdentifier>{147e5250-f599-41b9-ae35-6ade7e4a8b8c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Private\Scene">
       <UniqueIdentifier>{d1c809c9-d5ae-4634-9d14-b5ea9e991dbd}</UniqueIdentifier>
     </Filter>
@@ -148,14 +145,20 @@
     <Filter Include="Private\VulkanRHI">
       <UniqueIdentifier>{a5e79237-8dd8-4a53-a4b7-0ddd3038290a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\shaders\SkyBox">
+    <Filter Include="Data\GLShader">
+      <UniqueIdentifier>{147e5250-f599-41b9-ae35-6ade7e4a8b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\GLShader\SkyBox">
       <UniqueIdentifier>{f83c9034-3408-442b-9290-0040fc76ea27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\shaders\BRDF">
+    <Filter Include="Data\GLShader\BRDF">
       <UniqueIdentifier>{2b23a077-8111-47c2-8469-75f3dac8a0c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\VulkanShader">
-      <UniqueIdentifier>{ce9a4f69-64af-4e0f-9b59-762f87b75606}</UniqueIdentifier>
+    <Filter Include="Data\VKShader">
+      <UniqueIdentifier>{2bb898d6-3328-4bf4-bfb7-df39bbc28f55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\VKShader\Triangle">
+      <UniqueIdentifier>{e37bb371-b481-4731-a04f-9672dc1d9298}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -646,10 +649,10 @@
       <Filter>Public\VulkanRHI</Filter>
     </ClInclude>
     <ClInclude Include="Data\shaders\BRDF\FDG.h">
-      <Filter>Data\shaders\BRDF</Filter>
+      <Filter>Data\GLShader\BRDF</Filter>
     </ClInclude>
     <ClInclude Include="Data\shaders\BRDF\StandardBRDF.h">
-      <Filter>Data\shaders\BRDF</Filter>
+      <Filter>Data\GLShader\BRDF</Filter>
     </ClInclude>
     <ClInclude Include="Public\VulkanRHI\VulkanQueue.h">
       <Filter>Public\VulkanRHI</Filter>
@@ -891,33 +894,31 @@
       <Filter>Public\3rdPart\assimp</Filter>
     </None>
     <None Include="Data\shaders\MVP_P3.vs">
-      <Filter>Data\shaders</Filter>
+      <Filter>Data\GLShader</Filter>
     </None>
     <None Include="Data\shaders\P2T2.vs">
-      <Filter>Data\shaders</Filter>
+      <Filter>Data\GLShader</Filter>
     </None>
     <None Include="Data\shaders\P3N3T2.vs">
-      <Filter>Data\shaders</Filter>
+      <Filter>Data\GLShader</Filter>
     </None>
     <None Include="Data\shaders\P3N3T2T3.vs">
-      <Filter>Data\shaders</Filter>
+      <Filter>Data\GLShader</Filter>
     </None>
     <None Include="Data\shaders\SkyBox\skybox.fs">
-      <Filter>Data\shaders\SkyBox</Filter>
+      <Filter>Data\GLShader\SkyBox</Filter>
     </None>
     <None Include="Data\shaders\SkyBox\skybox.vs">
-      <Filter>Data\shaders\SkyBox</Filter>
+      <Filter>Data\GLShader\SkyBox</Filter>
     </None>
     <None Include="Public\VulkanRHI\VulkanResources.inl">
       <Filter>Public\VulkanRHI</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Data\VulkanShader\TriangleFS.hlsl">
-      <Filter>Data\VulkanShader</Filter>
-    </FxCompile>
-    <FxCompile Include="Data\VulkanShader\TriangleVS.hlsl">
-      <Filter>Data\VulkanShader</Filter>
-    </FxCompile>
+    <None Include="Data\VulkanShaders\Triangle\triangle.frag">
+      <Filter>Data\VKShader\Triangle</Filter>
+    </None>
+    <None Include="Data\VulkanShaders\Triangle\triangle.vert">
+      <Filter>Data\VKShader\Triangle</Filter>
+    </None>
   </ItemGroup>
 </Project>
