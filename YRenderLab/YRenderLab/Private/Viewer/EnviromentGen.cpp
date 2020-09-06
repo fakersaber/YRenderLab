@@ -1,7 +1,7 @@
 #include <Public/Viewer/EnviromentGen.h>
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
-#include <Public/Scene/Scene.h>
+#include <Public/Scene/RenderScene.h>
 #include <Public/YGM/Transform.h>
 #include <Public/Basic/Mesh/TriMesh.h>
 

@@ -7,12 +7,10 @@ const float Camera::NEAR_PLANE = 0.1f;
 const float Camera::FAR_PLANE = 100.0f;
 const float Camera::YAW = 0.f;  //Clockwise rotation is the nagative direction
 const float Camera::PITCH = 0.f;
-const float Camera::FOV = 50.0f;
+const float Camera::FOV = 60.0f;
 
 Camera::Camera(
 	const Vector3& pos,
-	float yaw,
-	float pitch,
 	float aspect,
 	float nearPlane,
 	float farPlane,
@@ -21,8 +19,8 @@ Camera::Camera(
 )
 	:
 	position(pos),
-	yaw(yaw),
-	pitch(pitch),
+	yaw(YAW),
+	pitch(PITCH),
 	aspect_wh(aspect),
 	nearPlane(nearPlane),
 	farPlane(farPlane),

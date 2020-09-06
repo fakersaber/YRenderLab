@@ -149,7 +149,7 @@
     <ClInclude Include="Public\Scene\Component.h" />
     <ClInclude Include="Public\Scene\LightComponent.h" />
     <ClInclude Include="Public\Scene\MeshComponent.h" />
-    <ClInclude Include="Public\Scene\Scene.h" />
+    <ClInclude Include="Public\Scene\RenderScene.h" />
     <ClInclude Include="Public\Scene\TransformComponent.h" />
     <ClInclude Include="Public\Scene\Yobject.h" />
     <ClInclude Include="Public\SoftRHI\GdiDevice.h" />
@@ -246,7 +246,7 @@
     <ClCompile Include="Private\Scene\Component.cpp" />
     <ClCompile Include="Private\Scene\LightComponent.cpp" />
     <ClCompile Include="Private\Scene\MeshComponent.cpp" />
-    <ClCompile Include="Private\Scene\Scene.cpp" />
+    <ClCompile Include="Private\Scene\RenderScene.cpp" />
     <ClCompile Include="Private\Scene\TransformComponent.cpp" />
     <ClCompile Include="Private\Scene\Yobject.cpp" />
     <ClCompile Include="Private\SoftRHI\GdiDevice.cpp" />
@@ -286,7 +286,7 @@
     <ProjectGuid>{39E16715-2A97-4502-99EB-137EEC308B90}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>YRenderLab</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>YRenderLab</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -306,7 +306,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>

@@ -4,7 +4,7 @@
 #include <Public/Viewer/DeferredRaster.h>
 
 
-#include <Public/Scene/Scene.h>
+#include <Public/Scene/RenderScene.h>
 
 
 #include <Public/Basic/Image/Image.h>
@@ -81,7 +81,7 @@ bool GlfwWindow::Initial(const int width, const int height){
 
 
 	//应该是放到Core中来初始化场景以及glfw这个viewport 
-	auto scene = New<Scene>();
+	std::shared_ptr<Scene> scene = /*New<Scene>()*/nullptr;
 	MainCamera = scene->GetCamera();
 	MainCamera->Initial(width, height);
 

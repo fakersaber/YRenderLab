@@ -28,7 +28,7 @@ public:
 		return AllLines;
 	}
 
-	static char* LoadBinaryFile(char* ShaderCode, const std::string& filepath) {
+	static char* ReadBinaryFile(char* ShaderCode, const std::string& filepath) {
 		std::ifstream is(filepath, std::ios::binary | std::ios::in | std::ios::ate);
 		if (is.is_open()){
 			std::size_t shaderSize = is.tellg();

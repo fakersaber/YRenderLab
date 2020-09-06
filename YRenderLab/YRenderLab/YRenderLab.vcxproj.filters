@@ -558,9 +558,6 @@
     <ClInclude Include="Public\Basic\MaterialComponent.h">
       <Filter>Public\Basic</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Scene\Scene.h">
-      <Filter>Public\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Public\Viewer\Raster.h">
       <Filter>Public\Viewer</Filter>
     </ClInclude>
@@ -675,6 +672,9 @@
     <ClInclude Include="Public\YRenderLabConfig.h">
       <Filter>Public</Filter>
     </ClInclude>
+    <ClInclude Include="Public\Scene\RenderScene.h">
+      <Filter>Public\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c">
@@ -765,9 +765,6 @@
     <ClCompile Include="Private\Material\BSDF.cpp">
       <Filter>Private\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Private\Scene\Scene.cpp">
-      <Filter>Private\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Private\Viewer\Raster.cpp">
       <Filter>Private\Viewer</Filter>
     </ClCompile>
@@ -857,6 +854,9 @@
     </ClCompile>
     <ClCompile Include="Private\VulkanRHI\VulkanPipeline.cpp">
       <Filter>Private\VulkanRHI</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Scene\RenderScene.cpp">
+      <Filter>Private\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

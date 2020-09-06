@@ -75,7 +75,6 @@ struct VulkanIndexBufferResource : VulkanBufferResource {
 	uint32_t IndexCount;
 };
 
-//Use AOS
 struct VulkanVertexBufferResource : VulkanBufferResource{
 	VulkanVertexBufferResource()
 		: VulkanBufferResource()
@@ -105,6 +104,7 @@ struct VulkanUniformBufferResource : VulkanBufferResource {
 	VkDescriptorBufferInfo Descriptor;
 	uint32_t UniformBufferSize;
 };
+
 
 #include <Public/VulkanRHI/VulkanResources.inl>
 

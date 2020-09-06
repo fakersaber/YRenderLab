@@ -3,8 +3,6 @@
 #include <Public/YApplication.h>
 
 struct GLFWwindow;
-class RHI;
-class IPipeline;
 
 class GlfwApplication final : public YApplication {
 public:
@@ -22,7 +20,5 @@ private:
 	unsigned int height;
 
 	//[Resource management]
-	RHI* RenderRHI;
-	IPipeline* RenderPipeline;
 	GLFWwindow* window;
 };

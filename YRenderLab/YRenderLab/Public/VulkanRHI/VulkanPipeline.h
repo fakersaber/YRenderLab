@@ -17,8 +17,13 @@ class VulkanPipeline : public IPipeline {
 	};
 
 	struct PassViewUniformBuffer {
-		YGM::Transform ViewMat;
-		YGM::Transform ProjMat;
+		PassViewUniformBuffer(Mat4f&& InViewMat, Mat4f&& InProjMat)
+			: ViewMat(InViewMat)
+			, ProjMat(InProjMat)
+		{}
+
+		Mat4f ViewMat;
+		Mat4f ProjMat;
 	};
 
 
@@ -26,9 +31,10 @@ public:
 	virtual ~VulkanPipeline();
 	VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t InSizeX, uint32_t InSizeY, EPixelFormat InPixelFormat, bool bIsSRGB);
 
-	virtual void BeginFrame() override;
+	virtual void BeginFrame(RenderScene* World) override;
 	virtual void Render() override;
 	virtual void EndFrame() override;
+	void UpdateUniformBuffer(RenderScene* World);
 
 private:
 	void* WindowHandle;
@@ -46,11 +52,9 @@ private:
 	// Contains command buffers and semaphores to be presented to the queue
 	VkSubmitInfo BackBufferSubmitInfo;
 	std::vector<VkFence> BackCommandWaitFences;
-
-	//[Resource Build]
 	VulkanTextureResource SwapChainDepthStencilResource;
 	// Global render pass for frame buffer writes
-	VkRenderPass BackBufferRenderPass;
+	VkRenderPass TriangleRenderPass;
 	// Pipeline cache object
 	VkPipelineCache pipelineCache;
 	// List of available frame buffers (same as number of swap chain images)
@@ -60,6 +64,12 @@ private:
 	VulkanIndexBufferResource TriangleIndexBuffer;
 	std::vector<VulkanVertexBufferResource> TriangleVertexBuffer;
 	VulkanUniformBufferResource TriangleTransformUB;
+
+	VkDescriptorSetLayout TriangleDscLayout;
+	VkPipelineLayout TrianglePipelineLayout;
+	VkPipeline TrianglePipeline;
+
+	VkDescriptorPool TriangleDescriptorPool;
 };
 
 

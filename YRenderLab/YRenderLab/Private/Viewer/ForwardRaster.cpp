@@ -5,7 +5,7 @@
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 
-#include <Public/Scene/Scene.h>
+#include <Public/Scene/RenderScene.h>
 #include <Public/Scene/Yobject.h>
 #include <Public/Scene/MeshComponent.h>
 #include <Public/Scene/TransformComponent.h>

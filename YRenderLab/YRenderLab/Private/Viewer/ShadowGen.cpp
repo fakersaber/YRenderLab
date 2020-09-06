@@ -1,7 +1,7 @@
 #include <Public/Viewer/ShadowGen.h>
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
-#include <Public/Scene/Scene.h>
+#include <Public/Scene/RenderScene.h>
 #include <Public/Scene/Yobject.h>
 #include <Public/Lights/DirectionalLight.h>
 #include <Public/Lights/PointLight.h>

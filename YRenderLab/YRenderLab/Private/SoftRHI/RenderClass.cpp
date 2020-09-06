@@ -2,5 +2,5 @@
 
 
 
-RenderClass::RenderClass() : MainCamera(New<Camera>()) {}
+RenderClass::RenderClass() {}
 RenderClass::~RenderClass() {}

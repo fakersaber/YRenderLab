@@ -3,12 +3,20 @@
 
 #include <cassert>
 
-
+class RHI;
+class IPipeline;
+class RenderScene;
 
 class YApplication {
 public:
 	YApplication() {};
-	virtual ~YApplication() {};
+
+	virtual ~YApplication() {
+		delete World;
+		delete RenderRHI;
+		delete RenderPipeline;
+	};
+
 	virtual void Init(const int width, const int height) = 0;
 	virtual void Shutdown() = 0;
 	virtual void Tick() = 0;
@@ -23,8 +31,10 @@ protected:
 		assert(false);
 	}
 
-	//Ubpa::UECS::World world;
-	//Ubpa::UECS::Entity cam{ Ubpa::UECS::Entity::Invalid() };
+	//[Resource management]
+	RHI* RenderRHI;
+	IPipeline* RenderPipeline;
+	RenderScene* World;
 };
 
 

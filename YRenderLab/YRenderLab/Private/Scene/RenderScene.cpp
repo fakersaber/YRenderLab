@@ -1,5 +1,17 @@
 #include <Public/Scene/RenderScene.h>
 #include <Public/Basic/Camera/Camera.h>
+
+RenderScene::RenderScene() {
+	MainCamera = new Camera();
+}
+
+RenderScene::~RenderScene() {
+	delete MainCamera;
+}
+
+
+
+
 #include <Public/Scene/Yobject.h>
 #include <Public/Scene/LightComponent.h>
 
@@ -19,7 +31,7 @@
 Scene::Scene(){
 	root = AssimpLoader::Load("Data/module/Cerberus_by_Andrew_Maximov/TargetModule.FBX");
 	EnviromentImg = New<Image>("Data/module/Arches_E_PineTree/Arches_E_PineTree_3k.hdr");
-	camera = New<Camera>();
+	camera =/* New<Camera>()*/ nullptr;
 	
 	GenerateLights();
 

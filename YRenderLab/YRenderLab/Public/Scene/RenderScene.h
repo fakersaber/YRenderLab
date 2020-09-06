@@ -1,12 +1,28 @@
 #ifndef _YRENDER_SCENE_SCENE_H_
 #define _YRENDER_SCENE_SCENE_H_
 
+
 class Camera;
+
+class RenderScene {
+public:
+	RenderScene();
+	~RenderScene();
+	Camera* GetCamera() const { return MainCamera; }
+
+private:
+	//[Resource management]
+	Camera* MainCamera;
+};
+
+
+#include <memory>
+#include <vector>
 class YObject;
 class Image;
 class LightComponent;
 
-class Scene : public YHeapObject {
+class Scene/* : public YHeapObject */{
 public:
 	Scene();
 
@@ -31,9 +47,7 @@ private:
 	std::shared_ptr<Image> EnviromentImg;
 };
 
-class RenderScene {
-	public RenderScene();
-};
+
 
 
 

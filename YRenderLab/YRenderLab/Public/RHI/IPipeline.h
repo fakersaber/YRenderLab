@@ -1,15 +1,13 @@
 #pragma once
 
-namespace UECS {
-	class World;
-}
+class RenderScene;
 
 class IPipeline {
 
 public:
 	IPipeline() {}
 	virtual ~IPipeline() = default;
-	virtual void BeginFrame() = 0;
+	virtual void BeginFrame(RenderScene* World) = 0;
 	virtual void Render() = 0;
 	virtual void EndFrame() = 0;
 

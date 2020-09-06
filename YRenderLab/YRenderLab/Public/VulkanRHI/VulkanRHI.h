@@ -47,8 +47,7 @@ public:
 		const VkDebugUtilsMessengerCallbackDataEXT* CallbackData, 
 		void* UserData);
 
-
-
+	VkShaderModule LoadSpvShader(const std::string& FilePath) noexcept;
 
 protected:
 	void CreateInstance();

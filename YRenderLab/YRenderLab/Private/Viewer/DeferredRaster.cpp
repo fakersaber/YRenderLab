@@ -1,5 +1,5 @@
 #include <Public/Viewer/DeferredRaster.h>
-#include <Public/Scene/Scene.h>
+#include <Public/Scene/RenderScene.h>
 
 #include <Public/Viewer/EnviromentGen.h>
 #include <Public/Viewer/ShadowGen.h>

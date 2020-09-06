@@ -2,7 +2,7 @@
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/OpenGLRHI/GLAD/glad/glad.h>
 #include <Public/Basic/Camera/Camera.h>
-#include <Public/Scene/Scene.h>
+#include <Public/Scene/RenderScene.h>
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #include <Public/Viewer/EnviromentGen.h>
 #include <Public/Viewer/ShadowGen.h>

@@ -6,7 +6,7 @@
 
 #include  <vector>
 
-class Camera : public YHeapObject {
+class Camera/* : public YHeapObject */{
 public:
 	enum class ENUM_ProjectType : uint8_t {
 		Orthogonal = 1,
@@ -24,17 +24,14 @@ public:
 
 public:
 	Camera(
-		const Vector3& pos = Vector3(0.f, 0.f, 30.f),
-		float yaw = Camera::YAW,
-		float pitch = Camera::PITCH,
+		const Vector3& pos = Vector3(0.f, 0.f, 0.f),
 		float aspect = Camera::ASPECT_WH,
 		float nearPlane = Camera::NEAR_PLANE,
 		float farPlane = Camera::FAR_PLANE,
 		const Vector3& up = Vector3(0.f, 1.f, 0.f),
 		ENUM_ProjectType projectionMode = ENUM_ProjectType::Perspective
 	);
-protected:
-	virtual ~Camera() = default;
+	~Camera() = default;
 
 public:
 	void Initial(int w, int h);

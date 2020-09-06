@@ -62,10 +62,12 @@ namespace CoreDefine {
 		Vector4(0.f, 0.f, 0.f, 1.f)
 	);
 
-	static const int maxPointLights = 0;
+	constexpr static int maxPointLights = 0;
 
-	static const int maxDirectionalLights = 1;
+	constexpr static int maxDirectionalLights = 1;
 
-	static const int maxSpotLights = 0;
+	constexpr static int maxSpotLights = 0;
+
+	const static std::string AssetPath = "Data/";
 
 }

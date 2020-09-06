@@ -2,6 +2,8 @@
 #include <Public/VulkanRHI/VulkanDevice.h>
 #include <Public/VulkanRHI/VulkanPipeline.h>
 
+#include <fstream>
+
 PixelFormatInfo RHI::PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 VkComponentMapping VulkanRHI::PixelFormatComponentMapping[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 
@@ -245,6 +247,26 @@ void VulkanRHI::RemoveDebugLayerCallback(){
 		}
 	}
 #endif
+}
+
+VkShaderModule VulkanRHI::LoadSpvShader(const std::string& FilePath) noexcept{
+	std::ifstream is(FilePath, std::ios::binary | std::ios::in | std::ios::ate);
+	assert(is.is_open());
+	size_t shaderSize;
+	shaderSize = is.tellg();
+	std::unique_ptr<char> ShaderData = std::make_unique<char>(shaderSize);
+	is.seekg(0, std::ios::beg);
+	is.read(ShaderData.get(), shaderSize);
+	is.close();
+	
+	// Create a new shader module that will be used for pipeline creation
+	VkShaderModuleCreateInfo moduleCreateInfo{};
+	moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	moduleCreateInfo.codeSize = shaderSize;
+	moduleCreateInfo.pCode = (uint32_t*)ShaderData.get();
+	VkShaderModule shaderModule;
+	assert(vkCreateShaderModule(Device->GetLogicDevice(), &moduleCreateInfo, NULL, &shaderModule) == VK_SUCCESS);
+	return shaderModule;
 }
 
 
