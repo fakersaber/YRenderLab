@@ -254,7 +254,7 @@ VkShaderModule VulkanRHI::LoadSpvShader(const std::string& FilePath) noexcept{
 	assert(is.is_open());
 	size_t shaderSize;
 	shaderSize = is.tellg();
-	std::unique_ptr<char> ShaderData = std::make_unique<char>(shaderSize);
+	std::unique_ptr<char> ShaderData(new char[shaderSize]);
 	is.seekg(0, std::ios::beg);
 	is.read(ShaderData.get(), shaderSize);
 	is.close();

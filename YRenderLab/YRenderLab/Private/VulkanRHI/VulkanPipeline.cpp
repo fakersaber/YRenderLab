@@ -17,21 +17,22 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 	, SizeX(InSizeX)
 	, SizeY(InSizeY)
 	, PixelFormat(InPixelFormat)
+	, CurBackBufferIndex(0ul)
 {
 	//---------------Create SwapChain-----------------------//
 	VulkanDevice* Device = InRHI->GetDevice();
+	LogicDevice = Device->GetLogicDevice();
 	SwapChain = new VulkanSwapChain(InWindowHandle, InRHI->GetInstance(), *Device, InPixelFormat, bIsSRGB, InSizeX, InSizeY);
 
 	//Index Buffer
 	std::vector<uint32_t> IndexBuffer = { 0, 1, 2 };
 
-	//Vertex Buffer
 	std::vector<std::vector<Vector3>> VertexBuffers =
 	{
 		{
 			Vector3(1.0f,  1.0f, 0.0f),
-			Vector3(1.0f,  1.0f, 0.0f),
-			Vector3(1.0f,  1.0f, 0.0f)
+			Vector3(-1.0f,  1.0f, 0.0f),
+			Vector3(0.0f, -1.0f, 0.0f)
 		},
 		{
 			Vector3(1.0f, 0.0f, 0.0f),
@@ -50,7 +51,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		CommandBufferAllocateInfo.commandPool = Device->GetCommandBufferPool(CommandPoolType::GfxPool);
 		CommandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		CommandBufferAllocateInfo.commandBufferCount = static_cast<uint32_t>(BackCommandBuffers.size());
-		assert(vkAllocateCommandBuffers(Device->GetLogicDevice(), &CommandBufferAllocateInfo, BackCommandBuffers.data()) == VK_SUCCESS);
+		assert(vkAllocateCommandBuffers(LogicDevice, &CommandBufferAllocateInfo, BackCommandBuffers.data()) == VK_SUCCESS);
 	}
 
 	//Create synchronization objects
@@ -61,10 +62,10 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		semaphoreCreateInfo.pNext = nullptr;
 		// Create a semaphore used to synchronize image presentation
 		// Ensures that the image is displayed before we start submitting new commands to the queue
-		assert(vkCreateSemaphore(Device->GetLogicDevice(), &semaphoreCreateInfo, nullptr, &semaphores.presentComplete) == VK_SUCCESS);
+		assert(vkCreateSemaphore(LogicDevice, &semaphoreCreateInfo, nullptr, &BackBufferSemaphores.presentComplete) == VK_SUCCESS);
 		// Create a semaphore used to synchronize command submission
 		// Ensures that the image is not presented until all commands have been submitted and executed
-		assert(vkCreateSemaphore(Device->GetLogicDevice(), &semaphoreCreateInfo, nullptr, &semaphores.renderComplete) == VK_SUCCESS);
+		assert(vkCreateSemaphore(LogicDevice, &semaphoreCreateInfo, nullptr, &BackBufferSemaphores.renderComplete) == VK_SUCCESS);
 		// Set up submit info structure
 		// Semaphores will stay the same during application lifetime
 		// Command buffer submission info is set by each example
@@ -74,9 +75,9 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 		BackBufferSubmitInfo.pWaitDstStageMask = &submitPipelineStages;
 		BackBufferSubmitInfo.waitSemaphoreCount = 1;
-		BackBufferSubmitInfo.pWaitSemaphores = &semaphores.presentComplete; //决定起始地址的wait semaphore数组
+		BackBufferSubmitInfo.pWaitSemaphores = &BackBufferSemaphores.presentComplete; //决定起始地址的wait semaphore数组
 		BackBufferSubmitInfo.signalSemaphoreCount = 1;
-		BackBufferSubmitInfo.pSignalSemaphores = &semaphores.renderComplete; //决定起始地址的signal semaphore数组
+		BackBufferSubmitInfo.pSignalSemaphores = &BackBufferSemaphores.renderComplete; //决定起始地址的signal semaphore数组
 	}
 
 	//Create Fence
@@ -88,7 +89,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		BackCommandWaitFences.resize(BackCommandBuffers.size());
 		for (auto& Fence : BackCommandWaitFences) {
 			//每个CommandBuffer创建一个Fence
-			assert(vkCreateFence(Device->GetLogicDevice(), &FenceCreateInfo, nullptr, &Fence) == VK_SUCCESS);
+			assert(vkCreateFence(LogicDevice, &FenceCreateInfo, nullptr, &Fence) == VK_SUCCESS);
 		}
 	}
 
@@ -192,14 +193,14 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		renderPassInfo.dependencyCount = static_cast<uint32_t>(dependencies.size());
 		renderPassInfo.pDependencies = dependencies.data();
 
-		assert(vkCreateRenderPass(Device->GetLogicDevice(), &renderPassInfo, nullptr, &TriangleRenderPass) == VK_SUCCESS);
+		assert(vkCreateRenderPass(LogicDevice, &renderPassInfo, nullptr, &TriangleRenderPass) == VK_SUCCESS);
 	}
 
 	//Create FrameBuffer
 	{
-		SwapChainFrameBuffers.resize(static_cast<uint32_t>(VulkanSwapChain::BackBufferSize::NUM_BUFFERS));
+		BackFrameBuffers.resize(static_cast<uint32_t>(VulkanSwapChain::BackBufferSize::NUM_BUFFERS));
 		const auto& BackBufferImageViews = SwapChain->GetBackBufferTextureView();
-		for (size_t i = 0; i < SwapChainFrameBuffers.size(); i++)
+		for (size_t i = 0; i < BackFrameBuffers.size(); i++)
 		{
 			std::array<VkImageView, 2> AttachmentViews;
 			AttachmentViews[0] = BackBufferImageViews[i];							      // Color attachment is the view of the swapchain image
@@ -215,11 +216,9 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 			frameBufferCreateInfo.height = SizeY;
 			frameBufferCreateInfo.layers = 1;
 			// Create the framebuffer
-			assert(vkCreateFramebuffer(Device->GetLogicDevice(), &frameBufferCreateInfo, nullptr, &SwapChainFrameBuffers[i]) == VK_SUCCESS);
+			assert(vkCreateFramebuffer(LogicDevice, &frameBufferCreateInfo, nullptr, &BackFrameBuffers[i]) == VK_SUCCESS);
 		}
 	}
-
-
 
 
 	//Create StaginBuffer for VB IB
@@ -295,17 +294,17 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		assert(vkQueueSubmit(Device->GetGfxQueue()->GetQueue(), 1, &submitInfo, VK_NULL_HANDLE) == VK_SUCCESS);
 		assert(vkQueueWaitIdle(Device->GetGfxQueue()->GetQueue()) == VK_SUCCESS);
 
-		vkFreeCommandBuffers(Device->GetLogicDevice(), GfxPool, 1, &CopyCmdBuffer);
+		vkFreeCommandBuffers(LogicDevice, GfxPool, 1, &CopyCmdBuffer);
 		//Release staging Buffers
-		StagingIndexBuffer.ReleaseBuffer(Device->GetLogicDevice());
+		StagingIndexBuffer.ReleaseBuffer(LogicDevice);
 		for (auto index = 0; index < VertexBuffers.size(); ++index) {
-			StagingVertexBuffers[index].ReleaseBuffer(Device->GetLogicDevice());
+			StagingVertexBuffers[index].ReleaseBuffer(LogicDevice);
 		}
 	}
 
 	//Create Uniform Buffer
 	{
-		TriangleTransformUB.CreateBuffer<true>(
+		TriangleTransformUB.CreateBuffer<false>(
 			Device,
 			VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -315,6 +314,13 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		);
 	}
 
+
+	//Create PipeLine Cache
+	{
+		VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};
+		pipelineCacheCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+		assert(vkCreatePipelineCache(LogicDevice, &pipelineCacheCreateInfo, nullptr, &TrianglePipelineCache) == VK_SUCCESS);
+	}
 
 	//Create PipeLine
 	{
@@ -329,7 +335,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		// Rasterization state
 		VkPipelineRasterizationStateCreateInfo rasterizationState = {};
 		rasterizationState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-		rasterizationState.polygonMode = VK_POLYGON_MODE_FILL; //
+		rasterizationState.polygonMode = VK_POLYGON_MODE_FILL; //线模式,点模式,填充模式等
 		rasterizationState.cullMode = VK_CULL_MODE_NONE;  //Face And Back
 		rasterizationState.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		rasterizationState.depthClampEnable = VK_FALSE;
@@ -401,16 +407,17 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		VertexInputBindDes[0].binding = 0;
 		VertexInputBindDes[0].stride = sizeof(Vector3);
 		VertexInputBindDes[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+		//Vertex Color
+		VertexInputBindDes[1].binding = 1;
+		VertexInputBindDes[1].stride = sizeof(Vector3);
+		VertexInputBindDes[1].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
 		// Attribute location 0: Position
 		VertexInputAttributs[0].binding = 0;
 		VertexInputAttributs[0].location = 0;
 		VertexInputAttributs[0].format = VK_FORMAT_R32G32B32_SFLOAT;// Position attribute is three 32 bit signed (SFLOAT) floats (R32 G32 B32)
 		VertexInputAttributs[0].offset = 0;
 
-		//Vertex Color
-		VertexInputBindDes[0].binding = 1;
-		VertexInputBindDes[0].stride = sizeof(Vector3);
-		VertexInputBindDes[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 		// Attribute location 1: Color
 		VertexInputAttributs[1].binding = 1;
 		VertexInputAttributs[1].location = 1;
@@ -438,7 +445,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		descriptorLayout.pNext = nullptr;
 		descriptorLayout.bindingCount = 1;
 		descriptorLayout.pBindings = &layoutBinding;
-		assert(vkCreateDescriptorSetLayout(Device->GetLogicDevice(), &descriptorLayout, nullptr, &TriangleDscLayout) == VK_SUCCESS);
+		assert(vkCreateDescriptorSetLayout(LogicDevice, &descriptorLayout, nullptr, &TriangleDscLayout) == VK_SUCCESS);
 
 		// Create the pipeline layout that is used to generate the rendering pipelines that are based on this descriptor set layout
 		// In a more complex scenario you would have different pipeline layouts for different descriptor set layouts that could be reused
@@ -447,7 +454,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		pPipelineLayoutCreateInfo.pNext = nullptr;
 		pPipelineLayoutCreateInfo.setLayoutCount = 1;
 		pPipelineLayoutCreateInfo.pSetLayouts = &TriangleDscLayout;
-		assert(vkCreatePipelineLayout(Device->GetLogicDevice(), &pPipelineLayoutCreateInfo, nullptr, &TrianglePipelineLayout) == VK_SUCCESS);
+		assert(vkCreatePipelineLayout(LogicDevice, &pPipelineLayoutCreateInfo, nullptr, &TrianglePipelineLayout) == VK_SUCCESS);
 
 
 		// Shaders
@@ -462,7 +469,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		// Fragment shader
 		shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-		shaderStages[1].module = RHI->LoadSpvShader(CoreDefine::AssetPath + "VulkanShaders/Triangle/triangleVert.spv");
+		shaderStages[1].module = RHI->LoadSpvShader(CoreDefine::AssetPath + "VulkanShaders/Triangle/triangleFrag.spv");
 		shaderStages[1].pName = "main";
 		assert(shaderStages[1].module != VK_NULL_HANDLE);
 
@@ -483,34 +490,142 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		pipelineCreateInfo.pDynamicState = &dynamicState;
 
 		// Create rendering pipeline using the specified states
-		assert(vkCreateGraphicsPipelines(Device->GetLogicDevice(), pipelineCache, 1, &pipelineCreateInfo, nullptr, &TrianglePipeline) == VK_SUCCESS);
+		assert(vkCreateGraphicsPipelines(LogicDevice, TrianglePipelineCache, 1, &pipelineCreateInfo, nullptr, &TrianglePipeline) == VK_SUCCESS);
 
 		// Shader modules are no longer needed once the graphics pipeline has been created
-		vkDestroyShaderModule(Device->GetLogicDevice(), shaderStages[0].module, nullptr);
-		vkDestroyShaderModule(Device->GetLogicDevice(), shaderStages[1].module, nullptr);
+		vkDestroyShaderModule(LogicDevice, shaderStages[0].module, nullptr);
+		vkDestroyShaderModule(LogicDevice, shaderStages[1].module, nullptr);
 	}
 
 	//创建DescriptorPool,这里只有一个UniformBuffer
 	{
 		VkDescriptorPoolSize descriptorPoolSize{};
 		descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		descriptorPoolSize.descriptorCount = 1;
+		descriptorPoolSize.descriptorCount = 1; //该种类的Buffer数量
 
 		VkDescriptorPoolCreateInfo descriptorPoolInfo{};
 		descriptorPoolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-		descriptorPoolInfo.poolSizeCount = 1; //一种VkDescriptorType
+		descriptorPoolInfo.poolSizeCount = 1; //通常PoolSize表示对应VkDescriptorType的种类数量
 		descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
-		descriptorPoolInfo.maxSets = 1; //看VkDescriptorSet数量
-		assert(vkCreateDescriptorPool(Device->GetLogicDevice(), &descriptorPoolInfo, nullptr, &TriangleDescriptorPool) == VK_SUCCESS);
+		descriptorPoolInfo.maxSets = 1; //总共需要分配的VkDescriptorSet数量，例如一种VkDescriptorType比如UniformBuffer但是有好多个DescriptorSet
+		assert(vkCreateDescriptorPool(LogicDevice, &descriptorPoolInfo, nullptr, &TriangleDescriptorPool) == VK_SUCCESS);
+	}
+
+	//创建写入的Set
+	{
+		// Allocate a new descriptor set from the global descriptor pool
+		VkDescriptorSetAllocateInfo allocInfo = {};
+		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+		allocInfo.descriptorPool = TriangleDescriptorPool;
+		allocInfo.descriptorSetCount = 1;
+		allocInfo.pSetLayouts = &TriangleDscLayout;
+		assert(vkAllocateDescriptorSets(LogicDevice, &allocInfo, &TriangelDescriptorSet) == VK_SUCCESS);
+
+		// Update the descriptor set determining the shader binding points
+		// For every binding point used in a shader there needs to be one
+		// descriptor set matching that binding point
+		VkWriteDescriptorSet writeDescriptorSet = {};
+
+		// Binding 0 : Uniform buffer
+		writeDescriptorSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		writeDescriptorSet.dstSet = TriangelDescriptorSet;
+		writeDescriptorSet.descriptorCount = 1;
+		writeDescriptorSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		writeDescriptorSet.pBufferInfo = &TriangleTransformUB.Descriptor;
+		// Binds this uniform buffer to binding point 0
+		writeDescriptorSet.dstBinding = 0;
+
+		vkUpdateDescriptorSets(LogicDevice, 1, &writeDescriptorSet, 0, nullptr);
+	}
+
+	//BuildCommandBuffer
+	{
+		VkCommandBufferBeginInfo cmdBufInfo = {};
+		cmdBufInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		cmdBufInfo.pNext = nullptr;
+
+		// Set clear values for all framebuffer attachments with loadOp set to clear
+		// We use two attachments (color and depth) that are cleared at the start of the subpass and as such we need to set clear values for both
+		VkClearValue clearValues[2];
+		clearValues[0].color = { { 0.0f, 0.0f, 0.2f, 1.0f } };
+		clearValues[1].depthStencil = { 1.0f, 0 };
+
+		VkRenderPassBeginInfo renderPassBeginInfo = {};
+		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassBeginInfo.pNext = nullptr;
+		renderPassBeginInfo.renderPass = TriangleRenderPass;
+		renderPassBeginInfo.renderArea.offset.x = 0;
+		renderPassBeginInfo.renderArea.offset.y = 0;
+		renderPassBeginInfo.renderArea.extent.width = SizeX;
+		renderPassBeginInfo.renderArea.extent.height = SizeY;
+		renderPassBeginInfo.clearValueCount = 2;
+		renderPassBeginInfo.pClearValues = clearValues;
+
+		for (int32_t i = 0; i < BackCommandBuffers.size(); ++i)
+		{
+			// Set target frame buffer
+			renderPassBeginInfo.framebuffer = BackFrameBuffers[i];
+			assert(vkBeginCommandBuffer(BackCommandBuffers[i], &cmdBufInfo) == VK_SUCCESS);
+
+			// Start the first sub pass specified in our default render pass setup by the base class
+			// This will clear the color and depth attachment
+			vkCmdBeginRenderPass(BackCommandBuffers[i], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+			// Update dynamic viewport state
+			VkViewport viewport = {};
+			viewport.width = (float)SizeX;
+			viewport.height = (float)SizeY;
+			viewport.minDepth = (float) 0.0f;
+			viewport.maxDepth = (float) 1.0f;
+			vkCmdSetViewport(BackCommandBuffers[i], 0, 1, &viewport);
+
+			// Update dynamic scissor state
+			VkRect2D scissor = {};
+			scissor.extent.width = SizeX;
+			scissor.extent.height = SizeY;
+			scissor.offset.x = 0;
+			scissor.offset.y = 0;
+			vkCmdSetScissor(BackCommandBuffers[i], 0, 1, &scissor);
+
+			// Bind descriptor sets describing shader binding points
+			vkCmdBindDescriptorSets(BackCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, TrianglePipelineLayout, /*First Set*/0, /*Set Count*/1, &TriangelDescriptorSet, 0, nullptr);
+
+			// Bind the rendering pipeline
+			// The pipeline (state object) contains all states of the rendering pipeline, binding it will set all the states specified at pipeline creation time
+			vkCmdBindPipeline(BackCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, TrianglePipeline);
+
+			// Bind triangle vertex buffer (contains position and colors)
+			VkDeviceSize offsets = 0;
+			for (int VertexBufferIndex = 0; VertexBufferIndex < VertexBuffers.size(); ++VertexBufferIndex) {
+				vkCmdBindVertexBuffers(BackCommandBuffers[i], VertexBufferIndex, 1, &TriangleVertexBuffer[VertexBufferIndex].ResourceBuffer, &offsets);
+			}
+			
+			vkCmdBindIndexBuffer(BackCommandBuffers[i], TriangleIndexBuffer.ResourceBuffer, 0, VK_INDEX_TYPE_UINT32);
+			vkCmdDrawIndexed(BackCommandBuffers[i], TriangleIndexBuffer.IndexCount, 1, 0, 0, 1); 
+			//	uint32_t                                    instanceCount,
+			//	uint32_t                                    firstIndex,
+			//	int32_t                                     vertexOffset,
+			//	uint32_t                                    firstInstance); //firstInstance is the instance ID of the first instance to draw.
+
+			vkCmdEndRenderPass(BackCommandBuffers[i]);
+
+			// Ending the render pass will add an implicit barrier transitioning the frame buffer color attachment to
+			// VK_IMAGE_LAYOUT_PRESENT_SRC_KHR for presenting it to the windowing system
+
+			assert(vkEndCommandBuffer(BackCommandBuffers[i]) == VK_SUCCESS);
+		}
 	}
 }
 
 VulkanPipeline::~VulkanPipeline() {
 
-	VulkanDevice* Device = RHI->GetDevice();
-	VkDevice LogicDevice = Device->GetLogicDevice();
+	vkDestroyDescriptorPool(LogicDevice, TriangleDescriptorPool, nullptr);
+	vkDestroyPipeline(LogicDevice, TrianglePipeline, nullptr);
+	vkDestroyPipelineLayout(LogicDevice, TrianglePipelineLayout, nullptr);
+	vkDestroyDescriptorSetLayout(LogicDevice, TriangleDscLayout, nullptr);
+
 	delete SwapChain;
-	SwapChainDepthStencilResource.ReleaseRenderResource(Device);
+	SwapChainDepthStencilResource.ReleaseRenderResource(RHI->GetDevice());
 
 	TriangleIndexBuffer.ReleaseBuffer(LogicDevice);
 	for (auto& VertexBufferData : TriangleVertexBuffer) {
@@ -518,13 +633,13 @@ VulkanPipeline::~VulkanPipeline() {
 	}
 
 	vkDestroyRenderPass(LogicDevice, TriangleRenderPass, nullptr);
-	for (uint32_t i = 0; i < SwapChainFrameBuffers.size(); i++) {
-		vkDestroyFramebuffer(LogicDevice, SwapChainFrameBuffers[i], nullptr);
+	for (uint32_t i = 0; i < BackFrameBuffers.size(); i++) {
+		vkDestroyFramebuffer(LogicDevice, BackFrameBuffers[i], nullptr);
 	}
-	vkFreeCommandBuffers(LogicDevice, Device->GetCommandBufferPool(CommandPoolType::GfxPool), static_cast<uint32_t>(BackCommandBuffers.size()), BackCommandBuffers.data());
+	vkFreeCommandBuffers(LogicDevice, RHI->GetDevice()->GetCommandBufferPool(CommandPoolType::GfxPool), static_cast<uint32_t>(BackCommandBuffers.size()), BackCommandBuffers.data());
 
-	vkDestroySemaphore(LogicDevice, semaphores.presentComplete, nullptr);
-	vkDestroySemaphore(LogicDevice, semaphores.renderComplete, nullptr);
+	vkDestroySemaphore(LogicDevice, BackBufferSemaphores.presentComplete, nullptr);
+	vkDestroySemaphore(LogicDevice, BackBufferSemaphores.renderComplete, nullptr);
 	for (auto& fence : BackCommandWaitFences) {
 		vkDestroyFence(LogicDevice, fence, nullptr);
 	}
@@ -533,10 +648,38 @@ VulkanPipeline::~VulkanPipeline() {
 
 void VulkanPipeline::BeginFrame(RenderScene* World){
 	UpdateUniformBuffer(World);
+	// 获取Swap Chain中的下一个BackBuffer
+	assert(vkAcquireNextImageKHR(LogicDevice, SwapChain->GetSwapChain(), UINT64_MAX, BackBufferSemaphores.presentComplete, (VkFence)nullptr, &CurBackBufferIndex) == VK_SUCCESS);
+	// Use a fence to wait until the command buffer has finished execution before using it again
+	assert(vkWaitForFences(LogicDevice, 1, &BackCommandWaitFences[CurBackBufferIndex], VK_TRUE, UINT64_MAX) == VK_SUCCESS);
+	assert(vkResetFences(LogicDevice, 1, &BackCommandWaitFences[CurBackBufferIndex]) == VK_SUCCESS);
 }
 
 void VulkanPipeline::Render(){
+	// Pipeline stage at which the queue submission will wait (via pWaitSemaphores)
+	VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	// The submit info structure specifies a command buffer queue submission batch
+	VkSubmitInfo submitInfo = {};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	submitInfo.pWaitDstStageMask = &waitStageMask;							 // Pointer to the list of pipeline stages that the semaphore waits will occur at
+	submitInfo.pWaitSemaphores = &BackBufferSemaphores.presentComplete;      // Semaphore(s) to wait upon before the submitted command buffer starts executing
+	submitInfo.waitSemaphoreCount = 1;										 // One wait semaphore
+	submitInfo.pSignalSemaphores = &BackBufferSemaphores.renderComplete;     // Semaphore(s) to be signaled when command buffers have completed
+	submitInfo.signalSemaphoreCount = 1;									 // One signal semaphore
+	submitInfo.pCommandBuffers = &BackCommandBuffers[CurBackBufferIndex];	 // Command buffers(s) to execute in this batch (submission)
+	submitInfo.commandBufferCount = 1;										 // One command buffer
+	// Submit to the graphics queue passing a wait fence
+	//执行前先等待Fence,Fence被Sig后再执行到内部的Semaphore做Sig
+	assert(vkQueueSubmit(SwapChain->GetPresentQueue()->GetQueue(), 1, &submitInfo, BackCommandWaitFences[CurBackBufferIndex]) == VK_SUCCESS);
 
+	// Present the current buffer to the swap chain
+	// Pass the semaphore signaled by the command buffer submission from the submit info as the wait semaphore for swap chain presentation
+	// This ensures that the image is not presented to the windowing system until all commands have been submitted
+	VkResult present = SwapChain->QueuePresent(SwapChain->GetPresentQueue()->GetQueue(), CurBackBufferIndex, BackBufferSemaphores.renderComplete);
+
+	if (present != VK_SUCCESS && present != VK_SUBOPTIMAL_KHR) {
+		assert(false);
+	}
 }
 
 void VulkanPipeline::EndFrame(){
@@ -544,8 +687,6 @@ void VulkanPipeline::EndFrame(){
 }
 
 void VulkanPipeline::UpdateUniformBuffer(RenderScene* World){
-	VulkanDevice* Device = RHI->GetDevice();
-	VkDevice LogicDevice = Device->GetLogicDevice();
 
 	PassViewUniformBuffer ViewUniformBuffer(World->GetCamera()->GetViewMatrix(), World->GetCamera()->GetProjectMatrix());
 	TriangleTransformUB.UpdateBuffer(LogicDevice, &ViewUniformBuffer);

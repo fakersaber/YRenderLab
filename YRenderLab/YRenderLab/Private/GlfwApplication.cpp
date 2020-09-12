@@ -1,6 +1,6 @@
 #include <Public/GlfwApplication.h>
 #include <Public/YRenderLabConfig.h>
-
+#include <Public/Scene/RenderScene.h>
 #if OPENGL_RENDER
 #include <Public/OpenGLRHI/GlfwWindow.h>
 #endif
@@ -18,6 +18,7 @@
 #endif
 
 
+
 void GlfwApplication::Init(const int width, const int height) {
 	//--------------Init RHI--------------//
 	RenderRHI = new VulkanRHI();
@@ -33,11 +34,15 @@ void GlfwApplication::Init(const int width, const int height) {
 	}
 	//it¡¯s the Targa bitmap format (.tga). It stores the pixel data in BGRA format.so Use BGRA?
 	RenderPipeline = RenderRHI->RHICreateRenderPipeline(glfwGetWin32Window(window), width, height, PF_B8G8R8A8);
+
+
+	World = new RenderScene();
 }
 
 void GlfwApplication::Shutdown() {
 	delete RenderPipeline;
 	delete RenderRHI;
+	delete World;
 	glfwTerminate();
 }
 
@@ -47,7 +52,7 @@ void GlfwApplication::Update(){
 }
 
 void GlfwApplication::Render(){
-	RenderPipeline->BeginFrame();
+	RenderPipeline->BeginFrame(World);
 	RenderPipeline->Render();
 	RenderPipeline->EndFrame();
 }

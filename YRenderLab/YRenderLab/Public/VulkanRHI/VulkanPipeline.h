@@ -43,22 +43,23 @@ private:
 	uint32_t SizeX;
 	uint32_t SizeY;
 	EPixelFormat PixelFormat;
+	uint32_t CurBackBufferIndex;
+	VkDevice LogicDevice;
 
 	//[Resource management]
 	VulkanSwapChain* SwapChain;
 	std::vector<VkCommandBuffer> BackCommandBuffers;
 	// Synchronization semaphores
-	VulkanFrameSemaphores semaphores;
+	VulkanFrameSemaphores BackBufferSemaphores;
 	// Contains command buffers and semaphores to be presented to the queue
 	VkSubmitInfo BackBufferSubmitInfo;
 	std::vector<VkFence> BackCommandWaitFences;
 	VulkanTextureResource SwapChainDepthStencilResource;
 	// Global render pass for frame buffer writes
 	VkRenderPass TriangleRenderPass;
-	// Pipeline cache object
-	VkPipelineCache pipelineCache;
+
 	// List of available frame buffers (same as number of swap chain images)
-	std::vector<VkFramebuffer> SwapChainFrameBuffers;
+	std::vector<VkFramebuffer> BackFrameBuffers;
 
 	//All buffers
 	VulkanIndexBufferResource TriangleIndexBuffer;
@@ -67,9 +68,13 @@ private:
 
 	VkDescriptorSetLayout TriangleDscLayout;
 	VkPipelineLayout TrianglePipelineLayout;
-	VkPipeline TrianglePipeline;
-
+	VkDescriptorSet TriangelDescriptorSet; //不需要手动再释放，因为是从Pool中创建
 	VkDescriptorPool TriangleDescriptorPool;
+
+	// Pipeline cache object
+	VkPipelineCache TrianglePipelineCache;
+	VkPipeline TrianglePipeline;
+	
 };
 
 

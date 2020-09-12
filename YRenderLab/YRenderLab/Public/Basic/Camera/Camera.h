@@ -24,7 +24,7 @@ public:
 
 public:
 	Camera(
-		const Vector3& pos = Vector3(0.f, 0.f, 0.f),
+		const Vector3& pos = Vector3(0.f, 0.f, 10.f),
 		float aspect = Camera::ASPECT_WH,
 		float nearPlane = Camera::NEAR_PLANE,
 		float farPlane = Camera::FAR_PLANE,

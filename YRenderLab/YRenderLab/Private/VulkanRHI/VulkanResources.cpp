@@ -57,6 +57,6 @@ void VulkanBufferResource::ReleaseBuffer(VkDevice DeviceRef){
 void VulkanUniformBufferResource::UpdateBuffer(VkDevice DeviceRef, void* UpdateData){
 	void* UniformData = nullptr;
 	assert(vkMapMemory(DeviceRef, ResourceBufferMemory, 0, Descriptor.range, 0, &UniformData) == VK_SUCCESS);
-	std::memcpy(UpdateData, UniformData, Descriptor.range);
+	std::memcpy(UniformData, UpdateData, Descriptor.range);
 	vkUnmapMemory(DeviceRef, ResourceBufferMemory);
 }

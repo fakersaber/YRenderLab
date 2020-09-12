@@ -9,6 +9,10 @@ RenderScene::~RenderScene() {
 	delete MainCamera;
 }
 
+void RenderScene::InitScene(){
+
+}
+
 
 
 

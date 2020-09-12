@@ -11,11 +11,7 @@ class YApplication {
 public:
 	YApplication() {};
 
-	virtual ~YApplication() {
-		delete World;
-		delete RenderRHI;
-		delete RenderPipeline;
-	};
+	virtual ~YApplication() {};
 
 	virtual void Init(const int width, const int height) = 0;
 	virtual void Shutdown() = 0;

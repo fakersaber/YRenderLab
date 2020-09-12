@@ -8,6 +8,7 @@ class RenderScene {
 public:
 	RenderScene();
 	~RenderScene();
+	void InitScene();
 	Camera* GetCamera() const { return MainCamera; }
 
 private:

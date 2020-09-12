@@ -26,17 +26,22 @@ public:
 
 	inline VulkanQueue* GetPresentQueue() const { return  PresentQueue; }
 	inline VkFormat GetSwapChainColorFormat() const { return SwapChainFormat.format; }
+	inline VkSwapchainKHR GetSwapChain() const { return SwapChain; }
 	inline const std::vector<VkImageView>& GetBackBufferTextureView() const {return BackBufferTextureViews;}
+
+
+	VkResult QueuePresent(VkQueue Queue, uint32_t CurImgIndex, VkSemaphore WaitSemaphore);
+
 private:
 	//[Resource ref]
 	VulkanDevice& Device;
 	VkInstance Instance;
 	VulkanQueue* PresentQueue;
+	std::vector<VkImage> BackBufferImages;//Çý¶¯¹ÜÀí
 
 	//[Resource management]
 	VkSwapchainKHR SwapChain;
 	VkSurfaceKHR Surface;
-	std::vector<VkImage> BackBufferImages;
 	std::vector<VkImageView> BackBufferTextureViews;
 	VkSurfaceFormatKHR SwapChainFormat;
 };

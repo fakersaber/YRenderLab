@@ -6,7 +6,7 @@ struct VSInput
     [[vk::location(1)]] float3 Color : COLOR0;
 };
 
-struct ViewBuffers
+struct ViewBuffers 
 {
 	float4x4 viewMatrix;
     float4x4 projectionMatrix;
@@ -27,6 +27,7 @@ VSOutput main(VSInput input)
 {
 	VSOutput output = (VSOutput)0;
 	output.Color = input.Color;
-    output.Pos = mul(ubo.projectionMatrix, mul(ubo.viewMatrix, float4(input.Pos.xyz, 1.0)));
+    output.Pos = mul(ubo.viewMatrix, float4(input.Pos.xyz, 1.0));
+    //output.Pos = mul(ubo.projectionMatrix, ));
 	return output;
 }
