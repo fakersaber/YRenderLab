@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.757
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YRenderLab", "YRenderLab\YRenderLab.vcxproj", "{39E16715-2A97-4502-99EB-137EEC308B90}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YFrameGraph", "YFrameGraph\YFrameGraph.vcxproj", "{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{39E16715-2A97-4502-99EB-137EEC308B90}.Release|x64.Build.0 = Release|x64
 		{39E16715-2A97-4502-99EB-137EEC308B90}.Release|x86.ActiveCfg = Release|Win32
 		{39E16715-2A97-4502-99EB-137EEC308B90}.Release|x86.Build.0 = Release|Win32
+		{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}.Debug|x64.ActiveCfg = Debug|x64
+		{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}.Debug|x64.Build.0 = Debug|x64
+		{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}.Debug|x86.ActiveCfg = Debug|Win32
+		{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}.Debug|x86.Build.0 = Debug|Win32
+		{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}.Release|x64.ActiveCfg = Release|x64
+		{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}.Release|x64.Build.0 = Release|x64
+		{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}.Release|x86.ActiveCfg = Release|Win32
+		{86E171CE-78DE-4528-ADAF-7DD4A83ACD69}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
