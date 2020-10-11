@@ -8,8 +8,8 @@ struct VSInput
 
 struct ViewBuffers 
 {
-	float4x4 viewMatrix;
-    float4x4 projectionMatrix;
+	row_major float4x4 viewMatrix;
+    row_major float4x4 projectionMatrix;
 };
 
 cbuffer ubo : register(b0)
@@ -28,6 +28,5 @@ VSOutput main(VSInput input)
 	VSOutput output = (VSOutput)0;
 	output.Color = input.Color;
     output.Pos = mul(ubo.viewMatrix, float4(input.Pos.xyz, 1.0));
-    //output.Pos = mul(ubo.projectionMatrix, ));
 	return output;
 }

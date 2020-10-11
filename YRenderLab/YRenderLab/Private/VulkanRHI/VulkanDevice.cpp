@@ -89,7 +89,7 @@ void VulkanDevice::CreateLogicDevice() {
 			}
 		}
 
-		//transfer 回读queue
+		//transfer 
 		if ((CurrProps.queueFlags & VK_QUEUE_TRANSFER_BIT) == VK_QUEUE_TRANSFER_BIT) {
 			//当前队列未被初始化时才赋值
 			if (!bIsValidQueue) {

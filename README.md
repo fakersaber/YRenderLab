@@ -6,13 +6,10 @@
 
 ## TODO LIST
 
-- [ ] Vulkan Pipeline Waraper
+- [ ] RunTime VulkanShader Compiler
+
+- [ ] Vulkan Basic Pipline
 - [ ] Render Graph
-- [ ] imgui
-- [ ] PTR
-  - Irradiance volume
-  - dynamic diffuse GI
-- [ ] LPV
 
 
 
