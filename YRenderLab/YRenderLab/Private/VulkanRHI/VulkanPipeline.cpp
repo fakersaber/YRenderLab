@@ -56,7 +56,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 
 	//Create synchronization objects
 	{
-		//ÓÃÒÔÍ¬²½²»Í¬µÄqueueÖ®¼ä£¬»òÕßÍ¬Ò»¸öqueue²»Í¬µÄsubmissionÖ®¼äµÄÖ´ĞĞË³Ğò¡£
+		//ç”¨ä»¥åŒæ­¥ä¸åŒçš„queueä¹‹é—´ï¼Œæˆ–è€…åŒä¸€ä¸ªqueueä¸åŒçš„submissionä¹‹é—´çš„æ‰§è¡Œé¡ºåºã€‚
 		VkSemaphoreCreateInfo semaphoreCreateInfo = {};
 		semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 		semaphoreCreateInfo.pNext = nullptr;
@@ -70,14 +70,14 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		// Semaphores will stay the same during application lifetime
 		// Command buffer submission info is set by each example
 		BackBufferSubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		//VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT ¾ö¶¨command buffer Ê²Ã´Ê±ºò·¢ÉúµÈ´ı
-		//pWaitDstStageMaskÖ¸¶¨ÁË¶ÓÁĞÌá½»»á½øĞĞµÈ´ıµÄ¹ÜµÀ½×¶Î
+		//VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT å†³å®šcommand buffer ä»€ä¹ˆæ—¶å€™å‘ç”Ÿç­‰å¾…
+		//pWaitDstStageMaskæŒ‡å®šäº†é˜Ÿåˆ—æäº¤ä¼šè¿›è¡Œç­‰å¾…çš„ç®¡é“é˜¶æ®µ
 		VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 		BackBufferSubmitInfo.pWaitDstStageMask = &submitPipelineStages;
 		BackBufferSubmitInfo.waitSemaphoreCount = 1;
-		BackBufferSubmitInfo.pWaitSemaphores = &BackBufferSemaphores.presentComplete; //¾ö¶¨ÆğÊ¼µØÖ·µÄwait semaphoreÊı×é
+		BackBufferSubmitInfo.pWaitSemaphores = &BackBufferSemaphores.presentComplete; //å†³å®šèµ·å§‹åœ°å€çš„wait semaphoreæ•°ç»„
 		BackBufferSubmitInfo.signalSemaphoreCount = 1;
-		BackBufferSubmitInfo.pSignalSemaphores = &BackBufferSemaphores.renderComplete; //¾ö¶¨ÆğÊ¼µØÖ·µÄsignal semaphoreÊı×é
+		BackBufferSubmitInfo.pSignalSemaphores = &BackBufferSemaphores.renderComplete; //å†³å®šèµ·å§‹åœ°å€çš„signal semaphoreæ•°ç»„
 	}
 
 	//Create Fence
@@ -85,10 +85,10 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		// Wait fences to sync command buffer access
 		VkFenceCreateInfo FenceCreateInfo{};
 		FenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-		FenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT; //³õÊ¼»¯Îªsig×´Ì¬
+		FenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT; //åˆå§‹åŒ–ä¸ºsigçŠ¶æ€
 		BackCommandWaitFences.resize(BackCommandBuffers.size());
 		for (auto& Fence : BackCommandWaitFences) {
-			//Ã¿¸öCommandBuffer´´½¨Ò»¸öFence
+			//æ¯ä¸ªCommandBufferåˆ›å»ºä¸€ä¸ªFence
 			assert(vkCreateFence(LogicDevice, &FenceCreateInfo, nullptr, &Fence) == VK_SUCCESS);
 		}
 	}
@@ -129,11 +129,11 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		attachments[0].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 		attachments[0].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		attachments[0].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		//Ëæ±ã¸ø¸öÖµÒòÎªºóÃæVkAttachmentReference
+		//éšä¾¿ç»™ä¸ªå€¼å› ä¸ºåé¢VkAttachmentReference
 		attachments[0].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;	   // Layout at render pass start. Initial doesn't matter, so we use undefined
 		attachments[0].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;  // Layout to which the attachment is transitioned when the render pass is finished,
 																	   // As we want to present the color buffer to the swapchain, we transition to PRESENT_KHR
-																	   // LayoutÓëusageÃèÊö·¶Î§²»Í¬
+																	   // Layoutä¸usageæè¿°èŒƒå›´ä¸åŒ
 		// Depth attachment
 		attachments[1].format = VulkanRHI::GetPlatformFormat(PF_DepthStencil);
 		attachments[1].samples = VK_SAMPLE_COUNT_1_BIT;
@@ -168,19 +168,19 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		// These will add the implicit attachment layout transitions specified by the attachment descriptions
 		std::array<VkSubpassDependency, 2> dependencies;
 		dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;                             // Producer of the dependency
-		dependencies[0].dstSubpass = 0;                                               // 0ÎªSubpassµÄIndex£¿ ÒòÎªÖ»ÓĞÒ»¸ösubpassËùÒÔÕâÀï±íÊ¾µ±Ç°Õâ¸ösubpass
-		dependencies[0].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // SubPass¼ÓÔØÇ°PipelineStage½×¶Î£¬Ò»°ãÒªÉÏÒ»¸öpassÖ´ĞĞ½áÊøµÄ»°ÓÃVK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT														 
-		dependencies[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // SubPass¼ÓÔØºóPipelineStageµÄ½×¶Î
-		dependencies[0].srcAccessMask = 0;                                            // TransitionÇ°×´Ì¬
-		dependencies[0].dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;         // Transitionºó×´Ì¬
+		dependencies[0].dstSubpass = 0;                                               // 0ä¸ºSubpassçš„Indexï¼Ÿ å› ä¸ºåªæœ‰ä¸€ä¸ªsubpassæ‰€ä»¥è¿™é‡Œè¡¨ç¤ºå½“å‰è¿™ä¸ªsubpass
+		dependencies[0].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // SubPassåŠ è½½å‰PipelineStageé˜¶æ®µï¼Œä¸€èˆ¬è¦ä¸Šä¸€ä¸ªpassæ‰§è¡Œç»“æŸçš„è¯ç”¨VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT														 
+		dependencies[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // SubPassåŠ è½½åPipelineStageçš„é˜¶æ®µ
+		dependencies[0].srcAccessMask = 0;                                            // Transitionå‰çŠ¶æ€
+		dependencies[0].dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;         // TransitionåçŠ¶æ€
 		dependencies[0].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
 
-		dependencies[1].srcSubpass = 0;                                               // Í¬ÉÏ
+		dependencies[1].srcSubpass = 0;                                               // åŒä¸Š
 		dependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;                             // Consumer are all commands outside of the renderpass
-		dependencies[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // SubpassÖ´ĞĞÇ°PipelineStage
-		dependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;          // SubpassÖ´ĞĞºóPipelineStage
-		dependencies[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;         // ±£´æSubpassÊä³ö½á¹û
-		dependencies[1].dstAccessMask = 0;											  // Íâ²¿Ò²Ã»ÓĞÈÎºÎ×ÊÔ´ÒÀÀµµ±Ç°subpass£¬Ö±½Ó¾ÍPresentÁË
+		dependencies[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT; // Subpassæ‰§è¡Œå‰PipelineStage
+		dependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;          // Subpassæ‰§è¡ŒåPipelineStage
+		dependencies[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;         // ä¿å­˜Subpassè¾“å‡ºç»“æœ
+		dependencies[1].dstAccessMask = 0;											  // å¤–éƒ¨ä¹Ÿæ²¡æœ‰ä»»ä½•èµ„æºä¾èµ–å½“å‰subpassï¼Œç›´æ¥å°±Presentäº†
 		dependencies[1].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
 
 
@@ -335,7 +335,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		// Rasterization state
 		VkPipelineRasterizationStateCreateInfo rasterizationState = {};
 		rasterizationState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-		rasterizationState.polygonMode = VK_POLYGON_MODE_FILL; //ÏßÄ£Ê½,µãÄ£Ê½,Ìî³äÄ£Ê½µÈ
+		rasterizationState.polygonMode = VK_POLYGON_MODE_FILL; //çº¿æ¨¡å¼,ç‚¹æ¨¡å¼,å¡«å……æ¨¡å¼ç­‰
 		rasterizationState.cullMode = VK_CULL_MODE_NONE;  //Face And Back
 		rasterizationState.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		rasterizationState.depthClampEnable = VK_FALSE;
@@ -379,7 +379,7 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		depthStencilState.depthTestEnable = VK_TRUE;
 		depthStencilState.depthWriteEnable = VK_TRUE;
 		depthStencilState.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
-		depthStencilState.depthBoundsTestEnable = VK_FALSE;//Éî¶È·¶Î§²âÊÔ
+		depthStencilState.depthBoundsTestEnable = VK_FALSE;//æ·±åº¦èŒƒå›´æµ‹è¯•
 
 		//Stencil oprator
 		depthStencilState.stencilTestEnable = VK_FALSE;
@@ -497,21 +497,21 @@ VulkanPipeline::VulkanPipeline(void* InWindowHandle, VulkanRHI* InRHI, uint32_t 
 		vkDestroyShaderModule(LogicDevice, shaderStages[1].module, nullptr);
 	}
 
-	//´´½¨DescriptorPool,ÕâÀïÖ»ÓĞÒ»¸öUniformBuffer
+	//åˆ›å»ºDescriptorPool,è¿™é‡Œåªæœ‰ä¸€ä¸ªUniformBuffer
 	{
 		VkDescriptorPoolSize descriptorPoolSize{};
 		descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		descriptorPoolSize.descriptorCount = 1; //¸ÃÖÖÀàµÄBufferÊıÁ¿
+		descriptorPoolSize.descriptorCount = 1; //è¯¥ç§ç±»çš„Bufferæ•°é‡
 
 		VkDescriptorPoolCreateInfo descriptorPoolInfo{};
 		descriptorPoolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-		descriptorPoolInfo.poolSizeCount = 1; //Í¨³£PoolSize±íÊ¾¶ÔÓ¦VkDescriptorTypeµÄÖÖÀàÊıÁ¿
+		descriptorPoolInfo.poolSizeCount = 1; //é€šå¸¸PoolSizeè¡¨ç¤ºå¯¹åº”VkDescriptorTypeçš„ç§ç±»æ•°é‡
 		descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
-		descriptorPoolInfo.maxSets = 1; //×Ü¹²ĞèÒª·ÖÅäµÄVkDescriptorSetÊıÁ¿£¬ÀıÈçÒ»ÖÖVkDescriptorType±ÈÈçUniformBufferµ«ÊÇÓĞºÃ¶à¸öDescriptorSet
+		descriptorPoolInfo.maxSets = 1; //æ€»å…±éœ€è¦åˆ†é…çš„VkDescriptorSetæ•°é‡ï¼Œä¾‹å¦‚ä¸€ç§VkDescriptorTypeæ¯”å¦‚UniformBufferä½†æ˜¯æœ‰å¥½å¤šä¸ªDescriptorSet
 		assert(vkCreateDescriptorPool(LogicDevice, &descriptorPoolInfo, nullptr, &TriangleDescriptorPool) == VK_SUCCESS);
 	}
 
-	//´´½¨Ğ´ÈëµÄSet
+	//åˆ›å»ºå†™å…¥çš„Set
 	{
 		// Allocate a new descriptor set from the global descriptor pool
 		VkDescriptorSetAllocateInfo allocInfo = {};
@@ -648,7 +648,7 @@ VulkanPipeline::~VulkanPipeline() {
 
 void VulkanPipeline::BeginFrame(RenderScene* World){
 	UpdateUniformBuffer(World);
-	// »ñÈ¡Swap ChainÖĞµÄÏÂÒ»¸öBackBuffer
+	// è·å–Swap Chainä¸­çš„ä¸‹ä¸€ä¸ªBackBuffer
 	assert(vkAcquireNextImageKHR(LogicDevice, SwapChain->GetSwapChain(), UINT64_MAX, BackBufferSemaphores.presentComplete, (VkFence)nullptr, &CurBackBufferIndex) == VK_SUCCESS);
 	// Use a fence to wait until the command buffer has finished execution before using it again
 	assert(vkWaitForFences(LogicDevice, 1, &BackCommandWaitFences[CurBackBufferIndex], VK_TRUE, UINT64_MAX) == VK_SUCCESS);
@@ -669,7 +669,7 @@ void VulkanPipeline::Render(){
 	submitInfo.pCommandBuffers = &BackCommandBuffers[CurBackBufferIndex];	 // Command buffers(s) to execute in this batch (submission)
 	submitInfo.commandBufferCount = 1;										 // One command buffer
 	// Submit to the graphics queue passing a wait fence
-	//Ö´ĞĞÇ°ÏÈµÈ´ıFence,Fence±»SigºóÔÙÖ´ĞĞµ½ÄÚ²¿µÄSemaphore×öSig
+	//æ‰§è¡Œå‰å…ˆç­‰å¾…Fence,Fenceè¢«Sigåå†æ‰§è¡Œåˆ°å†…éƒ¨çš„SemaphoreåšSig
 	assert(vkQueueSubmit(SwapChain->GetPresentQueue()->GetQueue(), 1, &submitInfo, BackCommandWaitFences[CurBackBufferIndex]) == VK_SUCCESS);
 
 	// Present the current buffer to the swap chain
@@ -687,7 +687,7 @@ void VulkanPipeline::EndFrame(){
 }
 
 void VulkanPipeline::UpdateUniformBuffer(RenderScene* World){
-
+	//#TODO: å¤šä¸ªFrameéœ€è¦å¤šä¸ªUniformBuffer
 	PassViewUniformBuffer ViewUniformBuffer(World->GetCamera()->GetViewMatrix(), World->GetCamera()->GetProjectMatrix());
 	TriangleTransformUB.UpdateBuffer(LogicDevice, &ViewUniformBuffer);
 }
