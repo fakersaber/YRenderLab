@@ -160,6 +160,12 @@
     <Filter Include="Data\VKShader\Triangle">
       <UniqueIdentifier>{e37bb371-b481-4731-a04f-9672dc1d9298}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public\ShaderCompiler">
+      <UniqueIdentifier>{51942a92-e9c3-43fe-b23d-7971e922714d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\ShaderCompiler">
+      <UniqueIdentifier>{2423871b-7fe6-4150-9324-609413c7dde1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\YGM\CGAlgorithm.hpp">
@@ -678,6 +684,9 @@
     <ClInclude Include="Public\Scene\RenderScene.h">
       <Filter>Public\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Public\ShaderCompiler\GlslangCompiler.h">
+      <Filter>Public\ShaderCompiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\OpenGLRHI\GLAD\glad.c">
@@ -860,6 +869,9 @@
     </ClCompile>
     <ClCompile Include="Private\Scene\RenderScene.cpp">
       <Filter>Private\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\ShaderCompiler\GlslangCompiler.cpp">
+      <Filter>Private\ShaderCompiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

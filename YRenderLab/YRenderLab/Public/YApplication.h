@@ -9,7 +9,11 @@ class RenderScene;
 
 class YApplication {
 public:
-	YApplication() {};
+	YApplication()
+		: RenderRHI(nullptr)
+		, RenderPipeline(nullptr)
+		, World(nullptr)
+	{};
 
 	virtual ~YApplication() {};
 

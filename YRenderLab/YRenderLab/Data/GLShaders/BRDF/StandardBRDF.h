@@ -14,7 +14,7 @@ vec3 Standard_BRDF(vec3 normal, vec3 wo, vec3 wi, vec3 albedo, float metallic, f
 	
 	vec3 diffuse = albedo * INV_PI;
 	
-	vec3 kS = 1 - F;
+	vec3 kS = F;
 	vec3 kD = (1-metallic) * (1 - kS);
 	
 	vec3 rst = kD * diffuse + specular;

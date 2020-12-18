@@ -34,6 +34,7 @@ public:
 	~Camera() = default;
 
 public:
+	//#TODO£ºÉ¾³ý
 	void Initial(int w, int h);
 
 	Mat4f GetViewMatrix() const; /*{ return YGM::Transform::LookAt(position, position + front, up).GetMatrix(); }*/

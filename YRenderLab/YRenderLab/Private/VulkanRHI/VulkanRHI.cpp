@@ -8,7 +8,7 @@ PixelFormatInfo RHI::PlatformFormats[static_cast<unsigned int>(EPixelFormat::PF_
 VkComponentMapping VulkanRHI::PixelFormatComponentMapping[static_cast<unsigned int>(EPixelFormat::PF_MAX)];
 
 VulkanRHI::VulkanRHI()
-	:Instance(VK_NULL_HANDLE)
+	: Instance(VK_NULL_HANDLE)
 	, Device(nullptr)
 {
 

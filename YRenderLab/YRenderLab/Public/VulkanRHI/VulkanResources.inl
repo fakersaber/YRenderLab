@@ -20,7 +20,7 @@ void VulkanBufferResource::CreateBuffer(
 
 	//Create Memory
 	assert(vkCreateBuffer(DeviceRef, &CreateBufferInfo, nullptr, &ResourceBuffer) == VK_SUCCESS);
-	vkGetBufferMemoryRequirements(DeviceRef, ResourceBuffer, &memReqs);
+	vkGetBufferMemoryRequirements(DeviceRef, ResourceBuffer, &memReqs); //返回VkMemoryRequirements的memoryTypeBits可能只是对应Mask组合的Index
 	memAlloc.allocationSize = memReqs.size;
 	memAlloc.memoryTypeIndex = Device->GetMemoryTypeIndex(memReqs.memoryTypeBits, MemoryType);
 	assert(vkAllocateMemory(DeviceRef, &memAlloc, nullptr, &ResourceBufferMemory) == VK_SUCCESS);

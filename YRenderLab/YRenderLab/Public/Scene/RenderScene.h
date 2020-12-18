@@ -7,9 +7,9 @@ class Camera;
 class RenderScene {
 public:
 	RenderScene();
-	~RenderScene();
+	~RenderScene() noexcept;
 	void InitScene();
-	Camera* GetCamera() const { return MainCamera; }
+	Camera* GetCamera() const noexcept { return MainCamera; }
 
 private:
 	//[Resource management]
