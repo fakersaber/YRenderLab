@@ -152,7 +152,7 @@
     <ClInclude Include="Public\Scene\RenderScene.h" />
     <ClInclude Include="Public\Scene\TransformComponent.h" />
     <ClInclude Include="Public\Scene\Yobject.h" />
-    <ClInclude Include="Public\ShaderCompiler\GlslangCompiler.h" />
+    <ClInclude Include="Public\ShaderCompiler\HlslToSprivGlslang.h" />
     <ClInclude Include="Public\SoftRHI\GdiDevice.h" />
     <ClInclude Include="Public\SoftRHI\RenderClass.h" />
     <ClInclude Include="Public\SoftRHI\RenderDevice.h" />
@@ -252,7 +252,7 @@
     <ClCompile Include="Private\Scene\RenderScene.cpp" />
     <ClCompile Include="Private\Scene\TransformComponent.cpp" />
     <ClCompile Include="Private\Scene\Yobject.cpp" />
-    <ClCompile Include="Private\ShaderCompiler\GlslangCompiler.cpp" />
+    <ClCompile Include="Private\ShaderCompiler\HlslToSprivGlslang.cpp" />
     <ClCompile Include="Private\SoftRHI\GdiDevice.cpp" />
     <ClCompile Include="Private\SoftRHI\RenderClass.cpp" />
     <ClCompile Include="Private\SoftRHI\RenderDevice.cpp" />

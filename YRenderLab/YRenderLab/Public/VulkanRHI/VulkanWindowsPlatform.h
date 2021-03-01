@@ -7,13 +7,9 @@
 class VulkanWindowsPlatform {
 public:
 	static void GetPlatformInstanceExtensions(std::vector<const char*>& OutExtensions);
-
 	static void GetPlatformInstanceLayers(std::vector<const char*>& OutLayers);
-
 	static void GetPlatformDeviceExtensions(std::vector<const char*>& OutExtensions);
-
 	static void GetPlatformDeviceLayers(std::vector<const char*>& OutLayers);
-
 	static void CreateSurface(void* WindowHandle, VkInstance Instance, VkSurfaceKHR* OutSurface);
 };
 

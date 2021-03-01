@@ -1,5 +1,7 @@
 ﻿#include <Public/GlfwApplication.h>
 #include <memory>
+#include <iostream>
+
 
 
 int main() {

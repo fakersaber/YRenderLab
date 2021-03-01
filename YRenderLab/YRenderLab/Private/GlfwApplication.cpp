@@ -35,7 +35,6 @@ void GlfwApplication::Init(const int width, const int height) {
 	//it¡¯s the Targa bitmap format (.tga). It stores the pixel data in BGRA format.so Use BGRA?
 	RenderPipeline = RenderRHI->RHICreateRenderPipeline(glfwGetWin32Window(window), width, height, PF_B8G8R8A8);
 
-
 	World = new RenderScene();
 }
 

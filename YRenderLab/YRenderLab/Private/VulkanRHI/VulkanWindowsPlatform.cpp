@@ -48,7 +48,7 @@ void VulkanWindowsPlatform::CreateSurface(void* WindowHandle, VkInstance Instanc
 	SurfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
 	SurfaceCreateInfo.hwnd = reinterpret_cast<HWND>(WindowHandle);
 	auto Result = vkCreateWin32SurfaceKHR(Instance, &SurfaceCreateInfo, nullptr, OutSurface);
-	assert(Result != VK_SUCCESS);
+	assert(Result == VK_SUCCESS);
 	if (Result != VK_SUCCESS) {
 		std::cerr << "Surface Create Failed !" << std::endl;
 	}

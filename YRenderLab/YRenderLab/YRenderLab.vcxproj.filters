@@ -684,7 +684,7 @@
     <ClInclude Include="Public\Scene\RenderScene.h">
       <Filter>Public\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Public\ShaderCompiler\GlslangCompiler.h">
+    <ClInclude Include="Public\ShaderCompiler\HlslToSprivGlslang.h">
       <Filter>Public\ShaderCompiler</Filter>
     </ClInclude>
   </ItemGroup>
@@ -870,7 +870,7 @@
     <ClCompile Include="Private\Scene\RenderScene.cpp">
       <Filter>Private\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Private\ShaderCompiler\GlslangCompiler.cpp">
+    <ClCompile Include="Private\ShaderCompiler\HlslToSprivGlslang.cpp">
       <Filter>Private\ShaderCompiler</Filter>
     </ClCompile>
   </ItemGroup>

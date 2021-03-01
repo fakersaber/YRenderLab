@@ -22,11 +22,8 @@ VulkanRHI::~VulkanRHI() {
 }
 
 void VulkanRHI::Init() {
-
 	SetupFormat();
-
 	CreateInstance();
-
 	SelectAndInitDevice();
 }
 
